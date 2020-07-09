@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>2 Quality Control | index.split</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="2 Quality Control | index.split" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="2 Quality Control | index.split" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="introduction.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="quality-control.html"><a href="quality-control.html"><i class="fa fa-check"></i><b>2</b> Quality Control</a><ul>
+<li class="chapter" data-level="2.1" data-path="quality-control.html"><a href="quality-control.html#previously-applied-qc"><i class="fa fa-check"></i><b>2.1</b> Previously Applied QC</a></li>
+<li class="chapter" data-level="2.2" data-path="quality-control.html"><a href="quality-control.html#initial-qc"><i class="fa fa-check"></i><b>2.2</b> Initial QC</a></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="quality-control" class="section level1">
+<h1><span class="header-section-number">2</span> Quality Control</h1>
+<p>To begin work on producing a set of PGSs, the input data must first be carefully controlled. Throughout this project the UK Biobank will be the solitary set of data examined. The reason being is that the UK Biobank is the only large and easily accessed data-set that contains both genotypic and phenotypic information.</p>
+<p>A brief description of the UK Biobank …</p>
+<div id="previously-applied-qc" class="section level2">
+<h2><span class="header-section-number">2.1</span> Previously Applied QC</h2>
+<p>In the process of sequencing the data the good people at the UK Biobank have already applied some quality control measures. To understand exactly what they did we first need to know how they even got the data to begin with. Of the nearly 500,000 people that were avaliable to be sequenced, batches of approximitley 4,600 people were created. The first 11 batches were sequenced on the UK BiLEVE Axiom array, the remaining 95 batches were sequenced with the UK Biobank Axiom Array. Both arrays were carefully created for this type of research, although we should be careful going forward as batch effects could change allele frequencies and the ultimate PGS distribution.</p>
+<p>As the arrays were novel, some of the allele probes were not constructed well enough to clearly determine what allele a person was. A total of 35,014 unique markers were therefore removed from everyone right off the bat. Genotype calling by Affymetrix resulted in a data set of 489,212 individuals typed at 812,428 markers with which to carry out further QC. This QC was population structure aware, with different ancestry groups determined by comparing PCA loadings from UK Biobank individuals to a selection of 1000 Genomes Project individuals (The markers that went into this PCA were carefully QC’d). Afterwards, within population structure homogenous groups to each batch the following tests were applied:</p>
+<ol style="list-style-type: decimal">
+<li>Batch Effects</li>
+<li>Plate Effects</li>
+<li>Departures from Hardy-Weinberg Equilibrium</li>
+<li>Sex Effects</li>
+<li>Array Effects</li>
+<li>Discordance Across Controls</li>
+</ol>
+<p>If a marker failed the first 4 tests it was removed from the batch, and if a marker failed the last 2 tests then it was removed from the entire data-set. Each of these tests are hypothesis tests, with the cut-off chosen for removal set at p &lt; 10^-12. Clearly this is pretty extreme so it is important to note there may be more QC that needs to be done.</p>
+<div class="figure">
+<img src="images/UKBB_fail_rates.png" alt="fail" />
+<p class="caption">fail</p>
+</div>
+<p>Following marker QC a pipeline of sample QC was applied. A good description of the pipeline is shown below. What is important to note is that the doccumentation seems to note that only individuals with really extreme missingness or hetrozygosity were removed from the dataset. Otherwise they were simply marked as being an outlier in their respective test. A more stringent threshold of the sample QC and marker QC was set for the dataset that was used within a principal component analysis. The output of this PCA was then used to determine a white, British ancestry subset. This was completed by comparing the samples who declared they were white and British and then removing outliers from the main cluster of this grouping based on PCA.</p>
+<div class="figure">
+<img src="images/british_PCA.png" alt="PCA" />
+<p class="caption">PCA</p>
+</div>
+<p>Far more information on all of these steps can be found from the BioRxiv pdf: “Genome-wide geneticdata on ~500,000 UK Biobank participants”. The big takeaways that I gleam are that the UK Biobank did think about genotyping seriously, the most abberant markers have been removed although some questionable markers likely remain, and that quite a few abberant samples remain although removing them should be easy since they have been marked. All of this gives a good starting point for this work.</p>
+</div>
+<div id="initial-qc" class="section level2">
+<h2><span class="header-section-number">2.2</span> Initial QC</h2>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="introduction.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>

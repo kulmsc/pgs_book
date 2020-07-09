@@ -1,3 +1,2 @@
 # Introduction
-This chapter is an overview of the methods that
-we propose to solve an **important problem**.
+PolyGenic Scores provide a key formulation of genetic findings into disease prediction.  There has been a fair amount of concern over the accuracy, confounding and equitability of PGSs.  I believe the best way to judge the significance of these worries, and more importantly, ultimately work towards their resolve, is through well-doccumented research. 
