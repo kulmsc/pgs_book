@@ -1,2 +1,4 @@
 # Introduction
 PolyGenic Scores provide a key formulation of genetic findings into disease prediction.  There has been a fair amount of concern over the accuracy, confounding and equitability of PGSs.  I believe the best way to judge the significance of these worries, and more importantly, ultimately work towards their resolve, is through well-doccumented research. 
+
+Quick note on set-up.  I am writing this book within a sub-directory of my larger project directory.  Hopefully everything will work this way.

@@ -19,14 +19,18 @@ As the arrays were novel, some of the allele probes were not constructed well en
 
 If a marker failed the first 4 tests it was removed from the batch, and if a marker failed the last 2 tests then it was removed from the entire data-set.  Each of these tests are hypothesis tests, with the cut-off chosen for removal set at p < 10^-12.  Clearly this is pretty extreme so it is important to note there may be more QC that needs to be done.
 
-![fail](images/UKBB_fail_rates.png)
+![fail]("images/UKBB_fail_rates.png")
 
 Following marker QC a pipeline of sample QC was applied. A good description of the pipeline is shown below.  What is important to note is that the doccumentation seems to note that only individuals with really extreme missingness or hetrozygosity were removed from the dataset.  Otherwise they were simply marked as being an outlier in their respective test.  A more stringent threshold of the sample QC and marker QC was set for the dataset that was used within a principal component analysis.  The output of this PCA was then used to determine a white, British ancestry subset. This was completed by comparing the samples who declared they were white and British and then removing outliers from the main cluster of this grouping based on PCA.  
 
-![PCA](images/british_PCA.png)
+![PCA]("images/british_PCA.png")
 
 Far more information on all of these steps can be found from the BioRxiv pdf: "Genome-wide geneticdata on ~500,000 UK Biobank participants".  The big takeaways that I gleam are that the UK Biobank did think about genotyping seriously, the most abberant markers have been removed although some questionable markers likely remain, and that quite a few abberant samples remain although removing them should be easy since they have been marked.  All of this gives a good starting point for this work.
 
 ## Initial QC
 
+To increase levels of QC, a file that lists all of the outliers was used to create a list of high quality anonymous IDS.  The script that ran this entire process is displayed below.
+
+```{bash, code = readLines("~/athena/doc_score/qc/proc_fam.R"), eval = F}
+```
 

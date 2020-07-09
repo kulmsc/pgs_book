@@ -1,0 +1,12 @@
+# Summary Statistics
+
+To create the PGSs we need summary statistics, or results from Genome-Wide Association Studies (GWASs).  One overall requirement for the summary statistics that we use is that they cannot have utilized the UK Biobank in their production.  If they did we would be overfitting the problem, which is not good.  Each summary statistic must also have the following features (or columns):
+
+1. Chromosome
+2. Variant ID (the rsID)
+3. Effect Allele
+4. Alternate Allele
+5. Effect (Beta, Odds Ratio)
+6. P-Value
+
+A final consideration is to pull from summary statistics with the largest possibly underlying sample size, because it will produce the most accurate estimates.  The studies can be obtained with:

@@ -30,7 +30,7 @@
   
   
 <link rel="prev" href="introduction.html"/>
-
+<link rel="next" href="summary-statistics.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,6 +50,70 @@
 
 
 
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; position: absolute; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; }
+pre.numberSource a.sourceLine:empty
+  { position: absolute; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: absolute; left: -5em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
 
 </head>
 
@@ -69,6 +133,7 @@
 <li class="chapter" data-level="2.1" data-path="quality-control.html"><a href="quality-control.html#previously-applied-qc"><i class="fa fa-check"></i><b>2.1</b> Previously Applied QC</a></li>
 <li class="chapter" data-level="2.2" data-path="quality-control.html"><a href="quality-control.html#initial-qc"><i class="fa fa-check"></i><b>2.2</b> Initial QC</a></li>
 </ul></li>
+<li class="chapter" data-level="3" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>3</b> Summary Statistics</a></li>
 </ul>
 
       </nav>
@@ -104,18 +169,129 @@
 </ol>
 <p>If a marker failed the first 4 tests it was removed from the batch, and if a marker failed the last 2 tests then it was removed from the entire data-set. Each of these tests are hypothesis tests, with the cut-off chosen for removal set at p &lt; 10^-12. Clearly this is pretty extreme so it is important to note there may be more QC that needs to be done.</p>
 <div class="figure">
-<img src="images/UKBB_fail_rates.png" alt="fail" />
+<embed src="%22images/UKBB_fail_rates.png%22" />
 <p class="caption">fail</p>
 </div>
 <p>Following marker QC a pipeline of sample QC was applied. A good description of the pipeline is shown below. What is important to note is that the doccumentation seems to note that only individuals with really extreme missingness or hetrozygosity were removed from the dataset. Otherwise they were simply marked as being an outlier in their respective test. A more stringent threshold of the sample QC and marker QC was set for the dataset that was used within a principal component analysis. The output of this PCA was then used to determine a white, British ancestry subset. This was completed by comparing the samples who declared they were white and British and then removing outliers from the main cluster of this grouping based on PCA.</p>
 <div class="figure">
-<img src="images/british_PCA.png" alt="PCA" />
+<embed src="%22images/british_PCA.png%22" />
 <p class="caption">PCA</p>
 </div>
 <p>Far more information on all of these steps can be found from the BioRxiv pdf: “Genome-wide geneticdata on ~500,000 UK Biobank participants”. The big takeaways that I gleam are that the UK Biobank did think about genotyping seriously, the most abberant markers have been removed although some questionable markers likely remain, and that quite a few abberant samples remain although removing them should be easy since they have been marked. All of this gives a good starting point for this work.</p>
 </div>
 <div id="initial-qc" class="section level2">
 <h2><span class="header-section-number">2.2</span> Initial QC</h2>
+<p>To increase levels of QC, a file that lists all of the outliers was used to create a list of high quality anonymous IDS. The script that ran this entire process is displayed below.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="ex">library</span>(vroom)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co"># Column titles for the qc files</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="co">#19 = outliers in hetrozygosity</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#20 = putative sex chromosome aneuploidy</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="co">#21 = in kinship table</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="co">#22 = excluded from kinship calcs</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"><span class="co">#23 = excess relatives</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="co">#24 = British ancestry</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"><span class="co">#25 = Used in PCA</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="co">#26 = PCs</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#read in qc and the fam file, which contains the eids of the qc file</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"><span class="ex">qc</span> <span class="op">&lt;</span>- as.data.frame(vroom(<span class="st">&quot;~/athena/ukbiobank/qc/ukb_sample_qc.txt&quot;</span>, delim = <span class="st">&quot; &quot;</span>, col_names = F))</a>
+<a class="sourceLine" id="cb1-15" data-line-number="15"><span class="ex">fam</span> <span class="op">&lt;</span>- read.table(<span class="st">&quot;~/athena/ukbiobank/calls/ukbb.22.fam&quot;</span>, stringsAsFactors = F)</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17"><span class="co">#do brit thing</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18"><span class="ex">brit_fam</span> <span class="op">&lt;</span>- fam[qc[,19] == 0 <span class="kw">&amp;</span> <span class="ex">qc</span>[,20] == 0 <span class="kw">&amp;</span> <span class="ex">qc</span>[,23] == 0 <span class="kw">&amp;</span> <span class="ex">qc</span>[,24] == 1,]</a>
+<a class="sourceLine" id="cb1-19" data-line-number="19"><span class="ex">brit_fam</span><span class="va">$eth</span> <span class="op">&lt;</span>- 0</a>
+<a class="sourceLine" id="cb1-20" data-line-number="20"><span class="ex">brit_fam</span><span class="va">$eth_name</span> <span class="op">&lt;</span>- <span class="st">&quot;brit&quot;</span></a>
+<a class="sourceLine" id="cb1-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22"><span class="co">#read in the phen</span></a>
+<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="ex">phen</span> <span class="op">&lt;</span>- read.csv(<span class="st">&quot;~/athena/ukbiobank/phenotypes/ukb26867.csv.gz&quot;</span>, stringsAsFactors = F)</a>
+<a class="sourceLine" id="cb1-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb1-25" data-line-number="25"><span class="co">#subset according to the specified conditions within &quot;Genetics of 38 blood and urine biomarkers in the UK Biobank&quot;</span></a>
+<a class="sourceLine" id="cb1-26" data-line-number="26"><span class="ex">good_fam</span> <span class="op">&lt;</span>- fam[qc[,19] == 0 <span class="kw">&amp;</span> <span class="ex">qc</span>[,20] == 0 <span class="kw">&amp;</span> <span class="ex">qc</span>[,23] == 0,]</a>
+<a class="sourceLine" id="cb1-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb1-28" data-line-number="28"><span class="co">#subset the phen, qc, and fam files based on the good_fam above</span></a>
+<a class="sourceLine" id="cb1-29" data-line-number="29"><span class="ex">phen</span><span class="va">$eid[is.na(phen$eid)]</span> <span class="op">&lt;</span>- -999</a>
+<a class="sourceLine" id="cb1-30" data-line-number="30"><span class="ex">phen</span> <span class="op">&lt;</span>- phen[phen[,1] %in% good_fam[,1],]</a>
+<a class="sourceLine" id="cb1-31" data-line-number="31"><span class="ex">qc</span> <span class="op">&lt;</span>- qc[fam[,1] %in% phen[,1],]</a>
+<a class="sourceLine" id="cb1-32" data-line-number="32"><span class="ex">fam</span> <span class="op">&lt;</span>- fam[fam[,1] %in% phen[,1],]</a>
+<a class="sourceLine" id="cb1-33" data-line-number="33"><span class="ex">phen</span> <span class="op">&lt;</span>- phen[order(phen[,1])[<span class="ex">rank</span>(fam[,1])],]</a>
+<a class="sourceLine" id="cb1-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb1-35" data-line-number="35"><span class="co">#create vector for the survey answers of self-declared race</span></a>
+<a class="sourceLine" id="cb1-36" data-line-number="36"><span class="ex">ethnic</span> <span class="op">&lt;</span>- as.numeric(phen[,1288,drop=T])</a>
+<a class="sourceLine" id="cb1-37" data-line-number="37"><span class="ex">ethnic_code</span> <span class="op">&lt;</span>- rep(0, length(ethnic))</a>
+<a class="sourceLine" id="cb1-38" data-line-number="38"><span class="ex">ethnic_code</span>[ethnic %in% c(1, 1001, 1002, 1003)] <span class="op">&lt;</span><span class="ex">-</span> 1 <span class="co">#european</span></a>
+<a class="sourceLine" id="cb1-39" data-line-number="39"><span class="ex">ethnic_code</span>[ethnic %in% c(4002, 4003, 4)] <span class="op">&lt;</span><span class="ex">-</span> 2 <span class="co">#black</span></a>
+<a class="sourceLine" id="cb1-40" data-line-number="40"><span class="ex">ethnic_code</span>[ethnic %in% c(3, 5, 3001, 3002, 3003, 3004)] <span class="op">&lt;</span><span class="ex">-</span> 3 <span class="co">#asian</span></a>
+<a class="sourceLine" id="cb1-41" data-line-number="41"></a>
+<a class="sourceLine" id="cb1-42" data-line-number="42"><span class="co">#do the kmeans and then calculate distance of each eid to its respective center</span></a>
+<a class="sourceLine" id="cb1-43" data-line-number="43"><span class="ex">euc_dist</span> <span class="op">&lt;</span>- function(x1, x2) <span class="ex">sqrt</span>(sum((x1 - x2) ^ <span class="ex">2</span>))</a>
+<a class="sourceLine" id="cb1-44" data-line-number="44"><span class="ex">pcs</span> <span class="op">&lt;</span>- qc[,26:65]</a>
+<a class="sourceLine" id="cb1-45" data-line-number="45"><span class="ex">set.seed</span>(1)</a>
+<a class="sourceLine" id="cb1-46" data-line-number="46"><span class="ex">k_clu</span> <span class="op">&lt;</span>- kmeans(pcs, 3)</a>
+<a class="sourceLine" id="cb1-47" data-line-number="47"></a>
+<a class="sourceLine" id="cb1-48" data-line-number="48"><span class="ex">if</span>(file.exists(<span class="st">&quot;dist_to_center.RDS&quot;</span>))<span class="kw">{</span></a>
+<a class="sourceLine" id="cb1-49" data-line-number="49">  <span class="ex">dist_to_center</span> <span class="op">&lt;</span>- readRDS(<span class="st">&quot;dist_to_center.RDS&quot;</span>)</a>
+<a class="sourceLine" id="cb1-50" data-line-number="50"><span class="kw">}</span> <span class="kw">else</span> <span class="kw">{</span></a>
+<a class="sourceLine" id="cb1-51" data-line-number="51">  <span class="ex">dist_to_center</span> <span class="op">&lt;</span>- rep(0, length(ethnic_code))</a>
+<a class="sourceLine" id="cb1-52" data-line-number="52">  <span class="kw">for(</span><span class="ex">i</span> in 1:3<span class="kw">){</span></a>
+<a class="sourceLine" id="cb1-53" data-line-number="53">    <span class="kw">for(</span><span class="ex">j</span> in which(k_clu<span class="va">$cluster</span> == i<span class="kw">)</span>)<span class="kw">{</span></a>
+<a class="sourceLine" id="cb1-54" data-line-number="54">      <span class="ex">dist_to_center</span>[j] <span class="op">&lt;</span>- euc_dist(k_clu<span class="va">$centers[i,]</span>, pcs[j,])</a>
+<a class="sourceLine" id="cb1-55" data-line-number="55">    <span class="kw">}</span></a>
+<a class="sourceLine" id="cb1-56" data-line-number="56">  <span class="kw">}</span></a>
+<a class="sourceLine" id="cb1-57" data-line-number="57">  <span class="ex">saveRDS</span>(dist_to_center, <span class="st">&quot;dist_to_center.RDS&quot;</span>)</a>
+<a class="sourceLine" id="cb1-58" data-line-number="58"><span class="kw">}</span></a>
+<a class="sourceLine" id="cb1-59" data-line-number="59"></a>
+<a class="sourceLine" id="cb1-60" data-line-number="60"><span class="co">#determine cluster to ethnicity</span></a>
+<a class="sourceLine" id="cb1-61" data-line-number="61"><span class="ex">clu_eth_decode</span> <span class="op">&lt;</span>- c( names(sort(table(ethnic_code[k_clu<span class="va">$cluster</span> == 1]), <span class="ex">decreasing</span> = T)[<span class="ex">1</span>]),</a>
+<a class="sourceLine" id="cb1-62" data-line-number="62">                     <span class="ex">names</span>(sort(table(ethnic_code[k_clu<span class="va">$cluster</span> == 2]), <span class="ex">decreasing</span> = T)[<span class="ex">1</span>]),</a>
+<a class="sourceLine" id="cb1-63" data-line-number="63">                     <span class="ex">names</span>(sort(table(ethnic_code[k_clu<span class="va">$cluster</span> == 3]), <span class="ex">decreasing</span> = T)[<span class="ex">1</span>]))</a>
+<a class="sourceLine" id="cb1-64" data-line-number="64"><span class="ex">clu_eth_decode</span>[clu_eth_decode == <span class="st">&quot;0&quot;</span>] <span class="op">&lt;</span>- <span class="st">&quot;2&quot;</span></a>
+<a class="sourceLine" id="cb1-65" data-line-number="65"></a>
+<a class="sourceLine" id="cb1-66" data-line-number="66"></a>
+<a class="sourceLine" id="cb1-67" data-line-number="67"><span class="co">#get the indices of the pca outliers</span></a>
+<a class="sourceLine" id="cb1-68" data-line-number="68"><span class="ex">ancestry_remove</span> <span class="op">&lt;</span>- list()</a>
+<a class="sourceLine" id="cb1-69" data-line-number="69"><span class="kw">for(</span><span class="ex">i</span> in 1:3<span class="kw">){</span></a>
+<a class="sourceLine" id="cb1-70" data-line-number="70">  <span class="ex">cut_off</span> <span class="op">&lt;</span>- quantile(dist_to_center[k_clu<span class="va">$cluster</span> == i], 0.99)</a>
+<a class="sourceLine" id="cb1-71" data-line-number="71">  <span class="ex">ancestry_remove</span>[[i]] <span class="op">&lt;</span>- which(dist_to_center <span class="op">&gt;</span> cut_off <span class="kw">&amp;</span> <span class="ex">k_clu</span><span class="va">$cluster</span> == i)</a>
+<a class="sourceLine" id="cb1-72" data-line-number="72"><span class="kw">}</span></a>
+<a class="sourceLine" id="cb1-73" data-line-number="73"></a>
+<a class="sourceLine" id="cb1-74" data-line-number="74"><span class="co">#assign ethnic groups then kick out outliers</span></a>
+<a class="sourceLine" id="cb1-75" data-line-number="75"><span class="ex">fam</span><span class="va">$eth_name</span> <span class="op">&lt;</span>- <span class="st">&quot;&quot;</span></a>
+<a class="sourceLine" id="cb1-76" data-line-number="76"><span class="ex">fam</span><span class="va">$eth_name[k_clu$cluster == which(clu_eth_decode == </span><span class="st">&quot;1&quot;</span><span class="va">)]</span> <span class="op">&lt;</span>- <span class="st">&quot;euro&quot;</span></a>
+<a class="sourceLine" id="cb1-77" data-line-number="77"><span class="ex">fam</span><span class="va">$eth_name[k_clu$cluster == which(clu_eth_decode == </span><span class="st">&quot;2&quot;</span><span class="va">)]</span> <span class="op">&lt;</span>- <span class="st">&quot;african&quot;</span></a>
+<a class="sourceLine" id="cb1-78" data-line-number="78"><span class="ex">fam</span><span class="va">$eth_name[k_clu$cluster == which(clu_eth_decode == </span><span class="st">&quot;3&quot;</span><span class="va">)]</span> <span class="op">&lt;</span>- <span class="st">&quot;asian&quot;</span></a>
+<a class="sourceLine" id="cb1-79" data-line-number="79"><span class="ex">fam</span><span class="va">$eth</span> <span class="op">&lt;</span>- 0</a>
+<a class="sourceLine" id="cb1-80" data-line-number="80"><span class="ex">fam</span><span class="va">$eth[k_clu$cluster == which(clu_eth_decode == </span><span class="st">&quot;1&quot;</span><span class="va">)]</span> <span class="op">&lt;</span>- 1</a>
+<a class="sourceLine" id="cb1-81" data-line-number="81"><span class="ex">fam</span><span class="va">$eth[k_clu$cluster == which(clu_eth_decode == </span><span class="st">&quot;2&quot;</span><span class="va">)]</span> <span class="op">&lt;</span>- 2</a>
+<a class="sourceLine" id="cb1-82" data-line-number="82"><span class="ex">fam</span><span class="va">$eth[k_clu$cluster == which(clu_eth_decode == </span><span class="st">&quot;3&quot;</span><span class="va">)]</span> <span class="op">&lt;</span>- 3</a>
+<a class="sourceLine" id="cb1-83" data-line-number="83"><span class="ex">fam</span> <span class="op">&lt;</span>- fam[-unlist(ancestry_remove),]</a>
+<a class="sourceLine" id="cb1-84" data-line-number="84"><span class="ex">phen</span> <span class="op">&lt;</span>- phen[-unlist(ancestry_remove),]</a>
+<a class="sourceLine" id="cb1-85" data-line-number="85"></a>
+<a class="sourceLine" id="cb1-86" data-line-number="86"><span class="co">#break out ancestry fams</span></a>
+<a class="sourceLine" id="cb1-87" data-line-number="87"><span class="ex">euro_fam</span> <span class="op">&lt;</span>- fam[fam<span class="va">$eth_name</span> == <span class="st">&quot;euro&quot;</span>,]</a>
+<a class="sourceLine" id="cb1-88" data-line-number="88"><span class="ex">african_fam</span> <span class="op">&lt;</span>- fam[fam<span class="va">$eth_name</span> == <span class="st">&quot;african&quot;</span>,]</a>
+<a class="sourceLine" id="cb1-89" data-line-number="89"><span class="ex">asian_fam</span> <span class="op">&lt;</span>- fam[fam<span class="va">$eth_name</span> == <span class="st">&quot;asian&quot;</span>,]</a>
+<a class="sourceLine" id="cb1-90" data-line-number="90"></a>
+<a class="sourceLine" id="cb1-91" data-line-number="91"><span class="co">#create special for not dead eids</span></a>
+<a class="sourceLine" id="cb1-92" data-line-number="92"><span class="ex">bad_bool</span> <span class="op">&lt;</span>- apply(phen[,which(colnames(phen) <span class="ex">%in%</span> c(<span class="st">&quot;X40000.0.0&quot;</span>, <span class="st">&quot;X191.0.0&quot;</span>))], <span class="ex">1</span>, function(x) <span class="ex">any</span>(! (x == <span class="st">&quot;&quot;</span>)))</a>
+<a class="sourceLine" id="cb1-93" data-line-number="93"><span class="ex">bad_eid</span> <span class="op">&lt;</span>- phen<span class="va">$eid[bad_bool]</span></a>
+<a class="sourceLine" id="cb1-94" data-line-number="94"><span class="ex">alive_fam</span> <span class="op">&lt;</span>- fam[!(fam[,1] %in% bad_eid),]</a>
+<a class="sourceLine" id="cb1-95" data-line-number="95"><span class="ex">alive_euro_fam</span> <span class="op">&lt;</span>- euro_fam[!(euro_fam[,1] %in% bad_eid),]</a>
+<a class="sourceLine" id="cb1-96" data-line-number="96"><span class="ex">alive_african_fam</span> <span class="op">&lt;</span>- african_fam[!(african_fam[,1] %in% bad_eid),]</a>
+<a class="sourceLine" id="cb1-97" data-line-number="97"><span class="ex">alive_asian_fam</span> <span class="op">&lt;</span>- asian_fam[!(asian_fam[,1] %in% bad_eid),]</a>
+<a class="sourceLine" id="cb1-98" data-line-number="98"></a>
+<a class="sourceLine" id="cb1-99" data-line-number="99"><span class="co">#write all of the tables</span></a>
+<a class="sourceLine" id="cb1-100" data-line-number="100"><span class="ex">write.table</span>(fam, <span class="st">&quot;fam_files/qc_fam&quot;</span>, row.names = F, col.names = F, quote = F, sep = <span class="st">&#39;\t&#39;</span>)</a>
+<a class="sourceLine" id="cb1-101" data-line-number="101"><span class="ex">write.table</span>(euro_fam, <span class="st">&quot;fam_files/qc_euro_fam&quot;</span>, row.names = F, col.names = F, quote = F, sep = <span class="st">&#39;\t&#39;</span>)</a>
+<a class="sourceLine" id="cb1-102" data-line-number="102"><span class="ex">write.table</span>(african_fam, <span class="st">&quot;fam_files/qc_african_fam&quot;</span>, row.names = F, col.names = F, quote = F, sep = <span class="st">&#39;\t&#39;</span>)</a>
+<a class="sourceLine" id="cb1-103" data-line-number="103"><span class="ex">write.table</span>(asian_fam, <span class="st">&quot;fam_files/qc_asian_fam&quot;</span>, row.names = F, col.names = F, quote = F, sep = <span class="st">&#39;\t&#39;</span>)</a>
+<a class="sourceLine" id="cb1-104" data-line-number="104"></a>
+<a class="sourceLine" id="cb1-105" data-line-number="105"><span class="ex">write.table</span>(alive_fam, <span class="st">&quot;fam_files/qc_alive_fam&quot;</span>, row.names = F, col.names = F, quote = F, sep = <span class="st">&#39;\t&#39;</span>)</a>
+<a class="sourceLine" id="cb1-106" data-line-number="106"><span class="ex">write.table</span>(alive_euro_fam, <span class="st">&quot;fam_files/qc_alive_euro_fam&quot;</span>, row.names = F, col.names = F, quote = F, sep = <span class="st">&#39;\t&#39;</span>)</a>
+<a class="sourceLine" id="cb1-107" data-line-number="107"><span class="ex">write.table</span>(alive_african_fam, <span class="st">&quot;fam_files/qc_alive_african_fam&quot;</span>, row.names = F, col.names = F, quote = F, sep = <span class="st">&#39;\t&#39;</span>)</a>
+<a class="sourceLine" id="cb1-108" data-line-number="108"><span class="ex">write.table</span>(alive_asian_fam, <span class="st">&quot;fam_files/qc_alive_asian_fam&quot;</span>, row.names = F, col.names = F, quote = F, sep = <span class="st">&#39;\t&#39;</span>)</a>
+<a class="sourceLine" id="cb1-109" data-line-number="109"></a>
+<a class="sourceLine" id="cb1-110" data-line-number="110"><span class="ex">write.table</span>(brit_fam, <span class="st">&quot;fam_files/qc_brit_fam&quot;</span>, row.names = F, col.names = F, quote = F, sep = <span class="st">&#39;\t&#39;</span>)</a></code></pre></div>
 
 </div>
 </div>
@@ -124,8 +300,8 @@
           </div>
         </div>
       </div>
-<a href="introduction.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="introduction.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="summary-statistics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
