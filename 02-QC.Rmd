@@ -25,12 +25,17 @@ Following marker QC a pipeline of sample QC was applied. A good description of t
 
 ![PCA]("images/british_PCA.png")
 
-Far more information on all of these steps can be found from the BioRxiv pdf: "Genome-wide geneticdata on ~500,000 UK Biobank participants".  The big takeaways that I gleam are that the UK Biobank did think about genotyping seriously, the most abberant markers have been removed although some questionable markers likely remain, and that quite a few abberant samples remain although removing them should be easy since they have been marked.  All of this gives a good starting point for this work.
+Far more information on all of these steps can be found from the BioRxiv pdf: "Genome-wide genetic data on ~500,000 UK Biobank participants".  The big takeaways that I gleam are that the UK Biobank did think about genotyping seriously, the most abberant markers have been removed although some questionable markers likely remain, and that quite a few abberant samples remain although removing them should be easy since they have been marked.  All of this gives a good starting point for this work.
 
 ## Initial QC
 
 To increase levels of QC, a file that lists all of the outliers was used to create a list of high quality anonymous IDS.  The script that ran this entire process is displayed below.
 
-```{bash, code = readLines("~/athena/doc_score/qc/proc_fam.R"), eval = F}
+In short, the process carried out involved removes outliers in hetrozygosity, putative sex chromosome aneupolidy, and excess relatvies all determined by the UK Biobank processes described above.  Lastly, only individuals who were determined to be white with British ancestry were kept. This is a highly unfortunate cut-off, but nescessary in order to create a genetically homogenous individuals to be tested.
+
+#```{R, code = xfun::read_utf8("~/athena/doc_score/qc/proc_fam.R"), eval = F, dev = png}
+#```
+```{R, code = xfun::read_utf8("test.R")}
 ```
 
+Now that we have a base level of genetic data QC, we can move onto QC of the summary statistics.

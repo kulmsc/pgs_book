@@ -3,10 +3,148 @@
 To create the PGSs we need summary statistics, or results from Genome-Wide Association Studies (GWASs).  One overall requirement for the summary statistics that we use is that they cannot have utilized the UK Biobank in their production.  If they did we would be overfitting the problem, which is not good.  Each summary statistic must also have the following features (or columns):
 
 1. Chromosome
-2. Variant ID (the rsID)
-3. Effect Allele
-4. Alternate Allele
-5. Effect (Beta, Odds Ratio)
-6. P-Value
+2. Position
+3. Variant ID (the rsID)
+4. Effect Allele
+5. Alternate Allele
+6. Standard Error of the Effect
+7. Effect (Beta, Odds Ratio)
+8. P-Value
 
-A final consideration is to pull from summary statistics with the largest possibly underlying sample size, because it will produce the most accurate estimates.  The studies can be obtained with:
+The reasons we need these specific columns is as follows.  Chromosome and position give the position of the variant on the genome, which is important in determining variant proximity for LD-aware methods.  The variant allele is important for basic recognition purposes of which variants make it into the final score.  The effect and alternative allele are nescessary just based on the polygenic risk score definition.  While the alternative allele is not strictly nescessary for scoring, it is needed to determine if the variant is ambigous.  The standard error and p-value are used by many methods for thresholding purposes.  Lastly the effect is the other basic component needed in the polygenic risk score equation.
+
+# Getting the Summary Statistics
+
+Now we have to get the actual summary statistics. A key consideration is to pull from summary statistics with the largest possibly underlying sample size, because it will produce the most accurate estimates.  The studies can be obtained with:
+
+```{bash, code = readLines("~/athena/doc_score/raw_ss/setup.sh"), eval = F}
+```
+This is basically just a series of wget's to the FTP server of the GWAS catalog.  I am also using some files from 23andMe, however these cannot be openly downloaded on GWAS Catalog.
+
+Lastly, a committee member of mine asked me to look into a few pyschiatric related traits, which has summary statistics available on request or within the pyschiatric genomics consortium (https://www.med.unc.edu/pgc/download-results/).  While I likely could have followed a similar request approach to recieve a few more sets, the total number of 25 seems like a good stopping point.
+
+![gwascatalog]("images/gwascatalog.png")
+
+If you want to manually download just one summary statistic, or you want a more pictoral description of the summary statistics then you can access https://www.ebi.ac.uk/gwas/downloads/summary-statistics . There are other GWAS results that are not fully summary statistics, as the motivation of this project is to assess different methods we want the full summary statistics for many SNPs, not just the signifiant ones.  Plus, from the full summary statistics we can always reduce down to only a significant-only score.
+
+## Prepare Variants
+
+As we've already QCd the individuals, the other half of the QC is on the variants.  That can be easily done by keeping variants that have an imputation INFO score above 0.9, and removing duplicate variants (or variants that are tri-allelic). The INFO score refers to the probability the imputation software has in calling the allele the way it did, we only want high probability variants. We do not want duplicate variants because its tri-allele option slightly increases the probability that it was called or otherwise referred to incorrectly at some point in its analysis.  Moreover, the biology is likely more complicating (perhaps not agreeing with the assumptions of the downstream methods), and sorting gets easier.
+
+The other variant level of QC nescessary is on the minor allele frequency and hardy weinberg equilibrium, but we can do that after the white, british group has already be determined.  Note that in other analyses this step could be done now, but with file formats as I have (bgen now, plink later), I will wait for this step.
+
+The script used to pull this off is as follows, where the ukb_mfi_all.txt file originates from the UKBB directly.
+
+```{bash, code = readLines("~/athena/doc_score/raw_ss/ready_to_clean.sh"), eval = F}
+```
+
+## Standardize the Summary Statistics
+
+This is a big step.  The underlying motivation is that all of the files need to look the same so downstream coding is far easier.  In this process we will convert the base pair positions, or the genome build, so they match the UK Biobank.  The can simply be done by matching the rsIDs.  We will also remove ambigious SNPs, and then flip the remaining SNPs so they match the UK Biobank strand.  The exact procedures, and a few other small changes are described in the script.
+
+```{r, code = readLines("~/athena/doc_score/raw_ss/clean.R"), eval = F}
+```
+
+As you can see at the bottom of the script I am looping over all of the sets of summary statistics, which are organized so each set belongs to its own directory with the name raw_author.ss.gz.  Also within the directory are two files, "notes" and "parameters".  The notes files contains some meta-information and the parameters names the column names referring to a different statistic or type of information.  Specifically "notes" contains with each new line: author name, disease name, total sample size, case sample size, control sample size, ancestry of GWAS and title of originating publication.  Specifically "parameters" contains the chromosome, base pair location, rs prefixed variant ID, effect allele (or first allele), non-effect allele (or second allele), standard error of the effect, effect, and p value.  There is an optional ninth line with the term CHANGE_BOTH which indicates the effect is an odds ratio and needs to be converted to a beta values (spanning from negative to positive).
+
+
+With the script read in for reference, I want to clearly list everything that I am kicking out of the summary statistics.  To do this I will call examples from the Phelan summary statistics.  The raw download appears as:
+
+```{r}
+ss <- read.table("../raw_ss/Phelan/raw_phelan.ss.gz", stringsAsFactors=F, header=T, nrows = 10)
+head(ss)
+```
+
+1. INFO Score < 0.9 - only want alleles whose identity are certain
+
+2. Non-duplicate - want simple base subsititions that are easier to call and process
+
+```{r}
+ss <- read.table("../raw_ss/Phelan/raw_phelan.ss.gz", stringsAsFactors=F, header=F, skip = 629730, nrows = 2)
+print(ss)
+```
+
+We can see the SNP rs7517916 is tri-allelic, with alleles A, C, G.  As this tri-system makes calling more difficult, and strand determination near impossible we discard this SNP altogether.
+
+3. ACGT - similar to above, limiting to the most simple cases of base pair subtitition or single nucleotide polymorphism
+
+```{r}
+ss <- read.table("../raw_ss/Phelan/raw_phelan.ss.gz", stringsAsFactors=F, header=F, skip = 1, nrows = 2)
+print(ss)
+```
+Here we have two clear examples of SNPs whose alleles are not just A, C, G, T.  This paradigm does not work with our strand flipping capabilities (and is harder to call by most sequencing technologies) so we again discard these types of SNPs.
+
+4. Non-ambigous - If the alleles are A and T or C and G, these are called ambigous and will present a problem later on when we try to determine if the standedness of the summary statistics match the strand of our data.  This is likely possibly to figure out through allele frequencies, but again, it's not worth the risk
+
+```{r}
+ss <- read.table("../raw_ss/Phelan/raw_phelan.ss.gz", stringsAsFactors=F, header=F, skip = 9, nrows = 1)
+print(ss)
+```
+The two alleles described are T and A.  As stated, since flipping these alleles leaves us where we started we must again discard this SNP since flipping is impossible.
+
+5. Non-X chromosome - As chromosome 23 is very different between men and women (and it's relatively short), we would likely have to do some special case regressions to set up an accurate model, which makes it easiest just to forget it. Note, no example in Phelan but if it did exist the chromosome column would be X, Y or 23.
+
+6. Non-reversable SNPs - We need to flip (or reverse) SNPs such that the allele identities of the summary statistics match the allele identities of the genotypes.  We do this by assuming that if they do not line up then we can swap A with T, or C with G (and the converse), and things will work.  However, if just one of the SNPs matches after reversing then we have a weird problem that is easiest to resolve by removing the troublesome SNP.  
+
+```{r}
+sst <- read.table("../raw_ss/Phelan/raw_phelan.ss.gz", stringsAsFactors=F, header=F, skip = 280, nrows = 1)
+ref <- read.table("../raw_ss/common_files/impute_rsids", stringsAsFactors=F, header=F, skip = 5995727, nrow = 1)
+print(sst)
+print(ref)
+```
+
+This is an example of reversed SNPs, the A1 of the summary statistic does not match the A1 of the reference data.  Therefore we swap the position of the alleles in the summary statistics and similarly reverse the beta or effect value.
+
+```{r}
+sst <- read.table("../raw_ss/Phelan/raw_phelan.ss.gz", stringsAsFactors=F, header=F, skip = 375350, nrows = 1)
+ref <- read.table("../raw_ss/common_files/impute_rsids", stringsAsFactors=F, header=F, skip = 6358575, nrow = 1)
+print(sst)
+print(ref)
+```
+This is an example of a SNP that needs to be flipped since the summary statistic is on one strand while the complementary base pairs are described in the reference data.  In this case the beta or effect value stays the same because the same information is being described in both the summary statistic and reference data, just not using the same language or strand.
+
+```{r}
+sst <- read.table("../raw_ss/Phelan/raw_phelan.ss.gz", stringsAsFactors=F, header=F, skip = 15414049, nrows = 1)
+ref <- read.table("../raw_ss/common_files/impute_rsids", stringsAsFactors=F, header=F, skip = 7679970, nrow = 1)
+print(sst)
+print(ref)
+```
+This is an example of a SNP that is not resolved after either flipping or reversing.  In short, the G allele appears to be on the reference stand but the T allele does not.  With this confusion we decide to play it safe and discard the SNP altogether. 
+
+7. Standard error outliers - Following the supplementary of the method LDPRED2, we can compare standard errors between studies to determine if SNPs are outliers in their effects.  For this task I have pulled results from FinnGen Biobank, which while not matching ancestry well with British, does a decent enough job of falling within the European category to work.
+
+The remaining steps mostly involve re-aligning, changing column names and the like.  Note that we take such a liberal stance on removing SNPs because we assume there is a density of summary statistics such that the removal of any SNP will still leave behind another SNP within a given causal locus that is ultimately important for prediction.
+
+
+
+## Heritability Estimation
+
+Many downstream methods require heritability estimates of the trait using the corresponding summary statistics.  While many, many heritability estimate methods exist I am limited to those that only require summary statistics, of which I know of 2: Linkage Disequilibirum Score Regression and High-Definition Likelihood (HDL).  The first step required is to munge the summary statistics, or further QC them following a munge_sumstats script provided by LDSC. The script for which is simple:
+
+```{bash, code = readLines("~/athena/doc_score/raw_ss/munge.sh"), eval = F}
+```
+
+The next step is the actual heritability estimation, which luckily only requires a simple command line call for each method.  We do have to be careful however in making sure all of the columns match up in the arguments.  The script therefore looks like:
+
+```{bash, code = readLines("~/athena/doc_score/raw_ss/est_h2.sh"), eval = F}
+```
+We can compile all of the heritability estimates, which are currently sitting in log files, into a single file using a simple bash script. Additionaly, we can include other useful information that may be needed downstream, such as sample size and number of SNPs.  The script looks like:
+
+```{bash, code = readLines("~/athena/doc_score/raw_ss/get_info.sh"), eval = F}
+```
+
+The only problem is that we still do not have a single heritability value to use downstream.  We can fix this problem by conducting a very simple meta-analysis. We average the estimates inversely weighted by their standard errors.  If one of the algorithms did not converge on a set of summary statistics then the other algorithms value stands without any averaging.  If both alogortihms failed the value of 0.01, is assumed.  This last part is somewhat arbritrary but I figured a low estimate would be best.  The script used to perform this basic meta-analysis looks like:
+
+```{r, code = readLines("~/athena/doc_score/raw_ss/adjust_h2.R"), eval = F}
+```
+
+
+## Final Changes and Remarks
+
+The last thing to do is to split the polished and cleaned summary statistics into chromosome chunks.  This way we can process each chromosome seperately and everything will run much more easily.  The script to do this looks like:
+
+```{bash, code = readLines("~/athena/doc_score/raw_ss/split_chr.sh"), eval = F}
+```
+We could also do this as we process the summary statistics files, but I personally like having the files around like this and don't mind the memory needed to store them.
+
+We are almost officialy done with QC (remember we still need to look at MAF and HWE).  This QC aimed to be on the stringent side to ensure we have good information going into the downstream methods.
