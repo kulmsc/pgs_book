@@ -1,0 +1,117 @@
+# Adjusting Summary Statistics
+
+The main thrust of this project, and a key step in any polygenic risk scoring process, is adjusting summary statistics.  In short, adjusting summary statistics are nescessary because as they stand linkage disequilibrium and a possible high prevelance of false positives will severly limit the predictive ability contained within the underlying GWAS.  There are many ways to actually carry out this adjustment.  In fact, there are quite a few people who have spent considerable time working on methods to adjust summary statistics with the highest possible accuracy.  The problem is that these people do not always leave the greatest doccumentation or instructions.  In the following text I will attempt to translate the doccumentation, while pulling from the original publication and possible other sources, to produce a clear and intended scripts for summary statistic adjustment.
+
+### Computational Framework
+
+A key consideration in setting up a summary statistic adjustment workflow is time.  Many of the adjustment scripts are slow.  Therefore, parallelization is a near nescessity to get things done.  While I am sure there are fancy systems or clever linux commands, I went with a low-tech bash script.  The key idea of the bash script is that it continously runs, beginning a summary statistic adjustment on one chromosome with one method when there is space available.  The space determination is made by constantly checking a poss_dirs file.  If there is a directory number within a script is begun in the background for adjustment.  On its completion it will return the name of its directory to the poss_dirs file.  In the mean time a while loop with a wait function keeps everything active until this time comes.  The other important consideration is independence.  At the top of this script directories that contain intermediate files are emptied, leaving room for a clean starting place.
+
+```{bash, code = readLines("~/athena/doc_score/adjust_ss/control.sh"), eval = F}
+```
+
+Note that if instead of having a multi-score laptop or other large computer you have a cluster submission system you can likely change this script slightly so that hermes.sh is not submitted to the background but instead is just submitted to your cluster management system.  Perhaps I will write this option in soon.
+
+#Should have some sort of graphic indicating what is going on
+
+As can be seen, the actual adjustment is launched through the script hermes.sh (an ode to swift completion).  At the top of hermes.sh some quick file re-writing claims the directory, and therefore slot to run an adjustment.  Then the method specific script is called.  An important consideration is the taskset command, which will limit the descrending computation to a select number of clusters.  Finally, once the method is complete the directory name is returned to poss_dirs and the directory that contained all of the computation is emptied.  Just as before everything was a wrapper for hermes.sh, here everything is a wrapper for the details within the method specific script.
+
+
+## Simple
+
+The simple methods are not really methods at all, but rather the most primitive subsetting that has been considered in the past and therefore for the sake of completeness will be considered here as well.  Specifically, these methods simply threshold the summary statistics based on a p-value cut off.  The first uses the genome-wide signficance threshold of 5e-8, the second uses the sometimes cited genome-wide interesting or suggested level of 1e-6, the third keeps every SNP possible, and the fourth keeps SNPs with p-values above 0.5.  The idea is that the final method can act as a false negative, i.e. if it returns any predictive value we know something is likely going wrong.
+
+```{bash, code = readLines("~/athena/doc_score/adjust_ss/simple.sh"), eval = F}
+```
+
+Note there is not any single publication or doccumentation linked to these "methods", they are just a natural starting place for making scores.
+
+## Clumping
+
+The next, most common method involves clumping, which is an intelligent method to threshold SNPs based on their p-value while limiting false positives caused by linkage disequilibrium.  Specifically, this is done by limiting a significant locus to maintaining only one SNP in the adjusted summary statistics.  The size of this locus is determined by a r-squared parameter.  While it is likely possible to write your own clumping algorithm, I and I assume most other people use PLINK, a tool with amazing doccumentation.  The two obvious clumping parameters are the p-value and r2.  An array of 3 values for each are chosen, leading to 9 total clumped summary statistics.  The final parameter is the genotype file that generated the LD information.  Many methods that I will be using require LD information.  Frustratingly, the exact choice of LD information often varies based on the originating publication.  As there is actually not any publication to specifically go along with clump the choice here is not well-informed.  I have assumed using the UKBB is a good choice, and because it is computationally easy to do so I will employ the full possible sample size.
+
+A final consideration that is not always apparent is that sometimes the clumping algorithm leaves zero SNPs.  In this case we need an if statement to reveal that nothing should be done.  If there are SNPs remaining then we simply subset the input to these SNPs and pass them on. 
+
+```{bash, code = readLines("~/athena/doc_score/adjust_ss/clump.sh"), eval = F}
+```
+
+More specifics on the doccumentation are described: https://www.cog-genomics.org/plink/1.9/postproc#clump
+
+## Double Weight
+
+Increasing from complexity is double weight scores.  The motivation is that whenever a hard threshold is chosen the SNPs that are included within the score are hit by a winner's curse.  The corresponding publication explains "by selecting only SNPs with estimated p-values below a certain threshold, one systematically selects SNPs with effect overestimated by chance. Thus, for a large proportion of selected SNPs, betas will be a biased estimate for the true weight ".  Mathematically we can think about this comparing the current polygenic risk score format:
+
+$$PGS=\sum_{i=1}^{k}I(p_i<p^*)\hat{\beta}X_i$$
+
+to a winner's curse aware format:
+
+$$PGS=\sum_{i=1}^{k}\hat{\pi}(X_i)\hat{\beta}X_i$$
+
+Here we replace an indicator function that is either 0 or 1 with a probability of inclusion within a set of top Z number SNPs, where Z can be any positive integer less than your total number of available SNPs.  The next decision is determining how to calculate the $\hat{\pi}$ term.  The originating paper, within the supplementary states we should generate a sample of values for each SNP from a normal distribution specificed by $N(\hat{\beta}, \hat{SE}^2)$ (or at least that's how I interpreted the variable definitions).  We then estimate how many times our sample for the SNP is within the top Z number of SNPs.  The paper goes onto to mention a wald type statistic, but I could not fully determine how one would best calculate this statistic.  The approach I took is likely best described within the following R script.
+
+```{r, code = readLines("../adjust_ss/helper_scripts/double_weight.R"), eval = F}
+```
+
+Note that this R script is just launched by a short shell script.  While short one key component is the PLINK line that subsets the summary statistics to a short subset whose SNPs are ideally not impacted by linkage disequillibrium.  The exact parameters utilized are 0.5 for the p-value and 0.05 for R2.  In both of the publications I could find that have implemeted this algorithm these are the paramters that were utilized.  I therefore did not find the need to change them, especially since their values are not as intrinsic to the idea of double weighting as the parameter of Z important SNPs.
+
+There may be a variation that more fully agrees with the intended algorithm, but I believe that this is a faithful enough reproduction to accurately evaluate the method's performance.
+
+For more information on the algorithm please see: https://pubmed.ncbi.nlm.nih.gov/27513194/, specifically the supplemental for implementation details.
+
+## LDpred
+
+One of the premier polygenic risk score adjustment algorithms.  Rather than using a heuristic, LDpred attempts to provide a rigerous attempt to recreate effect estimates that would be produced if the full genetic information was used in the original estimation process.  Further considerations are made to determine the proportion of SNPs that are true causal, and how linkage disequilibrium would change the estimates.  The mathematical details are intense, with MCMC algorithms involved, but for the point of application we actually only need to know instillation, application and the troubleshooting processes required (this will be a theme throughout).
+
+LDpred runs in two steps, coordination and the MCMC algorithm.  A key consideration in the initial coordination step is choosing a genotypic file to be the LD reference. The GitHub page reports that a file with over 1,000 unrelated individuals should be used.  Within the publication they utilize their validation data set, which varies from about 100,000 to over a million SNPs.  For a few of my summary statistics this will present a possible problem, but I think it is fair to test the limits of their algorithm in this way. To speed execution I limited my validation data set to 5,000 individuals for the LD reference.  This 5,000 value is five times more than the recommended value so I hope it is a fair step (I am also encouraged to think so due to similar sample sizes used for the reference within the original publication, in fact they regularly had data sets with less than 5,000 individuals).  Within another well-cited publication ("Genome-wide polygenic scores for common diseases identify individuals with risk equivalent to monogenic mutations") the validation data set was not used, and instead the European individuals of the 1000 Genomes Group were.  While this group falls below the 1,000 person recommendation, their performance and the accoldates the paper motivates this reference group as a strong alternative.  The few remaining considerations concerning the coordination are the sample size given, which was the effective sample size recommended by PLINK, and the type of effect size specified, which is LOGOR, or beta values that were standardized in the previous chapter.
+
+The next step is entitled gibbs, which is the subtype of the MCMC algorithm. The first two arguments of this step are the outputs of the previous, easy enough.  The next is the estimated heritability, which was taken from the consensus value determined in the previous chapter.  Next is the f values, or the proportion of SNPs that are believed to be causal.  As it is rather difficult to know this a priori, a range of parameters are attempted.  The last value is the ld-radius.  The value recommended to use is the total number of SNPs (across all chromosomes) divided by 3000.  This value, and this value alone was utilized.
+
+Over the f value and reference genotype options a series of LDpred estimates were generated.  The adjusted effect sizes were then subtituted into the original summary statistics to complete the process.  Also an important note is that the software does not overwrite the coordination file by default, so if you are trying multiple coordinate set-ups you must manually delete it upon changing.  The full code for the process is:
+
+```{bash, code = readLines("../adjust_ss/ldpred.sh"), eval = F}
+```
+
+For more information I would (and have) read the originial publication, https://www.cell.com/ajhg/fulltext/S0002-9297(15)00365-1, follow the GitHub instructions, https://github.com/bvilhjal/ldpred, or use the bitbucket instructions, https://bitbucket.org/bjarni_vilhjalmsson/ldpred/src/master/.  I think the best instructions are from the direct doccumentation accessed with -h.
+
+## LDpred2
+
+While LDpred is a premier method, there are few additional options and computational limitations that the authors believed should be resolved in an entirely new method implementation.  Specifically, LDpred2 is implemented within the bigsnpr package, and therefore required all files to be read into a R environment (compared to previously where things were managed as calls to a python script).  I will briefly describe some of the important components of my implementation of the online vignette, which I used to base my own implementation.
+
+The first step is loading in the the genotype file that will be used as the linkage disequillibrium.  While there was some difficulty in picking a single reference in LDpred, in this implementation the associated publication clearly states that 10,000 UK Biobank individuals were utilized.  Specifically, those of white, British ancestry and with imputed SNPs.  However, I should note that on initial applications I recieved errors on the genotypic correlation matrix exceeding the maximum vector size.  To fix this problem I followed the publication and restricted the possible SNPs to those from HapMap (specifically within a file of the vignette).  As I easily have all of those pieces I can easily and quickly load them in.
+
+The next big step is calculating the genotypic correlation matrix.  This is by far the longest step in the process.  The size of the correlation was chosen as 3cM as recommended in the vignette. Following I read in the consensus heritability, then set up a grid of paramters to analyze upon.  The vignette contained over 100 sets of parameters, to prevent overfitting on my larger validation set I did not want to create this number of scores for each method, therefore I reduced the paramters investigated.  With the parameters, genotypic correlation and read-in summary statistics the snp_ldpred2_grid command can actually be called to adjust the effect sizes.  The output from this command can then be substituted into the original summary statistics and then written to produce the final adjusted summary statistics.
+
+As in the double weight set up, this method is carried with an initial shell script that prepares the genotypic files.
+
+```{bash, code = readLines("../adjust_ss/ldpred2.sh"), eval = F}
+```
+
+The main point of this shell script is calling a R script, which looks like:
+
+```{r, code = readLines("../adjust_ss/helper_scripts/ldpred2.R"), eval = F}
+```
+
+The original vignette is https://privefl.github.io/bigsnpr/articles/LDpred2.html, and the original publication is https://www.biorxiv.org/content/10.1101/2020.04.28.066720v1.
+
+
+## SBLUP
+
+SBLUP, which stands for summary best linear unbiased predictions, attempts to use summary statistics alone to generate BLUP estimates of SNP effect sizes (a similar goal of LDpred).  The application of SBLUP is easily completed within the genome-wide complex trait analysis application, a piece of software that is only rivaled by PLINK for its doccumentation and dependability.  The first argument of sblup is a genotypic file used for determining a LD correlation matrix.  On initial applications I attempeted to use all people within my training set (80,000).  While the application did sometimes complete, it was very memory intensive, and slow.  Investigating the originating publication I found that in the supplamentary (specifically figure 2) 10,000 individuals were used.  In the main text over 7,000 couples were mentioned within an analysis.  While more people could have been used in SBLUP, I figured an analysis of 20,000 individuals could be a safe margin on the couples analysis and will give a good picture on whether it performs significantly better than 10,000.  
+
+The second argument of SBLUP is termed cojo-sblup, which is specified to be $m(1/h^2 - 1)$.  This term seem rather important, and turns out to be one of the few parameters worth tuning, therefore I parametrized over three variations in which the heritability term is multipled by 0.7, 1, and 1.3.  This way if the heritability was slightly off and the cojo-sblup term is very sensitive I still have the change of obtaining a good set of adjusted summary statistics.  The next argument is the cojo-wind term, or the LD radius term.  The website recommends 1 Mb even though the default value is 10 Mb.  For ease of computation I went with 1 Mb.  The final term is the summary statistics, which have to be modified to fit a "ma" format.  A key addition in this format is the allele frequency, which was empirically calculated with the UK Biobank full training sample.  
+
+As before, all of the steps were controlled in the following bash script:
+
+```{bash, code = readLines("../adjust_ss/sblup.sh"), eval = F}
+```
+
+The first needed R script for calculating the "ma" summary statistics is:
+
+```{r, code = readLines("../adjust_ss/helper_scripts/ldpred3.sh"), eval = F}
+```
+
+The output file looks a little funky, so a final R script substitutes the adjusted effect into the original summary statistics.
+
+```{r, code = readLines("../adjust_ss/helper_scripts/reformat_sblup.R"), eval = F}
+```
+
+The original publication is https://www.nature.com/articles/s41562-016-0016#MOESM11, and the doccumentation comes from https://cnsgenomics.com/software/gcta/#SBLUP.
