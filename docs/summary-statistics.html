@@ -141,6 +141,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.4" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#genetic-correlation-estimation"><i class="fa fa-check"></i><b>4.4</b> Genetic Correlation Estimation</a></li>
 <li class="chapter" data-level="4.5" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#final-changes-and-remarks"><i class="fa fa-check"></i><b>4.5</b> Final Changes and Remarks</a></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Adjusting Summary Statistics</a><ul>
+<li class="chapter" data-level="5.0.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#computational-framework"><i class="fa fa-check"></i><b>5.0.1</b> Computational Framework</a></li>
+<li class="chapter" data-level="5.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#simple"><i class="fa fa-check"></i><b>5.1</b> Simple</a></li>
+<li class="chapter" data-level="5.2" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#clumping"><i class="fa fa-check"></i><b>5.2</b> Clumping</a></li>
+<li class="chapter" data-level="5.3" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#double-weight"><i class="fa fa-check"></i><b>5.3</b> Double Weight</a></li>
+<li class="chapter" data-level="5.4" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#ldpred"><i class="fa fa-check"></i><b>5.4</b> LDpred</a></li>
+<li class="chapter" data-level="5.5" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#ldpred2"><i class="fa fa-check"></i><b>5.5</b> LDpred2</a></li>
+<li class="chapter" data-level="5.6" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#sblup"><i class="fa fa-check"></i><b>5.6</b> SBLUP</a></li>
+<li class="chapter" data-level="5.7" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#smtpred"><i class="fa fa-check"></i><b>5.7</b> SMTpred</a></li>
+<li class="chapter" data-level="5.8" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#prscs"><i class="fa fa-check"></i><b>5.8</b> prsCS</a></li>
+<li class="chapter" data-level="5.9" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#lassosum"><i class="fa fa-check"></i><b>5.9</b> lassosum</a></li>
+<li class="chapter" data-level="5.10" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#tweedie"><i class="fa fa-check"></i><b>5.10</b> Tweedie</a></li>
+<li class="chapter" data-level="5.11" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#sbayesr"><i class="fa fa-check"></i><b>5.11</b> SBayesR</a></li>
+<li class="chapter" data-level="5.12" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#jampred"><i class="fa fa-check"></i><b>5.12</b> JAMPred</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html"><i class="fa fa-check"></i><b>6</b> Compiling the Scores</a><ul>
+<li class="chapter" data-level="6.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#simple-score-approach"><i class="fa fa-check"></i><b>6.1</b> Simple Score Approach</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#what-to-worry-about"><i class="fa fa-check"></i><b>6.1.1</b> What to Worry About</a></li>
+<li class="chapter" data-level="6.1.2" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#controlling-and-assembling"><i class="fa fa-check"></i><b>6.1.2</b> Controlling and Assembling</a></li>
+<li class="chapter" data-level="6.1.3" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#other-options"><i class="fa fa-check"></i><b>6.1.3</b> Other Options</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html"><i class="fa fa-check"></i><b>7</b> Score Analysis Set-Up</a><ul>
+<li class="chapter" data-level="7.1" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#defining-the-phenotypes"><i class="fa fa-check"></i><b>7.1</b> Defining the Phenotypes</a></li>
+<li class="chapter" data-level="7.2" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#making-the-phenotype"><i class="fa fa-check"></i><b>7.2</b> Making the Phenotype</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tuning.html"><a href="tuning.html"><i class="fa fa-check"></i><b>8</b> Tuning</a></li>
 </ul>
 
       </nav>
@@ -229,6 +256,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

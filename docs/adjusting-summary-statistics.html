@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>5 Adjusting Summary Statistics | index.split</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="5 Adjusting Summary Statistics | index.split" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="5 Adjusting Summary Statistics | index.split" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="getting-the-summary-statistics.html"/>
+<link rel="next" href="compiling-the-scores.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#directory-framework"><i class="fa fa-check"></i><b>1.1</b> Directory Framework</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="quality-control.html"><a href="quality-control.html"><i class="fa fa-check"></i><b>2</b> Quality Control</a><ul>
+<li class="chapter" data-level="2.1" data-path="quality-control.html"><a href="quality-control.html#previously-applied-qc"><i class="fa fa-check"></i><b>2.1</b> Previously Applied QC</a></li>
+<li class="chapter" data-level="2.2" data-path="quality-control.html"><a href="quality-control.html#initial-qc"><i class="fa fa-check"></i><b>2.2</b> Initial QC</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>3</b> Summary Statistics</a></li>
+<li class="chapter" data-level="4" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html"><i class="fa fa-check"></i><b>4</b> Getting the Summary Statistics</a><ul>
+<li class="chapter" data-level="4.1" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#prepare-variants"><i class="fa fa-check"></i><b>4.1</b> Prepare Variants</a></li>
+<li class="chapter" data-level="4.2" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#standardize-the-summary-statistics"><i class="fa fa-check"></i><b>4.2</b> Standardize the Summary Statistics</a></li>
+<li class="chapter" data-level="4.3" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#heritability-estimation"><i class="fa fa-check"></i><b>4.3</b> Heritability Estimation</a></li>
+<li class="chapter" data-level="4.4" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#genetic-correlation-estimation"><i class="fa fa-check"></i><b>4.4</b> Genetic Correlation Estimation</a></li>
+<li class="chapter" data-level="4.5" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#final-changes-and-remarks"><i class="fa fa-check"></i><b>4.5</b> Final Changes and Remarks</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Adjusting Summary Statistics</a><ul>
+<li class="chapter" data-level="5.0.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#computational-framework"><i class="fa fa-check"></i><b>5.0.1</b> Computational Framework</a></li>
+<li class="chapter" data-level="5.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#simple"><i class="fa fa-check"></i><b>5.1</b> Simple</a></li>
+<li class="chapter" data-level="5.2" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#clumping"><i class="fa fa-check"></i><b>5.2</b> Clumping</a></li>
+<li class="chapter" data-level="5.3" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#double-weight"><i class="fa fa-check"></i><b>5.3</b> Double Weight</a></li>
+<li class="chapter" data-level="5.4" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#ldpred"><i class="fa fa-check"></i><b>5.4</b> LDpred</a></li>
+<li class="chapter" data-level="5.5" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#ldpred2"><i class="fa fa-check"></i><b>5.5</b> LDpred2</a></li>
+<li class="chapter" data-level="5.6" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#sblup"><i class="fa fa-check"></i><b>5.6</b> SBLUP</a></li>
+<li class="chapter" data-level="5.7" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#smtpred"><i class="fa fa-check"></i><b>5.7</b> SMTpred</a></li>
+<li class="chapter" data-level="5.8" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#prscs"><i class="fa fa-check"></i><b>5.8</b> prsCS</a></li>
+<li class="chapter" data-level="5.9" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#lassosum"><i class="fa fa-check"></i><b>5.9</b> lassosum</a></li>
+<li class="chapter" data-level="5.10" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#tweedie"><i class="fa fa-check"></i><b>5.10</b> Tweedie</a></li>
+<li class="chapter" data-level="5.11" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#sbayesr"><i class="fa fa-check"></i><b>5.11</b> SBayesR</a></li>
+<li class="chapter" data-level="5.12" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#jampred"><i class="fa fa-check"></i><b>5.12</b> JAMPred</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html"><i class="fa fa-check"></i><b>6</b> Compiling the Scores</a><ul>
+<li class="chapter" data-level="6.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#simple-score-approach"><i class="fa fa-check"></i><b>6.1</b> Simple Score Approach</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#what-to-worry-about"><i class="fa fa-check"></i><b>6.1.1</b> What to Worry About</a></li>
+<li class="chapter" data-level="6.1.2" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#controlling-and-assembling"><i class="fa fa-check"></i><b>6.1.2</b> Controlling and Assembling</a></li>
+<li class="chapter" data-level="6.1.3" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#other-options"><i class="fa fa-check"></i><b>6.1.3</b> Other Options</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html"><i class="fa fa-check"></i><b>7</b> Score Analysis Set-Up</a><ul>
+<li class="chapter" data-level="7.1" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#defining-the-phenotypes"><i class="fa fa-check"></i><b>7.1</b> Defining the Phenotypes</a></li>
+<li class="chapter" data-level="7.2" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#making-the-phenotype"><i class="fa fa-check"></i><b>7.2</b> Making the Phenotype</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tuning.html"><a href="tuning.html"><i class="fa fa-check"></i><b>8</b> Tuning</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="adjusting-summary-statistics" class="section level1">
+<h1><span class="header-section-number">5</span> Adjusting Summary Statistics</h1>
+<p>The main thrust of this project, and a key step in any polygenic risk scoring process, is adjusting summary statistics. In short, adjusting summary statistics are nescessary because as they stand linkage disequilibrium and a possible high prevelance of false positives will severly limit the predictive ability contained within the underlying GWAS. There are many ways to actually carry out this adjustment. In fact, there are quite a few people who have spent considerable time working on methods to adjust summary statistics with the highest possible accuracy. The problem is that these people do not always leave the greatest doccumentation or instructions. In the following text I will attempt to translate the doccumentation, while pulling from the original publication and possible other sources, to produce a clear and intended scripts for summary statistic adjustment.</p>
+<div id="computational-framework" class="section level3">
+<h3><span class="header-section-number">5.0.1</span> Computational Framework</h3>
+<p>A key consideration in setting up a summary statistic adjustment workflow is time. Many of the adjustment scripts are slow. Therefore, parallelization is a near nescessity to get things done. While I am sure there are fancy systems or clever linux commands, I went with a low-tech bash script. The key idea of the bash script is that it continously runs, beginning a summary statistic adjustment on one chromosome with one method when there is space available. The space determination is made by constantly checking a poss_dirs file. If there is a directory number within a script is begun in the background for adjustment. On its completion it will return the name of its directory to the poss_dirs file. In the mean time a while loop with a wait function keeps everything active until this time comes. The other important consideration is independence. At the top of this script directories that contain intermediate files are emptied, leaving room for a clean starting place.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb37-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="va">maxDirs=</span>8</a>
+<a class="sourceLine" id="cb37-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb37-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb37-5" data-line-number="5">	<span class="fu">rm</span> temp_files/*</a>
+<a class="sourceLine" id="cb37-6" data-line-number="6">	<span class="fu">rm</span> logs/*</a>
+<a class="sourceLine" id="cb37-7" data-line-number="7">	<span class="fu">rm</span> done_check/*</a>
+<a class="sourceLine" id="cb37-8" data-line-number="8">	<span class="fu">rm</span> -r comp_zone/*</a>
+<a class="sourceLine" id="cb37-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb37-10" data-line-number="10">	<span class="kw">for</span> <span class="kw">((</span> i=1; i&lt;=<span class="va">$maxDirs</span>; i++ <span class="kw">))</span>; <span class="kw">do</span></a>
+<a class="sourceLine" id="cb37-11" data-line-number="11">		<span class="fu">mkdir</span> comp_zone/dir<span class="va">$i</span></a>
+<a class="sourceLine" id="cb37-12" data-line-number="12">		<span class="bu">echo</span> <span class="va">$i</span> <span class="op">&gt;&gt;</span> temp_files/poss_dirs</a>
+<a class="sourceLine" id="cb37-13" data-line-number="13">	<span class="kw">done</span></a>
+<a class="sourceLine" id="cb37-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb37-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb37-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb37-17" data-line-number="17">	<span class="fu">cat</span> all_specs/chr_specs <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">chr</span>; <span class="kw">do</span></a>
+<a class="sourceLine" id="cb37-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb37-19" data-line-number="19">		<span class="fu">cat</span> all_specs/author_specs <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">author</span>; <span class="kw">do</span>		</a>
+<a class="sourceLine" id="cb37-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb37-21" data-line-number="21">			<span class="ex">./setup_data.sh</span> <span class="va">$author</span> <span class="va">$chr</span></a>
+<a class="sourceLine" id="cb37-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb37-23" data-line-number="23">			<span class="fu">cat</span> all_specs/method_specs <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">method</span>; <span class="kw">do</span></a>
+<a class="sourceLine" id="cb37-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb37-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb37-26" data-line-number="26">				<span class="bu">echo</span> about to hermes</a>
+<a class="sourceLine" id="cb37-27" data-line-number="27">				<span class="ex">./hermes.sh</span> <span class="va">$chr</span> <span class="va">$method</span> <span class="va">$author</span> <span class="op">&amp;&gt;</span> logs/<span class="va">${author}</span>.<span class="va">${chr}</span>.<span class="va">${method}</span>.log <span class="kw">&amp;</span></a>
+<a class="sourceLine" id="cb37-28" data-line-number="28">				<span class="fu">sleep</span> <span class="va">$((</span> ( RANDOM % 30 )  + 1 <span class="va">))</span></a>
+<a class="sourceLine" id="cb37-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb37-30" data-line-number="30">				<span class="va">goOn=</span>False</a>
+<a class="sourceLine" id="cb37-31" data-line-number="31">				<span class="kw">while</span><span class="bu"> [</span> <span class="va">$goOn</span> <span class="ot">==</span> <span class="st">&quot;False&quot;</span><span class="bu"> ]</span>; <span class="kw">do</span></a>
+<a class="sourceLine" id="cb37-32" data-line-number="32">					<span class="va">openSlots=</span><span class="kw">`</span><span class="fu">cat</span> temp_files/poss_dirs <span class="kw">|</span> <span class="fu">wc</span> -l<span class="kw">`</span></a>
+<a class="sourceLine" id="cb37-33" data-line-number="33">					<span class="kw">if</span><span class="bu"> [</span> <span class="va">$openSlots</span> <span class="ot">-gt</span> 0<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb37-34" data-line-number="34">						<span class="bu">echo</span> NOW WE CAN GO</a>
+<a class="sourceLine" id="cb37-35" data-line-number="35">						<span class="va">goOn=</span>True</a>
+<a class="sourceLine" id="cb37-36" data-line-number="36">					<span class="kw">else</span></a>
+<a class="sourceLine" id="cb37-37" data-line-number="37">						<span class="bu">echo</span> MUST WAIT FOR ROOM TO GO</a>
+<a class="sourceLine" id="cb37-38" data-line-number="38">						<span class="fu">sleep</span> <span class="va">$((</span> ( RANDOM % 30 )  + 1 <span class="va">))</span></a>
+<a class="sourceLine" id="cb37-39" data-line-number="39">						<span class="va">openSlots=</span><span class="kw">`</span><span class="fu">cat</span> temp_files/poss_dirs <span class="kw">|</span> <span class="fu">wc</span> -l<span class="kw">`</span></a>
+<a class="sourceLine" id="cb37-40" data-line-number="40">					<span class="kw">fi</span></a>
+<a class="sourceLine" id="cb37-41" data-line-number="41">				<span class="kw">done</span></a>
+<a class="sourceLine" id="cb37-42" data-line-number="42"></a>
+<a class="sourceLine" id="cb37-43" data-line-number="43">			<span class="kw">done</span>		</a>
+<a class="sourceLine" id="cb37-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb37-45" data-line-number="45">			<span class="ex">./check_to_delete.sh</span></a>
+<a class="sourceLine" id="cb37-46" data-line-number="46"></a>
+<a class="sourceLine" id="cb37-47" data-line-number="47">		<span class="kw">done</span></a>
+<a class="sourceLine" id="cb37-48" data-line-number="48">	<span class="kw">done</span></a></code></pre></div>
+<p>Note that if instead of having a multi-score laptop or other large computer you have a cluster submission system you can likely change this script slightly so that hermes.sh is not submitted to the background but instead is just submitted to your cluster management system. Perhaps I will write this option in soon.</p>
+<p>#Should have some sort of graphic indicating what is going on</p>
+<p>As can be seen, the actual adjustment is launched through the script hermes.sh (an ode to swift completion). At the top of hermes.sh some quick file re-writing claims the directory, and therefore slot to run an adjustment. Then the method specific script is called. An important consideration is the taskset command, which will limit the descrending computation to a select number of clusters. Finally, once the method is complete the directory name is returned to poss_dirs and the directory that contained all of the computation is emptied. Just as before everything was a wrapper for hermes.sh, here everything is a wrapper for the details within the method specific script.</p>
+</div>
+<div id="simple" class="section level2">
+<h2><span class="header-section-number">5.1</span> Simple</h2>
+<p>The simple methods are not really methods at all, but rather the most primitive subsetting that has been considered in the past and therefore for the sake of completeness will be considered here as well. Specifically, these methods simply threshold the summary statistics based on a p-value cut off. The first uses the genome-wide signficance threshold of 5e-8, the second uses the sometimes cited genome-wide interesting or suggested level of 1e-6, the third keeps every SNP possible, and the fourth keeps SNPs with p-values above 0.5. The idea is that the final method can act as a false negative, i.e. if it returns any predictive value we know something is likely going wrong.</p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="va">chr=$1</span></a>
+<a class="sourceLine" id="cb38-2" data-line-number="2"><span class="va">author=$2</span></a>
+<a class="sourceLine" id="cb38-3" data-line-number="3"><span class="va">dir=$3</span></a>
+<a class="sourceLine" id="cb38-4" data-line-number="4"><span class="va">low_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$author</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb38-5" data-line-number="5"><span class="va">d=</span>comp_zone/dir<span class="va">${dir}</span></a>
+<a class="sourceLine" id="cb38-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb38-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb38-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb38-9" data-line-number="9"><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-e</span> ~/athena/doc_score/mod_sets/<span class="va">${author}</span>/<span class="va">${low_author}</span>.simple.1.ss<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb38-10" data-line-number="10">  <span class="fu">cat</span> temp_files/ss.<span class="va">${low_author}</span>.<span class="va">${chr}</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;$8 &lt; 5e-8 {print $0}&#39;</span> <span class="op">&gt;</span> ~/athena/doc_score/mod_sets/<span class="va">${author}</span>/<span class="va">${low_author}</span>.<span class="va">${chr}</span>.simple.1.ss</a>
+<a class="sourceLine" id="cb38-11" data-line-number="11"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb38-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb38-13" data-line-number="13"><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-e</span> ~/athena/doc_score/mod_sets/<span class="va">${author}</span>/<span class="va">${low_author}</span>.simple.2.ss<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb38-14" data-line-number="14">  <span class="fu">cat</span> temp_files/ss.<span class="va">${low_author}</span>.<span class="va">${chr}</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;$8 &lt; 1e-6 {print $0}&#39;</span> <span class="op">&gt;</span> ~/athena/doc_score/mod_sets/<span class="va">${author}</span>/<span class="va">${low_author}</span>.<span class="va">${chr}</span>.simple.2.ss</a>
+<a class="sourceLine" id="cb38-15" data-line-number="15"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb38-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb38-17" data-line-number="17"><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-e</span> ~/athena/doc_score/mod_sets/<span class="va">${author}</span>/<span class="va">${low_author}</span>.simple.3.ss<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb38-18" data-line-number="18">  <span class="fu">cat</span> temp_files/ss.<span class="va">${low_author}</span>.<span class="va">${chr}</span> <span class="op">&gt;</span> ~/athena/doc_score/mod_sets/<span class="va">${author}</span>/<span class="va">${low_author}</span>.<span class="va">${chr}</span>.simple.3.ss</a>
+<a class="sourceLine" id="cb38-19" data-line-number="19"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb38-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb38-21" data-line-number="21"><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-e</span> ~/athena/doc_score/mod_sets/<span class="va">${author}</span>/<span class="va">${low_author}</span>.simple.4.ss<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb38-22" data-line-number="22">  <span class="fu">cat</span> temp_files/ss.<span class="va">${low_author}</span>.<span class="va">${chr}</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="st">&#39;$8 &gt; 0.5 {print $0}&#39;</span> <span class="op">&gt;</span> ~/athena/doc_score/mod_sets/<span class="va">${author}</span>/<span class="va">${low_author}</span>.<span class="va">${chr}</span>.simple.4.ss</a>
+<a class="sourceLine" id="cb38-23" data-line-number="23"><span class="kw">fi</span></a></code></pre></div>
+<p>Note there is not any single publication or doccumentation linked to these “methods”, they are just a natural starting place for making scores.</p>
+</div>
+<div id="clumping" class="section level2">
+<h2><span class="header-section-number">5.2</span> Clumping</h2>
+<p>The next, most common method involves clumping, which is an intelligent method to threshold SNPs based on their p-value while limiting false positives caused by linkage disequilibrium. Specifically, this is done by limiting a significant locus to maintaining only one SNP in the adjusted summary statistics. The size of this locus is determined by a r-squared parameter. While it is likely possible to write your own clumping algorithm, I and I assume most other people use PLINK, a tool with amazing doccumentation. The two obvious clumping parameters are the p-value and r2. An array of 3 values for each are chosen, leading to 9 total clumped summary statistics. The final parameter is the genotype file that generated the LD information. Many methods that I will be using require LD information. Frustratingly, the exact choice of LD information often varies based on the originating publication. As there is actually not any publication to specifically go along with clump the choice here is not well-informed. I have assumed using the UKBB is a good choice, and because it is computationally easy to do so I will employ the full possible sample size.</p>
+<p>A final consideration that is not always apparent is that sometimes the clumping algorithm leaves zero SNPs. In this case we need an if statement to reveal that nothing should be done. If there are SNPs remaining then we simply subset the input to these SNPs and pass them on.</p>
+<div class="sourceCode" id="cb39"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb39-1" data-line-number="1"><span class="va">chr=$1</span></a>
+<a class="sourceLine" id="cb39-2" data-line-number="2"><span class="va">author=$2</span></a>
+<a class="sourceLine" id="cb39-3" data-line-number="3"><span class="va">dir=$3</span></a>
+<a class="sourceLine" id="cb39-4" data-line-number="4"><span class="va">low_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$author</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb39-5" data-line-number="5"><span class="va">d=</span>comp_zone/dir<span class="va">${dir}</span></a>
+<a class="sourceLine" id="cb39-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb39-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb39-8" data-line-number="8"><span class="va">i=</span>1</a>
+<a class="sourceLine" id="cb39-9" data-line-number="9"><span class="fu">cat</span> all_specs/clump_param_specs <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">spec</span>;<span class="kw">do</span></a>
+<a class="sourceLine" id="cb39-10" data-line-number="10">  <span class="va">plim=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$spec</span> <span class="kw">|</span> <span class="fu">cut</span> -f1 -d<span class="st">&#39; &#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb39-11" data-line-number="11">  <span class="va">r2lim=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$spec</span> <span class="kw">|</span> <span class="fu">cut</span> -f2 -d<span class="st">&#39; &#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb39-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb39-13" data-line-number="13">  <span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-e</span> ~/athena/doc_score/mod_sets/<span class="va">${author}</span>/<span class="va">${low_author}</span>.clump.<span class="va">${i}</span>.ss<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb39-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb39-15" data-line-number="15">    <span class="ex">plink</span> --memory 4000 --threads 1 --bfile geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span> --clump temp_files/ss.<span class="va">${low_author}</span>.<span class="va">${chr}</span> --clump-snp-field RSID --clump-p1 <span class="va">$plim</span> --clump-r2 <span class="va">$r2lim</span> --out <span class="va">${d}</span>/out</a>
+<a class="sourceLine" id="cb39-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb39-17" data-line-number="17">    <span class="kw">if</span><span class="bu"> [</span> <span class="ot">-f</span> <span class="va">${d}</span>/out.clumped<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb39-18" data-line-number="18">      <span class="fu">sed</span> -e <span class="st">&#39;s/ [ ]*/\t/g&#39;</span> <span class="va">${d}</span>/out.clumped <span class="kw">|</span> <span class="fu">sed</span> <span class="st">&#39;/^\s*$/d&#39;</span> <span class="kw">|</span> <span class="fu">cut</span> -f4 <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="op">&gt;</span> <span class="va">${d}</span>/done_rsids</a>
+<a class="sourceLine" id="cb39-19" data-line-number="19">      <span class="fu">fgrep</span> -w -f <span class="va">${d}</span>/done_rsids temp_files/ss.<span class="va">${low_author}</span>.<span class="va">${chr}</span> <span class="op">&gt;</span> ~/athena/doc_score/mod_sets/<span class="va">${author}</span>/<span class="va">${low_author}</span>.<span class="va">${chr}</span>.clump.<span class="va">${i}</span>.ss</a>
+<a class="sourceLine" id="cb39-20" data-line-number="20">    <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb39-21" data-line-number="21">  <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb39-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb39-23" data-line-number="23">  <span class="bu">let</span> i=i+1</a>
+<a class="sourceLine" id="cb39-24" data-line-number="24"><span class="kw">done</span></a></code></pre></div>
+<p>More specifics on the doccumentation are described: <a href="https://www.cog-genomics.org/plink/1.9/postproc#clump" class="uri">https://www.cog-genomics.org/plink/1.9/postproc#clump</a></p>
+</div>
+<div id="double-weight" class="section level2">
+<h2><span class="header-section-number">5.3</span> Double Weight</h2>
+<p>Increasing from complexity is double weight scores. The motivation is that whenever a hard threshold is chosen the SNPs that are included within the score are hit by a winner’s curse. The corresponding publication explains “by selecting only SNPs with estimated p-values below a certain threshold, one systematically selects SNPs with effect overestimated by chance. Thus, for a large proportion of selected SNPs, betas will be a biased estimate for the true weight”. Mathematically we can think about this comparing the current polygenic risk score format:</p>
+<p><span class="math display">\[PGS=\sum_{i=1}^{k}I(p_i&lt;p^*)\hat{\beta}X_i\]</span></p>
+<p>to a winner’s curse aware format:</p>
+<p><span class="math display">\[PGS=\sum_{i=1}^{k}\hat{\pi}(X_i)\hat{\beta}X_i\]</span></p>
+<p>Here we replace an indicator function that is either 0 or 1 with a probability of inclusion within a set of top Z number SNPs, where Z can be any positive integer less than your total number of available SNPs. The next decision is determining how to calculate the <span class="math inline">\(\hat{\pi}\)</span> term. The originating paper, within the supplementary states we should generate a sample of values for each SNP from a normal distribution specificed by <span class="math inline">\(N(\hat{\beta}, \hat{SE}^2)\)</span> (or at least that’s how I interpreted the variable definitions). We then estimate how many times our sample for the SNP is within the top Z number of SNPs. The paper goes onto to mention a wald type statistic, but I could not fully determine how one would best calculate this statistic. The approach I took is likely best described within the following R script.</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">args &lt;-<span class="st"> </span><span class="kw">commandArgs</span>(<span class="dt">trailingOnly=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb40-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb40-3" data-line-number="3">d &lt;-<span class="st"> </span>args[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb40-4" data-line-number="4">top_choice &lt;-<span class="st"> </span>args[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb40-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb40-6" data-line-number="6"><span class="co">#must make sure the number of requested top ranks SNPs is less than the total number of available SNPs</span></a>
+<a class="sourceLine" id="cb40-7" data-line-number="7">ss &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(d, <span class="st">&quot;/specific_ss&quot;</span>), <span class="dt">stringsAsFactors=</span>F)</a>
+<a class="sourceLine" id="cb40-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb40-9" data-line-number="9"><span class="cf">if</span>(top_choice <span class="op">&lt;</span><span class="st"> </span><span class="kw">nrow</span>(ss)){</a>
+<a class="sourceLine" id="cb40-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb40-11" data-line-number="11">  <span class="co">#construct a matrix with ncols = number of SNPs, nrows = 100 (sample size for each SNP)</span></a>
+<a class="sourceLine" id="cb40-12" data-line-number="12">  norm_samples &lt;-<span class="st"> </span><span class="kw">apply</span>(ss, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="kw">rnorm</span>(<span class="dv">100</span>, <span class="dt">mean =</span> <span class="kw">as.numeric</span>(x[<span class="dv">7</span>]), <span class="dt">sd =</span> <span class="kw">as.numeric</span>(x[<span class="dv">6</span>])))</a>
+<a class="sourceLine" id="cb40-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb40-14" data-line-number="14">  <span class="co">#for each snp generate a rank of the SNP, note that the dimensions are now swapped from above</span></a>
+<a class="sourceLine" id="cb40-15" data-line-number="15">  rank_samples &lt;-<span class="st"> </span><span class="kw">apply</span>(norm_samples, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="kw">rank</span>(x <span class="op">*</span><span class="st"> </span><span class="dv">-1</span>))</a>
+<a class="sourceLine" id="cb40-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb40-17" data-line-number="17">  <span class="co">#calculate the number of time for each SNP the rank is less than the desired top number of SNPs</span></a>
+<a class="sourceLine" id="cb40-18" data-line-number="18">  prob_ranks &lt;-<span class="st"> </span><span class="kw">apply</span>(rank_samples, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="kw">sum</span>(x <span class="op">&lt;</span><span class="st"> </span>top_choice)<span class="op">/</span><span class="kw">nrow</span>(rank_samples))</a>
+<a class="sourceLine" id="cb40-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb40-20" data-line-number="20">  <span class="co">#multiple the normal beta values by the winner&#39;s curse probability to get an updated beta value</span></a>
+<a class="sourceLine" id="cb40-21" data-line-number="21">  ss[,<span class="dv">7</span>] &lt;-<span class="st"> </span>ss[,<span class="dv">7</span>] <span class="op">*</span><span class="st"> </span>prob_ranks</a>
+<a class="sourceLine" id="cb40-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb40-23" data-line-number="23">  <span class="kw">write.table</span>(ss, <span class="kw">paste0</span>(d, <span class="st">&quot;/adjust_ss&quot;</span>), <span class="dt">col.names =</span> F, <span class="dt">row.names =</span> F, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>, <span class="dt">quote =</span> F)</a>
+<a class="sourceLine" id="cb40-24" data-line-number="24">}</a></code></pre></div>
+<p>Note that this R script is just launched by a short shell script. While short one key component is the PLINK line that subsets the summary statistics to a short subset whose SNPs are ideally not impacted by linkage disequillibrium. The exact parameters utilized are 0.5 for the p-value and 0.05 for R2. In both of the publications I could find that have implemeted this algorithm these are the paramters that were utilized. I therefore did not find the need to change them, especially since their values are not as intrinsic to the idea of double weighting as the parameter of Z important SNPs.</p>
+<p>There may be a variation that more fully agrees with the intended algorithm, but I believe that this is a faithful enough reproduction to accurately evaluate the method’s performance.</p>
+<p>For more information on the algorithm please see: <a href="https://pubmed.ncbi.nlm.nih.gov/27513194/" class="uri">https://pubmed.ncbi.nlm.nih.gov/27513194/</a>, specifically the supplemental for implementation details.</p>
+</div>
+<div id="ldpred" class="section level2">
+<h2><span class="header-section-number">5.4</span> LDpred</h2>
+<p>One of the premier polygenic risk score adjustment algorithms. Rather than using a heuristic, LDpred attempts to provide a rigerous attempt to recreate effect estimates that would be produced if the full genetic information was used in the original estimation process. Further considerations are made to determine the proportion of SNPs that are true causal, and how linkage disequilibrium would change the estimates. The mathematical details are intense, with MCMC algorithms involved, but for the point of application we actually only need to know instillation, application and the troubleshooting processes required (this will be a theme throughout).</p>
+<p>LDpred runs in two steps, coordination and the MCMC algorithm. A key consideration in the initial coordination step is choosing a genotypic file to be the LD reference. The GitHub page reports that a file with over 1,000 unrelated individuals should be used. Within the publication they utilize their validation data set, which varies from about 100,000 to over a million SNPs. For a few of my summary statistics this will present a possible problem, but I think it is fair to test the limits of their algorithm in this way. To speed execution I limited my validation data set to 5,000 individuals for the LD reference. This 5,000 value is five times more than the recommended value so I hope it is a fair step (I am also encouraged to think so due to similar sample sizes used for the reference within the original publication, in fact they regularly had data sets with less than 5,000 individuals). Within another well-cited publication (“Genome-wide polygenic scores for common diseases identify individuals with risk equivalent to monogenic mutations”) the validation data set was not used, and instead the European individuals of the 1000 Genomes Group were. While this group falls below the 1,000 person recommendation, their performance and the accoldates the paper motivates this reference group as a strong alternative. The few remaining considerations concerning the coordination are the sample size given, which was the effective sample size recommended by PLINK, and the type of effect size specified, which is LOGOR, or beta values that were standardized in the previous chapter.</p>
+<p>The next step is entitled gibbs, which is the subtype of the MCMC algorithm. The first two arguments of this step are the outputs of the previous, easy enough. The next is the estimated heritability, which was taken from the consensus value determined in the previous chapter. Next is the f values, or the proportion of SNPs that are believed to be causal. As it is rather difficult to know this a priori, a range of parameters are attempted. The last value is the ld-radius. The value recommended to use is the total number of SNPs (across all chromosomes) divided by 3000. This value, and this value alone was utilized.</p>
+<p>Over the f value and reference genotype options a series of LDpred estimates were generated. The adjusted effect sizes were then subtituted into the original summary statistics to complete the process. Also an important note is that the software does not overwrite the coordination file by default, so if you are trying multiple coordinate set-ups you must manually delete it upon changing. The full code for the process is:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="va">chr=$1</span></a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="va">author=$2</span></a>
+<a class="sourceLine" id="cb41-3" data-line-number="3"><span class="va">dir=$3</span></a>
+<a class="sourceLine" id="cb41-4" data-line-number="4"><span class="va">low_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$author</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb41-5" data-line-number="5"><span class="va">d=</span>comp_zone/dir<span class="va">${dir}</span></a>
+<a class="sourceLine" id="cb41-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb41-7" data-line-number="7"><span class="va">prev_reftype=</span><span class="st">&quot;none&quot;</span></a>
+<a class="sourceLine" id="cb41-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb41-9" data-line-number="9"><span class="va">i=</span>1</a>
+<a class="sourceLine" id="cb41-10" data-line-number="10"><span class="fu">cat</span> all_specs/ldpred_param_specs <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">spec</span>;<span class="kw">do</span></a>
+<a class="sourceLine" id="cb41-11" data-line-number="11">  <span class="va">fval=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$spec</span> <span class="kw">|</span> <span class="fu">cut</span> -f1 -d<span class="st">&#39; &#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb41-12" data-line-number="12">  <span class="va">reftype=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$spec</span> <span class="kw">|</span> <span class="fu">cut</span> -f2 -d<span class="st">&#39; &#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb41-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb41-14" data-line-number="14">  <span class="bu">echo</span> fval <span class="va">$fval</span></a>
+<a class="sourceLine" id="cb41-15" data-line-number="15">  <span class="bu">echo</span> reftype <span class="va">$reftype</span></a>
+<a class="sourceLine" id="cb41-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb41-17" data-line-number="17">  <span class="va">num_snps=</span><span class="kw">`</span><span class="fu">cat</span> ../raw_ss/meta_stats <span class="kw">|</span> <span class="fu">fgrep</span> <span class="va">$author</span> <span class="kw">|</span> <span class="fu">cut</span> -f7 -d<span class="st">&#39;,&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb41-18" data-line-number="18">  <span class="va">h2=</span><span class="kw">`</span><span class="fu">cat</span> ../raw_ss/meta_stats <span class="kw">|</span> <span class="fu">fgrep</span> <span class="va">$author</span> <span class="kw">|</span> <span class="fu">cut</span> -f12 -d<span class="st">&#39;,&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb41-19" data-line-number="19">  <span class="va">rad=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$num_snps</span>/3000 <span class="kw">|</span> <span class="fu">bc</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb41-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb41-21" data-line-number="21">  <span class="kw">if</span><span class="bu"> [</span> <span class="va">$reftype</span> <span class="ot">!=</span> <span class="va">$prev_reftype</span><span class="bu"> ]</span>;<span class="kw">then</span></a>
+<a class="sourceLine" id="cb41-22" data-line-number="22">    <span class="bu">echo</span> removeing ldradius and coordoutput</a>
+<a class="sourceLine" id="cb41-23" data-line-number="23">    <span class="fu">rm</span> <span class="va">${d}</span>/*ldradius*</a>
+<a class="sourceLine" id="cb41-24" data-line-number="24">    <span class="fu">rm</span> <span class="va">${d}</span>/coord_output</a>
+<a class="sourceLine" id="cb41-25" data-line-number="25">  <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb41-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb41-27" data-line-number="27">  <span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-e</span> ~/athena/doc_score/mod_sets/<span class="va">${author}</span>/<span class="va">${low_author}</span>.ldpred.<span class="va">${i}</span>.ss<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb41-28" data-line-number="28">	<span class="bu">echo</span> no ldpred score already exists</a>
+<a class="sourceLine" id="cb41-29" data-line-number="29">	<span class="va">present_cord=</span><span class="kw">`</span><span class="fu">ls</span> <span class="va">${d}</span>/*ldradius* <span class="kw">|</span> <span class="fu">wc</span> -l<span class="kw">`</span></a>
+<a class="sourceLine" id="cb41-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb41-31" data-line-number="31">	<span class="kw">if</span><span class="bu"> [</span> <span class="va">$present_cord</span> <span class="ot">-eq</span> 0<span class="bu"> ]</span>;<span class="kw">then</span></a>
+<a class="sourceLine" id="cb41-32" data-line-number="32">		<span class="bu">echo</span> there is not already a ldradius file present</a>
+<a class="sourceLine" id="cb41-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb41-34" data-line-number="34">		<span class="kw">if</span><span class="bu"> [</span> <span class="va">$reftype</span> <span class="ot">==</span> <span class="st">&quot;TGP&quot;</span><span class="bu"> ]</span>;<span class="kw">then</span></a>
+<a class="sourceLine" id="cb41-35" data-line-number="35">		<span class="co">#1000 genomes</span></a>
+<a class="sourceLine" id="cb41-36" data-line-number="36">		<span class="bu">echo</span> went with TGP</a>
+<a class="sourceLine" id="cb41-37" data-line-number="37">			<span class="ex">ldpred</span> coord --gf ~/athena/refs/1000genomes/eur.<span class="va">${chr}</span> --ssf temp_files/ss.<span class="va">${low_author}</span>.<span class="va">${chr}</span> --ssf-format CUSTOM --rs RSID --A1 A1 --A2 A2 --eff BETA --pos BP --chr CHR --pval P --se SE --ncol ESS --eff_type LOGOR --out <span class="va">${d}</span>/coord_output</a>
+<a class="sourceLine" id="cb41-38" data-line-number="38"></a>
+<a class="sourceLine" id="cb41-39" data-line-number="39">		<span class="kw">else</span></a>
+<a class="sourceLine" id="cb41-40" data-line-number="40">		<span class="co">#UKBB</span></a>
+<a class="sourceLine" id="cb41-41" data-line-number="41">		<span class="bu">echo</span> went with UKB</a>
+<a class="sourceLine" id="cb41-42" data-line-number="42">			<span class="fu">head</span> -5000 geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span>.fam <span class="kw">|</span> <span class="fu">cut</span> -f1 <span class="op">&gt;</span> <span class="va">${d}</span>/subset_inds</a>
+<a class="sourceLine" id="cb41-43" data-line-number="43">			<span class="ex">plink</span> --bfile geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span> --keep-fam <span class="va">${d}</span>/subset_inds --make-bed --out <span class="va">${d}</span>/for_ldpred</a>
+<a class="sourceLine" id="cb41-44" data-line-number="44">			<span class="ex">ldpred</span> coord --gf <span class="va">${d}</span>/for_ldpred --ssf temp_files/ss.<span class="va">${low_author}</span>.<span class="va">${chr}</span> --ssf-format CUSTOM --rs RSID --A1 A1 --A2 A2 --eff BETA --pos BP --chr CHR --pval P --se SE --ncol ESS --eff_type LOGOR --out <span class="va">${d}</span>/coord_output</a>
+<a class="sourceLine" id="cb41-45" data-line-number="45">		<span class="kw">fi</span></a>
+<a class="sourceLine" id="cb41-46" data-line-number="46">	<span class="kw">fi</span></a>
+<a class="sourceLine" id="cb41-47" data-line-number="47"></a>
+<a class="sourceLine" id="cb41-48" data-line-number="48">	<span class="ex">ldpred</span> gibbs --cf <span class="va">${d}</span>/coord_output --ldf <span class="va">${d}</span>/ld_file --h2 <span class="va">$h2</span> --ldr <span class="va">$rad</span> --f <span class="va">$fval</span> --out <span class="va">${d}</span>/ldpred.<span class="va">${i}</span>.res</a>
+<a class="sourceLine" id="cb41-49" data-line-number="49">        <span class="va">new_file=</span><span class="kw">`</span><span class="fu">ls</span>  <span class="va">${d}</span>/ldpred.<span class="va">${i}</span>.res_LDpred_p* <span class="kw">|</span> <span class="fu">wc</span> -l<span class="kw">`</span></a>
+<a class="sourceLine" id="cb41-50" data-line-number="50">        <span class="kw">if</span><span class="bu"> [</span> <span class="va">$new_file</span> <span class="ot">-gt</span> 0<span class="bu"> ]</span>;<span class="kw">then</span></a>
+<a class="sourceLine" id="cb41-51" data-line-number="51">	  <span class="bu">echo</span> found new file</a>
+<a class="sourceLine" id="cb41-52" data-line-number="52">          <span class="va">new_file_name=</span><span class="kw">`</span><span class="fu">ls</span>  <span class="va">${d}</span>/ldpred.<span class="va">${i}</span>.res_LDpred_p*<span class="kw">`</span></a>
+<a class="sourceLine" id="cb41-53" data-line-number="53">	  <span class="bu">echo</span> it is <span class="va">$new_file_name</span></a>
+<a class="sourceLine" id="cb41-54" data-line-number="54">          <span class="ex">Rscript</span> helper_scripts/ldpred_beta_switch.R dir<span class="va">$dir</span> <span class="va">$new_file_name</span> <span class="va">$author</span> <span class="va">$chr</span> <span class="va">$i</span></a>
+<a class="sourceLine" id="cb41-55" data-line-number="55">        <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb41-56" data-line-number="56">	<span class="va">prev_reftpye=$reftype</span></a>
+<a class="sourceLine" id="cb41-57" data-line-number="57"></a>
+<a class="sourceLine" id="cb41-58" data-line-number="58">  <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb41-59" data-line-number="59"></a>
+<a class="sourceLine" id="cb41-60" data-line-number="60">  <span class="bu">let</span> i=i+1</a>
+<a class="sourceLine" id="cb41-61" data-line-number="61"><span class="kw">done</span></a></code></pre></div>
+<p>For more information I would (and have) read the originial publication, <a href="https://www.cell.com/ajhg/fulltext/S0002-9297(15)00365-1" class="uri">https://www.cell.com/ajhg/fulltext/S0002-9297(15)00365-1</a>, follow the GitHub instructions, <a href="https://github.com/bvilhjal/ldpred" class="uri">https://github.com/bvilhjal/ldpred</a>, or use the bitbucket instructions, <a href="https://bitbucket.org/bjarni_vilhjalmsson/ldpred/src/master/" class="uri">https://bitbucket.org/bjarni_vilhjalmsson/ldpred/src/master/</a>. I think the best instructions are from the direct doccumentation accessed with -h.</p>
+</div>
+<div id="ldpred2" class="section level2">
+<h2><span class="header-section-number">5.5</span> LDpred2</h2>
+<p>While LDpred is a premier method, there are few additional options and computational limitations that the authors believed should be resolved in an entirely new method implementation. Specifically, LDpred2 is implemented within the bigsnpr package, and therefore required all files to be read into a R environment (compared to previously where things were managed as calls to a python script). I will briefly describe some of the important components of my implementation of the online vignette, which I used to base my own implementation.</p>
+<p>The first step is loading in the the genotype file that will be used as the linkage disequillibrium. While there was some difficulty in picking a single reference in LDpred, in this implementation the associated publication clearly states that 10,000 UK Biobank individuals were utilized. Specifically, those of white, British ancestry and with imputed SNPs. However, I should note that on initial applications I recieved errors on the genotypic correlation matrix exceeding the maximum vector size. To fix this problem I followed the publication and restricted the possible SNPs to those from HapMap (specifically within a file of the vignette). As I easily have all of those pieces I can easily and quickly load them in.</p>
+<p>The next big step is calculating the genotypic correlation matrix. This is by far the longest step in the process. The size of the correlation was chosen as 3cM as recommended in the vignette. Following I read in the consensus heritability, then set up a grid of paramters to analyze upon. The vignette contained over 100 sets of parameters, to prevent overfitting on my larger validation set I did not want to create this number of scores for each method, therefore I reduced the paramters investigated. With the parameters, genotypic correlation and read-in summary statistics the snp_ldpred2_grid command can actually be called to adjust the effect sizes. The output from this command can then be substituted into the original summary statistics and then written to produce the final adjusted summary statistics.</p>
+<p>As in the double weight set up, this method is carried with an initial shell script that prepares the genotypic files.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb42-1" data-line-number="1"><span class="va">chr=$1</span></a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="va">author=$2</span></a>
+<a class="sourceLine" id="cb42-3" data-line-number="3"><span class="va">dir=$3</span></a>
+<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="va">d=</span>comp_zone/dir<span class="va">${dir}</span></a>
+<a class="sourceLine" id="cb42-5" data-line-number="5"><span class="va">low_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$author</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb42-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb42-7" data-line-number="7"><span class="fu">head</span> -10000 geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span>.fam <span class="kw">|</span> <span class="fu">cut</span> -f1 <span class="op">&gt;</span> <span class="va">${d}</span>/subset_inds</a>
+<a class="sourceLine" id="cb42-8" data-line-number="8"><span class="ex">plink</span> --bfile geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span> --keep-fam <span class="va">${d}</span>/subset_inds --extract ~/athena/refs/hapmap_from_ldpred2 --make-bed --out <span class="va">${d}</span>/for_ldpred2</a>
+<a class="sourceLine" id="cb42-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb42-10" data-line-number="10"><span class="ex">Rscript</span> helper_scripts/ldpred2.R <span class="va">$chr</span> <span class="va">$author</span> <span class="va">$d</span></a></code></pre></div>
+<p>The main point of this shell script is calling a R script, which looks like:</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">library</span>(bigsnpr)</a>
+<a class="sourceLine" id="cb43-2" data-line-number="2"><span class="co">#source(&quot;helper_scripts/snp_as_genetic.R&quot;)</span></a>
+<a class="sourceLine" id="cb43-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb43-4" data-line-number="4">args &lt;-<span class="st"> </span><span class="kw">commandArgs</span>(<span class="dt">trailingOnly=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb43-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb43-6" data-line-number="6">chr &lt;-<span class="st"> </span>args[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb43-7" data-line-number="7">author &lt;-<span class="st"> </span>args[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb43-8" data-line-number="8">d &lt;-<span class="st"> </span>args[<span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb43-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb43-10" data-line-number="10">lowauthor &lt;-<span class="st"> </span><span class="kw">tolower</span>(author)</a>
+<a class="sourceLine" id="cb43-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb43-12" data-line-number="12"><span class="co">#read in the genotypic data</span></a>
+<a class="sourceLine" id="cb43-13" data-line-number="13"><span class="cf">if</span>(<span class="op">!</span><span class="kw">file.exists</span>(<span class="kw">paste0</span>(d, <span class="st">&quot;/for_ldpred2.rds&quot;</span>))){</a>
+<a class="sourceLine" id="cb43-14" data-line-number="14">  <span class="kw">snp_readBed</span>(<span class="kw">paste0</span>(d, <span class="st">&quot;/for_ldpred2.bed&quot;</span>))</a>
+<a class="sourceLine" id="cb43-15" data-line-number="15">}</a>
+<a class="sourceLine" id="cb43-16" data-line-number="16">obj.bigSNP &lt;-<span class="st"> </span><span class="kw">snp_attach</span>(<span class="kw">paste0</span>(d, <span class="st">&quot;/for_ldpred2.rds&quot;</span>))</a>
+<a class="sourceLine" id="cb43-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb43-18" data-line-number="18"><span class="co">#split up genotypic data as described</span></a>
+<a class="sourceLine" id="cb43-19" data-line-number="19">G   &lt;-<span class="st"> </span>obj.bigSNP<span class="op">$</span>genotypes</a>
+<a class="sourceLine" id="cb43-20" data-line-number="20">CHR &lt;-<span class="st"> </span>obj.bigSNP<span class="op">$</span>map<span class="op">$</span>chromosome</a>
+<a class="sourceLine" id="cb43-21" data-line-number="21">POS &lt;-<span class="st"> </span>obj.bigSNP<span class="op">$</span>map<span class="op">$</span>physical.pos</a>
+<a class="sourceLine" id="cb43-22" data-line-number="22">y   &lt;-<span class="st"> </span>obj.bigSNP<span class="op">$</span>fam<span class="op">$</span>affection <span class="op">-</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb43-23" data-line-number="23">NCORES &lt;-<span class="st"> </span><span class="kw">nb_cores</span>()</a>
+<a class="sourceLine" id="cb43-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb43-25" data-line-number="25"><span class="co">#read in the summary stats</span></a>
+<a class="sourceLine" id="cb43-26" data-line-number="26">sumstats &lt;-<span class="st"> </span>bigreadr<span class="op">::</span><span class="kw">fread2</span>(<span class="kw">paste0</span>(<span class="st">&quot;temp_files/ss.&quot;</span>, lowauthor, <span class="st">&quot;.&quot;</span>, chr))</a>
+<a class="sourceLine" id="cb43-27" data-line-number="27"><span class="kw">colnames</span>(sumstats) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;chr&quot;</span>, <span class="st">&quot;pos&quot;</span>, <span class="st">&quot;rsid&quot;</span>, <span class="st">&quot;a0&quot;</span>, <span class="st">&quot;a1&quot;</span>, <span class="st">&quot;beta_se&quot;</span>, <span class="st">&quot;beta&quot;</span>, <span class="st">&quot;p&quot;</span>, <span class="st">&quot;n_eff&quot;</span>)</a>
+<a class="sourceLine" id="cb43-28" data-line-number="28">sumatsts &lt;-<span class="st"> </span>sumstats[sumstats<span class="op">$</span>beta_se <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>,]</a>
+<a class="sourceLine" id="cb43-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb43-30" data-line-number="30"><span class="co">#run snp_match (likely can skip since I do this earlier)</span></a>
+<a class="sourceLine" id="cb43-31" data-line-number="31">map &lt;-<span class="st"> </span>obj.bigSNP<span class="op">$</span>map[<span class="op">-</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">3</span>)]</a>
+<a class="sourceLine" id="cb43-32" data-line-number="32"><span class="kw">names</span>(map) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;chr&quot;</span>, <span class="st">&quot;pos&quot;</span>, <span class="st">&quot;a0&quot;</span>, <span class="st">&quot;a1&quot;</span>)</a>
+<a class="sourceLine" id="cb43-33" data-line-number="33">info_snp &lt;-<span class="st"> </span><span class="kw">snp_match</span>(sumstats, map, <span class="dt">join_by_pos =</span> T)</a>
+<a class="sourceLine" id="cb43-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb43-35" data-line-number="35"><span class="co">#Calculate the LD correlation matrix</span></a>
+<a class="sourceLine" id="cb43-36" data-line-number="36"><span class="kw">print</span>(<span class="st">&quot;calc the corr matrix&quot;</span>)</a>
+<a class="sourceLine" id="cb43-37" data-line-number="37">POS2 &lt;-<span class="st"> </span><span class="kw">snp_asGeneticPos</span>(CHR, POS, <span class="dt">dir =</span> <span class="st">&quot;temp_files&quot;</span>, <span class="dt">ncores =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb43-38" data-line-number="38">df_beta &lt;-<span class="st"> </span>info_snp[, <span class="kw">c</span>(<span class="st">&quot;beta&quot;</span>, <span class="st">&quot;beta_se&quot;</span>, <span class="st">&quot;n_eff&quot;</span>)]</a>
+<a class="sourceLine" id="cb43-39" data-line-number="39">corr0 &lt;-<span class="st"> </span><span class="kw">snp_cor</span>(G, <span class="dt">ncores =</span> NCORES, <span class="dt">infos.pos =</span> POS2, <span class="dt">size =</span> <span class="dv">3</span> <span class="op">/</span><span class="st"> </span><span class="dv">1000</span>)</a>
+<a class="sourceLine" id="cb43-40" data-line-number="40">corr &lt;-<span class="st"> </span>bigsparser<span class="op">::</span><span class="kw">as_SFBM</span>(<span class="kw">as</span>(corr0, <span class="st">&quot;dgCMatrix&quot;</span>))</a>
+<a class="sourceLine" id="cb43-41" data-line-number="41"></a>
+<a class="sourceLine" id="cb43-42" data-line-number="42"><span class="co">#Get the heritability</span></a>
+<a class="sourceLine" id="cb43-43" data-line-number="43"><span class="kw">print</span>(<span class="st">&quot;getting h2&quot;</span>)</a>
+<a class="sourceLine" id="cb43-44" data-line-number="44">h2 &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;../raw_ss/meta_stats&quot;</span>, <span class="dt">stringsAsFactors=</span>F, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">header=</span>T)</a>
+<a class="sourceLine" id="cb43-45" data-line-number="45">h2 &lt;-<span class="st"> </span>h2<span class="op">$</span>h2[h2<span class="op">$</span>author <span class="op">==</span><span class="st"> </span>author]</a>
+<a class="sourceLine" id="cb43-46" data-line-number="46"></a>
+<a class="sourceLine" id="cb43-47" data-line-number="47"><span class="co">#Actually run ldpred2</span></a>
+<a class="sourceLine" id="cb43-48" data-line-number="48"><span class="kw">print</span>(<span class="st">&quot;run ldpred2 inf&quot;</span>)</a>
+<a class="sourceLine" id="cb43-49" data-line-number="49">beta_inf &lt;-<span class="st"> </span><span class="kw">snp_ldpred2_inf</span>(corr, df_beta, <span class="dt">h2 =</span> h2)</a>
+<a class="sourceLine" id="cb43-50" data-line-number="50"></a>
+<a class="sourceLine" id="cb43-51" data-line-number="51"><span class="co">#set up parameters for the non-inf version</span></a>
+<a class="sourceLine" id="cb43-52" data-line-number="52">h2_seq &lt;-<span class="st"> </span><span class="kw">round</span>(h2 <span class="op">*</span><span class="st"> </span><span class="kw">c</span>(<span class="fl">0.7</span>, <span class="dv">1</span>, <span class="fl">1.4</span>), <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb43-53" data-line-number="53">p_seq &lt;-<span class="st"> </span><span class="kw">signif</span>(<span class="kw">seq_log</span>(<span class="fl">1e-4</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="dv">4</span>), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb43-54" data-line-number="54">params &lt;-<span class="st"> </span><span class="kw">expand.grid</span>(<span class="dt">p =</span> p_seq, <span class="dt">h2 =</span> h2_seq, <span class="dt">sparse =</span> <span class="kw">c</span>(<span class="ot">FALSE</span>, <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb43-55" data-line-number="55"></a>
+<a class="sourceLine" id="cb43-56" data-line-number="56"><span class="co">#run ldpred2 over all the parameters</span></a>
+<a class="sourceLine" id="cb43-57" data-line-number="57"><span class="kw">print</span>(<span class="st">&quot;run ldpred2 over grid&quot;</span>)</a>
+<a class="sourceLine" id="cb43-58" data-line-number="58">beta_grid &lt;-<span class="st"> </span><span class="kw">snp_ldpred2_grid</span>(corr, df_beta, params, <span class="dt">ncores =</span> NCORES)</a>
+<a class="sourceLine" id="cb43-59" data-line-number="59"></a>
+<a class="sourceLine" id="cb43-60" data-line-number="60"><span class="co">#write the results to mod_sets</span></a>
+<a class="sourceLine" id="cb43-61" data-line-number="61"><span class="kw">print</span>(<span class="st">&quot;writing the results&quot;</span>)</a>
+<a class="sourceLine" id="cb43-62" data-line-number="62">ss &lt;-<span class="st"> </span>info_snp[,<span class="dv">1</span><span class="op">:</span><span class="dv">9</span>]</a>
+<a class="sourceLine" id="cb43-63" data-line-number="63">ss<span class="op">$</span>beta &lt;-<span class="st"> </span>beta_inf</a>
+<a class="sourceLine" id="cb43-64" data-line-number="64"><span class="kw">write.table</span>(ss, <span class="kw">paste0</span>(<span class="st">&quot;../mod_sets/&quot;</span>, author, <span class="st">&quot;/&quot;</span>, lowauthor, <span class="st">&quot;.&quot;</span>, chr,  <span class="st">&quot;.ldpred2.1.ss&quot;</span>), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> T, <span class="dt">quote =</span> F, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>)</a>
+<a class="sourceLine" id="cb43-65" data-line-number="65"></a>
+<a class="sourceLine" id="cb43-66" data-line-number="66"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">ncol</span>(beta_grid)){</a>
+<a class="sourceLine" id="cb43-67" data-line-number="67">  ss<span class="op">$</span>beta &lt;-<span class="st"> </span>beta_grid[,i]</a>
+<a class="sourceLine" id="cb43-68" data-line-number="68">  <span class="kw">write.table</span>(ss, <span class="kw">paste0</span>(<span class="st">&quot;../mod_sets/&quot;</span>, author, <span class="st">&quot;/&quot;</span>, lowauthor, <span class="st">&quot;.&quot;</span>, chr,  <span class="st">&quot;.ldpred2.&quot;</span>, i<span class="op">+</span><span class="dv">1</span>, <span class="st">&quot;.ss&quot;</span>), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> T, <span class="dt">quote =</span> F, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>)</a>
+<a class="sourceLine" id="cb43-69" data-line-number="69">}</a></code></pre></div>
+<p>The original vignette is <a href="https://privefl.github.io/bigsnpr/articles/LDpred2.html" class="uri">https://privefl.github.io/bigsnpr/articles/LDpred2.html</a>, and the original publication is <a href="https://www.biorxiv.org/content/10.1101/2020.04.28.066720v1" class="uri">https://www.biorxiv.org/content/10.1101/2020.04.28.066720v1</a>.</p>
+</div>
+<div id="sblup" class="section level2">
+<h2><span class="header-section-number">5.6</span> SBLUP</h2>
+<p>SBLUP, which stands for summary best linear unbiased predictions, attempts to use summary statistics alone to generate BLUP estimates of SNP effect sizes (a similar goal of LDpred). The application of SBLUP is easily completed within the genome-wide complex trait analysis application, a piece of software that is only rivaled by PLINK for its doccumentation and dependability. The first argument of sblup is a genotypic file used for determining a LD correlation matrix. On initial applications I attempeted to use all people within my training set (80,000). While the application did sometimes complete, it was very memory intensive, and slow. Investigating the originating publication I found that in the supplamentary (specifically figure 2) 10,000 individuals were used. In the main text over 7,000 couples were mentioned within an analysis. While more people could have been used in SBLUP, I figured an analysis of 20,000 individuals could be a safe margin on the couples analysis and will give a good picture on whether it performs significantly better than 10,000.</p>
+<p>The second argument of SBLUP is termed cojo-sblup, which is specified to be <span class="math inline">\(m(1/h^2 - 1)\)</span>. This term seem rather important, and turns out to be one of the few parameters worth tuning, therefore I parametrized over three variations in which the heritability term is multipled by 0.7, 1, and 1.3. This way if the heritability was slightly off and the cojo-sblup term is very sensitive I still have the change of obtaining a good set of adjusted summary statistics. The next argument is the cojo-wind term, or the LD radius term. The website recommends 1 Mb even though the default value is 10 Mb. For ease of computation I went with 1 Mb. The final term is the summary statistics, which have to be modified to fit a “ma” format. A key addition in this format is the allele frequency, which was empirically calculated with the UK Biobank full training sample.</p>
+<p>As before, all of the steps were controlled in the following bash script:</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="va">chr=$1</span></a>
+<a class="sourceLine" id="cb44-2" data-line-number="2"><span class="va">author=$2</span></a>
+<a class="sourceLine" id="cb44-3" data-line-number="3"><span class="va">dir=$3</span></a>
+<a class="sourceLine" id="cb44-4" data-line-number="4"><span class="va">low_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$author</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb44-5" data-line-number="5"><span class="va">d=</span>comp_zone/dir<span class="va">${dir}</span></a>
+<a class="sourceLine" id="cb44-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb44-7" data-line-number="7"><span class="va">num_snps=</span><span class="kw">`</span><span class="fu">cat</span> ../raw_ss/meta_stats <span class="kw">|</span> <span class="fu">fgrep</span> <span class="va">$author</span> <span class="kw">|</span> <span class="fu">cut</span> -f7 -d<span class="st">&#39;,&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb44-8" data-line-number="8"><span class="va">h2=</span><span class="kw">`</span><span class="fu">cat</span> ../raw_ss/meta_stats <span class="kw">|</span> <span class="fu">fgrep</span> <span class="va">$author</span> <span class="kw">|</span> <span class="fu">cut</span> -f12 -d<span class="st">&#39;,&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb44-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb44-10" data-line-number="10"><span class="va">i=</span>1</a>
+<a class="sourceLine" id="cb44-11" data-line-number="11"><span class="fu">cat</span> all_specs/sblup_param_specs <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">spec</span>;<span class="kw">do</span></a>
+<a class="sourceLine" id="cb44-12" data-line-number="12">  <span class="va">coef=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$spec</span> <span class="kw">|</span> <span class="fu">cut</span> -f1 -d<span class="st">&#39; &#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb44-13" data-line-number="13">  <span class="va">fam_num=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$spec</span> <span class="kw">|</span> <span class="fu">cut</span> -f2 -d<span class="st">&#39; &#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb44-14" data-line-number="14">  <span class="va">use_h2=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$h2</span><span class="st"> * </span><span class="va">$coef</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">bc</span> -l<span class="kw">`</span></a>
+<a class="sourceLine" id="cb44-15" data-line-number="15">  <span class="va">lambda=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$num_snps</span><span class="st"> * (1/</span><span class="va">$use_h2</span><span class="st"> - 1)&quot;</span> <span class="kw">|</span> <span class="fu">bc</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb44-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb44-17" data-line-number="17">  <span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-e</span> ~/athena/doc_score/mod_sets/<span class="va">${author}</span>/<span class="va">${low_author}</span>.sblup.<span class="va">${i}</span>.ss<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb44-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb44-19" data-line-number="19">    <span class="ex">plink</span> --bfile geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span> --freq --out temp_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span></a>
+<a class="sourceLine" id="cb44-20" data-line-number="20">    <span class="ex">Rscript</span> helper_scripts/add_ma.R <span class="va">$author</span> <span class="va">$chr</span></a>
+<a class="sourceLine" id="cb44-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb44-22" data-line-number="22">    <span class="fu">head</span> -<span class="va">$fam_num</span> geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span>.fam <span class="kw">|</span> <span class="fu">cut</span> -f1 <span class="op">&gt;</span> <span class="va">${d}</span>/subset_inds</a>
+<a class="sourceLine" id="cb44-23" data-line-number="23">    <span class="ex">plink</span> --bfile geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span> --keep-fam <span class="va">${d}</span>/subset_inds --make-bed --out <span class="va">${d}</span>/for_sblup</a>
+<a class="sourceLine" id="cb44-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb44-25" data-line-number="25">    <span class="ex">gcta64</span> --bfile <span class="va">${d}</span>/for_sblup --cojo-file temp_files/ss.<span class="va">${low_author}</span>.<span class="va">${chr}</span>.ma --cojo-sblup <span class="va">$lambda</span> --cojo-wind 100 --thread-num 20 --out <span class="va">${d}</span>/out</a>
+<a class="sourceLine" id="cb44-26" data-line-number="26">    <span class="ex">Rscript</span> helper_scripts/reformat_sblup.R <span class="va">$chr</span> <span class="va">$author</span> <span class="va">$d</span> <span class="va">$i</span></a>
+<a class="sourceLine" id="cb44-27" data-line-number="27">    <span class="fu">rm</span> <span class="va">${d}</span>/for_sblup*</a>
+<a class="sourceLine" id="cb44-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb44-29" data-line-number="29">  <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb44-30" data-line-number="30">  <span class="bu">let</span> i=i+1</a>
+<a class="sourceLine" id="cb44-31" data-line-number="31"><span class="kw">done</span></a></code></pre></div>
+<p>The first needed R script for calculating the “ma” summary statistics is:</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">args &lt;-<span class="st"> </span><span class="kw">commandArgs</span>(<span class="dt">trailingOnly=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb45-2" data-line-number="2">lowauthor &lt;-<span class="st"> </span><span class="kw">tolower</span>(args[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb45-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb45-4" data-line-number="4">bim &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(<span class="st">&quot;geno_files/&quot;</span>, lowauthor, <span class="st">&quot;.&quot;</span>, args[<span class="dv">2</span>], <span class="st">&quot;.bim&quot;</span>), <span class="dt">stringsAsFactors=</span>F)</a>
+<a class="sourceLine" id="cb45-5" data-line-number="5">ss &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(<span class="st">&quot;temp_files/ss.&quot;</span>, lowauthor, <span class="st">&quot;.&quot;</span>, args[<span class="dv">2</span>]), <span class="dt">stringsAsFactors=</span>F, <span class="dt">header=</span>T)</a>
+<a class="sourceLine" id="cb45-6" data-line-number="6">ss &lt;-<span class="st"> </span>ss[ss<span class="op">$</span>RSID <span class="op">%in%</span><span class="st"> </span>bim[,<span class="dv">2</span>],]</a>
+<a class="sourceLine" id="cb45-7" data-line-number="7">frq &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(<span class="st">&quot;temp_files/&quot;</span>, lowauthor, <span class="st">&quot;.&quot;</span>, args[<span class="dv">2</span>], <span class="st">&quot;.frq&quot;</span>), <span class="dt">stringsAsFactors=</span>F, <span class="dt">header=</span>T)</a>
+<a class="sourceLine" id="cb45-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb45-9" data-line-number="9">ss<span class="op">$</span>frq &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">0</span>, <span class="kw">nrow</span>(frq))</a>
+<a class="sourceLine" id="cb45-10" data-line-number="10">ss<span class="op">$</span>frq[ss<span class="op">$</span>A1 <span class="op">==</span><span class="st"> </span>frq<span class="op">$</span>A1] &lt;-<span class="st"> </span>frq<span class="op">$</span>MAF[ss<span class="op">$</span>A1 <span class="op">==</span><span class="st"> </span>frq<span class="op">$</span>A1]</a>
+<a class="sourceLine" id="cb45-11" data-line-number="11">ss<span class="op">$</span>frq[ss<span class="op">$</span>A2 <span class="op">==</span><span class="st"> </span>frq<span class="op">$</span>A1] &lt;-<span class="st"> </span>frq<span class="op">$</span>MAF[ss<span class="op">$</span>A2 <span class="op">==</span><span class="st"> </span>frq<span class="op">$</span>A1]</a>
+<a class="sourceLine" id="cb45-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb45-13" data-line-number="13">ss &lt;-<span class="st"> </span>ss[,<span class="kw">c</span>(<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">10</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">9</span>)]</a>
+<a class="sourceLine" id="cb45-14" data-line-number="14"><span class="kw">colnames</span>(ss) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;SNP&quot;</span>, <span class="st">&quot;A1&quot;</span>, <span class="st">&quot;A2&quot;</span>, <span class="st">&quot;freq&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;se&quot;</span>, <span class="st">&quot;p&quot;</span>, <span class="st">&quot;N&quot;</span>)</a>
+<a class="sourceLine" id="cb45-15" data-line-number="15"><span class="kw">write.table</span>(ss, <span class="kw">paste0</span>(<span class="st">&quot;temp_files/ss.&quot;</span>, lowauthor, <span class="st">&quot;.&quot;</span>, args[<span class="dv">2</span>],<span class="st">&quot;.ma&quot;</span>), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> T, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>, <span class="dt">quote =</span> F)</a></code></pre></div>
+<p>The output file looks a little funky, so a final R script substitutes the adjusted effect into the original summary statistics.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">args &lt;-<span class="st"> </span><span class="kw">commandArgs</span>(<span class="dt">trailingOnly=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb46-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb46-3" data-line-number="3">chr &lt;-<span class="st"> </span>args[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb46-4" data-line-number="4">author &lt;-<span class="st"> </span>args[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb46-5" data-line-number="5">d &lt;-<span class="st"> </span>args[<span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb46-6" data-line-number="6">i &lt;-<span class="st"> </span>args[<span class="dv">4</span>]</a>
+<a class="sourceLine" id="cb46-7" data-line-number="7">lowauthor &lt;-<span class="st"> </span><span class="kw">tolower</span>(author)</a>
+<a class="sourceLine" id="cb46-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb46-9" data-line-number="9">sblup &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(d,<span class="st">&quot;/out.sblup.cojo&quot;</span>), <span class="dt">stringsAsFactors=</span>F)</a>
+<a class="sourceLine" id="cb46-10" data-line-number="10">ss &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(<span class="st">&quot;temp_files/ss.&quot;</span>, lowauthor, <span class="st">&quot;.&quot;</span>, chr), <span class="dt">stringsAsFactors=</span>F, <span class="dt">header=</span>T)</a>
+<a class="sourceLine" id="cb46-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb46-12" data-line-number="12">ss &lt;-<span class="st"> </span>ss[ss<span class="op">$</span>RSID <span class="op">%in%</span><span class="st"> </span>sblup[,<span class="dv">1</span>],]</a>
+<a class="sourceLine" id="cb46-13" data-line-number="13">sblup &lt;-<span class="st"> </span>sblup[<span class="kw">order</span>(sblup[,<span class="dv">1</span>])[<span class="kw">rank</span>(ss<span class="op">$</span>RSID)],]</a>
+<a class="sourceLine" id="cb46-14" data-line-number="14">ss<span class="op">$</span>BETA &lt;-<span class="st"> </span>sblup[,<span class="dv">4</span>]</a>
+<a class="sourceLine" id="cb46-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb46-16" data-line-number="16"><span class="kw">write.table</span>(ss, <span class="kw">paste0</span>(<span class="st">&quot;../mod_sets/&quot;</span>, author, <span class="st">&quot;/&quot;</span>, lowauthor, <span class="st">&quot;.&quot;</span>, chr, <span class="st">&quot;.sblup.&quot;</span>, i, <span class="st">&quot;.ss&quot;</span>), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> T, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>, <span class="dt">quote =</span> F)</a></code></pre></div>
+<p>The original publication is <a href="https://www.nature.com/articles/s41562-016-0016#MOESM11" class="uri">https://www.nature.com/articles/s41562-016-0016#MOESM11</a>, and the doccumentation comes from <a href="https://cnsgenomics.com/software/gcta/#SBLUP" class="uri">https://cnsgenomics.com/software/gcta/#SBLUP</a>.</p>
+</div>
+<div id="smtpred" class="section level2">
+<h2><span class="header-section-number">5.7</span> SMTpred</h2>
+<p>SMTPred, which I believe stands for summary multi-trait prediction, is a very interesting method that leverages correlated traits to effectively increase the sample size of the original effect estimates. While the weighting system is actually relatively simple, I will leave that information to the interested reader and instead focus on the actual implementation. The SMTpred python script requires quite a few types of inputs, including heritabilities, genetic correlations, sample sizes and summary statistics. Luckily for us most of these inputs are really easily accesible fixed information. The two items that we can change are the summary statistics and the genetic correlations. Specifically, the SMTpred algorithm accepts either normal least-squares effect estimates and SBLUP outputs. As we are already producing SBLUP adjusted summary statistics we might as well try both. The genetic correlations is a little trickier. Many genetic correlation estimates have very high standard errors, and in my opinion this means they should not be used. Similarly, I can include, in theory 24 genetic correlations in an implementation, however this seems problematic as comparisons across applications likely become more difficult and some of the weaker correlations may be more likely to harm my final output than help. Therefore, I will limit the number of correlations to the top 3, 5 and 10 to see if a more conservative or liberal approach is best.</p>
+<p>With all of the theory of implementation I may now actually write the code, which is really just a bit of data-pulling and re-arranging. The overall shell script is:</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="va">chr=$1</span></a>
+<a class="sourceLine" id="cb47-2" data-line-number="2"><span class="va">author=$2</span></a>
+<a class="sourceLine" id="cb47-3" data-line-number="3"><span class="va">dir=$3</span></a>
+<a class="sourceLine" id="cb47-4" data-line-number="4"><span class="va">low_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$author</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb47-5" data-line-number="5"><span class="va">d=</span>comp_zone/dir<span class="va">${dir}</span></a>
+<a class="sourceLine" id="cb47-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb47-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb47-8" data-line-number="8"><span class="co">#NOTE!!!!!!!!!!!! Need to implement sblup option</span></a>
+<a class="sourceLine" id="cb47-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb47-10" data-line-number="10"><span class="va">i=</span>1</a>
+<a class="sourceLine" id="cb47-11" data-line-number="11"><span class="fu">cat</span> all_specs/smtpred_param_specs <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">spec</span>;<span class="kw">do</span></a>
+<a class="sourceLine" id="cb47-12" data-line-number="12">  <span class="va">max_corr=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$spec</span> <span class="kw">|</span> <span class="fu">cut</span> -f1 -d<span class="st">&#39; &#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb47-13" data-line-number="13">  <span class="va">est_type=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$spec</span> <span class="kw">|</span> <span class="fu">cut</span> -f2 -d<span class="st">&#39; &#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb47-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb47-15" data-line-number="15">  <span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-e</span> ~/athena/doc_score/mod_sets/<span class="va">${author}</span>/<span class="va">${low_author}</span>.smtpred.<span class="va">${i}</span>.ss<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb47-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb47-17" data-line-number="17">      <span class="ex">Rscript</span> helper_scripts/set_up_smtpred.R <span class="va">$low_author</span> <span class="va">$d</span> <span class="va">$max_corr</span></a>
+<a class="sourceLine" id="cb47-18" data-line-number="18">   </a>
+<a class="sourceLine" id="cb47-19" data-line-number="19">      <span class="fu">cat</span> <span class="va">${d}</span>/ss_files <span class="kw">|</span> <span class="fu">cut</span> -f1 -d<span class="st">&#39;.&#39;</span> <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">new_author</span>;<span class="kw">do</span></a>
+<a class="sourceLine" id="cb47-20" data-line-number="20">        <span class="kw">if</span><span class="bu"> [</span> <span class="va">$new_author</span> <span class="ot">==</span> <span class="st">&quot;imsgc&quot;</span><span class="bu"> ]</span>;<span class="kw">then</span> </a>
+<a class="sourceLine" id="cb47-21" data-line-number="21">          <span class="va">upper_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$new_author</span> <span class="kw">|</span> <span class="fu">tr</span> [a-z] [A-Z]<span class="kw">`</span></a>
+<a class="sourceLine" id="cb47-22" data-line-number="22">        <span class="kw">else</span></a>
+<a class="sourceLine" id="cb47-23" data-line-number="23">          <span class="va">upper_author=${new_author</span><span class="er">^</span><span class="va">}</span></a>
+<a class="sourceLine" id="cb47-24" data-line-number="24">        <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb47-25" data-line-number="25">        <span class="va">speclow_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$new_author</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb47-26" data-line-number="26">        <span class="kw">if</span><span class="bu"> [</span> <span class="va">$est_type</span> <span class="ot">==</span> <span class="st">&quot;normal&quot;</span><span class="bu"> ]</span>;<span class="kw">then</span></a>
+<a class="sourceLine" id="cb47-27" data-line-number="27">          <span class="fu">zcat</span> ~/athena/doc_score/raw_ss/<span class="va">${upper_author}</span>/chr_ss/<span class="va">${new_author}</span>_<span class="va">${chr}</span>.ss.gz <span class="op">&gt;</span> <span class="va">${d}</span>/<span class="va">${new_author}</span>.ss</a>
+<a class="sourceLine" id="cb47-28" data-line-number="28">        <span class="kw">else</span> </a>
+<a class="sourceLine" id="cb47-29" data-line-number="29">          <span class="fu">zcat</span> ~/athena/doc_score/mod_sets/<span class="va">${upper_author}</span>/<span class="va">${speclow_author}</span>.<span class="va">${chr}</span>.sblup.5.ss <span class="op">&gt;</span> <span class="va">${d}</span>/<span class="va">${new_author}</span>.ss</a>
+<a class="sourceLine" id="cb47-30" data-line-number="30">        <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb47-31" data-line-number="31">      <span class="kw">done</span></a>
+<a class="sourceLine" id="cb47-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb47-33" data-line-number="33">      <span class="va">ss_line=</span><span class="kw">`</span><span class="fu">cat</span> <span class="va">${d}</span>/ss_files <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">line</span>;<span class="kw">do</span> <span class="bu">echo</span> <span class="va">${d}</span>/<span class="va">${line}</span><span class="kw">;</span> <span class="kw">done</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;\n&#39;</span> <span class="st">&#39; &#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb47-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb47-35" data-line-number="35">      <span class="ex">python</span> ~/Programs/smtpred/smtpred.py --betafiles <span class="va">$ss_line</span> --nfile <span class="va">${d}</span>/samp_size --h2file <span class="va">${d}</span>/herit --rgfile <span class="va">${d}</span>/rg</a>
+<a class="sourceLine" id="cb47-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb47-37" data-line-number="37">      <span class="ex">Rscript</span> helper_scripts/finish_smtpred.R <span class="va">$d</span> <span class="va">$i</span> <span class="va">$low_author</span> <span class="va">$chr</span></a>
+<a class="sourceLine" id="cb47-38" data-line-number="38"></a>
+<a class="sourceLine" id="cb47-39" data-line-number="39">    <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb47-40" data-line-number="40"></a>
+<a class="sourceLine" id="cb47-41" data-line-number="41">  <span class="bu">let</span> i=i+1</a>
+<a class="sourceLine" id="cb47-42" data-line-number="42"><span class="kw">done</span></a></code></pre></div>
+<p>The first R script within this shell script does much of the heavy lifting, reading all the genetic correlations and additional meta-stats, ultimately writing all of the stats files that are reuired in the actual python call of smtpred.</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1">args &lt;-<span class="st"> </span><span class="kw">commandArgs</span>(<span class="dt">trailingOnly=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">author &lt;-<span class="st"> </span>args[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb48-4" data-line-number="4">d &lt;-<span class="st"> </span>args[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb48-5" data-line-number="5">toprank &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(args[<span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb48-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb48-7" data-line-number="7">gencorr &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;~/athena/doc_score/raw_ss/genetic_correlations&quot;</span>, <span class="dt">stringsAsFactors=</span>F)</a>
+<a class="sourceLine" id="cb48-8" data-line-number="8">metastats &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;~/athena/doc_score/raw_ss/meta_stats&quot;</span>, <span class="dt">stringsAsFactors=</span>F, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">header =</span> T)</a>
+<a class="sourceLine" id="cb48-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb48-10" data-line-number="10">gencorr &lt;-<span class="st"> </span>gencorr[gencorr[,<span class="dv">1</span>] <span class="op">==</span><span class="st"> </span>author,]</a>
+<a class="sourceLine" id="cb48-11" data-line-number="11">gencorr &lt;-<span class="st"> </span>gencorr[<span class="kw">abs</span>(gencorr[,<span class="dv">8</span>]) <span class="op">&lt;</span><span class="st"> </span>gencorr[,<span class="dv">7</span>] <span class="op">&amp;</span><span class="st"> </span><span class="op">!</span><span class="kw">is.na</span>(gencorr[,<span class="dv">7</span>]) <span class="op">&amp;</span><span class="st"> </span>gencorr[,<span class="dv">2</span>] <span class="op">!=</span><span class="st"> </span>author,]</a>
+<a class="sourceLine" id="cb48-12" data-line-number="12">gencorr &lt;-<span class="st"> </span>gencorr[<span class="kw">order</span>(gencorr[,<span class="dv">7</span>], <span class="dt">decreasing=</span>T),]</a>
+<a class="sourceLine" id="cb48-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb48-14" data-line-number="14"><span class="cf">if</span>(<span class="kw">nrow</span>(gencorr) <span class="op">&gt;</span><span class="st"> </span>toprank){</a>
+<a class="sourceLine" id="cb48-15" data-line-number="15">  gencorr &lt;-<span class="st"> </span>gencorr[<span class="dv">1</span><span class="op">:</span>toprank,]</a>
+<a class="sourceLine" id="cb48-16" data-line-number="16">}</a>
+<a class="sourceLine" id="cb48-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb48-18" data-line-number="18">metastats &lt;-<span class="st"> </span>metastats[<span class="kw">tolower</span>(metastats[,<span class="dv">1</span>]) <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(author, gencorr[,<span class="dv">2</span>]),]</a>
+<a class="sourceLine" id="cb48-19" data-line-number="19">sampsize &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">tolower</span>(metastats<span class="op">$</span>author), <span class="dv">4</span><span class="op">/</span>(<span class="dv">1</span><span class="op">/</span>metastats<span class="op">$</span>cases <span class="op">+</span><span class="st"> </span><span class="dv">1</span><span class="op">/</span>metastats<span class="op">$</span>controls))</a>
+<a class="sourceLine" id="cb48-20" data-line-number="20">herit &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">tolower</span>(metastats<span class="op">$</span>author), metastats<span class="op">$</span>h2)</a>
+<a class="sourceLine" id="cb48-21" data-line-number="21">ss_names &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="kw">tolower</span>(metastats<span class="op">$</span>author), <span class="st">&quot;.ss&quot;</span>)</a>
+<a class="sourceLine" id="cb48-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb48-23" data-line-number="23"><span class="kw">write.table</span>(sampsize, <span class="kw">paste0</span>(d, <span class="st">&quot;/samp_size&quot;</span>), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> F, <span class="dt">quote =</span> F, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>)</a>
+<a class="sourceLine" id="cb48-24" data-line-number="24"><span class="kw">write.table</span>(herit, <span class="kw">paste0</span>(d, <span class="st">&quot;/herit&quot;</span>), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> F, <span class="dt">quote =</span> F, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>)</a>
+<a class="sourceLine" id="cb48-25" data-line-number="25"><span class="kw">write.table</span>(gencorr[,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">7</span>)], <span class="kw">paste0</span>(d, <span class="st">&quot;/rg&quot;</span>), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> F, <span class="dt">quote =</span> F, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>)</a>
+<a class="sourceLine" id="cb48-26" data-line-number="26"><span class="kw">write.table</span>(ss_names, <span class="kw">paste0</span>(d, <span class="st">&quot;/ss_files&quot;</span>), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> F, <span class="dt">quote =</span> F, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>)</a></code></pre></div>
+<p>The final R script completes a role similar to many other methods, combining the effects adjusted by the method to the original summary statistics.</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="co">#arguments are: d variable, i number, low author, chr</span></a>
+<a class="sourceLine" id="cb49-2" data-line-number="2">args &lt;-<span class="st"> </span><span class="kw">commandArgs</span>(<span class="dt">trailingOnly=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb49-3" data-line-number="3">low_author &lt;-<span class="st"> </span><span class="kw">tolower</span>(args[<span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb49-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb49-5" data-line-number="5">smtpred_ss &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(args[<span class="dv">1</span>], <span class="st">&quot;/multi_trait.beta&quot;</span>), <span class="dt">stringsAsFactors=</span>F, <span class="dt">header =</span> T)</a>
+<a class="sourceLine" id="cb49-6" data-line-number="6">raw_ss &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(args[<span class="dv">1</span>], <span class="st">&quot;/&quot;</span>, args[<span class="dv">3</span>], <span class="st">&quot;.ss&quot;</span>), <span class="dt">stringsAsFactors=</span>F, <span class="dt">header=</span>T)</a>
+<a class="sourceLine" id="cb49-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb49-8" data-line-number="8">raw_ss &lt;-<span class="st"> </span>raw_ss[raw_ss<span class="op">$</span>RSID <span class="op">%in%</span><span class="st"> </span>smtpred_ss<span class="op">$</span>snpid,]</a>
+<a class="sourceLine" id="cb49-9" data-line-number="9">smtpred_ss &lt;-<span class="st"> </span>smtpred_ss[<span class="kw">order</span>(smtpred_ss<span class="op">$</span>snpid)[<span class="kw">rank</span>(raw_ss<span class="op">$</span>RSID)],]</a>
+<a class="sourceLine" id="cb49-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb49-11" data-line-number="11">raw_ss<span class="op">$</span>BETA &lt;-<span class="st"> </span>smtpred_ss[,<span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb49-12" data-line-number="12"><span class="kw">write.table</span>(raw_ss, <span class="kw">paste0</span>(<span class="st">&quot;~/athena/doc_score/mod_sets/&quot;</span>, tools<span class="op">::</span><span class="kw">toTitleCase</span>(args[<span class="dv">3</span>]), <span class="st">&quot;/&quot;</span>, args[<span class="dv">3</span>], <span class="st">&quot;.&quot;</span>, args[<span class="dv">4</span>],  <span class="st">&quot;.smtpred.&quot;</span>, args[<span class="dv">2</span>] ,<span class="st">&quot;.ss&quot;</span>), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> T, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>, <span class="dt">quote =</span> F)</a></code></pre></div>
+<p>The original publication is <a href="https://www.nature.com/articles/s41467-017-02769-6" class="uri">https://www.nature.com/articles/s41467-017-02769-6</a>, and the doccumentation comes from <a href="https://github.com/uqrmaie1/smtpred" class="uri">https://github.com/uqrmaie1/smtpred</a>.</p>
+</div>
+<div id="prscs" class="section level2">
+<h2><span class="header-section-number">5.8</span> prsCS</h2>
+<p>the prsCS algorithm is actually very similar to LDpred, in that it aims to shrink some of the least squares effect estimates, thereby generating adjusted estimates that are better poised for polygenic risk scoring. The main difference (I believe) is that LDpred uses a point-block prior on its probability a SNP being causal whereas prsCS goes with a continous prior (naturally).</p>
+<p>Luckily for us many of the parameters that have confused us in past methods are easily and simply provided to us within this method. Specifically, I am referring to genotypic files for a linkage disequilibrium reference, they are provided on the GitHub page based on the ancestry of the desired polygenic risk score. In fact, the only parameter that we are specifying is phi, which I believe is related to the propotion of underlying casual SNPs for the trait, also know as the polygenicity. While the algorithm states that it can learn this parameter itself, there are some caveats that lead me to believe it would be best to just try a scale of phi values. There are other parameters relating to the MCMC algorithm, but I will not touch those.</p>
+<p>The actual mechanics of the algorithm include changing the formatting of the summary statistics, running a single python script, and finally substituting the output adjusted effect sizes for the original effect sizes. This process was controlled by the shell script:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb50-1" data-line-number="1"><span class="va">chr=$1</span></a>
+<a class="sourceLine" id="cb50-2" data-line-number="2"><span class="va">author=$2</span></a>
+<a class="sourceLine" id="cb50-3" data-line-number="3"><span class="va">dir=$3</span></a>
+<a class="sourceLine" id="cb50-4" data-line-number="4"><span class="va">low_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$author</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb50-5" data-line-number="5"><span class="va">d=</span>comp_zone/dir<span class="va">${dir}</span></a>
+<a class="sourceLine" id="cb50-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb50-7" data-line-number="7"><span class="va">ess=</span><span class="kw">`</span><span class="fu">cat</span> temp_files/ss.<span class="va">${low_author}</span>.<span class="va">${chr}</span> <span class="kw">|</span> <span class="fu">head</span> -2 <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="fu">cut</span> -f9<span class="kw">`</span></a>
+<a class="sourceLine" id="cb50-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb50-9" data-line-number="9"><span class="fu">cp</span> helper_scripts/prscs_header <span class="va">${d}</span>/ss</a>
+<a class="sourceLine" id="cb50-10" data-line-number="10"><span class="fu">cat</span> temp_files/ss.<span class="va">${low_author}</span>.<span class="va">${chr}</span> <span class="kw">|</span> <span class="fu">tail</span> -n+2 <span class="kw">|</span> <span class="fu">cut</span> -f3,4,5,7,8 <span class="op">&gt;&gt;</span> <span class="va">${d}</span>/ss</a>
+<a class="sourceLine" id="cb50-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb50-12" data-line-number="12"><span class="va">i=</span>1</a>
+<a class="sourceLine" id="cb50-13" data-line-number="13"><span class="fu">cat</span> all_specs/prscs_param_specs <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">phi</span>;<span class="kw">do</span></a>
+<a class="sourceLine" id="cb50-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb50-15" data-line-number="15">  <span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-e</span> ~/athena/doc_score/mod_sets/<span class="va">${author}</span>/<span class="va">${low_author}</span>.prs.<span class="va">${i}</span>.ss<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb50-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb50-17" data-line-number="17">    <span class="ex">python</span> ~/Programs/PRScs/PRScs.py --ref_dir=/home/kulmsc/athena/refs/ldblk_1kg_eur --bim_prefix=geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span> --sst_file=<span class="va">${d}</span>/ss --phi=<span class="va">${phi}</span> --n_gwas=<span class="va">${ess}</span> --chrom=<span class="va">$chr</span> --out_dir=<span class="va">${d}</span>/output.<span class="va">$i</span></a>
+<a class="sourceLine" id="cb50-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb50-19" data-line-number="19">    <span class="ex">Rscript</span> helper_scripts/prscs_beta_switch.R <span class="va">$d</span> <span class="va">$i</span> <span class="va">$author</span> <span class="va">$chr</span></a>
+<a class="sourceLine" id="cb50-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb50-21" data-line-number="21">  <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb50-22" data-line-number="22">  <span class="bu">let</span> i=i+1</a>
+<a class="sourceLine" id="cb50-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb50-24" data-line-number="24"><span class="kw">done</span></a></code></pre></div>
+<p>The R script needed for effect substitution is:</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="co">#arguments are: d, i, author, chr </span></a>
+<a class="sourceLine" id="cb51-2" data-line-number="2">args &lt;-<span class="st"> </span><span class="kw">commandArgs</span>(<span class="dt">trailingOnly=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3">d &lt;-<span class="st"> </span>args[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb51-4" data-line-number="4">i &lt;-<span class="st"> </span>args[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb51-5" data-line-number="5">author &lt;-<span class="st"> </span>args[<span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb51-6" data-line-number="6">chr &lt;-<span class="st"> </span>args[<span class="dv">4</span>]</a>
+<a class="sourceLine" id="cb51-7" data-line-number="7">low_author &lt;-<span class="st"> </span><span class="kw">tolower</span>(author)</a>
+<a class="sourceLine" id="cb51-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb51-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb51-10" data-line-number="10">file_name &lt;-<span class="st"> </span><span class="kw">list.files</span>(d, <span class="kw">paste0</span>(<span class="st">&quot;output.&quot;</span>, i, <span class="st">&quot;_pst&quot;</span>))</a>
+<a class="sourceLine" id="cb51-11" data-line-number="11">beta &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(d, <span class="st">&quot;/&quot;</span>, file_name), <span class="dt">stringsAsFactors =</span> F)</a>
+<a class="sourceLine" id="cb51-12" data-line-number="12">ss &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(<span class="st">&quot;temp_files/ss.&quot;</span>, low_author, <span class="st">&quot;.&quot;</span>, chr), <span class="dt">stringsAsFactors=</span>F, <span class="dt">header=</span>T)</a>
+<a class="sourceLine" id="cb51-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb51-14" data-line-number="14">ss &lt;-<span class="st"> </span>ss[ss<span class="op">$</span>RSID <span class="op">%in%</span><span class="st"> </span>beta[,<span class="dv">2</span>],]</a>
+<a class="sourceLine" id="cb51-15" data-line-number="15">beta &lt;-<span class="st"> </span>beta[<span class="kw">order</span>(beta[,<span class="dv">2</span>])[<span class="kw">rank</span>(ss<span class="op">$</span>RSID)],]</a>
+<a class="sourceLine" id="cb51-16" data-line-number="16">ss<span class="op">$</span>BETA &lt;-<span class="st"> </span>beta[,<span class="dv">6</span>]</a>
+<a class="sourceLine" id="cb51-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb51-18" data-line-number="18"><span class="kw">write.table</span>(ss, <span class="kw">paste0</span>(<span class="st">&quot;~/athena/doc_score/mod_sets/&quot;</span>, author, <span class="st">&quot;/&quot;</span>, low_author, <span class="st">&quot;.&quot;</span>, chr,  <span class="st">&quot;.prscs.&quot;</span>, i ,<span class="st">&quot;.ss&quot;</span>), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> T, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>, <span class="dt">quote =</span> F)</a></code></pre></div>
+<p>The original publication can be found at <a href="https://www.nature.com/articles/s41467-019-09718-5" class="uri">https://www.nature.com/articles/s41467-019-09718-5</a>, and the doccumentation comes from <a href="https://github.com/getian107/PRScs" class="uri">https://github.com/getian107/PRScs</a>.</p>
+</div>
+<div id="lassosum" class="section level2">
+<h2><span class="header-section-number">5.9</span> lassosum</h2>
+<p>While lassosum may appear to be a classic method like LDpred, SBLUP, or prsCS, its underlying methedology is actuall far different. Rather than following a theoretical basic that recreates effect estimates that would be produced with full genetic information lassosum tries to recreate the process of lasso regression, a far more heuristic or goal-oriented process. The process of actually implementing lassosum is relatively easy as everything can be carried out within a R script, leaving the controlling shell script to do very little.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="va">chr=$1</span></a>
+<a class="sourceLine" id="cb52-2" data-line-number="2"><span class="va">author=$2</span></a>
+<a class="sourceLine" id="cb52-3" data-line-number="3"><span class="va">dir=$3</span></a>
+<a class="sourceLine" id="cb52-4" data-line-number="4"><span class="va">low_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$author</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb52-5" data-line-number="5"><span class="va">d=</span>comp_zone/dir<span class="va">${dir}</span></a>
+<a class="sourceLine" id="cb52-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb52-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb52-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb52-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb52-10" data-line-number="10"><span class="ex">Rscript</span> helper_scripts/lassosum.R <span class="va">$d</span> <span class="va">$chr</span> <span class="va">$low_author</span></a></code></pre></div>
+<p>The R script it launches does three sets of things. First, it sets up a few important objects: reading in the summary statistics and sets the name of the reference genotypes. Second, it converts the summary statistic P-values into a correlation type statistic then runs the lassosum pipeline. A few of the important parameters that are set in the pipeline include: the name of the LDblock, which is already mostly specified by the software and just needs an ancestry matching name; the sample number or number of people to keep in the LD reference, I chose 5000 as its value exceeds that of the sample size used within the originating publication (from my reading either than 1000 genomes or cases from the WTCCC were used, both of which I think are close to 5000, or at least not an order of magnitude higher); the s parameter (which I am unclear what it represents) is given the values randing from 0.1 to 1 in the paper, and with better performance at lower values I will test 0.1, 0.4 and 0.8; finally the lambda value, which I believe represents the strength of the penalty in the lasso is given the default values ranging from 0.001 to 0.1, therefore I test a similar range but with fewever numbers in my own sample vector. The third thing the script does is subsitute the results into the original summary statistics and writes the results. Altogether it looks like:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">library</span>(lassosum)</a>
+<a class="sourceLine" id="cb53-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb53-3" data-line-number="3"><span class="co">#args are: d, chr, low_author</span></a>
+<a class="sourceLine" id="cb53-4" data-line-number="4">args &lt;-<span class="st"> </span><span class="kw">commandArgs</span>(<span class="dt">trailingOnly=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb53-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb53-6" data-line-number="6">ss &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(<span class="st">&quot;temp_files/ss.&quot;</span>, args[<span class="dv">3</span>], <span class="st">&quot;.&quot;</span>, args[<span class="dv">2</span>]), <span class="dt">stringsAsFactors=</span>F, <span class="dt">header=</span>T)</a>
+<a class="sourceLine" id="cb53-7" data-line-number="7">ref.bfile &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;geno_files/&quot;</span>, args[<span class="dv">3</span>], <span class="st">&quot;.&quot;</span>, args[<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb53-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb53-9" data-line-number="9">cor &lt;-<span class="st"> </span><span class="kw">p2cor</span>(<span class="dt">p =</span> ss<span class="op">$</span>P, <span class="dt">n =</span> ss<span class="op">$</span>ESS[<span class="dv">1</span>], <span class="dt">sign=</span>ss<span class="op">$</span>BETA)</a>
+<a class="sourceLine" id="cb53-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb53-11" data-line-number="11">out &lt;-<span class="st"> </span><span class="kw">lassosum.pipeline</span>(<span class="dt">cor=</span>cor, <span class="dt">chr=</span>ss<span class="op">$</span>CHR, <span class="dt">pos=</span>ss<span class="op">$</span>BP, </a>
+<a class="sourceLine" id="cb53-12" data-line-number="12">                         <span class="dt">A1=</span>ss<span class="op">$</span>A1, <span class="dt">A2=</span>ss<span class="op">$</span>A2, <span class="co"># A2 is not required but advised</span></a>
+<a class="sourceLine" id="cb53-13" data-line-number="13">                         <span class="dt">ref.bfile=</span>ref.bfile, <span class="dt">LDblocks =</span> <span class="st">&quot;EUR.hg19&quot;</span>, <span class="dt">sample =</span> <span class="dv">5000</span>,</a>
+<a class="sourceLine" id="cb53-14" data-line-number="14">                         <span class="dt">s =</span> <span class="kw">c</span>(<span class="fl">0.1</span>, <span class="fl">0.4</span>, <span class="fl">0.8</span>), <span class="dt">lambda =</span> <span class="kw">c</span>(<span class="fl">0.002</span>, <span class="fl">0.004</span>, <span class="fl">0.007</span>, <span class="fl">0.1</span>))</a>
+<a class="sourceLine" id="cb53-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb53-16" data-line-number="16">new_ss &lt;-<span class="st"> </span>ss[ss<span class="op">$</span>BP <span class="op">%in%</span><span class="st"> </span>out<span class="op">$</span>sumstats[,<span class="dv">2</span>],]</a>
+<a class="sourceLine" id="cb53-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb53-18" data-line-number="18">k &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb53-19" data-line-number="19"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>){</a>
+<a class="sourceLine" id="cb53-20" data-line-number="20">  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>){</a>
+<a class="sourceLine" id="cb53-21" data-line-number="21">    new_ss<span class="op">$</span>BETA &lt;-<span class="st"> </span>out<span class="op">$</span>beta[[i]][,j]</a>
+<a class="sourceLine" id="cb53-22" data-line-number="22">    <span class="kw">write.table</span>(new_ss, <span class="kw">paste0</span>(<span class="st">&quot;~/athena/doc_score/mod_sets/&quot;</span>, tools<span class="op">::</span><span class="kw">toTitleCase</span>(args[<span class="dv">3</span>]), <span class="st">&quot;/&quot;</span>, args[<span class="dv">3</span>], <span class="st">&quot;.&quot;</span>, args[<span class="dv">2</span>],  <span class="st">&quot;.lassosum.&quot;</span>, k ,<span class="st">&quot;.ss&quot;</span>), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> T, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>, <span class="dt">quote =</span> F)</a>
+<a class="sourceLine" id="cb53-23" data-line-number="23">    k &lt;-<span class="st"> </span>k <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb53-24" data-line-number="24">  }</a>
+<a class="sourceLine" id="cb53-25" data-line-number="25">} </a></code></pre></div>
+<p>The original(accessible) publication can be found at <a href="https://www.biorxiv.org/content/10.1101/058214v2.full.pdf" class="uri">https://www.biorxiv.org/content/10.1101/058214v2.full.pdf</a>, and the doccumentation comes from <a href="https://github.com/tshmak/lassosum" class="uri">https://github.com/tshmak/lassosum</a>.</p>
+</div>
+<div id="tweedie" class="section level2">
+<h2><span class="header-section-number">5.10</span> Tweedie</h2>
+<p>The Tweedie Method is fundamentally concerned with the Winner’s Curse idea that has been similarly in several other methods. Tweedie specifically handles the curse by thinking of a true distribution of Z-statistics, and then attempting to create an approximation for this distribution by inserting a kernel over the estimated statistics. However, before we can begin this Winners Curse correction process the corresponding publication recommends we try to limit the amount of linkage disequilbrium within the underlying summary statistics. They have a consistent R2 cut-off of 0.25 and leave the P-value parameter take a range of values. The limited summary statistics are then converted into Z-statistics, incorporated with empirically estimated allele frequencies, and sent into a supplied R script. The output adjusted effect values can the be subset back into the original summary statistics and saved. The controlling script for this process looks like:</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="va">chr=$1</span></a>
+<a class="sourceLine" id="cb54-2" data-line-number="2"><span class="va">author=$2</span></a>
+<a class="sourceLine" id="cb54-3" data-line-number="3"><span class="va">dir=$3</span></a>
+<a class="sourceLine" id="cb54-4" data-line-number="4"><span class="va">low_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$author</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb54-5" data-line-number="5"><span class="va">d=</span>comp_zone/dir<span class="va">${dir}</span></a>
+<a class="sourceLine" id="cb54-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb54-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb54-8" data-line-number="8"><span class="va">i=</span>1</a>
+<a class="sourceLine" id="cb54-9" data-line-number="9"><span class="fu">cat</span> all_specs/tweedie_param_specs <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">spec</span>;<span class="kw">do</span></a>
+<a class="sourceLine" id="cb54-10" data-line-number="10">  <span class="va">plim=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$spec</span> <span class="kw">|</span> <span class="fu">cut</span> -f1 -d<span class="st">&#39; &#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb54-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb54-12" data-line-number="12">  <span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-e</span> ~/athena/doc_score/mod_sets/<span class="va">${author}</span>/<span class="va">${low_author}</span>.tweedie.<span class="va">${i}</span>.ss<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb54-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb54-14" data-line-number="14">    <span class="ex">plink</span> --memory 4000 --threads 1 --bfile geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span> --clump temp_files/ss.<span class="va">${low_author}</span>.<span class="va">${chr}</span> --clump-snp-field RSID --clump-p1 <span class="va">$plim</span> --clump-r2 0.25 --out <span class="va">${d}</span>/out</a>
+<a class="sourceLine" id="cb54-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb54-16" data-line-number="16">    <span class="kw">if</span><span class="bu"> [</span> <span class="ot">-f</span> <span class="va">${d}</span>/out.clumped<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb54-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb54-18" data-line-number="18">      <span class="ex">plink</span> --bfile geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span> --freq --out <span class="va">${d}</span>/freq</a>
+<a class="sourceLine" id="cb54-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb54-20" data-line-number="20">      <span class="ex">Rscript</span> helper_scripts/add_tweedie.R <span class="va">$author</span> <span class="va">$chr</span> <span class="va">$d</span></a>
+<a class="sourceLine" id="cb54-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb54-22" data-line-number="22">      <span class="ex">Rscript</span> helper_scripts/tweedie.R <span class="va">$author</span> <span class="va">$chr</span> <span class="va">$d</span> <span class="va">$i</span></a>
+<a class="sourceLine" id="cb54-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb54-24" data-line-number="24">    <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb54-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb54-26" data-line-number="26">  <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb54-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb54-28" data-line-number="28">  <span class="bu">let</span> i=i+3</a>
+<a class="sourceLine" id="cb54-29" data-line-number="29"></a>
+<a class="sourceLine" id="cb54-30" data-line-number="30"><span class="kw">done</span></a></code></pre></div>
+<p>I won’t show the R script because it is rather long and almost completely what was originally downloaded. The only changes are to read in the summary statistics at the top and convert P-values to Z-statistics, then seperate out the nescessary objects.</p>
+<p>The original publication comes from <a href="https://www.nature.com/articles/srep41262.pdf" class="uri">https://www.nature.com/articles/srep41262.pdf</a>, and the code comes from <a href="https://sites.google.com/site/honcheongso/software/empirical-bayes-risk-prediction" class="uri">https://sites.google.com/site/honcheongso/software/empirical-bayes-risk-prediction</a>.</p>
+</div>
+<div id="sbayesr" class="section level2">
+<h2><span class="header-section-number">5.11</span> SBayesR</h2>
+<p>The SBayesR method is somewhat similar to the SBLUP method in that it uses a LD reference matrix to attempt to recover effect estimates that would be produced from a full genotype aware regression. Any more description would get pretty complicated, so I will leave it to the interested reader. The largest in terms of computation and memory component of a SBayesR run is the construction of the LD reference matrix. There are solid descriptions within the tutorial, the ultimate message is that a sparse and shrunk matrix is best. Although what’s even better is downloading these matricies directly without computation. You can find the links to these matricies on the FAQ page. There is a 1 million HapMap version and a 2.8 million common SNPs version. The corresponding publication saw slightly better results with 2.8 million SNPs, however this larger version looks like it is well over 100 GB compared to the ~50GB of the HapMap. While losing some accuracy, in the effort to make this an attainable guide for all I went with the HapMap version. So please know if you are looking for super accuracy, having a lot of storage and want to use SBayesR then go for the 2.8 million. The remaining parameters can likely be left at their defaults, as that seems like all was done in the publication. However, an important step is to set a P-value and rsq cut-off as recommended in their FAQ. Finally, I ran two models, one for the R model and another for C.</p>
+<p>The controlling script for this entire process is actually quite simple and looks like:</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="va">chr=$1</span></a>
+<a class="sourceLine" id="cb55-2" data-line-number="2"><span class="va">author=$2</span></a>
+<a class="sourceLine" id="cb55-3" data-line-number="3"><span class="va">dir=$3</span></a>
+<a class="sourceLine" id="cb55-4" data-line-number="4"><span class="va">low_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$author</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb55-5" data-line-number="5"><span class="va">d=</span>comp_zone/dir<span class="va">${dir}</span></a>
+<a class="sourceLine" id="cb55-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb55-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb55-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb55-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb55-10" data-line-number="10"><span class="ex">plink</span> --bfile geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span> --freq --out temp_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span></a>
+<a class="sourceLine" id="cb55-11" data-line-number="11"><span class="ex">Rscript</span> helper_scripts/add_ma.R <span class="va">$author</span> <span class="va">$chr</span></a>
+<a class="sourceLine" id="cb55-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb55-13" data-line-number="13"><span class="ex">gctb2</span> --sbayes R --ldm  ~/athena/refs/ukbEURu_hm3_shrunk_sparse/ukbEURu_hm3_chr<span class="va">${chr}</span>_v3_50k.ldm.sparse --gwas-summary temp_files/ss.<span class="va">${low_author}</span>.<span class="va">${chr}</span>.ma --p-value 0.05 --rsq 0.99 --out-freq 100 --out <span class="va">${d}</span>/sbay_out</a>
+<a class="sourceLine" id="cb55-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb55-15" data-line-number="15"><span class="ex">Rscript</span> helper_scripts/reformat_sbayesr.R <span class="va">$chr</span> <span class="va">$author</span> <span class="va">$d</span> 1</a>
+<a class="sourceLine" id="cb55-16" data-line-number="16"><span class="fu">rm</span> <span class="va">${d}</span>/sbay_out*</a>
+<a class="sourceLine" id="cb55-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb55-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb55-19" data-line-number="19"><span class="ex">gctb2</span> --sbayes C --ldm  ~/athena/refs/ukbEURu_hm3_shrunk_sparse/ukbEURu_hm3_chr<span class="va">${chr}</span>_v3_50k.ldm.sparse --gwas-summary temp_files/ss.<span class="va">${low_author}</span>.<span class="va">${chr}</span>.ma --p-value 0.05 --rsq 0.99 --out-freq 100 --out <span class="va">${d}</span>/sbay_out</a>
+<a class="sourceLine" id="cb55-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb55-21" data-line-number="21"><span class="ex">Rscript</span> helper_scripts/reformat_sbayesr.R <span class="va">$chr</span> <span class="va">$author</span> <span class="va">$d</span> 2</a>
+<a class="sourceLine" id="cb55-22" data-line-number="22"><span class="fu">rm</span> <span class="va">${d}</span>/sbay_out*</a></code></pre></div>
+<p>At the top of the script is the execution of a R script, which is the exact same as in the SBLUP description. And at the bottom, as I often have to do, I exchange the adjusted effects for those in the original summary statistics. This script looks like:</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">args &lt;-<span class="st"> </span><span class="kw">commandArgs</span>(<span class="dt">trailingOnly=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb56-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb56-3" data-line-number="3">chr &lt;-<span class="st"> </span>args[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb56-4" data-line-number="4">author &lt;-<span class="st"> </span>args[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb56-5" data-line-number="5">d &lt;-<span class="st"> </span>args[<span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb56-6" data-line-number="6">i &lt;-<span class="st"> </span>args[<span class="dv">4</span>]</a>
+<a class="sourceLine" id="cb56-7" data-line-number="7">lowauthor &lt;-<span class="st"> </span><span class="kw">tolower</span>(author)</a>
+<a class="sourceLine" id="cb56-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb56-9" data-line-number="9">sbay &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(d,<span class="st">&quot;/sbay_out.snpRes&quot;</span>), <span class="dt">stringsAsFactors=</span>F, <span class="dt">header =</span> T)</a>
+<a class="sourceLine" id="cb56-10" data-line-number="10">ss &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(<span class="st">&quot;temp_files/ss.&quot;</span>, lowauthor, <span class="st">&quot;.&quot;</span>, chr), <span class="dt">stringsAsFactors=</span>F, <span class="dt">header=</span>T)</a>
+<a class="sourceLine" id="cb56-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb56-12" data-line-number="12">ss &lt;-<span class="st"> </span>ss[ss<span class="op">$</span>RSID <span class="op">%in%</span><span class="st"> </span>sbay[,<span class="dv">2</span>],]</a>
+<a class="sourceLine" id="cb56-13" data-line-number="13">sbay &lt;-<span class="st"> </span>sbay[<span class="kw">order</span>(sbay[,<span class="dv">2</span>])[<span class="kw">rank</span>(ss<span class="op">$</span>RSID)],]</a>
+<a class="sourceLine" id="cb56-14" data-line-number="14">ss<span class="op">$</span>BETA &lt;-<span class="st"> </span>sbay<span class="op">$</span>A1Effect</a>
+<a class="sourceLine" id="cb56-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb56-16" data-line-number="16"><span class="kw">write.table</span>(ss, <span class="kw">paste0</span>(<span class="st">&quot;../mod_sets/&quot;</span>, author, <span class="st">&quot;/&quot;</span>, lowauthor, <span class="st">&quot;.&quot;</span>, chr, <span class="st">&quot;.sbayesr.&quot;</span>, i, <span class="st">&quot;.ss&quot;</span>), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> T, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>, <span class="dt">quote =</span> F)</a></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="va">chr=$1</span></a>
+<a class="sourceLine" id="cb57-2" data-line-number="2"><span class="va">author=$2</span></a>
+<a class="sourceLine" id="cb57-3" data-line-number="3"><span class="va">dir=$3</span></a>
+<a class="sourceLine" id="cb57-4" data-line-number="4"><span class="va">low_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$author</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb57-5" data-line-number="5"><span class="va">d=</span>comp_zone/dir<span class="va">${dir}</span></a>
+<a class="sourceLine" id="cb57-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb57-7" data-line-number="7"><span class="co">#spack load /g7nwnaf</span></a>
+<a class="sourceLine" id="cb57-8" data-line-number="8"><span class="co">#spack load gcc@8.2.0</span></a>
+<a class="sourceLine" id="cb57-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb57-10" data-line-number="10"><span class="va">num_snps=</span><span class="kw">`</span><span class="fu">cat</span> ../raw_ss/meta_stats <span class="kw">|</span> <span class="fu">fgrep</span> <span class="va">$author</span> <span class="kw">|</span> <span class="fu">cut</span> -f7 -d<span class="st">&#39;,&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb57-11" data-line-number="11"><span class="va">h2=</span><span class="kw">`</span><span class="fu">cat</span> ../raw_ss/meta_stats <span class="kw">|</span> <span class="fu">fgrep</span> <span class="va">$author</span> <span class="kw">|</span> <span class="fu">cut</span> -f12 -d<span class="st">&#39;,&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb57-12" data-line-number="12"><span class="va">samp_size=</span><span class="kw">`</span><span class="fu">cat</span> temp_files/ss.<span class="va">${low_author}</span>.<span class="va">${chr}</span> <span class="kw">|</span> <span class="fu">head</span> -2 <span class="kw">|</span> <span class="fu">tail</span> -n +2 <span class="kw">|</span> <span class="fu">cut</span> -f9<span class="kw">`</span></a>
+<a class="sourceLine" id="cb57-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb57-14" data-line-number="14"><span class="va">i=</span>1</a>
+<a class="sourceLine" id="cb57-15" data-line-number="15"><span class="fu">cat</span> all_specs/dbslmm_param_specs <span class="kw">|</span> <span class="fu">tail</span> -n+2 <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">spec</span>;<span class="kw">do</span></a>
+<a class="sourceLine" id="cb57-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb57-17" data-line-number="17">  <span class="va">pval=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$spec</span> <span class="kw">|</span> <span class="fu">cut</span> -f1 -d<span class="st">&#39; &#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb57-18" data-line-number="18">  <span class="va">r2=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$spec</span> <span class="kw">|</span> <span class="fu">cut</span> -f1 -d<span class="st">&#39; &#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb57-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb57-20" data-line-number="20">  <span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-e</span> ~/athena/doc_score/mod_sets/<span class="va">${author}</span>/<span class="va">${low_author}</span>.dbslmm.<span class="va">${i}</span>.ss<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb57-21" data-line-number="21"></a>
+<a class="sourceLine" id="cb57-22" data-line-number="22">    <span class="ex">plink</span> --bfile geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span> --freq --out temp_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span></a>
+<a class="sourceLine" id="cb57-23" data-line-number="23">    <span class="ex">Rscript</span> helper_scripts/add_gemma.R <span class="va">$author</span> <span class="va">$chr</span></a>
+<a class="sourceLine" id="cb57-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb57-25" data-line-number="25">    <span class="fu">head</span> -5000 geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span>.fam <span class="op">&gt;</span> <span class="va">${d}</span>/keep_people</a>
+<a class="sourceLine" id="cb57-26" data-line-number="26">    <span class="ex">plink</span> --bfile geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span> --keep-fam <span class="va">${d}</span>/keep_people --make-bed --out <span class="va">${d}</span>/short</a>
+<a class="sourceLine" id="cb57-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb57-28" data-line-number="28">    <span class="va">dbslmm_bash=</span>~/Programs/DBSLMM/dbslmm</a>
+<a class="sourceLine" id="cb57-29" data-line-number="29">    <span class="va">dbslmm_r=</span>~/Programs/DBSLMM/software/DBSLMM.R</a>
+<a class="sourceLine" id="cb57-30" data-line-number="30">    <span class="va">ss=</span>temp_files/ss.<span class="va">${low_author}</span>.<span class="va">${chr}</span>.gemma</a>
+<a class="sourceLine" id="cb57-31" data-line-number="31">    <span class="va">ref=${d}</span>/short</a>
+<a class="sourceLine" id="cb57-32" data-line-number="32">    <span class="va">blockf=</span>~/athena/refs/ldsplits/chr<span class="va">${chr}</span>.bed </a>
+<a class="sourceLine" id="cb57-33" data-line-number="33">    </a>
+<a class="sourceLine" id="cb57-34" data-line-number="34">    <span class="ex">Rscript</span> <span class="va">${dbslmm_r}</span> --summary <span class="va">$ss</span> --outPath ./<span class="va">${d}</span>/ --plink ~/bin/plink --dbslmm <span class="va">${dbslmm_bash}</span> --ref <span class="va">${ref}</span> --n <span class="va">${samp_size}</span> --nsnp <span class="va">${num_snps}</span> --block <span class="va">${blockf}</span> --h2 <span class="va">${h2}</span> --pv=<span class="va">${pval}</span> --r2=<span class="va">${r2}</span></a>
+<a class="sourceLine" id="cb57-35" data-line-number="35"></a>
+<a class="sourceLine" id="cb57-36" data-line-number="36">    <span class="kw">if</span><span class="bu"> [</span> <span class="ot">-e</span> <span class="va">${d}</span>/ss.<span class="va">${low_author}</span>.dbslmm.txt<span class="bu"> ]</span>;<span class="kw">then</span></a>
+<a class="sourceLine" id="cb57-37" data-line-number="37">      <span class="ex">Rscript</span> helper_scripts/reformat_dbslmm.R <span class="va">$chr</span> <span class="va">$author</span> <span class="va">$d</span> <span class="va">$i</span></a>
+<a class="sourceLine" id="cb57-38" data-line-number="38">      <span class="fu">rm</span> <span class="va">${d}</span>/ss.<span class="va">${low_author}</span>.dbslmm.txt</a>
+<a class="sourceLine" id="cb57-39" data-line-number="39">    <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb57-40" data-line-number="40"></a>
+<a class="sourceLine" id="cb57-41" data-line-number="41">  <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb57-42" data-line-number="42"></a>
+<a class="sourceLine" id="cb57-43" data-line-number="43">  <span class="bu">let</span> i=i+1</a>
+<a class="sourceLine" id="cb57-44" data-line-number="44"><span class="kw">done</span></a></code></pre></div>
+<p>The main steps involve converting my summary statistics format into the desired GEMMA format, then extracting a large amount of meta-statistics (including heritability, sample size, and number of SNPs), then actually launching the main R script. I have had some troubles getting this program to work, as some specific GCC compilers and additional libraries are needed. The final step in this process substitutes the adjusted beta values into the original summary statistics. The only parameters needed in this process are p-value and R2 values, which are used in a preliminary clumping process in the DBSLMM algorithm. The only other, unclear but common parameter is the number of individuals to include in the LD reference panel. While the original paper only specifies 500 individuals in their reference panel, I thought that value was very low and increasing it would not decrease accuracy. Therefore I have 5,000 individuals in the reference panel, bringing the same size closer in line to other methods.</p>
+<p>The original publication comes from <a href="https://www.sciencedirect.com/science/article/pii/S0002929720301099" class="uri">https://www.sciencedirect.com/science/article/pii/S0002929720301099</a>, and great doccumentation comes from <a href="https://biostat0903.github.io/DBSLMM/index.html" class="uri">https://biostat0903.github.io/DBSLMM/index.html</a>.</p>
+</div>
+<div id="jampred" class="section level2">
+<h2><span class="header-section-number">5.12</span> JAMPred</h2>
+<p>JAMPred, which stands for Joint Analysis of Marginal Summary Statistics Prediction, is a polygenic risk score generating model that is based upon the JAM algorithm. The original algorithm was made to smartly perform meta-analyses for the purpose of fine-mapping. The prediction aspect has been added on, adjusting for both normal and uniquely long-range linkage disequilibrium through the induction of sparsity in the effects. A block approach allows for the long-range correction while also allowing for easy parallelization. Further details on the algorithm are intersting, but we only need to implement the algorithm.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="va">chr=$1</span></a>
+<a class="sourceLine" id="cb58-2" data-line-number="2"><span class="va">author=$2</span></a>
+<a class="sourceLine" id="cb58-3" data-line-number="3"><span class="va">dir=$3</span></a>
+<a class="sourceLine" id="cb58-4" data-line-number="4"><span class="va">d=</span>comp_zone/dir<span class="va">${dir}</span></a>
+<a class="sourceLine" id="cb58-5" data-line-number="5"><span class="va">low_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$author</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb58-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb58-7" data-line-number="7"><span class="co">#can limit to 5,000 samples and R2 &lt; 0.95</span></a>
+<a class="sourceLine" id="cb58-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb58-9" data-line-number="9"><span class="fu">head</span> -5000 geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span>.fam <span class="kw">|</span> <span class="fu">cut</span> -f1 <span class="op">&gt;</span> <span class="va">${d}</span>/subset_inds</a>
+<a class="sourceLine" id="cb58-10" data-line-number="10"><span class="ex">plink</span> --bfile geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span> --keep-fam <span class="va">${d}</span>/subset_inds --indep-pairwise 500 100 0.95 --out <span class="va">${d}</span>/snps</a>
+<a class="sourceLine" id="cb58-11" data-line-number="11"><span class="ex">plink</span> --bfile geno_files/<span class="va">${low_author}</span>.<span class="va">${chr}</span> --keep-fam <span class="va">${d}</span>/subset_inds --extract <span class="va">${d}</span>/snps.prune.in --make-bed --out <span class="va">${d}</span>/for_jampred</a>
+<a class="sourceLine" id="cb58-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb58-13" data-line-number="13"><span class="ex">Rscript</span> helper_scripts/jampred.R <span class="va">$chr</span> <span class="va">$author</span> <span class="va">$d</span></a></code></pre></div>
+<p>The primary implementation of JAMPred takes place within an R script. The only prior steps needed are setting up the LD reference data. Following the original publication, the sample size in LD reference is set to 5,000 individuals, slightly more than what is used in the primary paper. An interesting step specific to this method is that the markers in the LD reference were specified to have R2 less than 95%, meaning that I had to randomly sample down my markers using PLINK.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb59-1" data-line-number="1"><span class="kw">.libPaths</span>( <span class="kw">c</span>( <span class="st">&quot;/home/kulmsc/R/x86_64-pc-linux-gnu-library/3.6&quot;</span>,  <span class="kw">.libPaths</span>() ) )</a>
+<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="kw">library</span>(bigsnpr)</a>
+<a class="sourceLine" id="cb59-3" data-line-number="3"><span class="kw">library</span>(R2BGLiMS)</a>
+<a class="sourceLine" id="cb59-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb59-5" data-line-number="5">args &lt;-<span class="st"> </span><span class="kw">commandArgs</span>(<span class="dt">trailingOnly=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb59-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb59-7" data-line-number="7">chr &lt;-<span class="st"> </span>args[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb59-8" data-line-number="8">author &lt;-<span class="st"> </span>args[<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb59-9" data-line-number="9">d &lt;-<span class="st"> </span>args[<span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb59-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb59-11" data-line-number="11"><span class="cf">if</span>(<span class="op">!</span><span class="kw">file.exists</span>(<span class="kw">paste0</span>(d, <span class="st">&quot;/for_jampred.rds&quot;</span>))){</a>
+<a class="sourceLine" id="cb59-12" data-line-number="12">  <span class="kw">snp_readBed</span>(<span class="kw">paste0</span>(d, <span class="st">&quot;/for_jampred.bed&quot;</span>))</a>
+<a class="sourceLine" id="cb59-13" data-line-number="13">}</a>
+<a class="sourceLine" id="cb59-14" data-line-number="14">obj.bigSNP &lt;-<span class="st"> </span><span class="kw">snp_attach</span>(<span class="kw">paste0</span>(d, <span class="st">&quot;/for_jampred.rds&quot;</span>))</a>
+<a class="sourceLine" id="cb59-15" data-line-number="15">ped &lt;-<span class="st"> </span><span class="kw">big_copy</span>(<span class="kw">snp_fastImputeSimple</span>(obj.bigSNP<span class="op">$</span>genotypes, <span class="st">&quot;mean0&quot;</span>), <span class="dt">type =</span> <span class="st">&quot;integer&quot;</span>)</a>
+<a class="sourceLine" id="cb59-16" data-line-number="16">ped &lt;-<span class="st"> </span>ped<span class="op">$</span><span class="kw">bm</span>()</a>
+<a class="sourceLine" id="cb59-17" data-line-number="17"><span class="kw">options</span>(<span class="dt">bigmemory.allow.dimnames=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb59-18" data-line-number="18"><span class="kw">colnames</span>(ped) &lt;-<span class="st"> </span>obj.bigSNP<span class="op">$</span>map<span class="op">$</span>marker.ID</a>
+<a class="sourceLine" id="cb59-19" data-line-number="19"><span class="kw">rm</span>(obj.bigSNP)</a>
+<a class="sourceLine" id="cb59-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb59-21" data-line-number="21">ss &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(<span class="st">&quot;temp_files/ss.&quot;</span>, <span class="kw">tolower</span>(author), <span class="st">&quot;.&quot;</span>, chr), <span class="dt">stringsAsFactors=</span>F, <span class="dt">header=</span>T)</a>
+<a class="sourceLine" id="cb59-22" data-line-number="22">ss &lt;-<span class="st"> </span>ss[ss<span class="op">$</span>RSID <span class="op">%in%</span><span class="st"> </span><span class="kw">colnames</span>(ped),]</a>
+<a class="sourceLine" id="cb59-23" data-line-number="23">marg_beta &lt;-<span class="st"> </span>ss<span class="op">$</span>BETA</a>
+<a class="sourceLine" id="cb59-24" data-line-number="24"><span class="kw">names</span>(marg_beta) &lt;-<span class="st"> </span>ss<span class="op">$</span>RSID</a>
+<a class="sourceLine" id="cb59-25" data-line-number="25">marg_se &lt;-<span class="st"> </span>ss<span class="op">$</span>SE</a>
+<a class="sourceLine" id="cb59-26" data-line-number="26"><span class="kw">names</span>(marg_se) &lt;-<span class="st"> </span>ss<span class="op">$</span>RSID</a>
+<a class="sourceLine" id="cb59-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb59-28" data-line-number="28">meta_stats &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;~/athena/doc_score/raw_ss/meta_stats&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">stringsAsFactors=</span>F, <span class="dt">header =</span> T)</a>
+<a class="sourceLine" id="cb59-29" data-line-number="29">meta_line &lt;-<span class="st"> </span>meta_stats[meta_stats[,<span class="dv">1</span>] <span class="op">==</span><span class="st"> </span>tools<span class="op">::</span><span class="kw">toTitleCase</span>(author),]</a>
+<a class="sourceLine" id="cb59-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb59-31" data-line-number="31">lambdas &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;all_specs/jampred_param_specs&quot;</span>, <span class="dt">header =</span> T)</a>
+<a class="sourceLine" id="cb59-32" data-line-number="32">try_ind &lt;-<span class="st"> </span><span class="kw">unname</span>(<span class="kw">which</span>(marg_beta <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb59-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb59-34" data-line-number="34"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(lambdas)){</a>
+<a class="sourceLine" id="cb59-35" data-line-number="35">  jampred.res.bin &lt;-<span class="st"> </span><span class="kw">JAMPred</span>(</a>
+<a class="sourceLine" id="cb59-36" data-line-number="36">   <span class="dt">marginal.betas =</span> marg_beta[try_ind],</a>
+<a class="sourceLine" id="cb59-37" data-line-number="37">   <span class="dt">n.training =</span> <span class="kw">as.numeric</span>(meta_line<span class="op">$</span>sampe_size),</a>
+<a class="sourceLine" id="cb59-38" data-line-number="38">   <span class="dt">marginal.logor.ses =</span> marg_se[try_ind], <span class="co"># Only necessary for a binary trait</span></a>
+<a class="sourceLine" id="cb59-39" data-line-number="39">   <span class="dt">p.cases.training =</span> meta_line<span class="op">$</span>cases<span class="op">/</span>meta_line<span class="op">$</span>sampe_size, <span class="co"># Only necessary for a binary trait</span></a>
+<a class="sourceLine" id="cb59-40" data-line-number="40">   <span class="dt">ref.geno =</span> ped[<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(ped),try_ind],</a>
+<a class="sourceLine" id="cb59-41" data-line-number="41">   <span class="dt">total.snps.genome.wide =</span> meta_line<span class="op">$</span>snps, <span class="co"># Total SNPs across all chromosomes</span></a>
+<a class="sourceLine" id="cb59-42" data-line-number="42">   <span class="dt">n.mil =</span> <span class="fl">0.2</span>,</a>
+<a class="sourceLine" id="cb59-43" data-line-number="43">   <span class="dt">n.cores =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb59-44" data-line-number="44">   <span class="dt">beta.binom.b.lambda =</span> lambdas[i,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb59-45" data-line-number="45">   <span class="dt">debug =</span> <span class="ot">TRUE</span>,</a>
+<a class="sourceLine" id="cb59-46" data-line-number="46">   <span class="dt">save.path =</span> <span class="kw">paste0</span>(<span class="st">&quot;/home/kulmsc/athena/doc_score/adjust_ss/&quot;</span>, d),</a>
+<a class="sourceLine" id="cb59-47" data-line-number="47">   <span class="dt">seed =</span> <span class="dv">1</span> <span class="co"># For re-producibility. If not set a random seed is used</span></a>
+<a class="sourceLine" id="cb59-48" data-line-number="48">  )</a>
+<a class="sourceLine" id="cb59-49" data-line-number="49"></a>
+<a class="sourceLine" id="cb59-50" data-line-number="50">  newss &lt;-<span class="st"> </span>ss[ss<span class="op">$</span>RSID <span class="op">%in%</span><span class="st"> </span>jampred.res.bin<span class="op">$</span>snps,]</a>
+<a class="sourceLine" id="cb59-51" data-line-number="51">  newss<span class="op">$</span>BETA &lt;-<span class="st"> </span>jampred.res.bin<span class="op">$</span>step2.posterior.mean.snp.weights</a>
+<a class="sourceLine" id="cb59-52" data-line-number="52"></a>
+<a class="sourceLine" id="cb59-53" data-line-number="53">  <span class="kw">write.table</span>(newss, <span class="kw">paste0</span>(<span class="st">&quot;../mod_sets/&quot;</span>, author, <span class="st">&quot;/&quot;</span>, lowauthor, <span class="st">&quot;.&quot;</span>, chr,  <span class="st">&quot;.jampred.&quot;</span>, i, <span class="st">&quot;.ss&quot;</span>), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> T, <span class="dt">quote =</span> F, <span class="dt">sep =</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>)</a>
+<a class="sourceLine" id="cb59-54" data-line-number="54">}</a></code></pre></div>
+<p>After the genotypic data is prepared, the actual R script can be carried out. While the demands of JAMPred may seem simple, it requires that the genotypic data in 0, 1, and 2s be read into R. This can be a very large file, easily crashing the RAM of even a nice cluster. Therefore I took the approach of using the bigsnpr package to read the data in a memory-smart way. Some funky code then is used to change the column names to the rsids in the summary statistics, and impute the missing data. The memory-smart genotypic file can then be directly inserted into the main JAMPred function call, along with other meta statistics and the summary statistics. The only parameter needing adjusting is lambda. The four lambda values chosen in this trial are the four used within the example on the associated GitHub page. The output of this function are adjusted betas, which can then be substiuted into the main summary statistics.</p>
+<p>The original publication comes from <a href="https://onlinelibrary.wiley.com/doi/full/10.1002/gepi.22245" class="uri">https://onlinelibrary.wiley.com/doi/full/10.1002/gepi.22245</a>, and the doccumentation is at <a href="https://github.com/pjnewcombe/R2BGLiMS" class="uri">https://github.com/pjnewcombe/R2BGLiMS</a>.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="getting-the-summary-statistics.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="compiling-the-scores.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>7 Score Analysis Set-Up | index.split</title>
+  <meta name="description" content="" />
+  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="7 Score Analysis Set-Up | index.split" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="7 Score Analysis Set-Up | index.split" />
+  
+  
+  
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="compiling-the-scores.html"/>
+<link rel="next" href="tuning.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#directory-framework"><i class="fa fa-check"></i><b>1.1</b> Directory Framework</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="quality-control.html"><a href="quality-control.html"><i class="fa fa-check"></i><b>2</b> Quality Control</a><ul>
+<li class="chapter" data-level="2.1" data-path="quality-control.html"><a href="quality-control.html#previously-applied-qc"><i class="fa fa-check"></i><b>2.1</b> Previously Applied QC</a></li>
+<li class="chapter" data-level="2.2" data-path="quality-control.html"><a href="quality-control.html#initial-qc"><i class="fa fa-check"></i><b>2.2</b> Initial QC</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>3</b> Summary Statistics</a></li>
+<li class="chapter" data-level="4" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html"><i class="fa fa-check"></i><b>4</b> Getting the Summary Statistics</a><ul>
+<li class="chapter" data-level="4.1" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#prepare-variants"><i class="fa fa-check"></i><b>4.1</b> Prepare Variants</a></li>
+<li class="chapter" data-level="4.2" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#standardize-the-summary-statistics"><i class="fa fa-check"></i><b>4.2</b> Standardize the Summary Statistics</a></li>
+<li class="chapter" data-level="4.3" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#heritability-estimation"><i class="fa fa-check"></i><b>4.3</b> Heritability Estimation</a></li>
+<li class="chapter" data-level="4.4" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#genetic-correlation-estimation"><i class="fa fa-check"></i><b>4.4</b> Genetic Correlation Estimation</a></li>
+<li class="chapter" data-level="4.5" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#final-changes-and-remarks"><i class="fa fa-check"></i><b>4.5</b> Final Changes and Remarks</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Adjusting Summary Statistics</a><ul>
+<li class="chapter" data-level="5.0.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#computational-framework"><i class="fa fa-check"></i><b>5.0.1</b> Computational Framework</a></li>
+<li class="chapter" data-level="5.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#simple"><i class="fa fa-check"></i><b>5.1</b> Simple</a></li>
+<li class="chapter" data-level="5.2" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#clumping"><i class="fa fa-check"></i><b>5.2</b> Clumping</a></li>
+<li class="chapter" data-level="5.3" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#double-weight"><i class="fa fa-check"></i><b>5.3</b> Double Weight</a></li>
+<li class="chapter" data-level="5.4" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#ldpred"><i class="fa fa-check"></i><b>5.4</b> LDpred</a></li>
+<li class="chapter" data-level="5.5" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#ldpred2"><i class="fa fa-check"></i><b>5.5</b> LDpred2</a></li>
+<li class="chapter" data-level="5.6" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#sblup"><i class="fa fa-check"></i><b>5.6</b> SBLUP</a></li>
+<li class="chapter" data-level="5.7" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#smtpred"><i class="fa fa-check"></i><b>5.7</b> SMTpred</a></li>
+<li class="chapter" data-level="5.8" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#prscs"><i class="fa fa-check"></i><b>5.8</b> prsCS</a></li>
+<li class="chapter" data-level="5.9" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#lassosum"><i class="fa fa-check"></i><b>5.9</b> lassosum</a></li>
+<li class="chapter" data-level="5.10" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#tweedie"><i class="fa fa-check"></i><b>5.10</b> Tweedie</a></li>
+<li class="chapter" data-level="5.11" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#sbayesr"><i class="fa fa-check"></i><b>5.11</b> SBayesR</a></li>
+<li class="chapter" data-level="5.12" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#jampred"><i class="fa fa-check"></i><b>5.12</b> JAMPred</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html"><i class="fa fa-check"></i><b>6</b> Compiling the Scores</a><ul>
+<li class="chapter" data-level="6.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#simple-score-approach"><i class="fa fa-check"></i><b>6.1</b> Simple Score Approach</a><ul>
+<li class="chapter" data-level="6.1.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#what-to-worry-about"><i class="fa fa-check"></i><b>6.1.1</b> What to Worry About</a></li>
+<li class="chapter" data-level="6.1.2" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#controlling-and-assembling"><i class="fa fa-check"></i><b>6.1.2</b> Controlling and Assembling</a></li>
+<li class="chapter" data-level="6.1.3" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#other-options"><i class="fa fa-check"></i><b>6.1.3</b> Other Options</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html"><i class="fa fa-check"></i><b>7</b> Score Analysis Set-Up</a><ul>
+<li class="chapter" data-level="7.1" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#defining-the-phenotypes"><i class="fa fa-check"></i><b>7.1</b> Defining the Phenotypes</a></li>
+<li class="chapter" data-level="7.2" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#making-the-phenotype"><i class="fa fa-check"></i><b>7.2</b> Making the Phenotype</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tuning.html"><a href="tuning.html"><i class="fa fa-check"></i><b>8</b> Tuning</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="score-analysis-set-up" class="section level1">
+<h1><span class="header-section-number">7</span> Score Analysis Set-Up</h1>
+<p>Now that we have the scores we are nearly ready for analysis. However, there are actually several more things that need to be done, namely setting up all of the phenotypes and covariates. Similar to creating the scores, this is an often underrated process that needs to be done carefully or everything else fails.</p>
+<div id="defining-the-phenotypes" class="section level2">
+<h2><span class="header-section-number">7.1</span> Defining the Phenotypes</h2>
+<p>By phenotype I mean status of whether an individual has the disease corresponding to the polygenic risk score. This is a tricky problem, since first of all each underlying GWAS of the polygenic risk scores may construct phenotypes differently. Adjusting our phenotypes to each GWAS does not seem easy however, or even possible given the limited information within the UK Biobank. However the UK Biobank does have a great deal of information. The sources that we will use to construct phenotypes are as follows:</p>
+<ol style="list-style-type: decimal">
+<li><p>Self-Reported - Each individual was interviewed by a trained nurse and asked about any illnesses they may have. The nurse then placed any description by the individual into a pre-specified tree of diseases. This data can be suspect as the individual may report self-diagnoses not confirmed by a doctor and not really existing, but overall they are likely to line up with actual conditions for most of the individuals.
+Further description on the self-reported data-type can be found here, <a href="http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=20002" class="uri">http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=20002</a>, and all possible self-reported codings can be found here, <a href="http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=3" class="uri">http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=3</a>, and here <a href="http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=6" class="uri">http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=6</a> (for cancer and non-cancer).</p></li>
+<li><p>ICD - The UK Biobank has pulled in the electronic health record of every individual. Specifically, when a doctor makes a diagnosis they will record the ICD code in the computer. These should be highly accurate, however there is always the change of a typo or a doctor recording a similar diagnosis that does not quite match what we want, making ICD codes rather fickle. These records have been parsed into hesin files (hospital episode statistics). In short there this one file, hesin_diag, with ICD codes on every line, and another file, hesin, with dates of hospital episodes. One can look up the dates for a given ICD code by using the EID and instance index. We will go over this more later.
+More information on the hesin data can be found here, <a href="https://biobank.ndph.ox.ac.uk/showcase/showcase/docs/HospitalEpisodeStatistics.pdf" class="uri">https://biobank.ndph.ox.ac.uk/showcase/showcase/docs/HospitalEpisodeStatistics.pdf</a>. The coding for ICD9 codes can be found here, <a href="http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=87" class="uri">http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=87</a>. The coding for ICD10 codes can be found here, <a href="http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=19" class="uri">http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=19</a>. Note that ICD9 codes are older than ICD10.</p></li>
+<li><p>OPCS - Similar to ICD, OPCS codes are generally part of the electronic health record and are accessed from the hesin set of files. However, instead of recording diagnoses they record operations. While generally not helpful for our purposes, some publications have used specific OPCS codes to assume that an underlying phenotype was the cause. Following precendent I will do the same.
+More information on OPCS coding can be found here, <a href="http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=240" class="uri">http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=240</a>. There are also OPCS3 codes, but they are very, very sparse.</p></li>
+<li><p>Medications - This is the least orthodox way of determining phenotype. But I figure if someone is taking a medication that is only used for one illness, then there is a very good chance the person has that illness. Unfortunately the UK Biobank does not have to the day records of medications, but only inventories when individuals come in for assessments. By looking over CDC, respective professional society, and Mayo Clinic websites I determine the associated medications and convert them into the UK Biobank codes.
+More information on Medication coding can be found here, <a href="http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=4" class="uri">http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=4</a>. More information on how medication data was recorded can be found here, <a href="http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=20003" class="uri">http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=20003</a>.</p></li>
+</ol>
+<p>The table that actually holds the conversion from the many possible codes of each category into a 1/0 phenotype is as follows.</p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1">  pheno_defs &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;../analyze_score/descript_defs/author_defs&quot;</span>, <span class="dt">stringsAsFactors=</span>F, <span class="dt">header=</span>T)</a>
+<a class="sourceLine" id="cb63-2" data-line-number="2">  <span class="kw">print</span>(pheno_defs)</a></code></pre></div>
+<pre><code>##            author                             name sex cancer noncancer
+## 1         Bentham                              sle   A     NA      1381
+## 2  Christophersen               atrial_fibrilation   A     NA      1471
+## 3        Demenais                           asthma   A     NA      1111
+## 4        Demontis                             adhd   A     NA      &lt;NA&gt;
+## 5          Dubois                   celiac_disease   A     NA      1456
+## 6         Gormley                         migraine   A     NA      1265
+## 7           IMSGC                               ms   A     NA      1261
+## 8             Jin                         vitiligo   A     NA      1661
+## 9         Kottgen                             gout   A     NA      1466
+## 10          Liu-1               ulcerative_colitis   A     NA      1463
+## 11          Liu-2                   crohns_disease   A     NA      1462
+## 12        Mahajan                  type_2_diabetes   A     NA      1223
+## 13          Malik                           stroke   A     NA      1081
+## 14    Michailidou                    breast_cancer   F   1002      &lt;NA&gt;
+## 15         Namjou nonalcoholic_fatty_liver_disease   A     NA      &lt;NA&gt;
+## 16         Nikpay          coronary_artery_disease   A     NA 1075|1076
+## 17          Okada             rheumatoid_arthritis   A     NA      1464
+## 18        Onengut                  type_1_diabetes   A     NA      1222
+## 19         Phelan                   ovarian_cancer   F   1039      &lt;NA&gt;
+## 20        Rheenen                              als   A     NA      &lt;NA&gt;
+## 21     Schumacher                  prostate_cancer   M   1044      &lt;NA&gt;
+## 22           Shah                    heart_failure   A     NA      1076
+## 23          Sklar                  bipolar_disease   A     NA      1291
+## 24           Tsoi                        psoriaris   A     NA      1453
+## 25           Wray        major_depressive_disorder   A     NA      1286
+## 26            Xie    membranous_glomerulonephritis   A     NA      &lt;NA&gt;
+##                               icd9                                    icd10
+## 1                              710                           M321|M328|M329
+## 2                             4273                                      I48
+## 3                              493                                  J45|J46
+## 4                              314                                      F90
+## 5                              579                                     &lt;NA&gt;
+## 6                              346                                      G43
+## 7                              340                                      G35
+## 8                             7091                                      L80
+## 9                              274                                      M10
+## 10                             556                                      K51
+## 11                             555                                      K50
+## 12                            &lt;NA&gt;                                      E11
+## 13 431|432|433|434|435|436|437|438 I60|I61|I62|I633|I64|I65|I66|I67|I68|I69
+## 14                             174                                      C50
+## 15                            5718                                     K760
+## 16                     410|411|412                    I21|I22|I23|I241|I252
+## 17                             714                                  M05|M06
+## 18                            &lt;NA&gt;                                      E10
+## 19                             183                                      C56
+## 20                            3352                                     G122
+## 21                             185                                      C61
+## 22                             428                                      I50
+## 23                             296                                      F31
+## 24                       6960|6961                                      L40
+## 25                            &lt;NA&gt;                                      F33
+## 26                            5831                                     N002
+##                       opcs
+## 1                     &lt;NA&gt;
+## 2                K622|K623
+## 3                     &lt;NA&gt;
+## 4                     &lt;NA&gt;
+## 5                     &lt;NA&gt;
+## 6                     &lt;NA&gt;
+## 7                     &lt;NA&gt;
+## 8                     &lt;NA&gt;
+## 9                     &lt;NA&gt;
+## 10                    &lt;NA&gt;
+## 11                    &lt;NA&gt;
+## 12                    &lt;NA&gt;
+## 13                U543|Z35
+## 14             B27|B28|B29
+## 15                    &lt;NA&gt;
+## 16 K40|K41|K45|K49|K50|K75
+## 17                    U504
+## 18                    &lt;NA&gt;
+## 19                    &lt;NA&gt;
+## 20                    X852
+## 21                    &lt;NA&gt;
+## 22                    &lt;NA&gt;
+## 23                    &lt;NA&gt;
+## 24                    &lt;NA&gt;
+## 25                    &lt;NA&gt;
+## 26                    &lt;NA&gt;
+##                                                                                       meds
+## 1                                                                                     &lt;NA&gt;
+## 2                                                                               1140888482
+## 3                                                                               1141168340
+## 4                                                                                     &lt;NA&gt;
+## 5                                                                                     &lt;NA&gt;
+## 6             1141163670|1141167932|1141172728|1141185436|1141192666|1141150620|1141151284
+## 7  1141188640|1141188642|1141150596|1141172620|1141165546|1141167618|1141189254|1141189256
+## 8                                                                                     &lt;NA&gt;
+## 9                                                                               1140875408
+## 10                                                                              1141153242
+## 11                                                                                    &lt;NA&gt;
+## 12                                                                                    &lt;NA&gt;
+## 13                                                                                    &lt;NA&gt;
+## 14                                                                   1140923018|1141190734
+## 15                                                                                    &lt;NA&gt;
+## 16                                                                                    &lt;NA&gt;
+## 17                                  1141145896|1140909702|1141188588|1141180070|1140871188
+## 18                                                                                    &lt;NA&gt;
+## 19                                                                                    &lt;NA&gt;
+## 20                                                                              1141195974
+## 21                                                        1141150594|1140870274|1140921100
+## 22                                                                                    &lt;NA&gt;
+## 23                                                                                    &lt;NA&gt;
+## 24                                                                                    &lt;NA&gt;
+## 25                                                                                    &lt;NA&gt;
+## 26                                                                                    &lt;NA&gt;</code></pre>
+<p>The pipe symbol is used to indicate that if any of the codes can be found in the respective data type the phenotype will be called positive.</p>
+</div>
+<div id="making-the-phenotype" class="section level2">
+<h2><span class="header-section-number">7.2</span> Making the Phenotype</h2>
+<p>Now that we know what codes go to which phenotype, we simply need to go through the respective data files and check off when we find one for each EID. Easier said than done, so I’ve broken down things into parts. The first part is preparing the data, specifically breaking down the large phenotype file downloaded from the UK Biobank into parts that are easy to inspect and read in. Along with these files, the hesin files are also nescessary, although they do not need any breaking down. I would display these files but I do not think I am allowed to. Anyway, the breaking down scripts looks like the following (note that if following along your indices are likely different).</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb65-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb65-2" data-line-number="2"><span class="co">#self diag from 472 to 573</span></a>
+<a class="sourceLine" id="cb65-3" data-line-number="3"><span class="co">#date attend assessment center from 41 to 43</span></a>
+<a class="sourceLine" id="cb65-4" data-line-number="4"><span class="co">#medication from 574 to 717</span></a>
+<a class="sourceLine" id="cb65-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb65-6" data-line-number="6"><span class="fu">zcat</span> ~/athena/ukbiobank/phenotypes/ukb26867.csv.gz <span class="kw">|</span> <span class="fu">cut</span> -d<span class="st">&#39;,&#39;</span> -f1 <span class="op">&gt;</span> eid.csv</a>
+<a class="sourceLine" id="cb65-7" data-line-number="7"><span class="fu">zcat</span> ~/athena/ukbiobank/phenotypes/ukb26867.csv.gz <span class="kw">|</span> <span class="fu">cut</span> -d<span class="st">&#39;,&#39;</span> -f472-573 <span class="op">&gt;</span> self_report_diag.csv</a>
+<a class="sourceLine" id="cb65-8" data-line-number="8"><span class="fu">zcat</span> ~/athena/ukbiobank/phenotypes/ukb26867.csv.gz <span class="kw">|</span> <span class="fu">cut</span> -d<span class="st">&#39;,&#39;</span> -f454-471 <span class="op">&gt;</span> self_report_cancer.csv</a>
+<a class="sourceLine" id="cb65-9" data-line-number="9"><span class="fu">zcat</span> ~/athena/ukbiobank/phenotypes/ukb26867.csv.gz <span class="kw">|</span> <span class="fu">cut</span> -d<span class="st">&#39;,&#39;</span> -f41-43 <span class="op">&gt;</span> date_assessed.csv</a>
+<a class="sourceLine" id="cb65-10" data-line-number="10"><span class="fu">zcat</span> ~/athena/ukbiobank/phenotypes/ukb26867.csv.gz <span class="kw">|</span> <span class="fu">cut</span> -d<span class="st">&#39;,&#39;</span> -f574-717 <span class="op">&gt;</span> medications.csv</a></code></pre></div>
+<p>Now that everything is prepared data-wise we can get on with inspecting and calling phenotypes. I have tried this in many different ways, and the fastest option seems to be breaking down the total 500,000 people into groups and calling phenotypes for each group in parallel. This parallel component is controlled by the following script, which is straightforward.</p>
+<div class="sourceCode" id="cb66"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb66-1" data-line-number="1"><span class="fu">cat</span> parallel_splits <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">line</span>;<span class="kw">do</span></a>
+<a class="sourceLine" id="cb66-2" data-line-number="2">  <span class="va">star=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$line</span> <span class="kw">|</span> <span class="fu">cut</span> -d<span class="st">&#39; &#39;</span> -f1<span class="kw">`</span></a>
+<a class="sourceLine" id="cb66-3" data-line-number="3">  <span class="va">end=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$line</span> <span class="kw">|</span> <span class="fu">cut</span> -d<span class="st">&#39; &#39;</span> -f2<span class="kw">`</span></a>
+<a class="sourceLine" id="cb66-4" data-line-number="4">  <span class="bu">echo</span> <span class="va">$star</span></a>
+<a class="sourceLine" id="cb66-5" data-line-number="5">  <span class="ex">python</span> better_pheno.py <span class="va">$star</span> <span class="va">$end</span> <span class="kw">&amp;</span></a>
+<a class="sourceLine" id="cb66-6" data-line-number="6">  <span class="fu">sleep</span> 80</a>
+<a class="sourceLine" id="cb66-7" data-line-number="7"><span class="kw">done</span></a></code></pre></div>
+<p>As you may be able to see the key script here is called better_pheno.py. This script has a few different parts. First it reads in all of the prepared data. Next it subsets down to the group of individuals specified by the control_make_pheno, and sorts each file so the EIDs line up. This sorting is important as it allows for quick indexing of EIDs (just iterate to the next unique EID rather than searching for the index). Lastly I check each type of phenotype (self-report, ICD, etc.) for the coding that was specified. For the ICD and OPCS this process required me to check not just the exact code, but also a more general code due to the hierarchical natur of their coding. For example if I am looking for G35 and an individual has G351 then I will still count that as a match. Further details on how this script works can be found in the well recorded comments of the script itself, which starts below.</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="im">import</span> numpy <span class="im">as</span> np</a>
+<a class="sourceLine" id="cb67-2" data-line-number="2"><span class="im">import</span> datetime</a>
+<a class="sourceLine" id="cb67-3" data-line-number="3"><span class="im">import</span> time</a>
+<a class="sourceLine" id="cb67-4" data-line-number="4"><span class="im">import</span> pickle</a>
+<a class="sourceLine" id="cb67-5" data-line-number="5"><span class="im">import</span> pdb</a>
+<a class="sourceLine" id="cb67-6" data-line-number="6"><span class="im">import</span> gzip</a>
+<a class="sourceLine" id="cb67-7" data-line-number="7"><span class="im">import</span> os</a>
+<a class="sourceLine" id="cb67-8" data-line-number="8"><span class="im">import</span> sys</a>
+<a class="sourceLine" id="cb67-9" data-line-number="9"><span class="im">import</span> sys</a>
+<a class="sourceLine" id="cb67-10" data-line-number="10"><span class="im">import</span> re</a>
+<a class="sourceLine" id="cb67-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb67-12" data-line-number="12"><span class="co">#Declare the author that corresponds to the phenotype you want</span></a>
+<a class="sourceLine" id="cb67-13" data-line-number="13"><span class="co">#Also the indices of the group we want phenotypes for</span></a>
+<a class="sourceLine" id="cb67-14" data-line-number="14">author <span class="op">=</span> <span class="st">&quot;Christophersen&quot;</span></a>
+<a class="sourceLine" id="cb67-15" data-line-number="15">start_ind <span class="op">=</span> <span class="bu">int</span>(sys.argv[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb67-16" data-line-number="16">end_ind <span class="op">=</span> <span class="bu">int</span>(sys.argv[<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb67-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb67-18" data-line-number="18"><span class="co">#Function to read in the data</span></a>
+<a class="sourceLine" id="cb67-19" data-line-number="19"><span class="kw">def</span> normRead(fileName, withHeader <span class="op">=</span> <span class="va">True</span>, delim <span class="op">=</span> <span class="st">&#39;</span><span class="ch">\t</span><span class="st">&#39;</span>, removeQuote <span class="op">=</span> <span class="va">False</span>):</a>
+<a class="sourceLine" id="cb67-20" data-line-number="20">	<span class="cf">with</span> <span class="bu">open</span>(fileName,<span class="st">&quot;r&quot;</span>,encoding <span class="op">=</span> <span class="st">&quot;latin-1&quot;</span>) <span class="im">as</span> f:</a>
+<a class="sourceLine" id="cb67-21" data-line-number="21">		totalData<span class="op">=</span>[]</a>
+<a class="sourceLine" id="cb67-22" data-line-number="22">		<span class="cf">for</span> line <span class="kw">in</span> f.read().splitlines():</a>
+<a class="sourceLine" id="cb67-23" data-line-number="23">			<span class="cf">if</span> removeQuote:</a>
+<a class="sourceLine" id="cb67-24" data-line-number="24">				totalData.append(line.replace(<span class="st">&#39;&quot;&#39;</span>, <span class="st">&#39;&#39;</span>).strip().split(delim))</a>
+<a class="sourceLine" id="cb67-25" data-line-number="25">			<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb67-26" data-line-number="26">				totalData.append(line.split(delim))</a>
+<a class="sourceLine" id="cb67-27" data-line-number="27">	<span class="cf">if</span> withHeader:</a>
+<a class="sourceLine" id="cb67-28" data-line-number="28">		header<span class="op">=</span>totalData[<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-29" data-line-number="29">		<span class="kw">del</span> totalData[<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-30" data-line-number="30">	<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb67-31" data-line-number="31">		header <span class="op">=</span> <span class="va">None</span></a>
+<a class="sourceLine" id="cb67-32" data-line-number="32">	totalData<span class="op">=</span>np.array(totalData)</a>
+<a class="sourceLine" id="cb67-33" data-line-number="33">	<span class="cf">return</span>(totalData,header)</a>
+<a class="sourceLine" id="cb67-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb67-35" data-line-number="35"><span class="co">#Read in the files that were split from the main UKBB phenotype file</span></a>
+<a class="sourceLine" id="cb67-36" data-line-number="36">date_ass,ass_header <span class="op">=</span> normRead(<span class="st">&quot;date_assessed.csv&quot;</span>, <span class="va">True</span>, <span class="st">&quot;,&quot;</span>, <span class="va">True</span>)</a>
+<a class="sourceLine" id="cb67-37" data-line-number="37">meds, meds_header <span class="op">=</span> normRead(<span class="st">&quot;medications.csv&quot;</span>, <span class="va">True</span>, <span class="st">&quot;,&quot;</span>, <span class="va">True</span>)</a>
+<a class="sourceLine" id="cb67-38" data-line-number="38">self_rep, self_rep_header <span class="op">=</span> normRead(<span class="st">&quot;self_report_diag.csv&quot;</span>, <span class="va">True</span>, <span class="st">&quot;,&quot;</span>, <span class="va">True</span>)</a>
+<a class="sourceLine" id="cb67-39" data-line-number="39">cancer_rep, cancer_rep_header <span class="op">=</span> normRead(<span class="st">&quot;self_report_cancer.csv&quot;</span>, <span class="va">True</span>, <span class="st">&quot;,&quot;</span>, <span class="va">True</span>)</a>
+<a class="sourceLine" id="cb67-40" data-line-number="40">big_eid, eid_head <span class="op">=</span> normRead(<span class="st">&quot;eid.csv&quot;</span>, <span class="va">True</span>, <span class="st">&quot;,&quot;</span>, <span class="va">True</span>)</a>
+<a class="sourceLine" id="cb67-41" data-line-number="41"></a>
+<a class="sourceLine" id="cb67-42" data-line-number="42"><span class="co">#sort the files just read in so they are in EID order</span></a>
+<a class="sourceLine" id="cb67-43" data-line-number="43">date_ass <span class="op">=</span> date_ass[big_eid[:,<span class="dv">0</span>].argsort(),:]</a>
+<a class="sourceLine" id="cb67-44" data-line-number="44">meds <span class="op">=</span> meds[big_eid[:,<span class="dv">0</span>].argsort(),:]</a>
+<a class="sourceLine" id="cb67-45" data-line-number="45">self_rep <span class="op">=</span> self_rep[big_eid[:,<span class="dv">0</span>].argsort(),:]</a>
+<a class="sourceLine" id="cb67-46" data-line-number="46">cancer_rep <span class="op">=</span> cancer_rep[big_eid[:,<span class="dv">0</span>].argsort(),:]</a>
+<a class="sourceLine" id="cb67-47" data-line-number="47">big_eid <span class="op">=</span> big_eid[big_eid[:,<span class="dv">0</span>].argsort(),:]</a>
+<a class="sourceLine" id="cb67-48" data-line-number="48"></a>
+<a class="sourceLine" id="cb67-49" data-line-number="49"><span class="co">#Get the phase, or the assessment type for cancer, self-report and medication report</span></a>
+<a class="sourceLine" id="cb67-50" data-line-number="50"><span class="co">#Phase meaning what index, or what time the person came in to be assessed (first, second or third assessment)</span></a>
+<a class="sourceLine" id="cb67-51" data-line-number="51">cancer_phase <span class="op">=</span> [x.split(<span class="st">&quot;-&quot;</span>)[<span class="dv">1</span>].split(<span class="st">&quot;.&quot;</span>)[<span class="dv">0</span>] <span class="cf">for</span> x <span class="kw">in</span> cancer_rep_header]</a>
+<a class="sourceLine" id="cb67-52" data-line-number="52">self_phase <span class="op">=</span> [x.split(<span class="st">&quot;-&quot;</span>)[<span class="dv">1</span>].split(<span class="st">&quot;.&quot;</span>)[<span class="dv">0</span>] <span class="cf">for</span> x <span class="kw">in</span> self_rep_header]</a>
+<a class="sourceLine" id="cb67-53" data-line-number="53">meds_phase <span class="op">=</span> [x.split(<span class="st">&quot;-&quot;</span>)[<span class="dv">1</span>].split(<span class="st">&quot;.&quot;</span>)[<span class="dv">0</span>] <span class="cf">for</span> x <span class="kw">in</span> meds_header]</a>
+<a class="sourceLine" id="cb67-54" data-line-number="54"></a>
+<a class="sourceLine" id="cb67-55" data-line-number="55"><span class="co">#Read in the hesin type of data and again sort by EID</span></a>
+<a class="sourceLine" id="cb67-56" data-line-number="56">diag, head_diag <span class="op">=</span> normRead(<span class="st">&quot;/home/kulmsc/athena/ukbiobank/hesin/hesin_diag.txt&quot;</span>)</a>
+<a class="sourceLine" id="cb67-57" data-line-number="57">oper, head_oper <span class="op">=</span> normRead(<span class="st">&quot;/home/kulmsc/athena/ukbiobank/hesin/hesin_oper.txt&quot;</span>)</a>
+<a class="sourceLine" id="cb67-58" data-line-number="58">hesin, head_hesin <span class="op">=</span> normRead(<span class="st">&quot;/home/kulmsc/athena/ukbiobank/hesin/hesin.txt&quot;</span>)</a>
+<a class="sourceLine" id="cb67-59" data-line-number="59">diag <span class="op">=</span> diag[diag[:,<span class="dv">0</span>].argsort(),:]</a>
+<a class="sourceLine" id="cb67-60" data-line-number="60">oper <span class="op">=</span> oper[oper[:,<span class="dv">0</span>].argsort(),:]</a>
+<a class="sourceLine" id="cb67-61" data-line-number="61">hesin <span class="op">=</span> hesin[hesin[:,<span class="dv">0</span>].argsort(),:]</a>
+<a class="sourceLine" id="cb67-62" data-line-number="62">diag_eid <span class="op">=</span> np.unique(diag[:,<span class="dv">0</span>])</a>
+<a class="sourceLine" id="cb67-63" data-line-number="63">oper_eid <span class="op">=</span> np.unique(diag[:,<span class="dv">0</span>])</a>
+<a class="sourceLine" id="cb67-64" data-line-number="64">diag_max <span class="op">=</span> diag.shape[<span class="dv">0</span>] <span class="op">-</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb67-65" data-line-number="65">oper_max <span class="op">=</span> oper.shape[<span class="dv">0</span>] <span class="op">-</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb67-66" data-line-number="66">diag_eid_list <span class="op">=</span> diag[:,<span class="dv">0</span>].tolist()</a>
+<a class="sourceLine" id="cb67-67" data-line-number="67">oper_eid_list <span class="op">=</span> oper[:,<span class="dv">0</span>].tolist()</a>
+<a class="sourceLine" id="cb67-68" data-line-number="68"></a>
+<a class="sourceLine" id="cb67-69" data-line-number="69"></a>
+<a class="sourceLine" id="cb67-70" data-line-number="70"><span class="co">#Read in the disease defintion and split the types with multiple condictions, then make into a dict</span></a>
+<a class="sourceLine" id="cb67-71" data-line-number="71">defs, head_defs <span class="op">=</span> normRead(<span class="st">&quot;../descript_defs/author_defs&quot;</span>)</a>
+<a class="sourceLine" id="cb67-72" data-line-number="72">def_ind <span class="op">=</span> defs[:,<span class="dv">0</span>].tolist().index(author)</a>
+<a class="sourceLine" id="cb67-73" data-line-number="73">split_defs <span class="op">=</span> <span class="bu">list</span>()</a>
+<a class="sourceLine" id="cb67-74" data-line-number="74"><span class="cf">for</span> type_def <span class="kw">in</span> defs[def_ind, <span class="dv">3</span>:<span class="dv">9</span>]:</a>
+<a class="sourceLine" id="cb67-75" data-line-number="75">	split_defs.append(type_def.split(<span class="st">&quot;|&quot;</span>))</a>
+<a class="sourceLine" id="cb67-76" data-line-number="76"></a>
+<a class="sourceLine" id="cb67-77" data-line-number="77"><span class="co">#Produce a dictionary so we can easily pull out the codes for each data type</span></a>
+<a class="sourceLine" id="cb67-78" data-line-number="78">use_defs <span class="op">=</span> <span class="bu">dict</span>(<span class="bu">zip</span>(head_defs[<span class="dv">3</span>:<span class="dv">9</span>], split_defs))</a>
+<a class="sourceLine" id="cb67-79" data-line-number="79"></a>
+<a class="sourceLine" id="cb67-80" data-line-number="80"><span class="co">#This if for timing, which I do not do anymore</span></a>
+<a class="sourceLine" id="cb67-81" data-line-number="81"><span class="co">#cancer_sr_time = 0</span></a>
+<a class="sourceLine" id="cb67-82" data-line-number="82"><span class="co">#noncancer_sr_time = 0</span></a>
+<a class="sourceLine" id="cb67-83" data-line-number="83"><span class="co">#hesin_setup_time = 0</span></a>
+<a class="sourceLine" id="cb67-84" data-line-number="84"><span class="co">#icd9_time = 0</span></a>
+<a class="sourceLine" id="cb67-85" data-line-number="85"><span class="co">#icd10_time = 0</span></a>
+<a class="sourceLine" id="cb67-86" data-line-number="86"><span class="co">#hesin_oper_time = 0</span></a>
+<a class="sourceLine" id="cb67-87" data-line-number="87"><span class="co">#med_time = 0</span></a>
+<a class="sourceLine" id="cb67-88" data-line-number="88"></a>
+<a class="sourceLine" id="cb67-89" data-line-number="89"><span class="co">#Find the splits of the input data, so RAM will be less</span></a>
+<a class="sourceLine" id="cb67-90" data-line-number="90"><span class="co">#Simply find the eid corresponding to the start and stop index</span></a>
+<a class="sourceLine" id="cb67-91" data-line-number="91"><span class="co">#Continuing to skip them if they do not appear in the given data type</span></a>
+<a class="sourceLine" id="cb67-92" data-line-number="92"><span class="kw">def</span> subset_big_data(eid_list, big_data):</a>
+<a class="sourceLine" id="cb67-93" data-line-number="93"></a>
+<a class="sourceLine" id="cb67-94" data-line-number="94">	<span class="cf">for</span> ind <span class="kw">in</span> <span class="bu">range</span>(start_ind, end_ind):</a>
+<a class="sourceLine" id="cb67-95" data-line-number="95">		<span class="cf">if</span> big_eid[ind][<span class="dv">0</span>] <span class="kw">in</span> eid_list:</a>
+<a class="sourceLine" id="cb67-96" data-line-number="96">			start_eid <span class="op">=</span> eid_list.index(big_eid[ind][<span class="dv">0</span>])</a>
+<a class="sourceLine" id="cb67-97" data-line-number="97">			<span class="cf">break</span></a>
+<a class="sourceLine" id="cb67-98" data-line-number="98"></a>
+<a class="sourceLine" id="cb67-99" data-line-number="99">	<span class="cf">for</span> ind <span class="kw">in</span> <span class="bu">range</span>(end_ind, start_ind,<span class="op">-</span><span class="dv">1</span>):</a>
+<a class="sourceLine" id="cb67-100" data-line-number="100">		<span class="cf">if</span> big_eid[ind][<span class="dv">0</span>] <span class="kw">in</span> eid_list:</a>
+<a class="sourceLine" id="cb67-101" data-line-number="101">			end_eid <span class="op">=</span> np.where(big_data[:,<span class="dv">0</span>] <span class="op">==</span> big_eid[ind][<span class="dv">0</span>])[<span class="dv">0</span>][<span class="op">-</span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb67-102" data-line-number="102">			<span class="cf">break</span></a>
+<a class="sourceLine" id="cb67-103" data-line-number="103"></a>
+<a class="sourceLine" id="cb67-104" data-line-number="104">	<span class="cf">return</span>(big_data[start_eid:end_eid,:])</a>
+<a class="sourceLine" id="cb67-105" data-line-number="105">	</a>
+<a class="sourceLine" id="cb67-106" data-line-number="106"></a>
+<a class="sourceLine" id="cb67-107" data-line-number="107"></a>
+<a class="sourceLine" id="cb67-108" data-line-number="108"><span class="cf">if</span> end_ind <span class="op">&gt;</span> big_eid.shape[<span class="dv">0</span>]:</a>
+<a class="sourceLine" id="cb67-109" data-line-number="109">	end_ind <span class="op">=</span> big_eid.shape[<span class="dv">0</span>] <span class="op">-</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb67-110" data-line-number="110"></a>
+<a class="sourceLine" id="cb67-111" data-line-number="111"><span class="co">#Apply the subset_big_data, and convert some things to lists for easier indexing</span></a>
+<a class="sourceLine" id="cb67-112" data-line-number="112">diag <span class="op">=</span> subset_big_data(diag_eid_list, diag)</a>
+<a class="sourceLine" id="cb67-113" data-line-number="113">oper <span class="op">=</span> subset_big_data(oper_eid_list, oper)</a>
+<a class="sourceLine" id="cb67-114" data-line-number="114">hesin <span class="op">=</span> subset_big_data(hesin[:,<span class="dv">0</span>].tolist(), hesin)</a>
+<a class="sourceLine" id="cb67-115" data-line-number="115">diag_eid_list <span class="op">=</span> diag[:,<span class="dv">0</span>].tolist()</a>
+<a class="sourceLine" id="cb67-116" data-line-number="116">oper_eid_list <span class="op">=</span> oper[:,<span class="dv">0</span>].tolist()</a>
+<a class="sourceLine" id="cb67-117" data-line-number="117"></a>
+<a class="sourceLine" id="cb67-118" data-line-number="118"><span class="co">#Establish indicdes of diag and oper for easy indexing (do not need to look and make index every time</span></a>
+<a class="sourceLine" id="cb67-119" data-line-number="119"><span class="co">#only need to add the extent of the current eid to this index)</span></a>
+<a class="sourceLine" id="cb67-120" data-line-number="120">start_eid_diag <span class="op">=</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb67-121" data-line-number="121">start_eid_oper <span class="op">=</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb67-122" data-line-number="122"></a>
+<a class="sourceLine" id="cb67-123" data-line-number="123"><span class="co">#Subset the things that do not require the subset_big_data function</span></a>
+<a class="sourceLine" id="cb67-124" data-line-number="124">meds <span class="op">=</span> meds[start_ind:end_ind,:]</a>
+<a class="sourceLine" id="cb67-125" data-line-number="125">self_rep <span class="op">=</span> self_rep[start_ind:end_ind,:]</a>
+<a class="sourceLine" id="cb67-126" data-line-number="126">date_ass <span class="op">=</span> date_ass[start_ind:end_ind,:]</a>
+<a class="sourceLine" id="cb67-127" data-line-number="127">cancer_rep <span class="op">=</span> cancer_rep[start_ind:end_ind,:]</a>
+<a class="sourceLine" id="cb67-128" data-line-number="128">big_eid <span class="op">=</span> big_eid[start_ind:end_ind,:]</a>
+<a class="sourceLine" id="cb67-129" data-line-number="129"></a>
+<a class="sourceLine" id="cb67-130" data-line-number="130"></a>
+<a class="sourceLine" id="cb67-131" data-line-number="131"><span class="co">#Prepare the data objects that will hold diagnosis results</span></a>
+<a class="sourceLine" id="cb67-132" data-line-number="132">df_occur <span class="op">=</span> np.zeros((big_eid.shape[<span class="dv">0</span>], <span class="dv">6</span>))</a>
+<a class="sourceLine" id="cb67-133" data-line-number="133">df_date <span class="op">=</span> np.tile(<span class="st">&quot;__________&quot;</span>, (big_eid.shape[<span class="dv">0</span>], <span class="dv">6</span>))</a>
+<a class="sourceLine" id="cb67-134" data-line-number="134"></a>
+<a class="sourceLine" id="cb67-135" data-line-number="135"><span class="co">#Iterate through the indices of each unique EID</span></a>
+<a class="sourceLine" id="cb67-136" data-line-number="136"><span class="cf">for</span> ind <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, (end_ind <span class="op">-</span> start_ind)):</a>
+<a class="sourceLine" id="cb67-137" data-line-number="137">	<span class="cf">if</span> ind <span class="op">%</span> <span class="dv">10000</span> <span class="op">==</span> <span class="dv">0</span>:</a>
+<a class="sourceLine" id="cb67-138" data-line-number="138">		<span class="bu">print</span>(ind)</a>
+<a class="sourceLine" id="cb67-139" data-line-number="139"></a>
+<a class="sourceLine" id="cb67-140" data-line-number="140">	<span class="co">#Set the value of the actual eid</span></a>
+<a class="sourceLine" id="cb67-141" data-line-number="141">	curr_eid <span class="op">=</span> big_eid[ind][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-142" data-line-number="142"></a>
+<a class="sourceLine" id="cb67-143" data-line-number="143">	<span class="co">#Now we go through and fill in each column of df_occur and df_date, one data type at a time</span></a>
+<a class="sourceLine" id="cb67-144" data-line-number="144"></a>
+<a class="sourceLine" id="cb67-145" data-line-number="145">	<span class="co">#CANCER SELF REPORT</span></a>
+<a class="sourceLine" id="cb67-146" data-line-number="146">	<span class="cf">if</span> use_defs[<span class="st">&quot;cancer&quot;</span>][<span class="dv">0</span>] <span class="op">!=</span> <span class="st">&quot;NA&quot;</span>:</a>
+<a class="sourceLine" id="cb67-147" data-line-number="147">		<span class="co">#t1 = time.time()</span></a>
+<a class="sourceLine" id="cb67-148" data-line-number="148">		<span class="cf">if</span> <span class="bu">any</span>(np.isin(use_defs[<span class="st">&quot;cancer&quot;</span>], cancer_rep[ind,:])):</a>
+<a class="sourceLine" id="cb67-149" data-line-number="149">			locs <span class="op">=</span> np.where(np.isin(cancer_rep[ind,:], use_defs[<span class="st">&quot;cancer&quot;</span>]))[<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-150" data-line-number="150">			try_date <span class="op">=</span> date_ass[ind, <span class="bu">int</span>(cancer_phase[locs[<span class="dv">0</span>]])]</a>
+<a class="sourceLine" id="cb67-151" data-line-number="151">			<span class="cf">if</span> try_date <span class="op">==</span> <span class="st">&quot;&quot;</span>:</a>
+<a class="sourceLine" id="cb67-152" data-line-number="152">				try_date <span class="op">=</span> date_ass[ind,<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-153" data-line-number="153">			df_date[ind,<span class="dv">0</span>] <span class="op">=</span> try_date</a>
+<a class="sourceLine" id="cb67-154" data-line-number="154">			df_occur[ind,<span class="dv">0</span>] <span class="op">=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb67-155" data-line-number="155"></a>
+<a class="sourceLine" id="cb67-156" data-line-number="156">		<span class="co">#t2 = time.time()</span></a>
+<a class="sourceLine" id="cb67-157" data-line-number="157">		<span class="co">#cancer_sr_time += t2-t1</span></a>
+<a class="sourceLine" id="cb67-158" data-line-number="158"></a>
+<a class="sourceLine" id="cb67-159" data-line-number="159">	<span class="co">#NON-CANCER SELF REPORT</span></a>
+<a class="sourceLine" id="cb67-160" data-line-number="160">	<span class="cf">if</span> use_defs[<span class="st">&quot;noncancer&quot;</span>][<span class="dv">0</span>] <span class="op">!=</span> <span class="st">&quot;NA&quot;</span>:</a>
+<a class="sourceLine" id="cb67-161" data-line-number="161">		<span class="co">#t22 = time.time()</span></a>
+<a class="sourceLine" id="cb67-162" data-line-number="162">		<span class="cf">if</span> <span class="bu">any</span>(np.isin(use_defs[<span class="st">&quot;noncancer&quot;</span>], self_rep[ind,:])):</a>
+<a class="sourceLine" id="cb67-163" data-line-number="163">			locs <span class="op">=</span> np.where(np.isin(self_rep[ind,:], use_defs[<span class="st">&quot;noncancer&quot;</span>]))[<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-164" data-line-number="164">			try_date <span class="op">=</span> date_ass[ind, <span class="bu">int</span>(self_phase[locs[<span class="dv">0</span>]])]</a>
+<a class="sourceLine" id="cb67-165" data-line-number="165">			<span class="cf">if</span> try_date <span class="op">==</span> <span class="st">&quot;&quot;</span>:</a>
+<a class="sourceLine" id="cb67-166" data-line-number="166">				try_date <span class="op">=</span> date_ass[ind, <span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-167" data-line-number="167">			df_date[ind,<span class="dv">1</span>] <span class="op">=</span> try_date</a>
+<a class="sourceLine" id="cb67-168" data-line-number="168">			df_occur[ind,<span class="dv">1</span>] <span class="op">=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb67-169" data-line-number="169"></a>
+<a class="sourceLine" id="cb67-170" data-line-number="170">		<span class="co">#t3 = time.time()</span></a>
+<a class="sourceLine" id="cb67-171" data-line-number="171">		<span class="co">#noncancer_sr_time += t3-t22</span></a>
+<a class="sourceLine" id="cb67-172" data-line-number="172"></a>
+<a class="sourceLine" id="cb67-173" data-line-number="173"></a>
+<a class="sourceLine" id="cb67-174" data-line-number="174">	<span class="co">#HESIN DIAG</span></a>
+<a class="sourceLine" id="cb67-175" data-line-number="175">	<span class="cf">if</span> curr_eid <span class="kw">in</span> diag_eid_list:</a>
+<a class="sourceLine" id="cb67-176" data-line-number="176">		<span class="co">#t4 = time.time()</span></a>
+<a class="sourceLine" id="cb67-177" data-line-number="177">		<span class="co">#sub_hesin = hesin[hesin[:,0] == curr_eid,:]</span></a>
+<a class="sourceLine" id="cb67-178" data-line-number="178">		<span class="cf">if</span> curr_eid <span class="op">!=</span> diag_eid_list[<span class="op">-</span><span class="dv">1</span>]:</a>
+<a class="sourceLine" id="cb67-179" data-line-number="179">			next_eid <span class="op">=</span> np.unique(diag[start_eid_diag:(start_eid_diag<span class="op">+</span><span class="dv">7000</span>),<span class="dv">0</span>])[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb67-180" data-line-number="180">			ext_eid <span class="op">=</span> diag_eid_list.index(next_eid)</a>
+<a class="sourceLine" id="cb67-181" data-line-number="181">		<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb67-182" data-line-number="182">			ext_eid <span class="op">=</span> diag_max</a>
+<a class="sourceLine" id="cb67-183" data-line-number="183"></a>
+<a class="sourceLine" id="cb67-184" data-line-number="184">		<span class="co">#t5 = time.time()</span></a>
+<a class="sourceLine" id="cb67-185" data-line-number="185">		<span class="co">#hesin_setup_time += t5-t4</span></a>
+<a class="sourceLine" id="cb67-186" data-line-number="186"></a>
+<a class="sourceLine" id="cb67-187" data-line-number="187">		<span class="co">#ICD - 9</span></a>
+<a class="sourceLine" id="cb67-188" data-line-number="188">		use_short_icd9_diag <span class="op">=</span> [x[<span class="dv">0</span>:<span class="dv">3</span>] <span class="cf">for</span> x <span class="kw">in</span> diag[start_eid_diag:ext_eid,<span class="dv">4</span>]]</a>
+<a class="sourceLine" id="cb67-189" data-line-number="189">		<span class="cf">if</span> <span class="bu">any</span>(np.isin(use_defs[<span class="st">&quot;icd9&quot;</span>], use_short_icd9_diag)):</a>
+<a class="sourceLine" id="cb67-190" data-line-number="190">			short_icd9_locs <span class="op">=</span> np.where(np.isin(use_short_icd9_diag, use_defs[<span class="st">&quot;icd9&quot;</span>]))[<span class="dv">0</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-191" data-line-number="191">		<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb67-192" data-line-number="192">			short_icd9_locs <span class="op">=</span> <span class="dv">10000</span></a>
+<a class="sourceLine" id="cb67-193" data-line-number="193">		<span class="cf">if</span> <span class="bu">any</span>(np.isin(use_defs[<span class="st">&quot;icd9&quot;</span>], diag[start_eid_diag:ext_eid,<span class="dv">4</span>])):</a>
+<a class="sourceLine" id="cb67-194" data-line-number="194">                        long_icd9_locs <span class="op">=</span> np.where(np.isin(diag[start_eid_diag:ext_eid,<span class="dv">4</span>], use_defs[<span class="st">&quot;icd9&quot;</span>]))[<span class="dv">0</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-195" data-line-number="195">		<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb67-196" data-line-number="196">			long_icd9_locs <span class="op">=</span> <span class="dv">10000</span></a>
+<a class="sourceLine" id="cb67-197" data-line-number="197">		<span class="cf">if</span> long_icd9_locs <span class="op">!=</span> <span class="dv">10000</span> <span class="kw">or</span> short_icd9_locs <span class="op">!=</span> <span class="dv">10000</span>:</a>
+<a class="sourceLine" id="cb67-198" data-line-number="198">			icd9_locs <span class="op">=</span> <span class="bu">min</span>((long_icd9_locs, short_icd9_locs))</a>
+<a class="sourceLine" id="cb67-199" data-line-number="199">			icd9_ins_index <span class="op">=</span> diag[start_eid_diag<span class="op">+</span>icd9_locs,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb67-200" data-line-number="200"></a>
+<a class="sourceLine" id="cb67-201" data-line-number="201">			raw_date <span class="op">=</span> hesin[np.logical_and(hesin[:,<span class="dv">0</span>] <span class="op">==</span> curr_eid, hesin[:,<span class="dv">1</span>] <span class="op">==</span> icd9_ins_index),<span class="dv">5</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-202" data-line-number="202">			<span class="cf">if</span> raw_date <span class="op">==</span> <span class="st">&quot;&quot;</span>:</a>
+<a class="sourceLine" id="cb67-203" data-line-number="203">				raw_date <span class="op">=</span> hesin[np.logical_and(hesin[:,<span class="dv">0</span>] <span class="op">==</span> curr_eid, hesin[:,<span class="dv">1</span>] <span class="op">==</span> icd9_ins_index),<span class="dv">21</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-204" data-line-number="204">				<span class="cf">if</span> raw_date <span class="op">==</span> <span class="st">&quot;&quot;</span>:</a>
+<a class="sourceLine" id="cb67-205" data-line-number="205">					raw_date <span class="op">=</span> hesin[np.logical_and(hesin[:,<span class="dv">0</span>] <span class="op">==</span> curr_eid, hesin[:,<span class="dv">1</span>] <span class="op">==</span> icd9_ins_index),<span class="dv">4</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-206" data-line-number="206"></a>
+<a class="sourceLine" id="cb67-207" data-line-number="207">			df_occur[ind,<span class="dv">2</span>] <span class="op">=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb67-208" data-line-number="208">			df_date[ind,<span class="dv">2</span>] <span class="op">=</span> raw_date</a>
+<a class="sourceLine" id="cb67-209" data-line-number="209">		</a>
+<a class="sourceLine" id="cb67-210" data-line-number="210">		<span class="co">#t6 = time.time()</span></a>
+<a class="sourceLine" id="cb67-211" data-line-number="211">		<span class="co">#icd9_time += t6-t5</span></a>
+<a class="sourceLine" id="cb67-212" data-line-number="212"></a>
+<a class="sourceLine" id="cb67-213" data-line-number="213">		<span class="co">#ICD - 10</span></a>
+<a class="sourceLine" id="cb67-214" data-line-number="214">		use_short_icd10_diag <span class="op">=</span> [x[<span class="dv">0</span>:<span class="dv">3</span>] <span class="cf">for</span> x <span class="kw">in</span> diag[start_eid_diag:ext_eid,<span class="dv">6</span>]]</a>
+<a class="sourceLine" id="cb67-215" data-line-number="215">		<span class="cf">if</span> <span class="bu">any</span>(np.isin(use_defs[<span class="st">&quot;icd10&quot;</span>], use_short_icd10_diag)):</a>
+<a class="sourceLine" id="cb67-216" data-line-number="216">			short_icd10_locs <span class="op">=</span> np.where(np.isin(use_short_icd10_diag, use_defs[<span class="st">&quot;icd10&quot;</span>]))[<span class="dv">0</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-217" data-line-number="217">		<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb67-218" data-line-number="218">			short_icd10_locs <span class="op">=</span> <span class="dv">10000</span></a>
+<a class="sourceLine" id="cb67-219" data-line-number="219">		<span class="cf">if</span> <span class="bu">any</span>(np.isin(use_defs[<span class="st">&quot;icd10&quot;</span>], diag[start_eid_diag:ext_eid,<span class="dv">6</span>])):</a>
+<a class="sourceLine" id="cb67-220" data-line-number="220">			long_icd10_locs <span class="op">=</span> np.where(np.isin(diag[start_eid_diag:ext_eid,<span class="dv">6</span>], use_defs[<span class="st">&quot;icd10&quot;</span>]))[<span class="dv">0</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-221" data-line-number="221">		<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb67-222" data-line-number="222">			long_icd10_locs <span class="op">=</span> <span class="dv">10000</span></a>
+<a class="sourceLine" id="cb67-223" data-line-number="223">		<span class="cf">if</span> long_icd10_locs <span class="op">!=</span> <span class="dv">10000</span> <span class="kw">or</span> short_icd10_locs <span class="op">!=</span> <span class="dv">10000</span>:</a>
+<a class="sourceLine" id="cb67-224" data-line-number="224">			icd10_locs <span class="op">=</span> <span class="bu">min</span>((long_icd10_locs, short_icd10_locs))</a>
+<a class="sourceLine" id="cb67-225" data-line-number="225">			icd10_ins_index <span class="op">=</span> diag[start_eid_diag<span class="op">+</span>icd10_locs,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb67-226" data-line-number="226"></a>
+<a class="sourceLine" id="cb67-227" data-line-number="227">			raw_date <span class="op">=</span> hesin[np.logical_and(hesin[:,<span class="dv">0</span>] <span class="op">==</span> curr_eid, hesin[:,<span class="dv">1</span>] <span class="op">==</span> icd10_ins_index),<span class="dv">5</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-228" data-line-number="228">			<span class="cf">if</span> raw_date <span class="op">==</span> <span class="st">&quot;&quot;</span>:</a>
+<a class="sourceLine" id="cb67-229" data-line-number="229">				raw_date <span class="op">=</span> hesin[np.logical_and(hesin[:,<span class="dv">0</span>] <span class="op">==</span> curr_eid, hesin[:,<span class="dv">1</span>] <span class="op">==</span> icd10_ins_index),<span class="dv">21</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-230" data-line-number="230">				<span class="cf">if</span> raw_date <span class="op">==</span> <span class="st">&quot;&quot;</span>:</a>
+<a class="sourceLine" id="cb67-231" data-line-number="231">					raw_date <span class="op">=</span> hesin[np.logical_and(hesin[:,<span class="dv">0</span>] <span class="op">==</span> curr_eid, hesin[:,<span class="dv">1</span>] <span class="op">==</span> icd10_ins_index),<span class="dv">4</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-232" data-line-number="232"></a>
+<a class="sourceLine" id="cb67-233" data-line-number="233">			df_occur[ind,<span class="dv">3</span>] <span class="op">=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb67-234" data-line-number="234">			df_date[ind,<span class="dv">3</span>] <span class="op">=</span> raw_date</a>
+<a class="sourceLine" id="cb67-235" data-line-number="235">		start_eid_diag <span class="op">=</span> ext_eid</a>
+<a class="sourceLine" id="cb67-236" data-line-number="236"></a>
+<a class="sourceLine" id="cb67-237" data-line-number="237">		<span class="co">#t7 = time.time()</span></a>
+<a class="sourceLine" id="cb67-238" data-line-number="238">		<span class="co">#icd10_time += t7-t6</span></a>
+<a class="sourceLine" id="cb67-239" data-line-number="239"></a>
+<a class="sourceLine" id="cb67-240" data-line-number="240"></a>
+<a class="sourceLine" id="cb67-241" data-line-number="241">	<span class="co">#HESIN OPER</span></a>
+<a class="sourceLine" id="cb67-242" data-line-number="242">	<span class="cf">if</span> curr_eid <span class="kw">in</span> oper_eid_list <span class="kw">and</span> use_defs[<span class="st">&quot;opcs&quot;</span>][<span class="dv">0</span>] <span class="op">!=</span> <span class="st">&quot;NA&quot;</span>:</a>
+<a class="sourceLine" id="cb67-243" data-line-number="243">		<span class="co">#t8 = time.time()</span></a>
+<a class="sourceLine" id="cb67-244" data-line-number="244">		<span class="cf">if</span> curr_eid <span class="op">!=</span> oper_eid_list[<span class="op">-</span><span class="dv">1</span>]: <span class="co">#if it is not the last in the list</span></a>
+<a class="sourceLine" id="cb67-245" data-line-number="245">			next_eid <span class="op">=</span> np.unique(oper[start_eid_oper:(start_eid_oper<span class="op">+</span><span class="dv">7000</span>),<span class="dv">0</span>])[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb67-246" data-line-number="246">			ext_eid <span class="op">=</span> oper_eid_list.index(next_eid)</a>
+<a class="sourceLine" id="cb67-247" data-line-number="247">		<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb67-248" data-line-number="248">			ext_eid <span class="op">=</span> oper_max</a>
+<a class="sourceLine" id="cb67-249" data-line-number="249"></a>
+<a class="sourceLine" id="cb67-250" data-line-number="250">		use_short_oper <span class="op">=</span> [x[<span class="dv">0</span>:<span class="dv">3</span>] <span class="cf">for</span> x <span class="kw">in</span> oper[start_eid_oper:ext_eid,<span class="dv">7</span>]]</a>
+<a class="sourceLine" id="cb67-251" data-line-number="251">		<span class="cf">if</span> <span class="bu">any</span>(np.isin(use_defs[<span class="st">&quot;opcs&quot;</span>], use_short_oper)):</a>
+<a class="sourceLine" id="cb67-252" data-line-number="252">			short_oper_locs <span class="op">=</span> np.where(np.isin(use_short_oper, use_defs[<span class="st">&quot;opcs&quot;</span>]))[<span class="dv">0</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-253" data-line-number="253">		<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb67-254" data-line-number="254">			short_oper_locs <span class="op">=</span> <span class="dv">10000</span></a>
+<a class="sourceLine" id="cb67-255" data-line-number="255">		<span class="cf">if</span> <span class="bu">any</span>(np.isin(use_defs[<span class="st">&quot;opcs&quot;</span>], oper[start_eid_oper:ext_eid,<span class="dv">7</span>])):</a>
+<a class="sourceLine" id="cb67-256" data-line-number="256">			long_oper_locs <span class="op">=</span> np.where(np.isin(oper[start_eid_oper:ext_eid,<span class="dv">7</span>], use_defs[<span class="st">&quot;opcs&quot;</span>]))[<span class="dv">0</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-257" data-line-number="257">		<span class="cf">else</span>:</a>
+<a class="sourceLine" id="cb67-258" data-line-number="258">			long_oper_locs <span class="op">=</span> <span class="dv">10000</span></a>
+<a class="sourceLine" id="cb67-259" data-line-number="259">		<span class="cf">if</span> long_oper_locs <span class="op">!=</span> <span class="dv">10000</span> <span class="kw">or</span> short_oper_locs <span class="op">!=</span> <span class="dv">10000</span>:</a>
+<a class="sourceLine" id="cb67-260" data-line-number="260">			oper_locs <span class="op">=</span> <span class="bu">min</span>((long_oper_locs, short_oper_locs))</a>
+<a class="sourceLine" id="cb67-261" data-line-number="261">			oper_ins_index <span class="op">=</span> oper[start_eid_oper<span class="op">+</span>oper_locs,<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb67-262" data-line-number="262"></a>
+<a class="sourceLine" id="cb67-263" data-line-number="263">			raw_date <span class="op">=</span> hesin[np.logical_and(hesin[:,<span class="dv">0</span>] <span class="op">==</span> curr_eid, hesin[:,<span class="dv">1</span>] <span class="op">==</span> oper_ins_index),<span class="dv">5</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-264" data-line-number="264">			<span class="cf">if</span> raw_date <span class="op">==</span> <span class="st">&quot;&quot;</span>:</a>
+<a class="sourceLine" id="cb67-265" data-line-number="265">				raw_date <span class="op">=</span> hesin[np.logical_and(hesin[:,<span class="dv">0</span>] <span class="op">==</span> curr_eid, hesin[:,<span class="dv">1</span>] <span class="op">==</span> oper_ins_index),<span class="dv">21</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-266" data-line-number="266">				<span class="cf">if</span> raw_date <span class="op">==</span> <span class="st">&quot;&quot;</span>:</a>
+<a class="sourceLine" id="cb67-267" data-line-number="267">					raw_date <span class="op">=</span> hesin[np.logical_and(hesin[:,<span class="dv">0</span>] <span class="op">==</span> curr_eid, hesin[:,<span class="dv">1</span>] <span class="op">==</span> oper_ins_index),<span class="dv">4</span>][<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-268" data-line-number="268"></a>
+<a class="sourceLine" id="cb67-269" data-line-number="269">			df_occur[ind,<span class="dv">4</span>] <span class="op">=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb67-270" data-line-number="270">			df_date[ind,<span class="dv">4</span>] <span class="op">=</span> raw_date</a>
+<a class="sourceLine" id="cb67-271" data-line-number="271">		start_eid_oper <span class="op">=</span> ext_eid</a>
+<a class="sourceLine" id="cb67-272" data-line-number="272"></a>
+<a class="sourceLine" id="cb67-273" data-line-number="273">		<span class="co">#t9 = time.time()</span></a>
+<a class="sourceLine" id="cb67-274" data-line-number="274">		<span class="co">#hesin_oper_time += t9-t8</span></a>
+<a class="sourceLine" id="cb67-275" data-line-number="275"></a>
+<a class="sourceLine" id="cb67-276" data-line-number="276">	<span class="co">#MEDICATION</span></a>
+<a class="sourceLine" id="cb67-277" data-line-number="277">	<span class="cf">if</span> use_defs[<span class="st">&quot;meds&quot;</span>][<span class="dv">0</span>] <span class="op">!=</span> <span class="st">&quot;NA&quot;</span>:</a>
+<a class="sourceLine" id="cb67-278" data-line-number="278">		<span class="co">#t10 = time.time()</span></a>
+<a class="sourceLine" id="cb67-279" data-line-number="279">		<span class="cf">if</span> <span class="bu">any</span>(np.isin(use_defs[<span class="st">&quot;meds&quot;</span>], meds[ind,:])):</a>
+<a class="sourceLine" id="cb67-280" data-line-number="280">			locs <span class="op">=</span> np.where(np.isin(meds[ind,:], use_defs[<span class="st">&quot;meds&quot;</span>]))[<span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb67-281" data-line-number="281">			df_date[ind,<span class="dv">5</span>] <span class="op">=</span> date_ass[ind, <span class="bu">int</span>(meds_phase[locs[<span class="dv">0</span>]])]</a>
+<a class="sourceLine" id="cb67-282" data-line-number="282">			df_occur[ind,<span class="dv">5</span>] <span class="op">=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb67-283" data-line-number="283">		<span class="co">#t11 = time.time()</span></a>
+<a class="sourceLine" id="cb67-284" data-line-number="284">		<span class="co">#med_time += t11 - t10</span></a>
+<a class="sourceLine" id="cb67-285" data-line-number="285"></a>
+<a class="sourceLine" id="cb67-286" data-line-number="286"></a>
+<a class="sourceLine" id="cb67-287" data-line-number="287"></a>
+<a class="sourceLine" id="cb67-288" data-line-number="288">np.savetxt(<span class="st">&quot;raw_output/diag.coding.&quot;</span> <span class="op">+</span> author.lower() <span class="op">+</span> <span class="st">&quot;.&quot;</span> <span class="op">+</span> <span class="bu">str</span>(start_ind) <span class="op">+</span> <span class="st">&quot;.txt.gz&quot;</span>, df_occur, fmt<span class="op">=</span><span class="st">&#39;</span><span class="sc">%i</span><span class="st">&#39;</span>)</a>
+<a class="sourceLine" id="cb67-289" data-line-number="289">np.savetxt(<span class="st">&quot;raw_output/diag.time.&quot;</span> <span class="op">+</span> author.lower() <span class="op">+</span> <span class="st">&quot;.&quot;</span> <span class="op">+</span> <span class="bu">str</span>(start_ind) <span class="op">+</span> <span class="st">&quot;.txt.gz&quot;</span>, df_date, fmt<span class="op">=</span><span class="st">&#39;</span><span class="sc">%s</span><span class="st">&#39;</span>)</a>
+<a class="sourceLine" id="cb67-290" data-line-number="290"></a>
+<a class="sourceLine" id="cb67-291" data-line-number="291"></a>
+<a class="sourceLine" id="cb67-292" data-line-number="292"></a>
+<a class="sourceLine" id="cb67-293" data-line-number="293"><span class="bu">print</span>(<span class="st">&quot;end&quot;</span>)</a></code></pre></div>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="compiling-the-scores.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="tuning.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
