@@ -1,0 +1,585 @@
+# Preface {-}
+The purpose of this book is to describe:
+1. What is a PolyGenic Score (PGS)
+2. How Different Methods Produce a PGS
+3. How Accurate are PGSs
+4. What Caveats Need to Be Thought About in PGS Construction
+
+Please note the book is still in the early phases.
+
+<!--chapter:end:index.Rmd-->
+
+# Introduction
+PolyGenic Scores provide a key formulation of genetic findings into disease prediction.  There has been a fair amount of concern over the accuracy, confounding and equitability of PGSs.  I believe the best way to judge the significance of these worries, and more importantly, ultimately work towards their resolve, is through well-doccumented research. 
+
+Quick note on set-up.  I am writing this book within a sub-directory of my larger project directory.  Hopefully everything will work this way.
+
+## Directory Framework
+
+If you would like to follow along, I would like to make clear how the directories are constructed.  
+
+```{r}
+list.files("..")
+```
+
+I am currently writing in the book directory, one level above will lead to all of the relevant sub-directories.  The second and third chapters on summary statistics take place within the directory raw_ss, the fourth chapter on adjusting summary statistics takes place in adjust_ss, .  The common, finn_gen, and a few other diretories are indirectly called within scripts outside their own directory.  Full paths will be used, so it should be clear where everything is at all times.
+
+<!--chapter:end:01-intro.Rmd-->
+
+# Quality Control
+
+To begin work on producing a set of PGSs, the input data must first be carefully controlled.  Throughout this project the UK Biobank will be the solitary set of data examined.  The reason being is that the UK Biobank is the only large and easily accessed data-set that contains both genotypic and phenotypic information.  
+
+A brief description of the UK Biobank ...
+
+## Previously Applied QC
+
+In the process of sequencing the data the good people at the UK Biobank have already applied some quality control measures.  To understand exactly what they did we first need to know how they even got the data to begin with.  Of the nearly 500,000 people that were avaliable to be sequenced, batches of approximitley 4,600 people were created.  The first 11 batches were sequenced on the UK BiLEVE Axiom array, the remaining 95 batches were sequenced with the UK Biobank Axiom Array.  Both arrays were carefully created for this type of research, although we should be careful going forward as batch effects could change allele frequencies and the ultimate PGS distribution.  
+
+As the arrays were novel, some of the allele probes were not constructed well enough to clearly determine what allele a person was.  A total of 35,014 unique markers were therefore removed from everyone right off the bat.  Genotype	calling	by Affymetrix resulted in a data set of 489,212	individuals typed at 812,428 markers with which	to carry out further QC.  This QC was population structure aware, with different ancestry groups determined by comparing PCA loadings from UK Biobank individuals to a selection of 1000 Genomes Project individuals (The markers that went into this PCA were carefully QC'd). Afterwards, within population structure homogenous groups to each batch the following tests were applied:
+
+1. Batch Effects
+2. Plate Effects
+3. Departures from Hardy-Weinberg Equilibrium
+4. Sex Effects
+5. Array Effects
+6. Discordance Across Controls
+
+If a marker failed the first 4 tests it was removed from the batch, and if a marker failed the last 2 tests then it was removed from the entire data-set.  Each of these tests are hypothesis tests, with the cut-off chosen for removal set at p < 10^-12.  Clearly this is pretty extreme so it is important to note there may be more QC that needs to be done.
+
+![fail]("images/UKBB_fail_rates.png")
+
+Following marker QC a pipeline of sample QC was applied. A good description of the pipeline is shown below.  What is important to note is that the doccumentation seems to note that only individuals with really extreme missingness or hetrozygosity were removed from the dataset.  Otherwise they were simply marked as being an outlier in their respective test.  A more stringent threshold of the sample QC and marker QC was set for the dataset that was used within a principal component analysis.  The output of this PCA was then used to determine a white, British ancestry subset. This was completed by comparing the samples who declared they were white and British and then removing outliers from the main cluster of this grouping based on PCA.  
+
+![PCA]("images/british_PCA.png")
+
+Far more information on all of these steps can be found from the BioRxiv pdf: "Genome-wide genetic data on ~500,000 UK Biobank participants".  The big takeaways that I gleam are that the UK Biobank did think about genotyping seriously, the most abberant markers have been removed although some questionable markers likely remain, and that quite a few abberant samples remain although removing them should be easy since they have been marked.  All of this gives a good starting point for this work.
+
+## Initial QC
+
+To increase levels of QC, a file that lists all of the outliers was used to create a list of high quality anonymous IDS.  The script that ran this entire process is displayed below.
+
+In short, the process carried out involved removes outliers in hetrozygosity, putative sex chromosome aneupolidy, and excess relatvies all determined by the UK Biobank processes described above.  Lastly, only individuals who were determined to be white with British ancestry were kept. This is a highly unfortunate cut-off, but nescessary in order to create a genetically homogenous individuals to be tested.
+
+#```{R, code = xfun::read_utf8("~/athena/doc_score/qc/proc_fam.R"), eval = F, dev = png}
+#```
+```{R, code = xfun::read_utf8("test.R")}
+```
+
+Now that we have a base level of genetic data QC, we can move onto QC of the summary statistics.
+
+<!--chapter:end:02-QC.Rmd-->
+
+# Summary Statistics
+
+To create the PGSs we need summary statistics, or results from Genome-Wide Association Studies (GWASs).  One overall requirement for the summary statistics that we use is that they cannot have utilized the UK Biobank in their production.  If they did we would be overfitting the problem, which is not good.  Each summary statistic must also have the following features (or columns):
+
+1. Chromosome
+2. Position
+3. Variant ID (the rsID)
+4. Effect Allele
+5. Alternate Allele
+6. Standard Error of the Effect
+7. Effect (Beta, Odds Ratio)
+8. P-Value
+
+The reasons we need these specific columns is as follows.  Chromosome and position give the position of the variant on the genome, which is important in determining variant proximity for LD-aware methods.  The variant allele is important for basic recognition purposes of which variants make it into the final score.  The effect and alternative allele are nescessary just based on the polygenic risk score definition.  While the alternative allele is not strictly nescessary for scoring, it is needed to determine if the variant is ambigous.  The standard error and p-value are used by many methods for thresholding purposes.  Lastly the effect is the other basic component needed in the polygenic risk score equation.
+
+# Getting the Summary Statistics
+
+Now we have to get the actual summary statistics. A key consideration is to pull from summary statistics with the largest possibly underlying sample size, because it will produce the most accurate estimates.  The studies can be obtained with:
+
+```{bash, code = readLines("~/athena/doc_score/raw_ss/setup.sh"), eval = F}
+```
+This is basically just a series of wget's to the FTP server of the GWAS catalog.  I am also using some files from 23andMe, however these cannot be openly downloaded on GWAS Catalog.
+
+Lastly, a committee member of mine asked me to look into a few pyschiatric related traits, which has summary statistics available on request or within the pyschiatric genomics consortium (https://www.med.unc.edu/pgc/download-results/).  While I likely could have followed a similar request approach to recieve a few more sets, the total number of 25 seems like a good stopping point.
+
+![gwascatalog]("images/gwascatalog.png")
+
+If you want to manually download just one summary statistic, or you want a more pictoral description of the summary statistics then you can access https://www.ebi.ac.uk/gwas/downloads/summary-statistics . There are other GWAS results that are not fully summary statistics, as the motivation of this project is to assess different methods we want the full summary statistics for many SNPs, not just the signifiant ones.  Plus, from the full summary statistics we can always reduce down to only a significant-only score.
+
+## Prepare Variants
+
+As we've already QCd the individuals, the other half of the QC is on the variants.  That can be easily done by keeping variants that have an imputation INFO score above 0.9, and removing duplicate variants (or variants that are tri-allelic). The INFO score refers to the probability the imputation software has in calling the allele the way it did, we only want high probability variants. We do not want duplicate variants because its tri-allele option slightly increases the probability that it was called or otherwise referred to incorrectly at some point in its analysis.  Moreover, the biology is likely more complicating (perhaps not agreeing with the assumptions of the downstream methods), and sorting gets easier.
+
+The other variant level of QC nescessary is on the minor allele frequency and hardy weinberg equilibrium, but we can do that after the white, british group has already be determined.  Note that in other analyses this step could be done now, but with file formats as I have (bgen now, plink later), I will wait for this step.
+
+The script used to pull this off is as follows, where the ukb_mfi_all.txt file originates from the UKBB directly.
+
+```{bash, code = readLines("~/athena/doc_score/raw_ss/ready_to_clean.sh"), eval = F}
+```
+
+## Standardize the Summary Statistics
+
+This is a big step.  The underlying motivation is that all of the files need to look the same so downstream coding is far easier.  In this process we will convert the base pair positions, or the genome build, so they match the UK Biobank.  The can simply be done by matching the rsIDs.  We will also remove ambigious SNPs, and then flip the remaining SNPs so they match the UK Biobank strand.  The exact procedures, and a few other small changes are described in the script.
+
+```{r, code = readLines("~/athena/doc_score/raw_ss/clean.R"), eval = F}
+```
+
+As you can see at the bottom of the script I am looping over all of the sets of summary statistics, which are organized so each set belongs to its own directory with the name raw_author.ss.gz.  Also within the directory are two files, "notes" and "parameters".  The notes files contains some meta-information and the parameters names the column names referring to a different statistic or type of information.  Specifically "notes" contains with each new line: author name, disease name, total sample size, case sample size, control sample size, ancestry of GWAS and title of originating publication.  Specifically "parameters" contains the chromosome, base pair location, rs prefixed variant ID, effect allele (or first allele), non-effect allele (or second allele), standard error of the effect, effect, and p value.  There is an optional ninth line with the term CHANGE_BOTH which indicates the effect is an odds ratio and needs to be converted to a beta values (spanning from negative to positive).
+
+
+With the script read in for reference, I want to clearly list everything that I am kicking out of the summary statistics.  To do this I will call examples from the Phelan summary statistics.  The raw download appears as:
+
+```{r}
+ss <- read.table("../raw_ss/Phelan/raw_phelan.ss.gz", stringsAsFactors=F, header=T, nrows = 10)
+head(ss)
+```
+
+1. INFO Score < 0.9 - only want alleles whose identity are certain
+
+2. Non-duplicate - want simple base subsititions that are easier to call and process
+
+```{r}
+ss <- read.table("../raw_ss/Phelan/raw_phelan.ss.gz", stringsAsFactors=F, header=F, skip = 629730, nrows = 2)
+print(ss)
+```
+
+We can see the SNP rs7517916 is tri-allelic, with alleles A, C, G.  As this tri-system makes calling more difficult, and strand determination near impossible we discard this SNP altogether.
+
+3. ACGT - similar to above, limiting to the most simple cases of base pair subtitition or single nucleotide polymorphism
+
+```{r}
+ss <- read.table("../raw_ss/Phelan/raw_phelan.ss.gz", stringsAsFactors=F, header=F, skip = 1, nrows = 2)
+print(ss)
+```
+Here we have two clear examples of SNPs whose alleles are not just A, C, G, T.  This paradigm does not work with our strand flipping capabilities (and is harder to call by most sequencing technologies) so we again discard these types of SNPs.
+
+4. Non-ambigous - If the alleles are A and T or C and G, these are called ambigous and will present a problem later on when we try to determine if the standedness of the summary statistics match the strand of our data.  This is likely possibly to figure out through allele frequencies, but again, it's not worth the risk
+
+```{r}
+ss <- read.table("../raw_ss/Phelan/raw_phelan.ss.gz", stringsAsFactors=F, header=F, skip = 9, nrows = 1)
+print(ss)
+```
+The two alleles described are T and A.  As stated, since flipping these alleles leaves us where we started we must again discard this SNP since flipping is impossible.
+
+5. Non-X chromosome - As chromosome 23 is very different between men and women (and it's relatively short), we would likely have to do some special case regressions to set up an accurate model, which makes it easiest just to forget it. Note, no example in Phelan but if it did exist the chromosome column would be X, Y or 23.
+
+6. Non-reversable SNPs - We need to flip (or reverse) SNPs such that the allele identities of the summary statistics match the allele identities of the genotypes.  We do this by assuming that if they do not line up then we can swap A with T, or C with G (and the converse), and things will work.  However, if just one of the SNPs matches after reversing then we have a weird problem that is easiest to resolve by removing the troublesome SNP.  
+
+```{r}
+sst <- read.table("../raw_ss/Phelan/raw_phelan.ss.gz", stringsAsFactors=F, header=F, skip = 280, nrows = 1)
+ref <- read.table("../raw_ss/common_files/impute_rsids", stringsAsFactors=F, header=F, skip = 5995727, nrow = 1)
+print(sst)
+print(ref)
+```
+
+This is an example of reversed SNPs, the A1 of the summary statistic does not match the A1 of the reference data.  Therefore we swap the position of the alleles in the summary statistics and similarly reverse the beta or effect value.
+
+```{r}
+sst <- read.table("../raw_ss/Phelan/raw_phelan.ss.gz", stringsAsFactors=F, header=F, skip = 375350, nrows = 1)
+ref <- read.table("../raw_ss/common_files/impute_rsids", stringsAsFactors=F, header=F, skip = 6358575, nrow = 1)
+print(sst)
+print(ref)
+```
+This is an example of a SNP that needs to be flipped since the summary statistic is on one strand while the complementary base pairs are described in the reference data.  In this case the beta or effect value stays the same because the same information is being described in both the summary statistic and reference data, just not using the same language or strand.
+
+```{r}
+sst <- read.table("../raw_ss/Phelan/raw_phelan.ss.gz", stringsAsFactors=F, header=F, skip = 15414049, nrows = 1)
+ref <- read.table("../raw_ss/common_files/impute_rsids", stringsAsFactors=F, header=F, skip = 7679970, nrow = 1)
+print(sst)
+print(ref)
+```
+This is an example of a SNP that is not resolved after either flipping or reversing.  In short, the G allele appears to be on the reference stand but the T allele does not.  With this confusion we decide to play it safe and discard the SNP altogether. 
+
+7. Standard error outliers - Following the supplementary of the method LDPRED2, we can compare standard errors between studies to determine if SNPs are outliers in their effects.  For this task I have pulled results from FinnGen Biobank, which while not matching ancestry well with British, does a decent enough job of falling within the European category to work.
+
+The remaining steps mostly involve re-aligning, changing column names and the like.  Note that we take such a liberal stance on removing SNPs because we assume there is a density of summary statistics such that the removal of any SNP will still leave behind another SNP within a given causal locus that is ultimately important for prediction.
+
+
+
+## Heritability Estimation
+
+Many downstream methods require heritability estimates of the trait using the corresponding summary statistics.  While many, many heritability estimate methods exist I am limited to those that only require summary statistics, of which I know of 2: Linkage Disequilibirum Score Regression and High-Definition Likelihood (HDL).  The first step required is to munge the summary statistics, or further QC them following a munge_sumstats script provided by LDSC. The script for which is simple:
+
+```{bash, code = readLines("~/athena/doc_score/raw_ss/munge.sh"), eval = F}
+```
+
+The next step is the actual heritability estimation, which luckily only requires a simple command line call for each method.  We do have to be careful however in making sure all of the columns match up in the arguments.  The script therefore looks like:
+
+```{bash, code = readLines("~/athena/doc_score/raw_ss/est_h2.sh"), eval = F}
+```
+We can compile all of the heritability estimates, which are currently sitting in log files, into a single file using a simple bash script. Additionaly, we can include other useful information that may be needed downstream, such as sample size and number of SNPs.  The script looks like:
+
+```{bash, code = readLines("~/athena/doc_score/raw_ss/get_info.sh"), eval = F}
+```
+
+The only problem is that we still do not have a single heritability value to use downstream.  We can fix this problem by conducting a very simple meta-analysis. We average the estimates inversely weighted by their standard errors.  If one of the algorithms did not converge on a set of summary statistics then the other algorithms value stands without any averaging.  If both alogortihms failed the value of 0.01, is assumed.  This last part is somewhat arbritrary but I figured a low estimate would be best.  The script used to perform this basic meta-analysis looks like:
+
+```{r, code = readLines("~/athena/doc_score/raw_ss/adjust_h2.R"), eval = F}
+```
+
+## Genetic Correlation Estimation
+
+One method, smtpred, requires estimation of genetic correlation.  Along with the motivation this is just good information to know and plot later on, I will now go through the process of calculating pairwide genetic correlations.  Luckily for us this process is quite similar to the heritability estimation above, although I should note the process is quite slower.  Because I have two methods that run in two different environments I wrote two scripts this time to execute each.
+
+```{bash, code = readLines("~/athena/doc_score/raw_ss/est_gen_corr_ldsc.sh"), eval = F}
+```
+
+and the other is:
+
+```{r, code = readLines("~/athena/doc_score/raw_ss/est_gen_corr_hdl.R"), eval = F}
+```
+
+Once complete, try to find all of the possible log files that would be made and pull out the key line with the genetic correlation value and its stanadard error, writing to a new long file.
+
+```{bash, code = readLines("~/athena/doc_score/raw_ss/organize_gen_corr.sh"), eval = F}
+```
+
+Lastly, we need to go through like before and create just one genetic correlation value from our two estimates.  As before, we will average two estimates (if they exist), based on their inverse standard error.  Whereas before we were not fine with having an NA value, here that is totally fine.  Other non-finite values such as Inf or NaN might also be passed on, that's fine for now and we will deal with it later on as needed.
+
+```{r, code = readLines("~/athena/doc_score/raw_ss/average_gen_corr.R"), eval = F}
+```
+
+
+
+## Final Changes and Remarks
+
+The last thing to do is to split the polished and cleaned summary statistics into chromosome chunks.  This way we can process each chromosome seperately and everything will run much more easily.  The script to do this looks like:
+
+```{bash, code = readLines("~/athena/doc_score/raw_ss/split_chr.sh"), eval = F}
+```
+We could also do this as we process the summary statistics files, but I personally like having the files around like this and don't mind the memory needed to store them.
+
+We are almost officialy done with QC (remember we still need to look at MAF and HWE).  This QC aimed to be on the stringent side to ensure we have good information going into the downstream methods.
+
+<!--chapter:end:03-summary_stats.Rmd-->
+
+# Adjusting Summary Statistics
+
+The main thrust of this project, and a key step in any polygenic risk scoring process, is adjusting summary statistics.  In short, adjusting summary statistics are nescessary because as they stand linkage disequilibrium and a possible high prevelance of false positives will severly limit the predictive ability contained within the underlying GWAS.  There are many ways to actually carry out this adjustment.  In fact, there are quite a few people who have spent considerable time working on methods to adjust summary statistics with the highest possible accuracy.  The problem is that these people do not always leave the greatest doccumentation or instructions.  In the following text I will attempt to translate the doccumentation, while pulling from the original publication and possible other sources, to produce a clear and intended scripts for summary statistic adjustment.
+
+### Computational Framework
+
+A key consideration in setting up a summary statistic adjustment workflow is time.  Many of the adjustment scripts are slow.  Therefore, parallelization is a near nescessity to get things done.  While I am sure there are fancy systems or clever linux commands, I went with a low-tech bash script.  The key idea of the bash script is that it continously runs, beginning a summary statistic adjustment on one chromosome with one method when there is space available.  The space determination is made by constantly checking a poss_dirs file.  If there is a directory number within a script is begun in the background for adjustment.  On its completion it will return the name of its directory to the poss_dirs file.  In the mean time a while loop with a wait function keeps everything active until this time comes.  The other important consideration is independence.  At the top of this script directories that contain intermediate files are emptied, leaving room for a clean starting place.
+
+```{bash, code = readLines("~/athena/doc_score/adjust_ss/control.sh"), eval = F}
+```
+
+Note that if instead of having a multi-score laptop or other large computer you have a cluster submission system you can likely change this script slightly so that hermes.sh is not submitted to the background but instead is just submitted to your cluster management system.  Perhaps I will write this option in soon.
+
+#Should have some sort of graphic indicating what is going on
+
+As can be seen, the actual adjustment is launched through the script hermes.sh (an ode to swift completion).  At the top of hermes.sh some quick file re-writing claims the directory, and therefore slot to run an adjustment.  Then the method specific script is called.  An important consideration is the taskset command, which will limit the descrending computation to a select number of clusters.  Finally, once the method is complete the directory name is returned to poss_dirs and the directory that contained all of the computation is emptied.  Just as before everything was a wrapper for hermes.sh, here everything is a wrapper for the details within the method specific script.
+
+
+## Simple
+
+The simple methods are not really methods at all, but rather the most primitive subsetting that has been considered in the past and therefore for the sake of completeness will be considered here as well.  Specifically, these methods simply threshold the summary statistics based on a p-value cut off.  The first uses the genome-wide signficance threshold of 5e-8, the second uses the sometimes cited genome-wide interesting or suggested level of 1e-6, the third keeps every SNP possible, and the fourth keeps SNPs with p-values above 0.5.  The idea is that the final method can act as a false negative, i.e. if it returns any predictive value we know something is likely going wrong.
+
+```{bash, code = readLines("~/athena/doc_score/adjust_ss/simple.sh"), eval = F}
+```
+
+Note there is not any single publication or doccumentation linked to these "methods", they are just a natural starting place for making scores.
+
+## Clumping
+
+The next, most common method involves clumping, which is an intelligent method to threshold SNPs based on their p-value while limiting false positives caused by linkage disequilibrium.  Specifically, this is done by limiting a significant locus to maintaining only one SNP in the adjusted summary statistics.  The size of this locus is determined by a r-squared parameter.  While it is likely possible to write your own clumping algorithm, I and I assume most other people use PLINK, a tool with amazing doccumentation.  The two obvious clumping parameters are the p-value and r2.  An array of 3 values for each are chosen, leading to 9 total clumped summary statistics.  The final parameter is the genotype file that generated the LD information.  Many methods that I will be using require LD information.  Frustratingly, the exact choice of LD information often varies based on the originating publication.  As there is actually not any publication to specifically go along with clump the choice here is not well-informed.  I have assumed using the UKBB is a good choice, and because it is computationally easy to do so I will employ the full possible sample size.
+
+A final consideration that is not always apparent is that sometimes the clumping algorithm leaves zero SNPs.  In this case we need an if statement to reveal that nothing should be done.  If there are SNPs remaining then we simply subset the input to these SNPs and pass them on. 
+
+```{bash, code = readLines("~/athena/doc_score/adjust_ss/clump.sh"), eval = F}
+```
+
+More specifics on the doccumentation are described: https://www.cog-genomics.org/plink/1.9/postproc#clump
+
+## Double Weight
+
+Increasing from complexity is double weight scores.  The motivation is that whenever a hard threshold is chosen the SNPs that are included within the score are hit by a winner's curse.  The corresponding publication explains "by selecting only SNPs with estimated p-values below a certain threshold, one systematically selects SNPs with effect overestimated by chance. Thus, for a large proportion of selected SNPs, betas will be a biased estimate for the true weight ".  Mathematically we can think about this comparing the current polygenic risk score format:
+
+$$PGS=\sum_{i=1}^{k}I(p_i<p^*)\hat{\beta}X_i$$
+
+to a winner's curse aware format:
+
+$$PGS=\sum_{i=1}^{k}\hat{\pi}(X_i)\hat{\beta}X_i$$
+
+Here we replace an indicator function that is either 0 or 1 with a probability of inclusion within a set of top Z number SNPs, where Z can be any positive integer less than your total number of available SNPs.  The next decision is determining how to calculate the $\hat{\pi}$ term.  The originating paper, within the supplementary states we should generate a sample of values for each SNP from a normal distribution specificed by $N(\hat{\beta}, \hat{SE}^2)$ (or at least that's how I interpreted the variable definitions).  We then estimate how many times our sample for the SNP is within the top Z number of SNPs.  The paper goes onto to mention a wald type statistic, but I could not fully determine how one would best calculate this statistic.  The approach I took is likely best described within the following R script.
+
+```{r, code = readLines("../adjust_ss/helper_scripts/double_weight.R"), eval = F}
+```
+
+Note that this R script is just launched by a short shell script.  While short one key component is the PLINK line that subsets the summary statistics to a short subset whose SNPs are ideally not impacted by linkage disequillibrium.  The exact parameters utilized are 0.5 for the p-value and 0.05 for R2.  In both of the publications I could find that have implemeted this algorithm these are the paramters that were utilized.  I therefore did not find the need to change them, especially since their values are not as intrinsic to the idea of double weighting as the parameter of Z important SNPs.
+
+There may be a variation that more fully agrees with the intended algorithm, but I believe that this is a faithful enough reproduction to accurately evaluate the method's performance.
+
+For more information on the algorithm please see: https://pubmed.ncbi.nlm.nih.gov/27513194/, specifically the supplemental for implementation details.
+
+## LDpred
+
+One of the premier polygenic risk score adjustment algorithms.  Rather than using a heuristic, LDpred attempts to provide a rigerous attempt to recreate effect estimates that would be produced if the full genetic information was used in the original estimation process.  Further considerations are made to determine the proportion of SNPs that are true causal, and how linkage disequilibrium would change the estimates.  The mathematical details are intense, with MCMC algorithms involved, but for the point of application we actually only need to know instillation, application and the troubleshooting processes required (this will be a theme throughout).
+
+LDpred runs in two steps, coordination and the MCMC algorithm.  A key consideration in the initial coordination step is choosing a genotypic file to be the LD reference. The GitHub page reports that a file with over 1,000 unrelated individuals should be used.  Within the publication they utilize their validation data set, which varies from about 100,000 to over a million SNPs.  For a few of my summary statistics this will present a possible problem, but I think it is fair to test the limits of their algorithm in this way. To speed execution I limited my validation data set to 5,000 individuals for the LD reference.  This 5,000 value is five times more than the recommended value so I hope it is a fair step (I am also encouraged to think so due to similar sample sizes used for the reference within the original publication, in fact they regularly had data sets with less than 5,000 individuals).  Within another well-cited publication ("Genome-wide polygenic scores for common diseases identify individuals with risk equivalent to monogenic mutations") the validation data set was not used, and instead the European individuals of the 1000 Genomes Group were.  While this group falls below the 1,000 person recommendation, their performance and the accoldates the paper motivates this reference group as a strong alternative.  The few remaining considerations concerning the coordination are the sample size given, which was the effective sample size recommended by PLINK, and the type of effect size specified, which is LOGOR, or beta values that were standardized in the previous chapter.
+
+The next step is entitled gibbs, which is the subtype of the MCMC algorithm. The first two arguments of this step are the outputs of the previous, easy enough.  The next is the estimated heritability, which was taken from the consensus value determined in the previous chapter.  Next is the f values, or the proportion of SNPs that are believed to be causal.  As it is rather difficult to know this a priori, a range of parameters are attempted.  The last value is the ld-radius.  The value recommended to use is the total number of SNPs (across all chromosomes) divided by 3000.  This value, and this value alone was utilized.
+
+Over the f value and reference genotype options a series of LDpred estimates were generated.  The adjusted effect sizes were then subtituted into the original summary statistics to complete the process.  Also an important note is that the software does not overwrite the coordination file by default, so if you are trying multiple coordinate set-ups you must manually delete it upon changing.  The full code for the process is:
+
+```{bash, code = readLines("../adjust_ss/ldpred.sh"), eval = F}
+```
+
+For more information I would (and have) read the originial publication, https://www.cell.com/ajhg/fulltext/S0002-9297(15)00365-1, follow the GitHub instructions, https://github.com/bvilhjal/ldpred, or use the bitbucket instructions, https://bitbucket.org/bjarni_vilhjalmsson/ldpred/src/master/.  I think the best instructions are from the direct doccumentation accessed with -h.
+
+## LDpred2
+
+While LDpred is a premier method, there are few additional options and computational limitations that the authors believed should be resolved in an entirely new method implementation.  Specifically, LDpred2 is implemented within the bigsnpr package, and therefore required all files to be read into a R environment (compared to previously where things were managed as calls to a python script).  I will briefly describe some of the important components of my implementation of the online vignette, which I used to base my own implementation.
+
+The first step is loading in the the genotype file that will be used as the linkage disequillibrium.  While there was some difficulty in picking a single reference in LDpred, in this implementation the associated publication clearly states that 10,000 UK Biobank individuals were utilized.  Specifically, those of white, British ancestry and with imputed SNPs.  However, I should note that on initial applications I recieved errors on the genotypic correlation matrix exceeding the maximum vector size.  To fix this problem I followed the publication and restricted the possible SNPs to those from HapMap (specifically within a file of the vignette).  As I easily have all of those pieces I can easily and quickly load them in.
+
+The next big step is calculating the genotypic correlation matrix.  This is by far the longest step in the process.  The size of the correlation was chosen as 3cM as recommended in the vignette. Following I read in the consensus heritability, then set up a grid of paramters to analyze upon.  The vignette contained over 100 sets of parameters, to prevent overfitting on my larger validation set I did not want to create this number of scores for each method, therefore I reduced the paramters investigated.  With the parameters, genotypic correlation and read-in summary statistics the snp_ldpred2_grid command can actually be called to adjust the effect sizes.  The output from this command can then be substituted into the original summary statistics and then written to produce the final adjusted summary statistics.
+
+As in the double weight set up, this method is carried with an initial shell script that prepares the genotypic files.
+
+```{bash, code = readLines("../adjust_ss/ldpred2.sh"), eval = F}
+```
+
+The main point of this shell script is calling a R script, which looks like:
+
+```{r, code = readLines("../adjust_ss/helper_scripts/ldpred2.R"), eval = F}
+```
+
+The original vignette is https://privefl.github.io/bigsnpr/articles/LDpred2.html, and the original publication is https://www.biorxiv.org/content/10.1101/2020.04.28.066720v1.
+
+
+## SBLUP
+
+SBLUP, which stands for summary best linear unbiased predictions, attempts to use summary statistics alone to generate BLUP estimates of SNP effect sizes (a similar goal of LDpred).  The application of SBLUP is easily completed within the genome-wide complex trait analysis application, a piece of software that is only rivaled by PLINK for its doccumentation and dependability.  The first argument of sblup is a genotypic file used for determining a LD correlation matrix.  On initial applications I attempeted to use all people within my training set (80,000).  While the application did sometimes complete, it was very memory intensive, and slow.  Investigating the originating publication I found that in the supplamentary (specifically figure 2) 10,000 individuals were used.  In the main text over 7,000 couples were mentioned within an analysis.  While more people could have been used in SBLUP, I figured an analysis of 20,000 individuals could be a safe margin on the couples analysis and will give a good picture on whether it performs significantly better than 10,000.  
+
+The second argument of SBLUP is termed cojo-sblup, which is specified to be $m(1/h^2 - 1)$.  This term seem rather important, and turns out to be one of the few parameters worth tuning, therefore I parametrized over three variations in which the heritability term is multipled by 0.7, 1, and 1.3.  This way if the heritability was slightly off and the cojo-sblup term is very sensitive I still have the change of obtaining a good set of adjusted summary statistics.  The next argument is the cojo-wind term, or the LD radius term.  The website recommends 1 Mb even though the default value is 10 Mb.  For ease of computation I went with 1 Mb.  The final term is the summary statistics, which have to be modified to fit a "ma" format.  A key addition in this format is the allele frequency, which was empirically calculated with the UK Biobank full training sample.  
+
+As before, all of the steps were controlled in the following bash script:
+
+```{bash, code = readLines("../adjust_ss/sblup.sh"), eval = F}
+```
+
+The first needed R script for calculating the "ma" summary statistics is:
+
+```{r, code = readLines("../adjust_ss/helper_scripts/add_ma.R"), eval = F}
+```
+
+The output file looks a little funky, so a final R script substitutes the adjusted effect into the original summary statistics.
+
+```{r, code = readLines("../adjust_ss/helper_scripts/reformat_sblup.R"), eval = F}
+```
+
+The original publication is https://www.nature.com/articles/s41562-016-0016#MOESM11, and the doccumentation comes from https://cnsgenomics.com/software/gcta/#SBLUP.
+
+
+## SMTpred
+
+SMTPred, which I believe stands for summary multi-trait prediction, is a very interesting method that leverages correlated traits to effectively increase the sample size of the original effect estimates.  While the weighting system is actually relatively simple, I will leave that information to the interested reader and instead focus on the actual implementation.  The SMTpred python script requires quite a few types of inputs, including heritabilities, genetic correlations, sample sizes and summary statistics.  Luckily for us most of these inputs are really easily accesible fixed information.  The two items that we can change are the summary statistics and the genetic correlations.  Specifically, the SMTpred algorithm accepts either normal least-squares effect estimates and SBLUP outputs.  As we are already producing SBLUP adjusted summary statistics we might as well try both.  The genetic correlations is a little trickier.  Many genetic correlation estimates have very high standard errors, and in my opinion this means they should not be used.  Similarly, I can include, in theory 24 genetic correlations in an implementation, however this seems problematic as comparisons across applications likely become more difficult and some of the weaker correlations may be more likely to harm my final output than help.  Therefore, I will limit the number of correlations to the top 3, 5 and 10 to see if a more conservative or liberal approach is best.
+
+With all of the theory of implementation I may now actually write the code, which is really just a bit of data-pulling and re-arranging.  The overall shell script is:
+
+```{bash, code = readLines("../adjust_ss/smtpred.sh"), eval = F}
+```
+
+The first R script within this shell script does much of the heavy lifting, reading all the genetic correlations and additional meta-stats, ultimately writing all of the stats files that are reuired in the actual python call of smtpred.
+
+```{r, code = readLines("../adjust_ss/helper_scripts/set_up_smtpred.R"), eval = F}
+```
+
+The final R script completes a role similar to many other methods, combining the effects adjusted by the method to the original summary statistics.
+
+```{r, code = readLines("../adjust_ss/helper_scripts/smtpred_beta_switch.R"), eval = F}
+```
+
+The original publication is https://www.nature.com/articles/s41467-017-02769-6, and the doccumentation comes from https://github.com/uqrmaie1/smtpred.
+
+## prsCS
+
+the prsCS algorithm is actually very similar to LDpred, in that it aims to shrink some of the least squares effect estimates, thereby generating adjusted estimates that are better poised for polygenic risk scoring.  The main difference (I believe) is that LDpred uses a point-block prior on its probability a SNP being causal whereas prsCS goes with a continous prior (naturally).
+
+Luckily for us many of the parameters that have confused us in past methods are easily and simply provided to us within this method.  Specifically, I am referring to genotypic files for a linkage disequilibrium reference, they are provided on the GitHub page based on the ancestry of the desired polygenic risk score.  In fact, the only parameter that we are specifying is phi, which I believe is related to the propotion of underlying casual SNPs for the trait, also know as the polygenicity.  While the algorithm states that it can learn this parameter itself, there are some caveats that lead me to believe it would be best to just try a scale of phi values.  There are other parameters relating to the MCMC algorithm, but I will not touch those.
+
+The actual mechanics of the algorithm include changing the formatting of the summary statistics, running a single python script, and finally substituting the output adjusted effect sizes for the original effect sizes.  This process was controlled by the shell script:
+
+```{bash, code = readLines("../adjust_ss/prscs.sh"), eval = F}
+```
+
+The R script needed for effect substitution is:
+
+```{r, code = readLines("../adjust_ss/helper_scripts/prscs_beta_switch.R"), eval = F}
+```
+
+The original publication can be found at https://www.nature.com/articles/s41467-019-09718-5, and the doccumentation comes from https://github.com/getian107/PRScs.
+
+
+
+## lassosum
+
+While lassosum may appear to be a classic method like LDpred, SBLUP, or prsCS, its underlying methedology is actuall far different.  Rather than following a theoretical basic that recreates effect estimates that would be produced with full genetic information lassosum tries to recreate the process of lasso regression, a far more heuristic or goal-oriented process.  The process of actually implementing lassosum is relatively easy as everything can be carried out within a R script, leaving the controlling shell script to do very little.
+
+```{bash, code = readLines("../adjust_ss/lassosum.sh"), eval = F}
+```
+
+The R script it launches does three sets of things.  First, it sets up a few important objects: reading in the summary statistics and sets the name of the  reference genotypes.  Second, it converts the summary statistic P-values into a correlation type statistic then runs the lassosum pipeline.  A few of the important parameters that are set in the pipeline include: the name of the LDblock, which is already mostly specified by the software and just needs an ancestry matching name; the sample number or number of people to keep in the LD reference, I chose 5000 as its value exceeds that of the sample size used within the originating publication (from my reading either than 1000 genomes or cases from the WTCCC were used, both of which I think are close to 5000, or at least not an order of magnitude higher); the s parameter (which I am unclear what it represents) is given the values randing from 0.1 to 1 in the paper, and with better performance at lower values I will test 0.1, 0.4 and 0.8; finally the lambda value, which I believe represents the strength of the penalty in the lasso is given the default values ranging from 0.001 to 0.1, therefore I test a similar range but with fewever numbers in my own sample vector. The third thing the script does is subsitute the results into the original summary statistics and writes the results.  Altogether it looks like:
+
+```{r, code = readLines("../adjust_ss/helper_scripts/lassosum.R"), eval = F}
+```
+
+The original(accessible) publication can be found at https://www.biorxiv.org/content/10.1101/058214v2.full.pdf, and the doccumentation comes from https://github.com/tshmak/lassosum.
+
+
+## Tweedie
+
+The Tweedie Method is fundamentally concerned with the Winner's Curse idea that has been similarly in several other methods.  Tweedie specifically handles the curse by thinking of a true distribution of Z-statistics, and then attempting to create an approximation for this distribution by inserting a kernel over the estimated statistics.  However, before we can begin this Winners Curse correction process the corresponding publication recommends we try to limit the amount of linkage disequilbrium within the underlying summary statistics.  They have a consistent R2 cut-off of 0.25 and leave the P-value parameter take a range of values.  The limited summary statistics are then converted into Z-statistics, incorporated with empirically estimated allele frequencies, and sent into a supplied R script.  The output adjusted effect values can the be subset back into the original summary statistics and saved.  The controlling script for this process looks like:
+
+```{bash, code = readLines("../adjust_ss/tweedie.sh"), eval = F}
+```
+
+I won't show the R script because it is rather long and almost completely what was originally downloaded.  The only changes are to read in the summary statistics at the top and convert P-values to Z-statistics, then seperate out the nescessary objects.
+
+The original publication comes from https://www.nature.com/articles/srep41262.pdf, and the code comes from https://sites.google.com/site/honcheongso/software/empirical-bayes-risk-prediction.
+
+
+## SBayesR
+
+The SBayesR method is somewhat similar to the SBLUP method in that it uses a LD reference matrix to attempt to recover effect estimates that would be produced from a full genotype aware regression.  Any more description would get pretty complicated, so I will leave it to the interested reader.  The largest in terms of computation and memory component of a SBayesR run is the construction of the LD reference matrix.  There are solid descriptions within the tutorial, the ultimate message is that a sparse and shrunk matrix is best.  Although what's even better is downloading these matricies directly without computation.  You can find the links to these matricies on the FAQ page.  There is a 1 million HapMap version and a 2.8 million common SNPs version.  The corresponding publication saw slightly better results with 2.8 million SNPs, however this larger version looks like it is well over 100 GB compared to the ~50GB of the HapMap.  While losing some accuracy, in the effort to make this an attainable guide for all I went with the HapMap version.  So please know if you are looking for super accuracy, having a lot of storage and want to use SBayesR then go for the 2.8 million.  The remaining parameters can likely be left at their defaults, as that seems like all was done in the publication.  However, an important step is to set a P-value and rsq cut-off as recommended in their FAQ.  Finally, I ran two models, one for the R model and another for C.
+
+The controlling script for this entire process is actually quite simple and looks like:
+
+```{bash, code = readLines("../adjust_ss/sbayesr.sh"), eval = F}
+```
+
+At the top of the script is the execution of a R script, which is the exact same as in the SBLUP description.  And at the bottom, as I often have to do, I exchange the adjusted effects for those in the original summary statistics.  This script looks like:
+
+```{r, code = readLines("../adjust_ss/helper_scripts/reformat_sbayes.R"), eval = F}
+
+The original publication comes from https://www.nature.com/articles/s41467-019-12653-0, and the great doccumentation comes from https://cnsgenomics.com/software/gctb/#Tutorial .
+
+
+## DBSLMM
+
+The DBSLMM which stands for Deterministic Bayesian Sparse Linear Mixed Model, is a more sophisticated model that breaks down the summary statistics into two categories, small and large effect sizes.  I believe the methodology is similar to other methods in which external LD information is used to approximate a mixed model.  The actual implementation of DBSLMM involves a relatively simple call to a R script along with plenty of supplementary information.  
+
+```{bash, code = readLines("../adjust_ss/dbslmm.sh"), eval = F}
+```
+
+The main steps involve converting my summary statistics format into the desired GEMMA format, then extracting a large amount of meta-statistics (including heritability, sample size, and number of SNPs), then actually launching the main R script.   I have had some troubles getting this program to work, as some specific GCC compilers and additional libraries are needed.  The final step in this process substitutes the adjusted beta values into the original summary statistics.  The only parameters needed in this process are p-value and R2 values, which are used in a preliminary clumping process in the DBSLMM algorithm.  The only other, unclear but common parameter is the number of individuals to include in the LD reference panel.  While the original paper only specifies 500 individuals in their reference panel, I thought that value was very low and increasing it would not decrease accuracy.  Therefore I have 5,000 individuals in the reference panel, bringing the same size closer in line to other methods.
+
+The original publication comes from https://www.sciencedirect.com/science/article/pii/S0002929720301099, and great doccumentation comes from https://biostat0903.github.io/DBSLMM/index.html.
+
+## JAMPred
+
+JAMPred, which stands for Joint Analysis of Marginal Summary Statistics Prediction, is a polygenic risk score generating model that is based upon the JAM algorithm.  The original algorithm was made to smartly perform meta-analyses for the purpose of fine-mapping.  The prediction aspect has been added on, adjusting for both normal and uniquely long-range linkage disequilibrium through the induction of sparsity in the effects.  A block approach allows for the long-range correction while also allowing for easy parallelization.  Further details on the algorithm are intersting, but we only need to implement the algorithm.  
+
+```{bash, code = readLines("../adjust_ss/jampred.sh"), eval = F}
+```
+
+The primary implementation of JAMPred takes place within an R script.  The only prior steps needed are setting up the LD reference data. Following the original publication, the sample size in LD reference is set to 5,000 individuals, slightly more than what is used in the primary paper.  An interesting step specific to this method is that the markers in the LD reference were specified to have R2 less than 95%, meaning that I had to randomly sample down my markers using PLINK.  
+
+```{R, code = readLines("../adjust_ss/helper_scripts/jampred.R"), eval = F}
+```
+
+After the genotypic data is prepared, the actual R script can be carried out.  While the demands of JAMPred may seem simple, it requires that the genotypic data in 0, 1, and 2s be read into R.  This can be a very large file, easily crashing the RAM of even a nice cluster.  Therefore I took the approach of using the bigsnpr package to read the data in a memory-smart way.  Some funky code then is used to change the column names to the rsids in the summary statistics, and impute the missing data.  The memory-smart genotypic file can then be directly inserted into the main JAMPred function call, along with other meta statistics and the summary statistics.  The only parameter needing adjusting is lambda.  The four lambda values chosen in this trial are the four used within the example on the associated GitHub page.  The output of this function are adjusted betas, which can then be substiuted into the main summary statistics.
+
+The original publication comes from https://onlinelibrary.wiley.com/doi/full/10.1002/gepi.22245, and the doccumentation is at https://github.com/pjnewcombe/R2BGLiMS.
+
+<!--chapter:end:04-adjust_ss.Rmd-->
+
+# Compiling the Scores
+
+Converting the adjusted summary statistics to actual polygenic risk scores should be a trivial task.  However, there are a few important computational aspects of this step which can either significantly slow down or altogether ruin the scoring process.  Specific to the UK Biobank, the key time and therefore computational problem is converting the given bgenix files into something faller that can be easily read into PLINK.  Doing this for all several million SNPs and ~500,000 individuals at once will almost certainly wreck your RAM and is slow as it is not parallelizable. Therefore, I have split up scoring over each of the chromosomes (as it is already natural), and overal each adjusted summary statistic file (as it is simplest).
+
+## Simple Score Approach
+
+As already alluded to, the approach I took is simple in nature.  The code that processes the scoring of each adjusted summary statistic set is:
+
+```{bash, code = readLines("~/athena/doc_score/do_score/simple_score.sh"), eval = F}
+```
+
+The key and simple steps are: one, we get the rsids that are included in the adjusted summary statistic set; two, we use bgenix to subset the original UKBB imputation file to a (hopefully) much smaller subset; three, we produce a bed/bim/fam fileset through plink2; four, we produce the actual scores with PLINK. There are a few other important statements, namely to check to see if the score exists (either in the small_score_files or final_scores directory) before trying to make it anew.
+
+### What to Worry About
+
+There are a few things that I did not think of originally that should be considered in order to make accurate and even remotely realistic scores.
+
+1 - Matching Alleles - As we already carefully went over when creating clean summary statistics from those orginally downloaded, the alleles in the summary statistics must match the genotype file you are working with.  When dealing with the original bgen files this is true.  But, when we subset (to say only British individuals) the allele may be flipped if the major allele flips (important, this is true for PLINK but not for PLINK2).  To prevent this behavoir in PLINK we use the --keep-allele-order flag.
+
+2 - Sum - The default PLINK behavoir is to average the score in its output.  Therefore, the ultimate score is based on the number of SNPs.  This becomes a problem if we are creating a larger score by running several PLINK routines on each chromosome and adding up the results.  Specifically, because the score will be weighted based on the number of SNPs on each chromosome, not the beta values.  To fix this we use the "sum" option, which no longer does any of this averaging.
+
+3 - Allele Frequency - The default behavoir of the PLINK scoring routine is when an allele is unknown an amount proportional to the allele frequency is added.  This can be pretty confusing so please check out https://zzz.bwh.harvard.edu/plink/profile.shtml, which has a simple example.  The problem here is the exact allele frequency being used.  If we used --keep-fam and --score in the same plink call, then the allele frequency is derived from the non-family subset.  So instead we must subset into the bed/bim/fam files, and then in a seperate PLINK call we do the scoring.
+
+4 - Round-Off Error - This is a much smaller issue, but in nearly all computational tasks with thousands of multiplications between small values, there is bound to be round off error.  While I admit I have not done anything to correct for it, it could be a good idea in the future to multiply the beta values by a fixed value to bring everything futher awayfrom small values.  Although, I should clarify, while scores change I have not noticed any changes in the order of individuals.
+
+### Controlling and Assembling
+
+All of this scoring, for each chromosome, author, etc. are controlled by the following script.  This is a very similar process to the one that controls the adjusting summary statistic process, so I won't go into too much detail explaining.
+
+```{bash, code = readLines("~/athena/doc_score/do_score/simple_control.sh"), eval = F}
+```
+
+The final script needed in this process is assembling.  The process begins by getting the names of all the small score files, then the method, version, and author are extracted.  Then we simply line up the files that have the same qualities except for the chromosomes, read them in then add them together.  Note that the system() command must be used to zstd decompress and then remove the uncompressed file.  There may be a faster way to do this directly in R in the future.  There very well may be a better way to do this since this is alot of IO work. but it gets the job done.  Although again I want to note that PLINK rounds off all of the scores in the chromosomes leading to possibly problematic round-off error.
+
+```{bash, code = readLines("~/athena/doc_score/do_score/simple_assemble.sh"), eval = F}
+```
+
+### Other Options
+
+I also want to quickly note that this scoring implementation was not my first, or even third try to score the files.  The first attempt eventually used PLINK2, which allows you to score multiple columns of beta values simultaneously.  While faster, I noticed there to be some scoring errors because of the many zero values that would line up between the scoring files.  Perhaps I was reading it wrong, but I assume it is not worth risking bad scores.  Quickly, a second attempt used the bigsnpr package, which turned out to be too slow within R.  
+
+
+<!--chapter:end:05-do_score.Rmd-->
+
+# Score Analysis Set-Up
+
+Now that we have the scores we are nearly ready for analysis.  However, there are actually several more things that need to be done, namely setting up all of the phenotypes and covariates.  Similar to creating the scores, this is an often underrated process that needs to be done carefully or everything else fails.
+
+## Defining the Phenotypes
+
+By phenotype I mean status of whether an individual has the disease corresponding to the polygenic risk score.  This is a tricky problem, since first of all each underlying GWAS of the polygenic risk scores may construct phenotypes differently.  Adjusting our phenotypes to each GWAS does not seem easy however, or even possible given the limited information within the UK Biobank.  However the UK Biobank does have a great deal of information.  The sources that we will use to construct phenotypes are as follows:
+
+  1. Self-Reported - Each individual was interviewed by a trained nurse and asked about any illnesses they may have.  The nurse then placed any description by the individual into a pre-specified tree of diseases.  This data can be suspect as the individual may report self-diagnoses not confirmed by a doctor and not really existing, but overall they are likely to line up with actual conditions for most of the individuals.
+  Further description on the self-reported data-type can be found here, http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=20002, and all possible self-reported codings can be found here, http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=3, and here http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=6 (for cancer and non-cancer).
+
+  2. ICD - The UK Biobank has pulled in the electronic health record of every individual.  Specifically, when a doctor makes a diagnosis they will record the ICD code in the computer.  These should be highly accurate, however there is always the change of a typo or a doctor recording a similar diagnosis that does not quite match what we want, making ICD codes rather fickle.  These records have been parsed into hesin files (hospital episode statistics).  In short there this one file, hesin_diag, with ICD codes on every line, and another file, hesin, with dates of hospital episodes.  One can look up the dates for a given ICD code by using the EID and instance index.  We will go over this more later.
+  More information on the hesin data can be found here, https://biobank.ndph.ox.ac.uk/showcase/showcase/docs/HospitalEpisodeStatistics.pdf.  The coding for ICD9 codes can be found here, http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=87.  The coding for ICD10 codes can be found here, http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=19.  Note that ICD9 codes are older than ICD10.
+
+  3. OPCS - Similar to ICD, OPCS codes are generally part of the electronic health record and are accessed from the hesin set of files. However, instead of recording diagnoses they record operations.  While generally not helpful for our purposes, some publications have used specific OPCS codes to assume that an underlying phenotype was the cause.  Following precendent I will do the same.
+  More information on OPCS coding can be found here, http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=240.  There are also OPCS3 codes, but they are very, very sparse.
+
+  4. Medications - This is the least orthodox way of determining phenotype.  But I figure if someone is taking a medication that is only used for one illness, then there is a very good chance the person has that illness.  Unfortunately the UK Biobank does not have to the day records of medications, but only inventories when individuals come in for assessments.  By looking over CDC, respective professional society, and  Mayo Clinic websites I determine the associated medications and convert them into the UK Biobank codes.
+  More information on Medication coding can be found here, http://biobank.ndph.ox.ac.uk/showcase/coding.cgi?id=4.  More information on how medication data was recorded can be found here, http://biobank.ndph.ox.ac.uk/showcase/field.cgi?id=20003.
+
+The table that actually holds the conversion from the many possible codes of each category into a 1/0 phenotype is as follows.
+
+```{R}
+  pheno_defs <- read.table("~/athena/doc_score/analyze_score/descript_defs/author_defs", stringsAsFactors=F, header=T)
+  print(pheno_defs)
+```
+
+The pipe symbol is used to indicate that if any of the codes can be found in the respective data type the phenotype will be called positive.
+
+
+## Making the Phenotype
+
+Now that we know what codes go to which phenotype, we simply need to go through the respective data files and check off when we find one for each EID.  Easier said than done, so I've broken down things into parts.  The first part is preparing the data, specifically breaking down the large phenotype file downloaded from the UK Biobank into parts that are easy to inspect and read in.  Along with these files, the hesin files are also nescessary, although they do not need any breaking down.  I would display these files but I do not think I am allowed to.  Anyway, the breaking down scripts looks like the following (note that if following along your indices are likely different).
+
+```{bash, code = readLines("../analyze_score/construct_defs/prep_big_pheno.sh"), eval = F}
+```
+
+Now that everything is prepared data-wise we can get on with inspecting and calling phenotypes. I have tried this in many different ways, and the fastest option seems to be breaking down the total 500,000 people into groups and calling phenotypes for each group in parallel.  This parallel component is controlled by the following script, which is straightforward.
+
+```{bash, code = readLines("../analyze_score/construct_defs/control_make_pheno.sh"), eval = F}
+```
+
+As you may be able to see the key script here is called better_pheno.py.  This script has a few different parts.  First it reads in all of the prepared data.  Next it subsets down to the group of individuals specified by the control_make_pheno, and sorts each file so the EIDs line up.  This sorting is important as it allows for quick indexing of EIDs (just iterate to the next unique EID rather than searching for the index). Lastly I check each type of phenotype (self-report, ICD, etc.) for the coding that was specified.  For the ICD and OPCS this process required me to check not just the exact code, but also a more general code due to the hierarchical natur of their coding.  For example if I am looking for G35 and an individual has G351 then I will still count that as a match.  Further details on how this script works can be found in the well recorded comments of the script itself, which starts below.
+
+```{python, code = readLines("../analyze_score/construct_defs/better_pheno.py"), eval = F}
+```
+
+
+
+
+<!--chapter:end:06-analysis_setup.Rmd-->
+
+# Tuning
+
+To be completed, but check out:
+https://cran.r-project.org/web/packages/survival/survival.pdf
+https://cran.r-project.org/web/packages/survival/vignettes/compete.pdf
+https://cran.r-project.org/web/packages/survival/vignettes/adjcurve.pdf
+
+<!--chapter:end:07-tune.Rmd-->
+

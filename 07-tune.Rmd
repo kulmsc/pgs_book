@@ -1,0 +1,6 @@
+# Tuning
+
+To be completed, but check out:
+https://cran.r-project.org/web/packages/survival/survival.pdf
+https://cran.r-project.org/web/packages/survival/vignettes/compete.pdf
+https://cran.r-project.org/web/packages/survival/vignettes/adjcurve.pdf

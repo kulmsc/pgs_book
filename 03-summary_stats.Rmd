@@ -138,6 +138,29 @@ The only problem is that we still do not have a single heritability value to use
 ```{r, code = readLines("~/athena/doc_score/raw_ss/adjust_h2.R"), eval = F}
 ```
 
+## Genetic Correlation Estimation
+
+One method, smtpred, requires estimation of genetic correlation.  Along with the motivation this is just good information to know and plot later on, I will now go through the process of calculating pairwide genetic correlations.  Luckily for us this process is quite similar to the heritability estimation above, although I should note the process is quite slower.  Because I have two methods that run in two different environments I wrote two scripts this time to execute each.
+
+```{bash, code = readLines("~/athena/doc_score/raw_ss/est_gen_corr_ldsc.sh"), eval = F}
+```
+
+and the other is:
+
+```{r, code = readLines("~/athena/doc_score/raw_ss/est_gen_corr_hdl.R"), eval = F}
+```
+
+Once complete, try to find all of the possible log files that would be made and pull out the key line with the genetic correlation value and its stanadard error, writing to a new long file.
+
+```{bash, code = readLines("~/athena/doc_score/raw_ss/organize_gen_corr.sh"), eval = F}
+```
+
+Lastly, we need to go through like before and create just one genetic correlation value from our two estimates.  As before, we will average two estimates (if they exist), based on their inverse standard error.  Whereas before we were not fine with having an NA value, here that is totally fine.  Other non-finite values such as Inf or NaN might also be passed on, that's fine for now and we will deal with it later on as needed.
+
+```{r, code = readLines("~/athena/doc_score/raw_ss/average_gen_corr.R"), eval = F}
+```
+
+
 
 ## Final Changes and Remarks
 

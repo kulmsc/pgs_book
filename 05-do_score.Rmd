@@ -1,0 +1,41 @@
+# Compiling the Scores
+
+Converting the adjusted summary statistics to actual polygenic risk scores should be a trivial task.  However, there are a few important computational aspects of this step which can either significantly slow down or altogether ruin the scoring process.  Specific to the UK Biobank, the key time and therefore computational problem is converting the given bgenix files into something faller that can be easily read into PLINK.  Doing this for all several million SNPs and ~500,000 individuals at once will almost certainly wreck your RAM and is slow as it is not parallelizable. Therefore, I have split up scoring over each of the chromosomes (as it is already natural), and overal each adjusted summary statistic file (as it is simplest).
+
+## Simple Score Approach
+
+As already alluded to, the approach I took is simple in nature.  The code that processes the scoring of each adjusted summary statistic set is:
+
+```{bash, code = readLines("~/athena/doc_score/do_score/simple_score.sh"), eval = F}
+```
+
+The key and simple steps are: one, we get the rsids that are included in the adjusted summary statistic set; two, we use bgenix to subset the original UKBB imputation file to a (hopefully) much smaller subset; three, we produce a bed/bim/fam fileset through plink2; four, we produce the actual scores with PLINK. There are a few other important statements, namely to check to see if the score exists (either in the small_score_files or final_scores directory) before trying to make it anew.
+
+### What to Worry About
+
+There are a few things that I did not think of originally that should be considered in order to make accurate and even remotely realistic scores.
+
+1 - Matching Alleles - As we already carefully went over when creating clean summary statistics from those orginally downloaded, the alleles in the summary statistics must match the genotype file you are working with.  When dealing with the original bgen files this is true.  But, when we subset (to say only British individuals) the allele may be flipped if the major allele flips (important, this is true for PLINK but not for PLINK2).  To prevent this behavoir in PLINK we use the --keep-allele-order flag.
+
+2 - Sum - The default PLINK behavoir is to average the score in its output.  Therefore, the ultimate score is based on the number of SNPs.  This becomes a problem if we are creating a larger score by running several PLINK routines on each chromosome and adding up the results.  Specifically, because the score will be weighted based on the number of SNPs on each chromosome, not the beta values.  To fix this we use the "sum" option, which no longer does any of this averaging.
+
+3 - Allele Frequency - The default behavoir of the PLINK scoring routine is when an allele is unknown an amount proportional to the allele frequency is added.  This can be pretty confusing so please check out https://zzz.bwh.harvard.edu/plink/profile.shtml, which has a simple example.  The problem here is the exact allele frequency being used.  If we used --keep-fam and --score in the same plink call, then the allele frequency is derived from the non-family subset.  So instead we must subset into the bed/bim/fam files, and then in a seperate PLINK call we do the scoring.
+
+4 - Round-Off Error - This is a much smaller issue, but in nearly all computational tasks with thousands of multiplications between small values, there is bound to be round off error.  While I admit I have not done anything to correct for it, it could be a good idea in the future to multiply the beta values by a fixed value to bring everything futher awayfrom small values.  Although, I should clarify, while scores change I have not noticed any changes in the order of individuals.
+
+### Controlling and Assembling
+
+All of this scoring, for each chromosome, author, etc. are controlled by the following script.  This is a very similar process to the one that controls the adjusting summary statistic process, so I won't go into too much detail explaining.
+
+```{bash, code = readLines("~/athena/doc_score/do_score/simple_control.sh"), eval = F}
+```
+
+The final script needed in this process is assembling.  The process begins by getting the names of all the small score files, then the method, version, and author are extracted.  Then we simply line up the files that have the same qualities except for the chromosomes, read them in then add them together.  Note that the system() command must be used to zstd decompress and then remove the uncompressed file.  There may be a faster way to do this directly in R in the future.  There very well may be a better way to do this since this is alot of IO work. but it gets the job done.  Although again I want to note that PLINK rounds off all of the scores in the chromosomes leading to possibly problematic round-off error.
+
+```{bash, code = readLines("~/athena/doc_score/do_score/simple_assemble.sh"), eval = F}
+```
+
+### Other Options
+
+I also want to quickly note that this scoring implementation was not my first, or even third try to score the files.  The first attempt eventually used PLINK2, which allows you to score multiple columns of beta values simultaneously.  While faster, I noticed there to be some scoring errors because of the many zero values that would line up between the scoring files.  Perhaps I was reading it wrong, but I assume it is not worth risking bad scores.  Quickly, a second attempt used the bigsnpr package, which turned out to be too slow within R.  
+

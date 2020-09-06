@@ -106,7 +106,7 @@ As before, all of the steps were controlled in the following bash script:
 
 The first needed R script for calculating the "ma" summary statistics is:
 
-```{r, code = readLines("../adjust_ss/helper_scripts/ldpred3.sh"), eval = F}
+```{r, code = readLines("../adjust_ss/helper_scripts/add_ma.R"), eval = F}
 ```
 
 The output file looks a little funky, so a final R script substitutes the adjusted effect into the original summary statistics.
@@ -115,3 +115,115 @@ The output file looks a little funky, so a final R script substitutes the adjust
 ```
 
 The original publication is https://www.nature.com/articles/s41562-016-0016#MOESM11, and the doccumentation comes from https://cnsgenomics.com/software/gcta/#SBLUP.
+
+
+## SMTpred
+
+SMTPred, which I believe stands for summary multi-trait prediction, is a very interesting method that leverages correlated traits to effectively increase the sample size of the original effect estimates.  While the weighting system is actually relatively simple, I will leave that information to the interested reader and instead focus on the actual implementation.  The SMTpred python script requires quite a few types of inputs, including heritabilities, genetic correlations, sample sizes and summary statistics.  Luckily for us most of these inputs are really easily accesible fixed information.  The two items that we can change are the summary statistics and the genetic correlations.  Specifically, the SMTpred algorithm accepts either normal least-squares effect estimates and SBLUP outputs.  As we are already producing SBLUP adjusted summary statistics we might as well try both.  The genetic correlations is a little trickier.  Many genetic correlation estimates have very high standard errors, and in my opinion this means they should not be used.  Similarly, I can include, in theory 24 genetic correlations in an implementation, however this seems problematic as comparisons across applications likely become more difficult and some of the weaker correlations may be more likely to harm my final output than help.  Therefore, I will limit the number of correlations to the top 3, 5 and 10 to see if a more conservative or liberal approach is best.
+
+With all of the theory of implementation I may now actually write the code, which is really just a bit of data-pulling and re-arranging.  The overall shell script is:
+
+```{bash, code = readLines("../adjust_ss/smtpred.sh"), eval = F}
+```
+
+The first R script within this shell script does much of the heavy lifting, reading all the genetic correlations and additional meta-stats, ultimately writing all of the stats files that are reuired in the actual python call of smtpred.
+
+```{r, code = readLines("../adjust_ss/helper_scripts/set_up_smtpred.R"), eval = F}
+```
+
+The final R script completes a role similar to many other methods, combining the effects adjusted by the method to the original summary statistics.
+
+```{r, code = readLines("../adjust_ss/helper_scripts/smtpred_beta_switch.R"), eval = F}
+```
+
+The original publication is https://www.nature.com/articles/s41467-017-02769-6, and the doccumentation comes from https://github.com/uqrmaie1/smtpred.
+
+## prsCS
+
+the prsCS algorithm is actually very similar to LDpred, in that it aims to shrink some of the least squares effect estimates, thereby generating adjusted estimates that are better poised for polygenic risk scoring.  The main difference (I believe) is that LDpred uses a point-block prior on its probability a SNP being causal whereas prsCS goes with a continous prior (naturally).
+
+Luckily for us many of the parameters that have confused us in past methods are easily and simply provided to us within this method.  Specifically, I am referring to genotypic files for a linkage disequilibrium reference, they are provided on the GitHub page based on the ancestry of the desired polygenic risk score.  In fact, the only parameter that we are specifying is phi, which I believe is related to the propotion of underlying casual SNPs for the trait, also know as the polygenicity.  While the algorithm states that it can learn this parameter itself, there are some caveats that lead me to believe it would be best to just try a scale of phi values.  There are other parameters relating to the MCMC algorithm, but I will not touch those.
+
+The actual mechanics of the algorithm include changing the formatting of the summary statistics, running a single python script, and finally substituting the output adjusted effect sizes for the original effect sizes.  This process was controlled by the shell script:
+
+```{bash, code = readLines("../adjust_ss/prscs.sh"), eval = F}
+```
+
+The R script needed for effect substitution is:
+
+```{r, code = readLines("../adjust_ss/helper_scripts/prscs_beta_switch.R"), eval = F}
+```
+
+The original publication can be found at https://www.nature.com/articles/s41467-019-09718-5, and the doccumentation comes from https://github.com/getian107/PRScs.
+
+
+
+## lassosum
+
+While lassosum may appear to be a classic method like LDpred, SBLUP, or prsCS, its underlying methedology is actuall far different.  Rather than following a theoretical basic that recreates effect estimates that would be produced with full genetic information lassosum tries to recreate the process of lasso regression, a far more heuristic or goal-oriented process.  The process of actually implementing lassosum is relatively easy as everything can be carried out within a R script, leaving the controlling shell script to do very little.
+
+```{bash, code = readLines("../adjust_ss/lassosum.sh"), eval = F}
+```
+
+The R script it launches does three sets of things.  First, it sets up a few important objects: reading in the summary statistics and sets the name of the  reference genotypes.  Second, it converts the summary statistic P-values into a correlation type statistic then runs the lassosum pipeline.  A few of the important parameters that are set in the pipeline include: the name of the LDblock, which is already mostly specified by the software and just needs an ancestry matching name; the sample number or number of people to keep in the LD reference, I chose 5000 as its value exceeds that of the sample size used within the originating publication (from my reading either than 1000 genomes or cases from the WTCCC were used, both of which I think are close to 5000, or at least not an order of magnitude higher); the s parameter (which I am unclear what it represents) is given the values randing from 0.1 to 1 in the paper, and with better performance at lower values I will test 0.1, 0.4 and 0.8; finally the lambda value, which I believe represents the strength of the penalty in the lasso is given the default values ranging from 0.001 to 0.1, therefore I test a similar range but with fewever numbers in my own sample vector. The third thing the script does is subsitute the results into the original summary statistics and writes the results.  Altogether it looks like:
+
+```{r, code = readLines("../adjust_ss/helper_scripts/lassosum.R"), eval = F}
+```
+
+The original(accessible) publication can be found at https://www.biorxiv.org/content/10.1101/058214v2.full.pdf, and the doccumentation comes from https://github.com/tshmak/lassosum.
+
+
+## Tweedie
+
+The Tweedie Method is fundamentally concerned with the Winner's Curse idea that has been similarly in several other methods.  Tweedie specifically handles the curse by thinking of a true distribution of Z-statistics, and then attempting to create an approximation for this distribution by inserting a kernel over the estimated statistics.  However, before we can begin this Winners Curse correction process the corresponding publication recommends we try to limit the amount of linkage disequilbrium within the underlying summary statistics.  They have a consistent R2 cut-off of 0.25 and leave the P-value parameter take a range of values.  The limited summary statistics are then converted into Z-statistics, incorporated with empirically estimated allele frequencies, and sent into a supplied R script.  The output adjusted effect values can the be subset back into the original summary statistics and saved.  The controlling script for this process looks like:
+
+```{bash, code = readLines("../adjust_ss/tweedie.sh"), eval = F}
+```
+
+I won't show the R script because it is rather long and almost completely what was originally downloaded.  The only changes are to read in the summary statistics at the top and convert P-values to Z-statistics, then seperate out the nescessary objects.
+
+The original publication comes from https://www.nature.com/articles/srep41262.pdf, and the code comes from https://sites.google.com/site/honcheongso/software/empirical-bayes-risk-prediction.
+
+
+## SBayesR
+
+The SBayesR method is somewhat similar to the SBLUP method in that it uses a LD reference matrix to attempt to recover effect estimates that would be produced from a full genotype aware regression.  Any more description would get pretty complicated, so I will leave it to the interested reader.  The largest in terms of computation and memory component of a SBayesR run is the construction of the LD reference matrix.  There are solid descriptions within the tutorial, the ultimate message is that a sparse and shrunk matrix is best.  Although what's even better is downloading these matricies directly without computation.  You can find the links to these matricies on the FAQ page.  There is a 1 million HapMap version and a 2.8 million common SNPs version.  The corresponding publication saw slightly better results with 2.8 million SNPs, however this larger version looks like it is well over 100 GB compared to the ~50GB of the HapMap.  While losing some accuracy, in the effort to make this an attainable guide for all I went with the HapMap version.  So please know if you are looking for super accuracy, having a lot of storage and want to use SBayesR then go for the 2.8 million.  The remaining parameters can likely be left at their defaults, as that seems like all was done in the publication.  However, an important step is to set a P-value and rsq cut-off as recommended in their FAQ.  Finally, I ran two models, one for the R model and another for C.
+
+The controlling script for this entire process is actually quite simple and looks like:
+
+```{bash, code = readLines("../adjust_ss/sbayesr.sh"), eval = F}
+```
+
+At the top of the script is the execution of a R script, which is the exact same as in the SBLUP description.  And at the bottom, as I often have to do, I exchange the adjusted effects for those in the original summary statistics.  This script looks like:
+
+```{r, code = readLines("../adjust_ss/helper_scripts/reformat_sbayes.R"), eval = F}
+
+The original publication comes from https://www.nature.com/articles/s41467-019-12653-0, and the great doccumentation comes from https://cnsgenomics.com/software/gctb/#Tutorial .
+
+
+## DBSLMM
+
+The DBSLMM which stands for Deterministic Bayesian Sparse Linear Mixed Model, is a more sophisticated model that breaks down the summary statistics into two categories, small and large effect sizes.  I believe the methodology is similar to other methods in which external LD information is used to approximate a mixed model.  The actual implementation of DBSLMM involves a relatively simple call to a R script along with plenty of supplementary information.  
+
+```{bash, code = readLines("../adjust_ss/dbslmm.sh"), eval = F}
+```
+
+The main steps involve converting my summary statistics format into the desired GEMMA format, then extracting a large amount of meta-statistics (including heritability, sample size, and number of SNPs), then actually launching the main R script.   I have had some troubles getting this program to work, as some specific GCC compilers and additional libraries are needed.  The final step in this process substitutes the adjusted beta values into the original summary statistics.  The only parameters needed in this process are p-value and R2 values, which are used in a preliminary clumping process in the DBSLMM algorithm.  The only other, unclear but common parameter is the number of individuals to include in the LD reference panel.  While the original paper only specifies 500 individuals in their reference panel, I thought that value was very low and increasing it would not decrease accuracy.  Therefore I have 5,000 individuals in the reference panel, bringing the same size closer in line to other methods.
+
+The original publication comes from https://www.sciencedirect.com/science/article/pii/S0002929720301099, and great doccumentation comes from https://biostat0903.github.io/DBSLMM/index.html.
+
+## JAMPred
+
+JAMPred, which stands for Joint Analysis of Marginal Summary Statistics Prediction, is a polygenic risk score generating model that is based upon the JAM algorithm.  The original algorithm was made to smartly perform meta-analyses for the purpose of fine-mapping.  The prediction aspect has been added on, adjusting for both normal and uniquely long-range linkage disequilibrium through the induction of sparsity in the effects.  A block approach allows for the long-range correction while also allowing for easy parallelization.  Further details on the algorithm are intersting, but we only need to implement the algorithm.  
+
+```{bash, code = readLines("../adjust_ss/jampred.sh"), eval = F}
+```
+
+The primary implementation of JAMPred takes place within an R script.  The only prior steps needed are setting up the LD reference data. Following the original publication, the sample size in LD reference is set to 5,000 individuals, slightly more than what is used in the primary paper.  An interesting step specific to this method is that the markers in the LD reference were specified to have R2 less than 95%, meaning that I had to randomly sample down my markers using PLINK.  
+
+```{R, code = readLines("../adjust_ss/helper_scripts/jampred.R"), eval = F}
+```
+
+After the genotypic data is prepared, the actual R script can be carried out.  While the demands of JAMPred may seem simple, it requires that the genotypic data in 0, 1, and 2s be read into R.  This can be a very large file, easily crashing the RAM of even a nice cluster.  Therefore I took the approach of using the bigsnpr package to read the data in a memory-smart way.  Some funky code then is used to change the column names to the rsids in the summary statistics, and impute the missing data.  The memory-smart genotypic file can then be directly inserted into the main JAMPred function call, along with other meta statistics and the summary statistics.  The only parameter needing adjusting is lambda.  The four lambda values chosen in this trial are the four used within the example on the associated GitHub page.  The output of this function are adjusted betas, which can then be substiuted into the main summary statistics.
+
+The original publication comes from https://onlinelibrary.wiley.com/doi/full/10.1002/gepi.22245, and the doccumentation is at https://github.com/pjnewcombe/R2BGLiMS.

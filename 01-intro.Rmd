@@ -2,3 +2,13 @@
 PolyGenic Scores provide a key formulation of genetic findings into disease prediction.  There has been a fair amount of concern over the accuracy, confounding and equitability of PGSs.  I believe the best way to judge the significance of these worries, and more importantly, ultimately work towards their resolve, is through well-doccumented research. 
 
 Quick note on set-up.  I am writing this book within a sub-directory of my larger project directory.  Hopefully everything will work this way.
+
+## Directory Framework
+
+If you would like to follow along, I would like to make clear how the directories are constructed.  
+
+```{r}
+list.files("..")
+```
+
+I am currently writing in the book directory, one level above will lead to all of the relevant sub-directories.  The second and third chapters on summary statistics take place within the directory raw_ss, the fourth chapter on adjusting summary statistics takes place in adjust_ss, .  The common, finn_gen, and a few other diretories are indirectly called within scripts outside their own directory.  Full paths will be used, so it should be clear where everything is at all times.
