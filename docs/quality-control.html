@@ -4,25 +4,27 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>2 Quality Control | index.split</title>
-  <meta name="description" content="" />
+  <title>2 Quality Control | Comparison of PGS Generative Methods</title>
+  <meta name="description" content="A deep dive into all the scripts and underlying though processes that create polygenic risk scores" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="2 Quality Control | index.split" />
+  <meta property="og:title" content="2 Quality Control | Comparison of PGS Generative Methods" />
   <meta property="og:type" content="book" />
   
   
-  
-  
+  <meta property="og:description" content="A deep dive into all the scripts and underlying though processes that create polygenic risk scores" />
+  <meta name="github-repo" content="pgs_book" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="2 Quality Control | index.split" />
+  <meta name="twitter:title" content="2 Quality Control | Comparison of PGS Generative Methods" />
   
-  
+  <meta name="twitter:description" content="A deep dive into all the scripts and underlying though processes that create polygenic risk scores" />
   
 
+<meta name="author" content="Scott Kulm" />
 
 
+<meta name="date" content="2020-09-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -208,7 +210,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Comparison of PGS Generative Methods</a>
           </h1>
         </div>
 
@@ -234,12 +236,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ol>
 <p>If a marker failed the first 4 tests it was removed from the batch, and if a marker failed the last 2 tests then it was removed from the entire data-set. Each of these tests are hypothesis tests, with the cut-off chosen for removal set at p &lt; 10^-12. Clearly this is pretty extreme so it is important to note there may be more QC that needs to be done.</p>
 <div class="figure">
-<embed src="%22images/UKBB_fail_rates.png%22" />
+<embed src="%22../images/UKBB_fail_rates.png%22" />
 <p class="caption">fail</p>
 </div>
 <p>Following marker QC a pipeline of sample QC was applied. A good description of the pipeline is shown below. What is important to note is that the doccumentation seems to note that only individuals with really extreme missingness or hetrozygosity were removed from the dataset. Otherwise they were simply marked as being an outlier in their respective test. A more stringent threshold of the sample QC and marker QC was set for the dataset that was used within a principal component analysis. The output of this PCA was then used to determine a white, British ancestry subset. This was completed by comparing the samples who declared they were white and British and then removing outliers from the main cluster of this grouping based on PCA.</p>
 <div class="figure">
-<embed src="%22images/british_PCA.png%22" />
+<embed src="%22../images/british_PCA.png%22" />
 <p class="caption">PCA</p>
 </div>
 <p>Far more information on all of these steps can be found from the BioRxiv pdf: “Genome-wide genetic data on ~500,000 UK Biobank participants”. The big takeaways that I gleam are that the UK Biobank did think about genotyping seriously, the most abberant markers have been removed although some questionable markers likely remain, and that quite a few abberant samples remain although removing them should be easy since they have been marked. All of this gives a good starting point for this work.</p>
@@ -248,9 +250,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2><span class="header-section-number">2.2</span> Initial QC</h2>
 <p>To increase levels of QC, a file that lists all of the outliers was used to create a list of high quality anonymous IDS. The script that ran this entire process is displayed below.</p>
 <p>In short, the process carried out involved removes outliers in hetrozygosity, putative sex chromosome aneupolidy, and excess relatvies all determined by the UK Biobank processes described above. Lastly, only individuals who were determined to be white with British ancestry were kept. This is a highly unfortunate cut-off, but nescessary in order to create a genetically homogenous individuals to be tested.</p>
-<p>#<code>{R, code = xfun::read_utf8(&quot;~/athena/doc_score/qc/proc_fam.R&quot;), eval = F, dev = png} #</code></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">print</span>(<span class="st">&#39;test&#39;</span>)</a></code></pre></div>
-<pre><code>## [1] &quot;test&quot;</code></pre>
 <p>Now that we have a base level of genetic data QC, we can move onto QC of the summary statistics.</p>
 
 </div>

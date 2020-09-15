@@ -4,25 +4,27 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6 Compiling the Scores | index.split</title>
-  <meta name="description" content="" />
+  <title>6 Compiling the Scores | Comparison of PGS Generative Methods</title>
+  <meta name="description" content="A deep dive into all the scripts and underlying though processes that create polygenic risk scores" />
   <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6 Compiling the Scores | index.split" />
+  <meta property="og:title" content="6 Compiling the Scores | Comparison of PGS Generative Methods" />
   <meta property="og:type" content="book" />
   
   
-  
-  
+  <meta property="og:description" content="A deep dive into all the scripts and underlying though processes that create polygenic risk scores" />
+  <meta name="github-repo" content="pgs_book" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6 Compiling the Scores | index.split" />
+  <meta name="twitter:title" content="6 Compiling the Scores | Comparison of PGS Generative Methods" />
   
-  
+  <meta name="twitter:description" content="A deep dive into all the scripts and underlying though processes that create polygenic risk scores" />
   
 
+<meta name="author" content="Scott Kulm" />
 
 
+<meta name="date" content="2020-09-15" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -208,7 +210,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./"></a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Comparison of PGS Generative Methods</a>
           </h1>
         </div>
 
@@ -222,48 +224,48 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="simple-score-approach" class="section level2">
 <h2><span class="header-section-number">6.1</span> Simple Score Approach</h2>
 <p>As already alluded to, the approach I took is simple in nature. The code that processes the scoring of each adjusted summary statistic set is:</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb64-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb64-2" data-line-number="2"><span class="va">ss_name=$1</span></a>
-<a class="sourceLine" id="cb64-3" data-line-number="3"><span class="va">author=$2</span></a>
-<a class="sourceLine" id="cb64-4" data-line-number="4"><span class="va">method=$3</span></a>
-<a class="sourceLine" id="cb64-5" data-line-number="5"><span class="va">chr=$4</span></a>
-<a class="sourceLine" id="cb64-6" data-line-number="6"><span class="va">i=$5</span></a>
-<a class="sourceLine" id="cb64-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb64-8" data-line-number="8"><span class="bu">echo</span> <span class="va">$ss_name</span> <span class="va">$author</span> <span class="va">$method</span> <span class="va">$chr</span> <span class="va">$i</span></a>
-<a class="sourceLine" id="cb64-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb64-10" data-line-number="10"><span class="co">#Just logistics around controlling parallelism</span></a>
-<a class="sourceLine" id="cb64-11" data-line-number="11"><span class="va">go_num=</span><span class="kw">`</span><span class="fu">head</span> -1 temp_files/poss_go<span class="kw">`</span></a>
-<a class="sourceLine" id="cb64-12" data-line-number="12"><span class="fu">grep</span> -v -w <span class="va">$go_num</span> temp_files/poss_go <span class="op">&gt;</span> temp_files/temp_poss</a>
-<a class="sourceLine" id="cb64-13" data-line-number="13"><span class="fu">mv</span> temp_files/temp_poss temp_files/poss_go</a>
-<a class="sourceLine" id="cb64-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb64-15" data-line-number="15"><span class="va">low_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$author</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></a>
-<a class="sourceLine" id="cb64-16" data-line-number="16"><span class="va">ver=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$ss_name</span> <span class="kw">|</span> <span class="fu">cut</span> -f4 -d<span class="st">&#39;.&#39;</span><span class="kw">`</span></a>
-<a class="sourceLine" id="cb64-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb64-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb64-19" data-line-number="19"><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-e</span> small_score_files/score.<span class="va">${low_author}</span>.<span class="va">${chr}</span>.<span class="va">${ver}</span>.<span class="va">${method}</span>.profile.zst<span class="bu"> ]</span>;<span class="kw">then</span></a>
-<a class="sourceLine" id="cb64-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb64-21" data-line-number="21">  <span class="fu">cat</span> ../mod_sets/<span class="va">${author}</span>/<span class="va">${ss_name}</span> <span class="kw">|</span> <span class="fu">cut</span> -f3 <span class="op">&gt;</span> temp_files/rsids.<span class="va">${i}</span></a>
-<a class="sourceLine" id="cb64-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb64-23" data-line-number="23">  <span class="ex">bgenix</span> -g ~/athena/ukbiobank/imputed/ukbb.<span class="va">${chr}</span>.bgen -incl-rsids temp_files/rsids.<span class="va">${i}</span> <span class="op">&gt;</span> temp_files/temp.<span class="va">${i}</span>.bgen</a>
-<a class="sourceLine" id="cb64-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb64-25" data-line-number="25">  <span class="ex">plink2_new</span> --memory 12000 --threads 12 --bgen temp_files/temp.<span class="va">${i}</span>.bgen ref-first --sample ~/athena/ukbiobank/imputed/ukbb.<span class="va">${chr}</span>.sample --keep-fam temp_files/brit_eid --make-bed --out temp_files/geno.<span class="va">${i}</span></a>
-<a class="sourceLine" id="cb64-26" data-line-number="26"></a>
-<a class="sourceLine" id="cb64-27" data-line-number="27">  <span class="ex">plink</span> --memory 12000 --threads 12 --bfile temp_files/geno.<span class="va">${i}</span> --keep-allele-order --score ../mod_sets/<span class="va">${author}</span>/<span class="va">${ss_name}</span> 3 4 7 sum --out small_score_files/score.<span class="va">${low_author}</span>.<span class="va">${chr}</span>.<span class="va">${ver}</span>.<span class="va">${method}</span></a>
-<a class="sourceLine" id="cb64-28" data-line-number="28"></a>
-<a class="sourceLine" id="cb64-29" data-line-number="29">  <span class="ex">zstd</span> --rm small_score_files/score.<span class="va">${low_author}</span>.<span class="va">${chr}</span>.<span class="va">${ver}</span>.<span class="va">${method}</span>.profile</a>
-<a class="sourceLine" id="cb64-30" data-line-number="30"></a>
-<a class="sourceLine" id="cb64-31" data-line-number="31">  <span class="fu">rm</span> temp_files/rsids.<span class="va">${i}</span></a>
-<a class="sourceLine" id="cb64-32" data-line-number="32">  <span class="fu">rm</span> temp_files/temp.<span class="va">${i}</span>.bgen</a>
-<a class="sourceLine" id="cb64-33" data-line-number="33">  <span class="fu">rm</span> temp_files/geno.<span class="va">${i}</span>.*</a>
-<a class="sourceLine" id="cb64-34" data-line-number="34"></a>
-<a class="sourceLine" id="cb64-35" data-line-number="35"><span class="kw">else</span></a>
-<a class="sourceLine" id="cb64-36" data-line-number="36"></a>
-<a class="sourceLine" id="cb64-37" data-line-number="37">  <span class="bu">echo</span> already exists</a>
-<a class="sourceLine" id="cb64-38" data-line-number="38"></a>
-<a class="sourceLine" id="cb64-39" data-line-number="39"><span class="kw">fi</span></a>
-<a class="sourceLine" id="cb64-40" data-line-number="40"></a>
-<a class="sourceLine" id="cb64-41" data-line-number="41"><span class="co">#Just logistics around controlling parallelism</span></a>
-<a class="sourceLine" id="cb64-42" data-line-number="42"><span class="bu">echo</span> <span class="va">$go_num</span> <span class="op">&gt;&gt;</span> temp_files/poss_go</a></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb62-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb62-2" data-line-number="2"><span class="va">ss_name=$1</span></a>
+<a class="sourceLine" id="cb62-3" data-line-number="3"><span class="va">author=$2</span></a>
+<a class="sourceLine" id="cb62-4" data-line-number="4"><span class="va">method=$3</span></a>
+<a class="sourceLine" id="cb62-5" data-line-number="5"><span class="va">chr=$4</span></a>
+<a class="sourceLine" id="cb62-6" data-line-number="6"><span class="va">i=$5</span></a>
+<a class="sourceLine" id="cb62-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb62-8" data-line-number="8"><span class="bu">echo</span> <span class="va">$ss_name</span> <span class="va">$author</span> <span class="va">$method</span> <span class="va">$chr</span> <span class="va">$i</span></a>
+<a class="sourceLine" id="cb62-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb62-10" data-line-number="10"><span class="co">#Just logistics around controlling parallelism</span></a>
+<a class="sourceLine" id="cb62-11" data-line-number="11"><span class="va">go_num=</span><span class="kw">`</span><span class="fu">head</span> -1 temp_files/poss_go<span class="kw">`</span></a>
+<a class="sourceLine" id="cb62-12" data-line-number="12"><span class="fu">grep</span> -v -w <span class="va">$go_num</span> temp_files/poss_go <span class="op">&gt;</span> temp_files/temp_poss</a>
+<a class="sourceLine" id="cb62-13" data-line-number="13"><span class="fu">mv</span> temp_files/temp_poss temp_files/poss_go</a>
+<a class="sourceLine" id="cb62-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb62-15" data-line-number="15"><span class="va">low_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$author</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb62-16" data-line-number="16"><span class="va">ver=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$ss_name</span> <span class="kw">|</span> <span class="fu">cut</span> -f4 -d<span class="st">&#39;.&#39;</span><span class="kw">`</span></a>
+<a class="sourceLine" id="cb62-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb62-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb62-19" data-line-number="19"><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-e</span> small_score_files/score.<span class="va">${low_author}</span>.<span class="va">${chr}</span>.<span class="va">${ver}</span>.<span class="va">${method}</span>.profile.zst<span class="bu"> ]</span>;<span class="kw">then</span></a>
+<a class="sourceLine" id="cb62-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb62-21" data-line-number="21">  <span class="fu">cat</span> ../mod_sets/<span class="va">${author}</span>/<span class="va">${ss_name}</span> <span class="kw">|</span> <span class="fu">cut</span> -f3 <span class="op">&gt;</span> temp_files/rsids.<span class="va">${i}</span></a>
+<a class="sourceLine" id="cb62-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb62-23" data-line-number="23">  <span class="ex">bgenix</span> -g ~/athena/ukbiobank/imputed/ukbb.<span class="va">${chr}</span>.bgen -incl-rsids temp_files/rsids.<span class="va">${i}</span> <span class="op">&gt;</span> temp_files/temp.<span class="va">${i}</span>.bgen</a>
+<a class="sourceLine" id="cb62-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb62-25" data-line-number="25">  <span class="ex">plink2_new</span> --memory 12000 --threads 12 --bgen temp_files/temp.<span class="va">${i}</span>.bgen ref-first --sample ~/athena/ukbiobank/imputed/ukbb.<span class="va">${chr}</span>.sample --keep-fam temp_files/brit_eid --make-bed --out temp_files/geno.<span class="va">${i}</span></a>
+<a class="sourceLine" id="cb62-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb62-27" data-line-number="27">  <span class="ex">plink</span> --memory 12000 --threads 12 --bfile temp_files/geno.<span class="va">${i}</span> --keep-allele-order --score ../mod_sets/<span class="va">${author}</span>/<span class="va">${ss_name}</span> 3 4 7 sum --out small_score_files/score.<span class="va">${low_author}</span>.<span class="va">${chr}</span>.<span class="va">${ver}</span>.<span class="va">${method}</span></a>
+<a class="sourceLine" id="cb62-28" data-line-number="28"></a>
+<a class="sourceLine" id="cb62-29" data-line-number="29">  <span class="ex">zstd</span> --rm small_score_files/score.<span class="va">${low_author}</span>.<span class="va">${chr}</span>.<span class="va">${ver}</span>.<span class="va">${method}</span>.profile</a>
+<a class="sourceLine" id="cb62-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb62-31" data-line-number="31">  <span class="fu">rm</span> temp_files/rsids.<span class="va">${i}</span></a>
+<a class="sourceLine" id="cb62-32" data-line-number="32">  <span class="fu">rm</span> temp_files/temp.<span class="va">${i}</span>.bgen</a>
+<a class="sourceLine" id="cb62-33" data-line-number="33">  <span class="fu">rm</span> temp_files/geno.<span class="va">${i}</span>.*</a>
+<a class="sourceLine" id="cb62-34" data-line-number="34"></a>
+<a class="sourceLine" id="cb62-35" data-line-number="35"><span class="kw">else</span></a>
+<a class="sourceLine" id="cb62-36" data-line-number="36"></a>
+<a class="sourceLine" id="cb62-37" data-line-number="37">  <span class="bu">echo</span> already exists</a>
+<a class="sourceLine" id="cb62-38" data-line-number="38"></a>
+<a class="sourceLine" id="cb62-39" data-line-number="39"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb62-40" data-line-number="40"></a>
+<a class="sourceLine" id="cb62-41" data-line-number="41"><span class="co">#Just logistics around controlling parallelism</span></a>
+<a class="sourceLine" id="cb62-42" data-line-number="42"><span class="bu">echo</span> <span class="va">$go_num</span> <span class="op">&gt;&gt;</span> temp_files/poss_go</a></code></pre></div>
 <p>The key and simple steps are: one, we get the rsids that are included in the adjusted summary statistic set; two, we use bgenix to subset the original UKBB imputation file to a (hopefully) much smaller subset; three, we produce a bed/bim/fam fileset through plink2; four, we produce the actual scores with PLINK. There are a few other important statements, namely to check to see if the score exists (either in the small_score_files or final_scores directory) before trying to make it anew.</p>
 <div id="what-to-worry-about" class="section level3">
 <h3><span class="header-section-number">6.1.1</span> What to Worry About</h3>
@@ -276,138 +278,138 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="controlling-and-assembling" class="section level3">
 <h3><span class="header-section-number">6.1.2</span> Controlling and Assembling</h3>
 <p>All of this scoring, for each chromosome, author, etc. are controlled by the following script. This is a very similar process to the one that controls the adjusting summary statistic process, so I won’t go into too much detail explaining.</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb65-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb65-2" data-line-number="2"><span class="va">maxGo=</span>18</a>
-<a class="sourceLine" id="cb65-3" data-line-number="3"><span class="fu">rm</span> temp_files/poss_go</a>
-<a class="sourceLine" id="cb65-4" data-line-number="4"><span class="fu">cat</span> ../qc/cv_files/train_eid.0.2.txt <span class="kw">|</span> <span class="fu">cut</span> -f1 <span class="op">&gt;</span> temp_files/brit_eid</a>
-<a class="sourceLine" id="cb65-5" data-line-number="5"><span class="fu">cat</span> ../qc/cv_files/test_eid.0.8.txt <span class="kw">|</span> <span class="fu">cut</span> -f1 <span class="op">&gt;&gt;</span> temp_files/brit_eid</a>
-<a class="sourceLine" id="cb65-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb65-7" data-line-number="7"><span class="kw">for</span> <span class="kw">((</span> i=1; i&lt;=<span class="va">$maxGo</span>; i++ <span class="kw">))</span>; <span class="kw">do</span></a>
-<a class="sourceLine" id="cb65-8" data-line-number="8">  <span class="bu">echo</span> <span class="va">$i</span> <span class="op">&gt;&gt;</span> temp_files/poss_go</a>
-<a class="sourceLine" id="cb65-9" data-line-number="9"><span class="kw">done</span></a>
-<a class="sourceLine" id="cb65-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb65-11" data-line-number="11"><span class="bu">echo</span> 1 <span class="op">&gt;</span> temp_files/counter</a>
-<a class="sourceLine" id="cb65-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb65-13" data-line-number="13"><span class="fu">cat</span> all_specs/author_specs <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">cauthor</span>;<span class="kw">do</span></a>
-<a class="sourceLine" id="cb65-14" data-line-number="14">  <span class="fu">cat</span> all_specs/method_specs <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">cmethod</span>;<span class="kw">do</span></a>
-<a class="sourceLine" id="cb65-15" data-line-number="15">    <span class="kw">for</span> <span class="ex">cchr</span> in <span class="dt">{1..22}</span><span class="kw">;do</span></a>
-<a class="sourceLine" id="cb65-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb65-17" data-line-number="17">      <span class="fu">ls</span> ../mod_sets/<span class="va">${cauthor}</span>/ <span class="kw">|</span> <span class="fu">fgrep</span> -w <span class="va">${cmethod}</span> <span class="kw">|</span> <span class="fu">awk</span> -v var=<span class="st">&quot;</span><span class="va">$cchr</span><span class="st">&quot;</span> -F. <span class="st">&#39;$2 == var {print $0}&#39;</span> <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">cname</span>;<span class="kw">do</span></a>
-<a class="sourceLine" id="cb65-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb65-19" data-line-number="19">        <span class="va">counter_var=</span><span class="kw">`</span><span class="fu">cat</span> temp_files/counter<span class="kw">`</span></a>
-<a class="sourceLine" id="cb65-20" data-line-number="20">        <span class="bu">echo</span> <span class="va">$counter_var</span></a>
-<a class="sourceLine" id="cb65-21" data-line-number="21">        <span class="ex">./simple_score.sh</span> <span class="va">$cname</span> <span class="va">$cauthor</span> <span class="va">$cmethod</span> <span class="va">$cchr</span> <span class="va">$counter_var</span> <span class="op">&amp;&gt;</span> logs/log.<span class="va">${counter_var}</span>.log <span class="kw">&amp;</span></a>
-<a class="sourceLine" id="cb65-22" data-line-number="22">        <span class="bu">echo</span> <span class="va">$counter_var</span> + 1 <span class="kw">|</span> <span class="fu">bc</span> <span class="op">&gt;</span> temp_files/counter</a>
-<a class="sourceLine" id="cb65-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb65-24" data-line-number="24">        <span class="fu">sleep</span> <span class="va">$((</span> ( RANDOM % 10 )  + 1 <span class="va">))</span></a>
-<a class="sourceLine" id="cb65-25" data-line-number="25"></a>
-<a class="sourceLine" id="cb65-26" data-line-number="26">        <span class="va">goOn=</span>False</a>
-<a class="sourceLine" id="cb65-27" data-line-number="27">        <span class="kw">while</span><span class="bu"> [</span> <span class="va">$goOn</span> <span class="ot">==</span> <span class="st">&quot;False&quot;</span><span class="bu"> ]</span>; <span class="kw">do</span></a>
-<a class="sourceLine" id="cb65-28" data-line-number="28">          <span class="va">openSlots=</span><span class="kw">`</span><span class="fu">cat</span> temp_files/poss_go <span class="kw">|</span> <span class="fu">wc</span> -l<span class="kw">`</span></a>
-<a class="sourceLine" id="cb65-29" data-line-number="29">          <span class="va">sizedir=</span><span class="kw">`</span><span class="fu">du</span> temp_files/ <span class="kw">|</span> <span class="fu">cut</span> -f1<span class="kw">`</span></a>
-<a class="sourceLine" id="cb65-30" data-line-number="30">          <span class="kw">if</span><span class="bu"> [</span> <span class="va">$openSlots</span> <span class="ot">-gt</span> 0<span class="bu"> ]</span>; <span class="kw">then</span></a>
-<a class="sourceLine" id="cb65-31" data-line-number="31">            <span class="kw">if</span><span class="bu"> [</span> <span class="va">$sizedir</span> <span class="ot">-lt</span> 50164096<span class="bu"> ]</span>;<span class="kw">then</span></a>
-<a class="sourceLine" id="cb65-32" data-line-number="32">              <span class="bu">echo</span> NOW WE CAN GO</a>
-<a class="sourceLine" id="cb65-33" data-line-number="33">              <span class="va">goOn=</span>True</a>
-<a class="sourceLine" id="cb65-34" data-line-number="34">            <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb65-35" data-line-number="35">          <span class="kw">else</span></a>
-<a class="sourceLine" id="cb65-36" data-line-number="36">            <span class="bu">echo</span> MUST WAIT FOR ROOM TO GO</a>
-<a class="sourceLine" id="cb65-37" data-line-number="37">            <span class="fu">sleep</span> <span class="va">$((</span> ( RANDOM % 5 )  + 1 <span class="va">))</span></a>
-<a class="sourceLine" id="cb65-38" data-line-number="38">          <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb65-39" data-line-number="39">        <span class="kw">done</span></a>
-<a class="sourceLine" id="cb65-40" data-line-number="40"></a>
-<a class="sourceLine" id="cb65-41" data-line-number="41">      <span class="kw">done</span></a>
-<a class="sourceLine" id="cb65-42" data-line-number="42">    <span class="kw">done</span></a>
-<a class="sourceLine" id="cb65-43" data-line-number="43">  <span class="kw">done</span></a>
-<a class="sourceLine" id="cb65-44" data-line-number="44"><span class="kw">done</span></a></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb63-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb63-2" data-line-number="2"><span class="va">maxGo=</span>18</a>
+<a class="sourceLine" id="cb63-3" data-line-number="3"><span class="fu">rm</span> temp_files/poss_go</a>
+<a class="sourceLine" id="cb63-4" data-line-number="4"><span class="fu">cat</span> ../qc/cv_files/train_eid.0.2.txt <span class="kw">|</span> <span class="fu">cut</span> -f1 <span class="op">&gt;</span> temp_files/brit_eid</a>
+<a class="sourceLine" id="cb63-5" data-line-number="5"><span class="fu">cat</span> ../qc/cv_files/test_eid.0.8.txt <span class="kw">|</span> <span class="fu">cut</span> -f1 <span class="op">&gt;&gt;</span> temp_files/brit_eid</a>
+<a class="sourceLine" id="cb63-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb63-7" data-line-number="7"><span class="kw">for</span> <span class="kw">((</span> i=1; i&lt;=<span class="va">$maxGo</span>; i++ <span class="kw">))</span>; <span class="kw">do</span></a>
+<a class="sourceLine" id="cb63-8" data-line-number="8">  <span class="bu">echo</span> <span class="va">$i</span> <span class="op">&gt;&gt;</span> temp_files/poss_go</a>
+<a class="sourceLine" id="cb63-9" data-line-number="9"><span class="kw">done</span></a>
+<a class="sourceLine" id="cb63-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb63-11" data-line-number="11"><span class="bu">echo</span> 1 <span class="op">&gt;</span> temp_files/counter</a>
+<a class="sourceLine" id="cb63-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb63-13" data-line-number="13"><span class="fu">cat</span> all_specs/author_specs <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">cauthor</span>;<span class="kw">do</span></a>
+<a class="sourceLine" id="cb63-14" data-line-number="14">  <span class="fu">cat</span> all_specs/method_specs <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">cmethod</span>;<span class="kw">do</span></a>
+<a class="sourceLine" id="cb63-15" data-line-number="15">    <span class="kw">for</span> <span class="ex">cchr</span> in <span class="dt">{1..22}</span><span class="kw">;do</span></a>
+<a class="sourceLine" id="cb63-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb63-17" data-line-number="17">      <span class="fu">ls</span> ../mod_sets/<span class="va">${cauthor}</span>/ <span class="kw">|</span> <span class="fu">fgrep</span> -w <span class="va">${cmethod}</span> <span class="kw">|</span> <span class="fu">awk</span> -v var=<span class="st">&quot;</span><span class="va">$cchr</span><span class="st">&quot;</span> -F. <span class="st">&#39;$2 == var {print $0}&#39;</span> <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">cname</span>;<span class="kw">do</span></a>
+<a class="sourceLine" id="cb63-18" data-line-number="18"></a>
+<a class="sourceLine" id="cb63-19" data-line-number="19">        <span class="va">counter_var=</span><span class="kw">`</span><span class="fu">cat</span> temp_files/counter<span class="kw">`</span></a>
+<a class="sourceLine" id="cb63-20" data-line-number="20">        <span class="bu">echo</span> <span class="va">$counter_var</span></a>
+<a class="sourceLine" id="cb63-21" data-line-number="21">        <span class="ex">./simple_score.sh</span> <span class="va">$cname</span> <span class="va">$cauthor</span> <span class="va">$cmethod</span> <span class="va">$cchr</span> <span class="va">$counter_var</span> <span class="op">&amp;&gt;</span> logs/log.<span class="va">${counter_var}</span>.log <span class="kw">&amp;</span></a>
+<a class="sourceLine" id="cb63-22" data-line-number="22">        <span class="bu">echo</span> <span class="va">$counter_var</span> + 1 <span class="kw">|</span> <span class="fu">bc</span> <span class="op">&gt;</span> temp_files/counter</a>
+<a class="sourceLine" id="cb63-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb63-24" data-line-number="24">        <span class="fu">sleep</span> <span class="va">$((</span> ( RANDOM % 10 )  + 1 <span class="va">))</span></a>
+<a class="sourceLine" id="cb63-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb63-26" data-line-number="26">        <span class="va">goOn=</span>False</a>
+<a class="sourceLine" id="cb63-27" data-line-number="27">        <span class="kw">while</span><span class="bu"> [</span> <span class="va">$goOn</span> <span class="ot">==</span> <span class="st">&quot;False&quot;</span><span class="bu"> ]</span>; <span class="kw">do</span></a>
+<a class="sourceLine" id="cb63-28" data-line-number="28">          <span class="va">openSlots=</span><span class="kw">`</span><span class="fu">cat</span> temp_files/poss_go <span class="kw">|</span> <span class="fu">wc</span> -l<span class="kw">`</span></a>
+<a class="sourceLine" id="cb63-29" data-line-number="29">          <span class="va">sizedir=</span><span class="kw">`</span><span class="fu">du</span> temp_files/ <span class="kw">|</span> <span class="fu">cut</span> -f1<span class="kw">`</span></a>
+<a class="sourceLine" id="cb63-30" data-line-number="30">          <span class="kw">if</span><span class="bu"> [</span> <span class="va">$openSlots</span> <span class="ot">-gt</span> 0<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb63-31" data-line-number="31">            <span class="kw">if</span><span class="bu"> [</span> <span class="va">$sizedir</span> <span class="ot">-lt</span> 50164096<span class="bu"> ]</span>;<span class="kw">then</span></a>
+<a class="sourceLine" id="cb63-32" data-line-number="32">              <span class="bu">echo</span> NOW WE CAN GO</a>
+<a class="sourceLine" id="cb63-33" data-line-number="33">              <span class="va">goOn=</span>True</a>
+<a class="sourceLine" id="cb63-34" data-line-number="34">            <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb63-35" data-line-number="35">          <span class="kw">else</span></a>
+<a class="sourceLine" id="cb63-36" data-line-number="36">            <span class="bu">echo</span> MUST WAIT FOR ROOM TO GO</a>
+<a class="sourceLine" id="cb63-37" data-line-number="37">            <span class="fu">sleep</span> <span class="va">$((</span> ( RANDOM % 5 )  + 1 <span class="va">))</span></a>
+<a class="sourceLine" id="cb63-38" data-line-number="38">          <span class="kw">fi</span></a>
+<a class="sourceLine" id="cb63-39" data-line-number="39">        <span class="kw">done</span></a>
+<a class="sourceLine" id="cb63-40" data-line-number="40"></a>
+<a class="sourceLine" id="cb63-41" data-line-number="41">      <span class="kw">done</span></a>
+<a class="sourceLine" id="cb63-42" data-line-number="42">    <span class="kw">done</span></a>
+<a class="sourceLine" id="cb63-43" data-line-number="43">  <span class="kw">done</span></a>
+<a class="sourceLine" id="cb63-44" data-line-number="44"><span class="kw">done</span></a></code></pre></div>
 <p>The final script needed in this process is assembling. The process begins by getting the names of all the small score files, then the method, version, and author are extracted. Then we simply line up the files that have the same qualities except for the chromosomes, read them in then add them together. Note that the system() command must be used to zstd decompress and then remove the uncompressed file. There may be a faster way to do this directly in R in the future. There very well may be a better way to do this since this is alot of IO work. but it gets the job done. Although again I want to note that PLINK rounds off all of the scores in the chromosomes leading to possibly problematic round-off error.</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1"><span class="kw">library</span>(data.table)</a>
-<a class="sourceLine" id="cb66-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb66-3" data-line-number="3">all_files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="st">&quot;small_score_files/&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;profile&quot;</span>)</a>
-<a class="sourceLine" id="cb66-4" data-line-number="4">split_files &lt;-<span class="st"> </span><span class="kw">strsplit</span>(all_files, <span class="st">&quot;.&quot;</span>, <span class="dt">fixed =</span> T)</a>
-<a class="sourceLine" id="cb66-5" data-line-number="5">all_author &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(split_files, <span class="cf">function</span>(x) x[<span class="dv">2</span>]))</a>
-<a class="sourceLine" id="cb66-6" data-line-number="6">all_chr &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(split_files, <span class="cf">function</span>(x) x[<span class="dv">3</span>]))</a>
-<a class="sourceLine" id="cb66-7" data-line-number="7">all_ind &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(split_files, <span class="cf">function</span>(x) x[<span class="dv">4</span>]))</a>
-<a class="sourceLine" id="cb66-8" data-line-number="8">all_method &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(split_files, <span class="cf">function</span>(x) x[<span class="dv">5</span>]))</a>
-<a class="sourceLine" id="cb66-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb66-10" data-line-number="10">brit_eid &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;temp_files/brit_eid&quot;</span>, <span class="dt">stringsAsFactors=</span>F)</a>
-<a class="sourceLine" id="cb66-11" data-line-number="11">new_name &lt;-<span class="st"> </span><span class="kw">unique</span>(<span class="kw">paste0</span>(all_author, <span class="st">&quot;.&quot;</span>, all_ind, <span class="st">&quot;.&quot;</span>, all_method))</a>
-<a class="sourceLine" id="cb66-12" data-line-number="12">all_score &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow =</span> <span class="kw">nrow</span>(brit_eid), <span class="dt">ncol =</span> <span class="kw">length</span>(new_name))</a>
-<a class="sourceLine" id="cb66-13" data-line-number="13">almost_new_name &lt;-<span class="st"> </span><span class="kw">paste0</span>(all_author, <span class="st">&quot;.&quot;</span>, all_ind, <span class="st">&quot;.&quot;</span>, all_method)</a>
-<a class="sourceLine" id="cb66-14" data-line-number="14"><span class="kw">colnames</span>(all_score) &lt;-<span class="st"> </span>new_name</a>
-<a class="sourceLine" id="cb66-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb66-16" data-line-number="16">firstup &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb66-17" data-line-number="17">  <span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>) &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb66-18" data-line-number="18">  <span class="kw">return</span>(x)</a>
-<a class="sourceLine" id="cb66-19" data-line-number="19">}</a>
-<a class="sourceLine" id="cb66-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb66-21" data-line-number="21">all_upauthor &lt;-<span class="st"> </span><span class="kw">firstup</span>(all_author)</a>
-<a class="sourceLine" id="cb66-22" data-line-number="22">all_upauthor[all_upauthor <span class="op">==</span><span class="st"> &quot;Imsgc&quot;</span>] &lt;-<span class="st"> &quot;IMSGC&quot;</span></a>
-<a class="sourceLine" id="cb66-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb66-24" data-line-number="24">i &lt;-<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb66-25" data-line-number="25">j &lt;-<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb66-26" data-line-number="26"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(all_files)){</a>
-<a class="sourceLine" id="cb66-27" data-line-number="27"></a>
-<a class="sourceLine" id="cb66-28" data-line-number="28">      real_mod_set &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">grep</span>(<span class="kw">paste0</span>(<span class="kw">tolower</span>(all_author[i]), <span class="st">&quot;.[[:digit:]][[:digit:]].&quot;</span>, all_method[i], <span class="st">&quot;.&quot;</span>, all_ind[i], <span class="st">&quot;.ss&quot;</span>), <span class="kw">list.files</span>(<span class="kw">paste0</span>(<span class="st">&quot;../mod_sets/&quot;</span>, all_upauthor[i],<span class="st">&quot;/&quot;</span>)), <span class="dt">value =</span> T),</a>
-<a class="sourceLine" id="cb66-29" data-line-number="29">                         <span class="kw">grep</span>(<span class="kw">paste0</span>(<span class="kw">tolower</span>(all_author[i]), <span class="st">&quot;.[[:digit:]].&quot;</span>, all_method[i], <span class="st">&quot;.&quot;</span>, all_ind[i], <span class="st">&quot;.ss&quot;</span>), <span class="kw">list.files</span>(<span class="kw">paste0</span>(<span class="st">&quot;../mod_sets/&quot;</span>, all_upauthor[i], <span class="st">&quot;/&quot;</span>)), <span class="dt">value =</span> T))</a>
-<a class="sourceLine" id="cb66-30" data-line-number="30"></a>
-<a class="sourceLine" id="cb66-31" data-line-number="31">      real_scored &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">grep</span>(<span class="kw">paste0</span>(<span class="st">&quot;score.&quot;</span>, <span class="kw">tolower</span>(all_author[i]), <span class="st">&quot;.[[:digit:]].&quot;</span>, all_ind[i], <span class="st">&quot;.&quot;</span>, all_method[i], <span class="st">&quot;.profile.zst&quot;</span>), all_files, <span class="dt">value =</span> T),</a>
-<a class="sourceLine" id="cb66-32" data-line-number="32">                        <span class="kw">grep</span>(<span class="kw">paste0</span>(<span class="st">&quot;score.&quot;</span>, <span class="kw">tolower</span>(all_author[i]), <span class="st">&quot;.[[:digit:]][[:digit:]].&quot;</span>, all_ind[i], <span class="st">&quot;.&quot;</span>, all_method[i], <span class="st">&quot;.profile.zst&quot;</span>), all_files, <span class="dt">value =</span> T))</a>
-<a class="sourceLine" id="cb66-33" data-line-number="33"></a>
-<a class="sourceLine" id="cb66-34" data-line-number="34">      <span class="cf">if</span>(<span class="kw">length</span>(real_mod_set) <span class="op">==</span><span class="st"> </span><span class="kw">length</span>(real_scored)){</a>
-<a class="sourceLine" id="cb66-35" data-line-number="35"></a>
-<a class="sourceLine" id="cb66-36" data-line-number="36">          <span class="kw">system</span>(<span class="kw">paste0</span>(<span class="st">&quot;zstd -d small_score_files/&quot;</span>, all_files[i]))</a>
-<a class="sourceLine" id="cb66-37" data-line-number="37">          sub_score &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">fread</span>(<span class="kw">paste0</span>(<span class="st">&quot;small_score_files/&quot;</span>, <span class="kw">substr</span>(all_files[i], <span class="dv">1</span>, <span class="kw">nchar</span>(all_files[i])<span class="op">-</span><span class="dv">4</span>))))</a>
-<a class="sourceLine" id="cb66-38" data-line-number="38">          <span class="kw">system</span>(<span class="kw">paste0</span>(<span class="st">&quot;rm small_score_files/&quot;</span>, <span class="kw">substr</span>(all_files[i], <span class="dv">1</span>, <span class="kw">nchar</span>(all_files[i])<span class="op">-</span><span class="dv">4</span>)))</a>
-<a class="sourceLine" id="cb66-39" data-line-number="39"> </a>
-<a class="sourceLine" id="cb66-40" data-line-number="40">          all_score[,new_name <span class="op">==</span><span class="st"> </span>almost_new_name[i]] &lt;-<span class="st"> </span>all_score[,new_name <span class="op">==</span><span class="st"> </span>almost_new_name[i]] <span class="op">+</span><span class="st"> </span>sub_score<span class="op">$</span>SCORESUM </a>
-<a class="sourceLine" id="cb66-41" data-line-number="41">    </a>
-<a class="sourceLine" id="cb66-42" data-line-number="42">      }</a>
-<a class="sourceLine" id="cb66-43" data-line-number="43">}</a>
-<a class="sourceLine" id="cb66-44" data-line-number="44"></a>
-<a class="sourceLine" id="cb66-45" data-line-number="45">all_score &lt;-<span class="st"> </span>all_score[,<span class="kw">colSums</span>(all_score) <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>]</a>
-<a class="sourceLine" id="cb66-46" data-line-number="46"></a>
-<a class="sourceLine" id="cb66-47" data-line-number="47">next_file &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">grep</span>(<span class="st">&quot;RDS&quot;</span>, <span class="kw">list.files</span>(<span class="st">&quot;final_scores&quot;</span>, <span class="st">&quot;all_score&quot;</span>))) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb66-48" data-line-number="48"></a>
-<a class="sourceLine" id="cb66-49" data-line-number="49"><span class="kw">write.table</span>(all_score, <span class="kw">paste0</span>(<span class="st">&quot;final_scores/all_score.&quot;</span>, next_file), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> T, <span class="dt">quote =</span> F, <span class="dt">sep =</span> <span class="st">&#39; &#39;</span>)</a>
-<a class="sourceLine" id="cb66-50" data-line-number="50"><span class="kw">saveRDS</span>(all_score, <span class="kw">paste0</span>(<span class="st">&quot;final_scores/all_score.&quot;</span>, next_file, <span class="st">&quot;.RDS&quot;</span>))</a>
-<a class="sourceLine" id="cb66-51" data-line-number="51"><span class="kw">write.table</span>(<span class="kw">colnames</span>(all_score), <span class="kw">paste0</span>(<span class="st">&quot;final_scores/done_names.&quot;</span>, next_file), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> F, <span class="dt">quote =</span> F)</a>
-<a class="sourceLine" id="cb66-52" data-line-number="52"><span class="kw">system</span>(<span class="kw">paste0</span>(<span class="st">&quot;gzip final_scores/all_score.&quot;</span>, next_file))</a></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1"><span class="kw">library</span>(data.table)</a>
+<a class="sourceLine" id="cb64-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb64-3" data-line-number="3">all_files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="st">&quot;small_score_files/&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;profile&quot;</span>)</a>
+<a class="sourceLine" id="cb64-4" data-line-number="4">split_files &lt;-<span class="st"> </span><span class="kw">strsplit</span>(all_files, <span class="st">&quot;.&quot;</span>, <span class="dt">fixed =</span> T)</a>
+<a class="sourceLine" id="cb64-5" data-line-number="5">all_author &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(split_files, <span class="cf">function</span>(x) x[<span class="dv">2</span>]))</a>
+<a class="sourceLine" id="cb64-6" data-line-number="6">all_chr &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(split_files, <span class="cf">function</span>(x) x[<span class="dv">3</span>]))</a>
+<a class="sourceLine" id="cb64-7" data-line-number="7">all_ind &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(split_files, <span class="cf">function</span>(x) x[<span class="dv">4</span>]))</a>
+<a class="sourceLine" id="cb64-8" data-line-number="8">all_method &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(split_files, <span class="cf">function</span>(x) x[<span class="dv">5</span>]))</a>
+<a class="sourceLine" id="cb64-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb64-10" data-line-number="10">brit_eid &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;temp_files/brit_eid&quot;</span>, <span class="dt">stringsAsFactors=</span>F)</a>
+<a class="sourceLine" id="cb64-11" data-line-number="11">new_name &lt;-<span class="st"> </span><span class="kw">unique</span>(<span class="kw">paste0</span>(all_author, <span class="st">&quot;.&quot;</span>, all_ind, <span class="st">&quot;.&quot;</span>, all_method))</a>
+<a class="sourceLine" id="cb64-12" data-line-number="12">all_score &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow =</span> <span class="kw">nrow</span>(brit_eid), <span class="dt">ncol =</span> <span class="kw">length</span>(new_name))</a>
+<a class="sourceLine" id="cb64-13" data-line-number="13">almost_new_name &lt;-<span class="st"> </span><span class="kw">paste0</span>(all_author, <span class="st">&quot;.&quot;</span>, all_ind, <span class="st">&quot;.&quot;</span>, all_method)</a>
+<a class="sourceLine" id="cb64-14" data-line-number="14"><span class="kw">colnames</span>(all_score) &lt;-<span class="st"> </span>new_name</a>
+<a class="sourceLine" id="cb64-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb64-16" data-line-number="16">firstup &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
+<a class="sourceLine" id="cb64-17" data-line-number="17">  <span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>) &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb64-18" data-line-number="18">  <span class="kw">return</span>(x)</a>
+<a class="sourceLine" id="cb64-19" data-line-number="19">}</a>
+<a class="sourceLine" id="cb64-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb64-21" data-line-number="21">all_upauthor &lt;-<span class="st"> </span><span class="kw">firstup</span>(all_author)</a>
+<a class="sourceLine" id="cb64-22" data-line-number="22">all_upauthor[all_upauthor <span class="op">==</span><span class="st"> &quot;Imsgc&quot;</span>] &lt;-<span class="st"> &quot;IMSGC&quot;</span></a>
+<a class="sourceLine" id="cb64-23" data-line-number="23"></a>
+<a class="sourceLine" id="cb64-24" data-line-number="24">i &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb64-25" data-line-number="25">j &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb64-26" data-line-number="26"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(all_files)){</a>
+<a class="sourceLine" id="cb64-27" data-line-number="27"></a>
+<a class="sourceLine" id="cb64-28" data-line-number="28">      real_mod_set &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">grep</span>(<span class="kw">paste0</span>(<span class="kw">tolower</span>(all_author[i]), <span class="st">&quot;.[[:digit:]][[:digit:]].&quot;</span>, all_method[i], <span class="st">&quot;.&quot;</span>, all_ind[i], <span class="st">&quot;.ss&quot;</span>), <span class="kw">list.files</span>(<span class="kw">paste0</span>(<span class="st">&quot;../mod_sets/&quot;</span>, all_upauthor[i],<span class="st">&quot;/&quot;</span>)), <span class="dt">value =</span> T),</a>
+<a class="sourceLine" id="cb64-29" data-line-number="29">                         <span class="kw">grep</span>(<span class="kw">paste0</span>(<span class="kw">tolower</span>(all_author[i]), <span class="st">&quot;.[[:digit:]].&quot;</span>, all_method[i], <span class="st">&quot;.&quot;</span>, all_ind[i], <span class="st">&quot;.ss&quot;</span>), <span class="kw">list.files</span>(<span class="kw">paste0</span>(<span class="st">&quot;../mod_sets/&quot;</span>, all_upauthor[i], <span class="st">&quot;/&quot;</span>)), <span class="dt">value =</span> T))</a>
+<a class="sourceLine" id="cb64-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb64-31" data-line-number="31">      real_scored &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">grep</span>(<span class="kw">paste0</span>(<span class="st">&quot;score.&quot;</span>, <span class="kw">tolower</span>(all_author[i]), <span class="st">&quot;.[[:digit:]].&quot;</span>, all_ind[i], <span class="st">&quot;.&quot;</span>, all_method[i], <span class="st">&quot;.profile.zst&quot;</span>), all_files, <span class="dt">value =</span> T),</a>
+<a class="sourceLine" id="cb64-32" data-line-number="32">                        <span class="kw">grep</span>(<span class="kw">paste0</span>(<span class="st">&quot;score.&quot;</span>, <span class="kw">tolower</span>(all_author[i]), <span class="st">&quot;.[[:digit:]][[:digit:]].&quot;</span>, all_ind[i], <span class="st">&quot;.&quot;</span>, all_method[i], <span class="st">&quot;.profile.zst&quot;</span>), all_files, <span class="dt">value =</span> T))</a>
+<a class="sourceLine" id="cb64-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb64-34" data-line-number="34">      <span class="cf">if</span>(<span class="kw">length</span>(real_mod_set) <span class="op">==</span><span class="st"> </span><span class="kw">length</span>(real_scored)){</a>
+<a class="sourceLine" id="cb64-35" data-line-number="35"></a>
+<a class="sourceLine" id="cb64-36" data-line-number="36">          <span class="kw">system</span>(<span class="kw">paste0</span>(<span class="st">&quot;zstd -d small_score_files/&quot;</span>, all_files[i]))</a>
+<a class="sourceLine" id="cb64-37" data-line-number="37">          sub_score &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">fread</span>(<span class="kw">paste0</span>(<span class="st">&quot;small_score_files/&quot;</span>, <span class="kw">substr</span>(all_files[i], <span class="dv">1</span>, <span class="kw">nchar</span>(all_files[i])<span class="op">-</span><span class="dv">4</span>))))</a>
+<a class="sourceLine" id="cb64-38" data-line-number="38">          <span class="kw">system</span>(<span class="kw">paste0</span>(<span class="st">&quot;rm small_score_files/&quot;</span>, <span class="kw">substr</span>(all_files[i], <span class="dv">1</span>, <span class="kw">nchar</span>(all_files[i])<span class="op">-</span><span class="dv">4</span>)))</a>
+<a class="sourceLine" id="cb64-39" data-line-number="39"> </a>
+<a class="sourceLine" id="cb64-40" data-line-number="40">          all_score[,new_name <span class="op">==</span><span class="st"> </span>almost_new_name[i]] &lt;-<span class="st"> </span>all_score[,new_name <span class="op">==</span><span class="st"> </span>almost_new_name[i]] <span class="op">+</span><span class="st"> </span>sub_score<span class="op">$</span>SCORESUM </a>
+<a class="sourceLine" id="cb64-41" data-line-number="41">    </a>
+<a class="sourceLine" id="cb64-42" data-line-number="42">      }</a>
+<a class="sourceLine" id="cb64-43" data-line-number="43">}</a>
+<a class="sourceLine" id="cb64-44" data-line-number="44"></a>
+<a class="sourceLine" id="cb64-45" data-line-number="45">all_score &lt;-<span class="st"> </span>all_score[,<span class="kw">colSums</span>(all_score) <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb64-46" data-line-number="46"></a>
+<a class="sourceLine" id="cb64-47" data-line-number="47">next_file &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">grep</span>(<span class="st">&quot;RDS&quot;</span>, <span class="kw">list.files</span>(<span class="st">&quot;final_scores&quot;</span>, <span class="st">&quot;all_score&quot;</span>))) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb64-48" data-line-number="48"></a>
+<a class="sourceLine" id="cb64-49" data-line-number="49"><span class="kw">write.table</span>(all_score, <span class="kw">paste0</span>(<span class="st">&quot;final_scores/all_score.&quot;</span>, next_file), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> T, <span class="dt">quote =</span> F, <span class="dt">sep =</span> <span class="st">&#39; &#39;</span>)</a>
+<a class="sourceLine" id="cb64-50" data-line-number="50"><span class="kw">saveRDS</span>(all_score, <span class="kw">paste0</span>(<span class="st">&quot;final_scores/all_score.&quot;</span>, next_file, <span class="st">&quot;.RDS&quot;</span>))</a>
+<a class="sourceLine" id="cb64-51" data-line-number="51"><span class="kw">write.table</span>(<span class="kw">colnames</span>(all_score), <span class="kw">paste0</span>(<span class="st">&quot;final_scores/done_names.&quot;</span>, next_file), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> F, <span class="dt">quote =</span> F)</a>
+<a class="sourceLine" id="cb64-52" data-line-number="52"><span class="kw">system</span>(<span class="kw">paste0</span>(<span class="st">&quot;gzip final_scores/all_score.&quot;</span>, next_file))</a></code></pre></div>
 </div>
 <div id="verifying-everything-worked" class="section level3">
 <h3><span class="header-section-number">6.1.3</span> Verifying Everything Worked</h3>
 <p>As perhaps I have alluded to, scoring is actually not as straightforward as it seems. By taking steps that make it computationally easier there may be inaccuracies that infiltrate your final scores. Therefore, one should check whether the scores made with whatever nice and fancy approach are the same as scores made with the simplest, most fool-proof approach. Specifically, I am thinking about creating one large PLINK file with all of the SNPs needed for the desired score creation, then in one PLINK command creating the score. This process will require iterating through all of the 22 chromosomes and creating a small PLINK file, then in the end merging them all together, and finally creating the actual score desired. The code looks like:</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="fu">rm</span> try_single_score/ss</a>
-<a class="sourceLine" id="cb67-2" data-line-number="2"><span class="fu">rm</span> try_single_score/rsids</a>
-<a class="sourceLine" id="cb67-3" data-line-number="3"><span class="fu">rm</span> try_single_score/geno_list</a>
-<a class="sourceLine" id="cb67-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb67-5" data-line-number="5"><span class="va">Author=</span>IMSGC</a>
-<a class="sourceLine" id="cb67-6" data-line-number="6"><span class="va">author=</span>imsgc</a>
-<a class="sourceLine" id="cb67-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb67-8" data-line-number="8"><span class="kw">for</span> <span class="ex">chr</span> in <span class="dt">{1..22}</span><span class="kw">;do</span></a>
-<a class="sourceLine" id="cb67-9" data-line-number="9">  <span class="fu">cat</span> ../mod_sets/<span class="va">${Author}</span>/<span class="va">${author}</span>.<span class="va">${chr}</span>.clump.1.ss <span class="op">&gt;&gt;</span> try_single_score/ss</a>
-<a class="sourceLine" id="cb67-10" data-line-number="10">  <span class="fu">cat</span> ../mod_sets/<span class="va">${Author}</span>/<span class="va">${author}</span>.<span class="va">${chr}</span>.clump.1.ss <span class="kw">|</span> <span class="fu">cut</span> -f3 <span class="op">&gt;</span> try_single_score/rsids</a>
-<a class="sourceLine" id="cb67-11" data-line-number="11">  <span class="ex">bgenix</span> -g ~/athena/ukbiobank/imputed/ukbb.<span class="va">${chr}</span>.bgen -incl-rsids try_single_score/rsids <span class="op">&gt;</span> try_single_score/temp.bgen</a>
-<a class="sourceLine" id="cb67-12" data-line-number="12">  <span class="ex">plink2_new</span> --memory 12000 --threads 12 --bgen try_single_score/temp.bgen ref-first --sample ~/athena/ukbiobank/imputed/ukbb.1.sample --keep-fam temp_files/brit_eid --make-bed --out try_single_score/geno.<span class="va">${chr}</span></a>
-<a class="sourceLine" id="cb67-13" data-line-number="13">  <span class="bu">echo</span> try_single_score/geno.<span class="va">${chr}</span> <span class="op">&gt;&gt;</span> try_single_score/geno_list</a>
-<a class="sourceLine" id="cb67-14" data-line-number="14"><span class="kw">done</span></a>
-<a class="sourceLine" id="cb67-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb67-16" data-line-number="16"><span class="ex">plink</span> --merge-list try_single_score/geno_list --make-bed --out try_single_score/all</a>
-<a class="sourceLine" id="cb67-17" data-line-number="17"><span class="ex">plink</span> --bfile try_single_score/all --keep-allele-order --score try_single_score/ss 3 4 7 no-sum --out try_single_score/score.<span class="va">${author}</span>.clump.1</a></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="fu">rm</span> try_single_score/ss</a>
+<a class="sourceLine" id="cb65-2" data-line-number="2"><span class="fu">rm</span> try_single_score/rsids</a>
+<a class="sourceLine" id="cb65-3" data-line-number="3"><span class="fu">rm</span> try_single_score/geno_list</a>
+<a class="sourceLine" id="cb65-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb65-5" data-line-number="5"><span class="va">Author=</span>IMSGC</a>
+<a class="sourceLine" id="cb65-6" data-line-number="6"><span class="va">author=</span>imsgc</a>
+<a class="sourceLine" id="cb65-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb65-8" data-line-number="8"><span class="kw">for</span> <span class="ex">chr</span> in <span class="dt">{1..22}</span><span class="kw">;do</span></a>
+<a class="sourceLine" id="cb65-9" data-line-number="9">  <span class="fu">cat</span> ../mod_sets/<span class="va">${Author}</span>/<span class="va">${author}</span>.<span class="va">${chr}</span>.clump.1.ss <span class="op">&gt;&gt;</span> try_single_score/ss</a>
+<a class="sourceLine" id="cb65-10" data-line-number="10">  <span class="fu">cat</span> ../mod_sets/<span class="va">${Author}</span>/<span class="va">${author}</span>.<span class="va">${chr}</span>.clump.1.ss <span class="kw">|</span> <span class="fu">cut</span> -f3 <span class="op">&gt;</span> try_single_score/rsids</a>
+<a class="sourceLine" id="cb65-11" data-line-number="11">  <span class="ex">bgenix</span> -g ~/athena/ukbiobank/imputed/ukbb.<span class="va">${chr}</span>.bgen -incl-rsids try_single_score/rsids <span class="op">&gt;</span> try_single_score/temp.bgen</a>
+<a class="sourceLine" id="cb65-12" data-line-number="12">  <span class="ex">plink2_new</span> --memory 12000 --threads 12 --bgen try_single_score/temp.bgen ref-first --sample ~/athena/ukbiobank/imputed/ukbb.1.sample --keep-fam temp_files/brit_eid --make-bed --out try_single_score/geno.<span class="va">${chr}</span></a>
+<a class="sourceLine" id="cb65-13" data-line-number="13">  <span class="bu">echo</span> try_single_score/geno.<span class="va">${chr}</span> <span class="op">&gt;&gt;</span> try_single_score/geno_list</a>
+<a class="sourceLine" id="cb65-14" data-line-number="14"><span class="kw">done</span></a>
+<a class="sourceLine" id="cb65-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb65-16" data-line-number="16"><span class="ex">plink</span> --merge-list try_single_score/geno_list --make-bed --out try_single_score/all</a>
+<a class="sourceLine" id="cb65-17" data-line-number="17"><span class="ex">plink</span> --bfile try_single_score/all --keep-allele-order --score try_single_score/ss 3 4 7 no-sum --out try_single_score/score.<span class="va">${author}</span>.clump.1</a></code></pre></div>
 <p>After the score is created we can compare it to what we have already done. This simply requires reading both scores in and taking the correlation between the two. However, the correlation is not the only thing that matters. Many analyses rely on ranks, therefore I also checked to see if the ranks of both scores are the same. Alas they are not exactly the same, but they are very similar. Seeing as this difference is possibly (likely?) due to round-off error, which I cannot eliminate, and the difference is very likely negligible, I will call my scoring system a success. See the code below for the actual score checking.</p>
-<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1">author &lt;-<span class="st"> &quot;imsgc&quot;</span></a>
-<a class="sourceLine" id="cb68-2" data-line-number="2">Author &lt;-<span class="st"> &quot;IMSGC&quot;</span></a>
-<a class="sourceLine" id="cb68-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb68-4" data-line-number="4">all_score &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;final_scores/all_score.1.RDS&quot;</span>)</a>
-<a class="sourceLine" id="cb68-5" data-line-number="5">template_score &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;template.profile&quot;</span>, <span class="dt">stringsAsFactors=</span>F, <span class="dt">header=</span>T)</a>
-<a class="sourceLine" id="cb68-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb68-7" data-line-number="7">fileind &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">colnames</span>(all_score) <span class="op">==</span><span class="st"> </span><span class="kw">paste0</span>(author, <span class="st">&quot;.1.clump&quot;</span>))</a>
-<a class="sourceLine" id="cb68-8" data-line-number="8">new_score &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(<span class="st">&quot;try_single_score/score.&quot;</span>, author, <span class="st">&quot;.clump.1.profile&quot;</span>), <span class="dt">stringsAsFactors=</span>F, <span class="dt">header=</span>T)</a>
-<a class="sourceLine" id="cb68-9" data-line-number="9">new_score &lt;-<span class="st"> </span>new_score[<span class="kw">order</span>(new_score[,<span class="dv">1</span>])[<span class="kw">rank</span>(template_score[,<span class="dv">1</span>])],]</a>
-<a class="sourceLine" id="cb68-10" data-line-number="10"><span class="kw">cor</span>(all_score[,fileind], new_score<span class="op">$</span>SCORE)</a>
-<a class="sourceLine" id="cb68-11" data-line-number="11"><span class="kw">cor</span>(<span class="kw">rank</span>(new_score<span class="op">$</span>SCORE, <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>), <span class="kw">rank</span>(all_score[,fileind], <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>))</a>
-<a class="sourceLine" id="cb68-12" data-line-number="12">mean_dif &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(<span class="kw">rank</span>(new_score<span class="op">$</span>SCORE, <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>) <span class="op">-</span><span class="st"> </span><span class="kw">rank</span>(all_score[,fileind], <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>)))</a>
-<a class="sourceLine" id="cb68-13" data-line-number="13">max_dif &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">abs</span>(<span class="kw">rank</span>(new_score<span class="op">$</span>SCORE, <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>) <span class="op">-</span><span class="st"> </span><span class="kw">rank</span>(all_score[,fileind], <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1">author &lt;-<span class="st"> &quot;imsgc&quot;</span></a>
+<a class="sourceLine" id="cb66-2" data-line-number="2">Author &lt;-<span class="st"> &quot;IMSGC&quot;</span></a>
+<a class="sourceLine" id="cb66-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb66-4" data-line-number="4">all_score &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;final_scores/all_score.1.RDS&quot;</span>)</a>
+<a class="sourceLine" id="cb66-5" data-line-number="5">template_score &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;template.profile&quot;</span>, <span class="dt">stringsAsFactors=</span>F, <span class="dt">header=</span>T)</a>
+<a class="sourceLine" id="cb66-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb66-7" data-line-number="7">fileind &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">colnames</span>(all_score) <span class="op">==</span><span class="st"> </span><span class="kw">paste0</span>(author, <span class="st">&quot;.1.clump&quot;</span>))</a>
+<a class="sourceLine" id="cb66-8" data-line-number="8">new_score &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(<span class="st">&quot;try_single_score/score.&quot;</span>, author, <span class="st">&quot;.clump.1.profile&quot;</span>), <span class="dt">stringsAsFactors=</span>F, <span class="dt">header=</span>T)</a>
+<a class="sourceLine" id="cb66-9" data-line-number="9">new_score &lt;-<span class="st"> </span>new_score[<span class="kw">order</span>(new_score[,<span class="dv">1</span>])[<span class="kw">rank</span>(template_score[,<span class="dv">1</span>])],]</a>
+<a class="sourceLine" id="cb66-10" data-line-number="10"><span class="kw">cor</span>(all_score[,fileind], new_score<span class="op">$</span>SCORE)</a>
+<a class="sourceLine" id="cb66-11" data-line-number="11"><span class="kw">cor</span>(<span class="kw">rank</span>(new_score<span class="op">$</span>SCORE, <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>), <span class="kw">rank</span>(all_score[,fileind], <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>))</a>
+<a class="sourceLine" id="cb66-12" data-line-number="12">mean_dif &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(<span class="kw">rank</span>(new_score<span class="op">$</span>SCORE, <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>) <span class="op">-</span><span class="st"> </span><span class="kw">rank</span>(all_score[,fileind], <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>)))</a>
+<a class="sourceLine" id="cb66-13" data-line-number="13">max_dif &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">abs</span>(<span class="kw">rank</span>(new_score<span class="op">$</span>SCORE, <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>) <span class="op">-</span><span class="st"> </span><span class="kw">rank</span>(all_score[,fileind], <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>)))</a></code></pre></div>
 </div>
 <div id="other-options" class="section level3">
 <h3><span class="header-section-number">6.1.4</span> Other Options</h3>
