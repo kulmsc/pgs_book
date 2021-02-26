@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>10 Testing | Comparison of PGS Generative Methods</title>
+  <title>9 Testing | Comparison of PGS Generative Methods</title>
   <meta name="description" content="A deep dive into all the scripts and underlying though processes that create polygenic risk scores" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="10 Testing | Comparison of PGS Generative Methods" />
+  <meta property="og:title" content="9 Testing | Comparison of PGS Generative Methods" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   <meta name="github-repo" content="pgs_book" />
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="10 Testing | Comparison of PGS Generative Methods" />
+  <meta name="twitter:title" content="9 Testing | Comparison of PGS Generative Methods" />
   
   <meta name="twitter:description" content="A deep dive into all the scripts and underlying though processes that create polygenic risk scores" />
   
@@ -24,15 +24,16 @@
 <meta name="author" content="Scott Kulm" />
 
 
-<meta name="date" content="2020-09-15" />
+<meta name="date" content="2021-02-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="non-predictive-evaluation.html"/>
-<link rel="next" href="predictive-evaluations.html"/>
+<link rel="prev" href="tuning.html"/>
+<link rel="next" href="additional-testing-statistics.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -53,25 +54,27 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +83,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -128,22 +131,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <ul class="summary">
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
-<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#directory-framework"><i class="fa fa-check"></i><b>1.1</b> Directory Framework</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="quality-control.html"><a href="quality-control.html"><i class="fa fa-check"></i><b>2</b> Quality Control</a><ul>
+<li class="chapter" data-level="2" data-path="quality-control.html"><a href="quality-control.html"><i class="fa fa-check"></i><b>2</b> Quality Control</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="quality-control.html"><a href="quality-control.html#previously-applied-qc"><i class="fa fa-check"></i><b>2.1</b> Previously Applied QC</a></li>
 <li class="chapter" data-level="2.2" data-path="quality-control.html"><a href="quality-control.html#initial-qc"><i class="fa fa-check"></i><b>2.2</b> Initial QC</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>3</b> Summary Statistics</a></li>
-<li class="chapter" data-level="4" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html"><i class="fa fa-check"></i><b>4</b> Getting the Summary Statistics</a><ul>
+<li class="chapter" data-level="4" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html"><i class="fa fa-check"></i><b>4</b> Getting the Summary Statistics</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#prepare-variants"><i class="fa fa-check"></i><b>4.1</b> Prepare Variants</a></li>
 <li class="chapter" data-level="4.2" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#standardize-the-summary-statistics"><i class="fa fa-check"></i><b>4.2</b> Standardize the Summary Statistics</a></li>
 <li class="chapter" data-level="4.3" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#heritability-estimation"><i class="fa fa-check"></i><b>4.3</b> Heritability Estimation</a></li>
 <li class="chapter" data-level="4.4" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#genetic-correlation-estimation"><i class="fa fa-check"></i><b>4.4</b> Genetic Correlation Estimation</a></li>
 <li class="chapter" data-level="4.5" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#final-changes-and-remarks"><i class="fa fa-check"></i><b>4.5</b> Final Changes and Remarks</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Adjusting Summary Statistics</a><ul>
+<li class="chapter" data-level="5" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Adjusting Summary Statistics</a>
+<ul>
 <li class="chapter" data-level="5.0.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#computational-framework"><i class="fa fa-check"></i><b>5.0.1</b> Computational Framework</a></li>
 <li class="chapter" data-level="5.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#simple"><i class="fa fa-check"></i><b>5.1</b> Simple</a></li>
 <li class="chapter" data-level="5.2" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#clumping"><i class="fa fa-check"></i><b>5.2</b> Clumping</a></li>
@@ -159,26 +166,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.12" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#jampred"><i class="fa fa-check"></i><b>5.12</b> JAMPred</a></li>
 <li class="chapter" data-level="5.13" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#winners-curse-lasso"><i class="fa fa-check"></i><b>5.13</b> Winner’s Curse Lasso</a></li>
 <li class="chapter" data-level="5.14" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#winners-curse-likelihood"><i class="fa fa-check"></i><b>5.14</b> Winner’s Curse Likelihood</a></li>
-<li class="chapter" data-level="5.15" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#winners-curse-2d"><i class="fa fa-check"></i><b>5.15</b> Winner’s Curse 2D</a><ul>
+<li class="chapter" data-level="5.15" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#winners-curse-2d"><i class="fa fa-check"></i><b>5.15</b> Winner’s Curse 2D</a>
+<ul>
 <li class="chapter" data-level="5.15.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#additional-methods"><i class="fa fa-check"></i><b>5.15.1</b> Additional Methods</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html"><i class="fa fa-check"></i><b>6</b> Compiling the Scores</a><ul>
-<li class="chapter" data-level="6.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#simple-score-approach"><i class="fa fa-check"></i><b>6.1</b> Simple Score Approach</a><ul>
+<li class="chapter" data-level="6" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html"><i class="fa fa-check"></i><b>6</b> Compiling the Scores</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#simple-score-approach"><i class="fa fa-check"></i><b>6.1</b> Simple Score Approach</a>
+<ul>
 <li class="chapter" data-level="6.1.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#what-to-worry-about"><i class="fa fa-check"></i><b>6.1.1</b> What to Worry About</a></li>
 <li class="chapter" data-level="6.1.2" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#controlling-and-assembling"><i class="fa fa-check"></i><b>6.1.2</b> Controlling and Assembling</a></li>
 <li class="chapter" data-level="6.1.3" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#verifying-everything-worked"><i class="fa fa-check"></i><b>6.1.3</b> Verifying Everything Worked</a></li>
 <li class="chapter" data-level="6.1.4" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#other-options"><i class="fa fa-check"></i><b>6.1.4</b> Other Options</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html"><i class="fa fa-check"></i><b>7</b> Score Analysis Set-Up</a><ul>
+<li class="chapter" data-level="7" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html"><i class="fa fa-check"></i><b>7</b> Score Analysis Set-Up</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#defining-the-phenotypes"><i class="fa fa-check"></i><b>7.1</b> Defining the Phenotypes</a></li>
 <li class="chapter" data-level="7.2" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#making-the-phenotype"><i class="fa fa-check"></i><b>7.2</b> Making the Phenotype</a></li>
 <li class="chapter" data-level="7.3" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#other-scores"><i class="fa fa-check"></i><b>7.3</b> Other Scores</a></li>
 <li class="chapter" data-level="7.4" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#other-covariates"><i class="fa fa-check"></i><b>7.4</b> Other Covariates</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="tuning.html"><a href="tuning.html"><i class="fa fa-check"></i><b>8</b> Tuning</a><ul>
-<li class="chapter" data-level="8.1" data-path="tuning.html"><a href="tuning.html#generating-metrics"><i class="fa fa-check"></i><b>8.1</b> Generating Metrics</a><ul>
+<li class="chapter" data-level="8" data-path="tuning.html"><a href="tuning.html"><i class="fa fa-check"></i><b>8</b> Tuning</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tuning.html"><a href="tuning.html#generating-metrics"><i class="fa fa-check"></i><b>8.1</b> Generating Metrics</a>
+<ul>
 <li class="chapter" data-level="8.1.1" data-path="tuning.html"><a href="tuning.html#overall-set-up"><i class="fa fa-check"></i><b>8.1.1</b> Overall Set-Up</a></li>
 <li class="chapter" data-level="8.1.2" data-path="tuning.html"><a href="tuning.html#survival-set-up"><i class="fa fa-check"></i><b>8.1.2</b> Survival Set-up</a></li>
 <li class="chapter" data-level="8.1.3" data-path="tuning.html"><a href="tuning.html#survival-base-metrics"><i class="fa fa-check"></i><b>8.1.3</b> Survival Base Metrics</a></li>
@@ -189,17 +202,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.2" data-path="tuning.html"><a href="tuning.html#choosing-the-best-score"><i class="fa fa-check"></i><b>8.2</b> Choosing the Best Score</a></li>
 <li class="chapter" data-level="8.3" data-path="tuning.html"><a href="tuning.html#plotting"><i class="fa fa-check"></i><b>8.3</b> Plotting</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html"><i class="fa fa-check"></i><b>9</b> Non-Predictive Evaluation</a><ul>
-<li class="chapter" data-level="9.1" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#analysis-of-score-sizes"><i class="fa fa-check"></i><b>9.1</b> Analysis of Score Sizes</a></li>
-<li class="chapter" data-level="9.2" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#analysis-of-phenotype-definitions"><i class="fa fa-check"></i><b>9.2</b> Analysis of Phenotype Definitions</a></li>
-<li class="chapter" data-level="9.3" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-racial-groups"><i class="fa fa-check"></i><b>9.3</b> Comparison of Racial Groups</a></li>
-<li class="chapter" data-level="9.4" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-siblings"><i class="fa fa-check"></i><b>9.4</b> Comparison of Siblings</a></li>
-<li class="chapter" data-level="9.5" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#mathematical-comparison-of-score-methods"><i class="fa fa-check"></i><b>9.5</b> Mathematical Comparison of Score Methods</a></li>
+<li class="chapter" data-level="9" data-path="testing.html"><a href="testing.html"><i class="fa fa-check"></i><b>9</b> Testing</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="testing.html"><a href="testing.html#obtaining-the-statistics"><i class="fa fa-check"></i><b>9.1</b> Obtaining the Statistics</a></li>
+<li class="chapter" data-level="9.2" data-path="testing.html"><a href="testing.html#plotting-1"><i class="fa fa-check"></i><b>9.2</b> Plotting</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="testing.html"><a href="testing.html#concordance"><i class="fa fa-check"></i><b>9.2.1</b> Concordance</a></li>
+<li class="chapter" data-level="9.2.2" data-path="testing.html"><a href="testing.html#survival-curve-fit"><i class="fa fa-check"></i><b>9.2.2</b> Survival Curve Fit</a></li>
+<li class="chapter" data-level="9.2.3" data-path="testing.html"><a href="testing.html#roc-and-auc"><i class="fa fa-check"></i><b>9.2.3</b> ROC and AUC</a></li>
+<li class="chapter" data-level="9.2.4" data-path="testing.html"><a href="testing.html#odds-ratios"><i class="fa fa-check"></i><b>9.2.4</b> Odds Ratios</a></li>
+<li class="chapter" data-level="9.2.5" data-path="testing.html"><a href="testing.html#pr-curves"><i class="fa fa-check"></i><b>9.2.5</b> PR Curves</a></li>
+<li class="chapter" data-level="9.2.6" data-path="testing.html"><a href="testing.html#other-scores-1"><i class="fa fa-check"></i><b>9.2.6</b> Other Scores</a></li>
+<li class="chapter" data-level="9.2.7" data-path="testing.html"><a href="testing.html#extra-covariates"><i class="fa fa-check"></i><b>9.2.7</b> Extra Covariates</a></li>
+<li class="chapter" data-level="9.2.8" data-path="testing.html"><a href="testing.html#saving"><i class="fa fa-check"></i><b>9.2.8</b> Saving</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="testing.html"><a href="testing.html"><i class="fa fa-check"></i><b>10</b> Testing</a></li>
-<li class="chapter" data-level="11" data-path="predictive-evaluations.html"><a href="predictive-evaluations.html"><i class="fa fa-check"></i><b>11</b> Predictive Evaluations</a><ul>
-<li class="chapter" data-level="11.1" data-path="predictive-evaluations.html"><a href="predictive-evaluations.html#expanded-covariates"><i class="fa fa-check"></i><b>11.1</b> Expanded Covariates</a></li>
-<li class="chapter" data-level="11.2" data-path="predictive-evaluations.html"><a href="predictive-evaluations.html#other-polygenic-risk-scores"><i class="fa fa-check"></i><b>11.2</b> Other Polygenic Risk Scores</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html"><i class="fa fa-check"></i><b>10</b> Additional Testing Statistics</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#calculating-the-statistics"><i class="fa fa-check"></i><b>10.1</b> Calculating the Statistics</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#brier-score"><i class="fa fa-check"></i><b>10.1.1</b> Brier Score</a></li>
+<li class="chapter" data-level="10.1.2" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#reclassification-statistics-nri-and-idi"><i class="fa fa-check"></i><b>10.1.2</b> Reclassification Statistics (NRI and IDI)</a></li>
+<li class="chapter" data-level="10.1.3" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#true-and-false-positive-rates"><i class="fa fa-check"></i><b>10.1.3</b> True and False Positive Rates</a></li>
+<li class="chapter" data-level="10.1.4" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#reclassification-values"><i class="fa fa-check"></i><b>10.1.4</b> Reclassification Values</a></li>
+<li class="chapter" data-level="10.1.5" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#decision-curve-analyses"><i class="fa fa-check"></i><b>10.1.5</b> Decision Curve Analyses</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#making-the-plots"><i class="fa fa-check"></i><b>10.2</b> Making the Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html"><i class="fa fa-check"></i><b>11</b> Non-Predictive Evaluation</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#individual-score-evaluation"><i class="fa fa-check"></i><b>11.1</b> Individual Score Evaluation</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#set-up"><i class="fa fa-check"></i><b>11.1.1</b> Set Up</a></li>
+<li class="chapter" data-level="11.1.2" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#analysis-of-score-sizes"><i class="fa fa-check"></i><b>11.1.2</b> Analysis of Score Sizes</a></li>
+<li class="chapter" data-level="11.1.3" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#analysis-of-phenotype-definitions"><i class="fa fa-check"></i><b>11.1.3</b> Analysis of Phenotype Definitions</a></li>
+<li class="chapter" data-level="11.1.4" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-between-the-sexes"><i class="fa fa-check"></i><b>11.1.4</b> Comparison Between the Sexes</a></li>
+<li class="chapter" data-level="11.1.5" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-ethnic-groups"><i class="fa fa-check"></i><b>11.1.5</b> Comparison of Ethnic Groups</a></li>
+<li class="chapter" data-level="11.1.6" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-siblings"><i class="fa fa-check"></i><b>11.1.6</b> Comparison of Siblings</a></li>
+<li class="chapter" data-level="11.1.7" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-age"><i class="fa fa-check"></i><b>11.1.7</b> Comparison of Age</a></li>
+<li class="chapter" data-level="11.1.8" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-many-other"><i class="fa fa-check"></i><b>11.1.8</b> Comparison of Many Other</a></li>
+<li class="chapter" data-level="11.1.9" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#plotting-2"><i class="fa fa-check"></i><b>11.1.9</b> Plotting</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="to-do.html"><a href="to-do.html"><i class="fa fa-check"></i><b>12</b> To Do</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="to-do.html"><a href="to-do.html#across-score-evaluations"><i class="fa fa-check"></i><b>12.1</b> Across Score Evaluations</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="to-do.html"><a href="to-do.html#set-up-1"><i class="fa fa-check"></i><b>12.1.1</b> Set-Up</a></li>
+<li class="chapter" data-level="12.1.2" data-path="to-do.html"><a href="to-do.html#meta-info-regressions"><i class="fa fa-check"></i><b>12.1.2</b> Meta Info Regressions</a></li>
+<li class="chapter" data-level="12.1.3" data-path="to-do.html"><a href="to-do.html#testing-and-training-comparison"><i class="fa fa-check"></i><b>12.1.3</b> Testing and Training Comparison</a></li>
+<li class="chapter" data-level="12.1.4" data-path="to-do.html"><a href="to-do.html#plotting-3"><i class="fa fa-check"></i><b>12.1.4</b> Plotting</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html"><i class="fa fa-check"></i><b>13</b> Lifestyle and Medications</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#lifestyle-modifcations"><i class="fa fa-check"></i><b>13.1</b> Lifestyle Modifcations</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#getting-the-statistics"><i class="fa fa-check"></i><b>13.1.1</b> Getting the Statistics</a></li>
+<li class="chapter" data-level="13.1.2" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#plotting-4"><i class="fa fa-check"></i><b>13.1.2</b> Plotting</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#medications"><i class="fa fa-check"></i><b>13.2</b> Medications</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#set-up-2"><i class="fa fa-check"></i><b>13.2.1</b> Set Up</a></li>
+<li class="chapter" data-level="13.2.2" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#meications"><i class="fa fa-check"></i><b>13.2.2</b> Meications</a></li>
+<li class="chapter" data-level="13.2.3" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#analysis"><i class="fa fa-check"></i><b>13.2.3</b> Analysis</a></li>
+<li class="chapter" data-level="13.2.4" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#change-in-plans"><i class="fa fa-check"></i><b>13.2.4</b> Change in Plans</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -218,18 +286,693 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="testing" class="section level1">
-<h1><span class="header-section-number">10</span> Testing</h1>
-<p>To be done.</p>
+<div id="testing" class="section level1" number="9">
+<h1><span class="header-section-number">9</span> Testing</h1>
+<div id="obtaining-the-statistics" class="section level2" number="9.1">
+<h2><span class="header-section-number">9.1</span> Obtaining the Statistics</h2>
+<p>The testing process is quite similar to the tuning section in the code that is written, but very different in the motivation of the larger project. Up to this point the focus of the project has largely been attempting to determine what is the best method and parameter combination for a given disease. But now we want to go beyond just categorization of the best method to a precise quantization of how good the method is. This evaluation is important, for example a method could be the best out of 1000 but if the AUC in a validation set is only 0.51 that method is nevertheless quite worthless.</p>
+<p>With this changed understanding of the motivation, we can now move onto the code. As previously stated the code is extremely similar to the tuning code, the main difference is that we now need to read in the full possible dataset, split it into the training and testing, then finally use these new datasets throughout for making predictions and related statistics.</p>
+<p>There are a few other differences that while not as important are still critical. First of which is the addition of possible covariates or additional scores. As a quick reminder the additional covariates originate from a literature review that reports significant risk factors that may minimize the polygenic risk score effect, and the additional scores are other scores not from this project but releveant to the disease of interest and available in the PGS catalog. Each of these possible feature sets are included in a model and compared to each other, just as the base and score models are compared. For simplicity, these additional models are only analyzed in relation to non-survival related analyses. The second notable difference is the addition of PR or precision-recall curves. PR curves are very similar to ROC curves in both analysis and construction. The third and final difference is the saving of more data than compared to training, specifically the full Kaplan-Meier curve data.</p>
+<p>Seeing as all of these changes are implicit in how the code is written or scattered throughout the entire script, I will just put the code below without splitting it up or including extensive explanations. There are however comments in the code where the testing is particularly different from the training.</p>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="testing.html#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(survival)</span>
+<span id="cb97-2"><a href="testing.html#cb97-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRROC)</span>
+<span id="cb97-3"><a href="testing.html#cb97-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(pROC)</span>
+<span id="cb97-4"><a href="testing.html#cb97-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(epitools)</span>
+<span id="cb97-5"><a href="testing.html#cb97-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-6"><a href="testing.html#cb97-6" aria-hidden="true" tabindex="-1"></a><span class="co">#author &lt;- &quot;Shah&quot; #Liu-2, Malik, Nikpay, Okada, Onengut, Phelan, Rheenen</span></span>
+<span id="cb97-7"><a href="testing.html#cb97-7" aria-hidden="true" tabindex="-1"></a>author <span class="ot">&lt;-</span> <span class="st">&quot;Michailidou&quot;</span></span>
+<span id="cb97-8"><a href="testing.html#cb97-8" aria-hidden="true" tabindex="-1"></a><span class="co">#author &lt;- commandArgs(trailingOnly=TRUE)</span></span>
+<span id="cb97-9"><a href="testing.html#cb97-9" aria-hidden="true" tabindex="-1"></a>phen_method <span class="ot">&lt;-</span> <span class="st">&quot;icd_selfrep&quot;</span></span>
+<span id="cb97-10"><a href="testing.html#cb97-10" aria-hidden="true" tabindex="-1"></a>score_method <span class="ot">&lt;-</span> <span class="st">&quot;auc_best_name&quot;</span></span>
+<span id="cb97-11"><a href="testing.html#cb97-11" aria-hidden="true" tabindex="-1"></a>subrate_style <span class="ot">&lt;-</span> <span class="st">&quot;slow&quot;</span></span>
+<span id="cb97-12"><a href="testing.html#cb97-12" aria-hidden="true" tabindex="-1"></a>train_frac <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
+<span id="cb97-13"><a href="testing.html#cb97-13" aria-hidden="true" tabindex="-1"></a>test_frac <span class="ot">&lt;-</span> <span class="dv">1</span> <span class="sc">-</span> train_frac</span>
+<span id="cb97-14"><a href="testing.html#cb97-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-15"><a href="testing.html#cb97-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-16"><a href="testing.html#cb97-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-17"><a href="testing.html#cb97-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-18"><a href="testing.html#cb97-18" aria-hidden="true" tabindex="-1"></a><span class="co">#THERE MAY BE PROBLEMS WITH SURV_DF</span></span>
+<span id="cb97-19"><a href="testing.html#cb97-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-20"><a href="testing.html#cb97-20" aria-hidden="true" tabindex="-1"></a><span class="co">#Read in the PGSs</span></span>
+<span id="cb97-21"><a href="testing.html#cb97-21" aria-hidden="true" tabindex="-1"></a><span class="co">#Right at the top we read in the train and test eids explicitly</span></span>
+<span id="cb97-22"><a href="testing.html#cb97-22" aria-hidden="true" tabindex="-1"></a>all_scores <span class="ot">&lt;-</span>  <span class="fu">readRDS</span>(<span class="fu">paste0</span>(<span class="st">&quot;../../do_score/final_scores/all_score.&quot;</span>, <span class="fu">tolower</span>(author), <span class="st">&quot;.RDS&quot;</span>))</span>
+<span id="cb97-23"><a href="testing.html#cb97-23" aria-hidden="true" tabindex="-1"></a>all_eid <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;~/athena/doc_score/do_score/all_specs/for_eid.fam&quot;</span>, <span class="at">stringsAsFactors=</span>F)</span>
+<span id="cb97-24"><a href="testing.html#cb97-24" aria-hidden="true" tabindex="-1"></a>train_eid <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">paste0</span>(<span class="st">&quot;~/athena/doc_score/qc/cv_files/train_eid.&quot;</span>, train_frac, <span class="st">&quot;.txt&quot;</span>), <span class="at">stringsAsFactors=</span>F)</span>
+<span id="cb97-25"><a href="testing.html#cb97-25" aria-hidden="true" tabindex="-1"></a>test_eid <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">paste0</span>(<span class="st">&quot;~/athena/doc_score/qc/cv_files/test_eid.&quot;</span>, test_frac, <span class="st">&quot;.txt&quot;</span>), <span class="at">stringsAsFactors=</span>F)</span>
+<span id="cb97-26"><a href="testing.html#cb97-26" aria-hidden="true" tabindex="-1"></a>eid <span class="ot">&lt;-</span> all_eid[,<span class="dv">1</span>]</span>
+<span id="cb97-27"><a href="testing.html#cb97-27" aria-hidden="true" tabindex="-1"></a>all_scores <span class="ot">&lt;-</span> all_scores[eid <span class="sc">%in%</span> train_eid[,<span class="dv">1</span>] <span class="sc">|</span> eid <span class="sc">%in%</span> test_eid[,<span class="dv">1</span>],]</span>
+<span id="cb97-28"><a href="testing.html#cb97-28" aria-hidden="true" tabindex="-1"></a>eid <span class="ot">&lt;-</span> eid[eid <span class="sc">%in%</span> train_eid[,<span class="dv">1</span>] <span class="sc">|</span> eid <span class="sc">%in%</span> test_eid[,<span class="dv">1</span>]]</span>
+<span id="cb97-29"><a href="testing.html#cb97-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-30"><a href="testing.html#cb97-30" aria-hidden="true" tabindex="-1"></a><span class="co">#Normalize the scores</span></span>
+<span id="cb97-31"><a href="testing.html#cb97-31" aria-hidden="true" tabindex="-1"></a>best_score <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">paste0</span>(<span class="st">&quot;../tune_score/tune_results/&quot;</span>, <span class="fu">tolower</span>(author), <span class="st">&quot;.best.ss&quot;</span>), <span class="at">stringsAsFactors=</span>F)</span>
+<span id="cb97-32"><a href="testing.html#cb97-32" aria-hidden="true" tabindex="-1"></a>best_score <span class="ot">&lt;-</span> best_score[best_score[,<span class="dv">1</span>] <span class="sc">==</span> score_method,<span class="dv">2</span>]</span>
+<span id="cb97-33"><a href="testing.html#cb97-33" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> all_scores[,<span class="fu">grepl</span>(<span class="fu">tolower</span>(author), <span class="fu">colnames</span>(all_scores))]</span>
+<span id="cb97-34"><a href="testing.html#cb97-34" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> scores[,<span class="fu">apply</span>(scores, <span class="dv">2</span>, <span class="cf">function</span>(x) <span class="fu">length</span>(<span class="fu">unique</span>(x)) <span class="sc">&gt;</span> <span class="dv">3</span>)]</span>
+<span id="cb97-35"><a href="testing.html#cb97-35" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> <span class="fu">apply</span>(scores, <span class="dv">2</span>, <span class="cf">function</span>(x) (x<span class="sc">-</span><span class="fu">mean</span>(x)) <span class="sc">/</span> (<span class="fu">max</span>(<span class="fu">abs</span>((x<span class="sc">-</span><span class="fu">mean</span>(x)))) <span class="sc">*</span> <span class="fl">0.01</span>) )</span>
+<span id="cb97-36"><a href="testing.html#cb97-36" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> scores[,<span class="fu">colnames</span>(scores) <span class="sc">==</span> best_score,drop<span class="ot">=</span>F]</span>
+<span id="cb97-37"><a href="testing.html#cb97-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-38"><a href="testing.html#cb97-38" aria-hidden="true" tabindex="-1"></a><span class="co"># NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW</span></span>
+<span id="cb97-39"><a href="testing.html#cb97-39" aria-hidden="true" tabindex="-1"></a><span class="co"># NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW</span></span>
+<span id="cb97-40"><a href="testing.html#cb97-40" aria-hidden="true" tabindex="-1"></a><span class="co">#                             ADDED COVARIATES                                      #</span></span>
+<span id="cb97-41"><a href="testing.html#cb97-41" aria-hidden="true" tabindex="-1"></a><span class="co"># NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW</span></span>
+<span id="cb97-42"><a href="testing.html#cb97-42" aria-hidden="true" tabindex="-1"></a><span class="co"># NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW</span></span>
+<span id="cb97-43"><a href="testing.html#cb97-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-44"><a href="testing.html#cb97-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-45"><a href="testing.html#cb97-45" aria-hidden="true" tabindex="-1"></a><span class="co">#get other scores - scores that I did not compile directly if they are available</span></span>
+<span id="cb97-46"><a href="testing.html#cb97-46" aria-hidden="true" tabindex="-1"></a><span class="co">#First check to see if there are any additional scores for the disease currently under analysis</span></span>
+<span id="cb97-47"><a href="testing.html#cb97-47" aria-hidden="true" tabindex="-1"></a><span class="co">#Then if so (in the for loop) we read in the other scores and sort them appropriately</span></span>
+<span id="cb97-48"><a href="testing.html#cb97-48" aria-hidden="true" tabindex="-1"></a>other_scores <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;../other_scores/final_scores/all_score.1.RDS&quot;</span>)</span>
+<span id="cb97-49"><a href="testing.html#cb97-49" aria-hidden="true" tabindex="-1"></a>other_defs <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;../descript_defs/author_scores&quot;</span>, <span class="at">stringsAsFactors=</span>F, <span class="at">header=</span>T)</span>
+<span id="cb97-50"><a href="testing.html#cb97-50" aria-hidden="true" tabindex="-1"></a>other_defs <span class="ot">&lt;-</span> other_defs[other_defs[,<span class="dv">1</span>] <span class="sc">==</span> author,]</span>
+<span id="cb97-51"><a href="testing.html#cb97-51" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">any</span>(<span class="fu">colnames</span>(other_scores) <span class="sc">%in%</span> other_defs<span class="sc">$</span>PGS_Catalog_name)){</span>
+<span id="cb97-52"><a href="testing.html#cb97-52" aria-hidden="true" tabindex="-1"></a>  run_other_scores <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb97-53"><a href="testing.html#cb97-53" aria-hidden="true" tabindex="-1"></a>  other_scores <span class="ot">&lt;-</span> other_scores[,<span class="fu">colnames</span>(other_scores) <span class="sc">%in%</span> other_defs<span class="sc">$</span>PGS_Catalog_name,drop<span class="ot">=</span>F]</span>
+<span id="cb97-54"><a href="testing.html#cb97-54" aria-hidden="true" tabindex="-1"></a>  other_eid <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;../other_scores/final_scores/eid&quot;</span>, <span class="at">stringsAsFactors=</span>F)</span>
+<span id="cb97-55"><a href="testing.html#cb97-55" aria-hidden="true" tabindex="-1"></a>  other_scores <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">eid =</span> other_eid, other_scores)</span>
+<span id="cb97-56"><a href="testing.html#cb97-56" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb97-57"><a href="testing.html#cb97-57" aria-hidden="true" tabindex="-1"></a>  run_other_scores <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb97-58"><a href="testing.html#cb97-58" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb97-59"><a href="testing.html#cb97-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-60"><a href="testing.html#cb97-60" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="re">END</span><span class="co"> NEW #########################################################################################</span></span>
+<span id="cb97-61"><a href="testing.html#cb97-61" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="re">END</span><span class="co"> NEW #########################################################################################</span></span>
+<span id="cb97-62"><a href="testing.html#cb97-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-63"><a href="testing.html#cb97-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-64"><a href="testing.html#cb97-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-65"><a href="testing.html#cb97-65" aria-hidden="true" tabindex="-1"></a><span class="co">#Read in the phenotypes, order is: cancer sr, noncancer sr, icd9, icd10, oper, meds</span></span>
+<span id="cb97-66"><a href="testing.html#cb97-66" aria-hidden="true" tabindex="-1"></a><span class="co">#selfasses date: 2018-11-22; hesin date: 21/01/2000</span></span>
+<span id="cb97-67"><a href="testing.html#cb97-67" aria-hidden="true" tabindex="-1"></a>pheno <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">paste0</span>(<span class="st">&quot;../construct_defs/pheno_defs/diag.&quot;</span>, <span class="fu">tolower</span>(author), <span class="st">&quot;.txt.gz&quot;</span>), <span class="at">stringsAsFactors=</span>F)</span>
+<span id="cb97-68"><a href="testing.html#cb97-68" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">paste0</span>(<span class="st">&quot;../construct_defs/pheno_defs/time.&quot;</span>, <span class="fu">tolower</span>(author), <span class="st">&quot;.txt.gz&quot;</span>), <span class="at">stringsAsFactors=</span>F)</span>
+<span id="cb97-69"><a href="testing.html#cb97-69" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(dates)){</span>
+<span id="cb97-70"><a href="testing.html#cb97-70" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(i <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">6</span>)){</span>
+<span id="cb97-71"><a href="testing.html#cb97-71" aria-hidden="true" tabindex="-1"></a>    dates[dates[,i] <span class="sc">==</span> <span class="st">&quot;__________&quot;</span>, i] <span class="ot">&lt;-</span> <span class="st">&quot;2020-12-31&quot;</span></span>
+<span id="cb97-72"><a href="testing.html#cb97-72" aria-hidden="true" tabindex="-1"></a>    dates[,i] <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(dates[,i], <span class="st">&quot;%Y-%m-%d&quot;</span>)</span>
+<span id="cb97-73"><a href="testing.html#cb97-73" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb97-74"><a href="testing.html#cb97-74" aria-hidden="true" tabindex="-1"></a>    dates[dates[,i] <span class="sc">==</span> <span class="st">&quot;__________&quot;</span>, i] <span class="ot">&lt;-</span> <span class="st">&quot;31/12/2020&quot;</span></span>
+<span id="cb97-75"><a href="testing.html#cb97-75" aria-hidden="true" tabindex="-1"></a>    dates[,i] <span class="ot">&lt;-</span> <span class="fu">as.Date</span>(dates[,i], <span class="st">&quot;%d/%m/%Y&quot;</span>)</span>
+<span id="cb97-76"><a href="testing.html#cb97-76" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb97-77"><a href="testing.html#cb97-77" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb97-78"><a href="testing.html#cb97-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-79"><a href="testing.html#cb97-79" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(phen_method <span class="sc">==</span> <span class="st">&quot;icd&quot;</span>){</span>
+<span id="cb97-80"><a href="testing.html#cb97-80" aria-hidden="true" tabindex="-1"></a>  pheno <span class="ot">&lt;-</span> pheno[,<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb97-81"><a href="testing.html#cb97-81" aria-hidden="true" tabindex="-1"></a>  dates <span class="ot">&lt;-</span> dates[,<span class="dv">3</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb97-82"><a href="testing.html#cb97-82" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(phen_method <span class="sc">==</span> <span class="st">&quot;selfrep&quot;</span>){</span>
+<span id="cb97-83"><a href="testing.html#cb97-83" aria-hidden="true" tabindex="-1"></a>  pheno <span class="ot">&lt;-</span> pheno[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb97-84"><a href="testing.html#cb97-84" aria-hidden="true" tabindex="-1"></a>  dates <span class="ot">&lt;-</span> dates[,<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>]</span>
+<span id="cb97-85"><a href="testing.html#cb97-85" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(phen_method <span class="sc">==</span> <span class="st">&quot;icd_selfrep&quot;</span>){</span>
+<span id="cb97-86"><a href="testing.html#cb97-86" aria-hidden="true" tabindex="-1"></a>  pheno <span class="ot">&lt;-</span> pheno[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb97-87"><a href="testing.html#cb97-87" aria-hidden="true" tabindex="-1"></a>  dates <span class="ot">&lt;-</span> dates[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb97-88"><a href="testing.html#cb97-88" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(phen_method <span class="sc">==</span> <span class="st">&quot;all&quot;</span> <span class="sc">|</span> phen_method <span class="sc">==</span> <span class="st">&quot;double&quot;</span>){</span>
+<span id="cb97-89"><a href="testing.html#cb97-89" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="st">&quot;doing nothing&quot;</span>)</span>
+<span id="cb97-90"><a href="testing.html#cb97-90" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb97-91"><a href="testing.html#cb97-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-92"><a href="testing.html#cb97-92" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> <span class="fu">apply</span>(dates, <span class="dv">1</span>, min)</span>
+<span id="cb97-93"><a href="testing.html#cb97-93" aria-hidden="true" tabindex="-1"></a>dates[dates <span class="sc">==</span> <span class="fu">as.Date</span>(<span class="st">&quot;2020-12-31&quot;</span>)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb97-94"><a href="testing.html#cb97-94" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(phen_method <span class="sc">==</span> <span class="st">&quot;double&quot;</span>){</span>
+<span id="cb97-95"><a href="testing.html#cb97-95" aria-hidden="true" tabindex="-1"></a>  pheno <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(pheno)</span>
+<span id="cb97-96"><a href="testing.html#cb97-96" aria-hidden="true" tabindex="-1"></a>  pheno[pheno <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb97-97"><a href="testing.html#cb97-97" aria-hidden="true" tabindex="-1"></a>  pheno[pheno <span class="sc">&gt;</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb97-98"><a href="testing.html#cb97-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-99"><a href="testing.html#cb97-99" aria-hidden="true" tabindex="-1"></a>  dates[pheno <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb97-100"><a href="testing.html#cb97-100" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb97-101"><a href="testing.html#cb97-101" aria-hidden="true" tabindex="-1"></a>  pheno <span class="ot">&lt;-</span> <span class="fu">rowSums</span>(pheno)</span>
+<span id="cb97-102"><a href="testing.html#cb97-102" aria-hidden="true" tabindex="-1"></a>  pheno[pheno <span class="sc">&gt;</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb97-103"><a href="testing.html#cb97-103" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb97-104"><a href="testing.html#cb97-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-105"><a href="testing.html#cb97-105" aria-hidden="true" tabindex="-1"></a><span class="co">#exit()</span></span>
+<span id="cb97-106"><a href="testing.html#cb97-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-107"><a href="testing.html#cb97-107" aria-hidden="true" tabindex="-1"></a><span class="co">#Read in the eids used that are the same order as the pheno and dates, then subset the pheno and dates accordingly</span></span>
+<span id="cb97-108"><a href="testing.html#cb97-108" aria-hidden="true" tabindex="-1"></a>pheno_eids <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;../construct_defs/eid.csv&quot;</span>, <span class="at">header =</span> T)</span>
+<span id="cb97-109"><a href="testing.html#cb97-109" aria-hidden="true" tabindex="-1"></a>pheno_eids <span class="ot">&lt;-</span> pheno_eids[<span class="fu">order</span>(pheno_eids[,<span class="dv">1</span>]),]</span>
+<span id="cb97-110"><a href="testing.html#cb97-110" aria-hidden="true" tabindex="-1"></a>pheno_eids <span class="ot">&lt;-</span> pheno_eids[<span class="sc">-</span><span class="fu">length</span>(pheno_eids)]</span>
+<span id="cb97-111"><a href="testing.html#cb97-111" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> scores[eid <span class="sc">%in%</span> pheno_eids, , drop <span class="ot">=</span> F]</span>
+<span id="cb97-112"><a href="testing.html#cb97-112" aria-hidden="true" tabindex="-1"></a>eid <span class="ot">&lt;-</span> eid[eid <span class="sc">%in%</span> pheno_eids]</span>
+<span id="cb97-113"><a href="testing.html#cb97-113" aria-hidden="true" tabindex="-1"></a>train_eid <span class="ot">&lt;-</span> train_eid[train_eid[,<span class="dv">1</span>] <span class="sc">%in%</span> pheno_eids,]</span>
+<span id="cb97-114"><a href="testing.html#cb97-114" aria-hidden="true" tabindex="-1"></a>test_eid <span class="ot">&lt;-</span> test_eid[test_eid[,<span class="dv">1</span>] <span class="sc">%in%</span> pheno_eids,]</span>
+<span id="cb97-115"><a href="testing.html#cb97-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-116"><a href="testing.html#cb97-116" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> dates[pheno_eids <span class="sc">%in%</span> eid]</span>
+<span id="cb97-117"><a href="testing.html#cb97-117" aria-hidden="true" tabindex="-1"></a>pheno <span class="ot">&lt;-</span> pheno[pheno_eids <span class="sc">%in%</span> eid]</span>
+<span id="cb97-118"><a href="testing.html#cb97-118" aria-hidden="true" tabindex="-1"></a>pheno_eids <span class="ot">&lt;-</span> pheno_eids[pheno_eids <span class="sc">%in%</span> eid]</span>
+<span id="cb97-119"><a href="testing.html#cb97-119" aria-hidden="true" tabindex="-1"></a>scores <span class="ot">&lt;-</span> scores[eid <span class="sc">%in%</span> pheno_eids, , drop <span class="ot">=</span> F]</span>
+<span id="cb97-120"><a href="testing.html#cb97-120" aria-hidden="true" tabindex="-1"></a>eid <span class="ot">&lt;-</span> eid[eid <span class="sc">%in%</span> pheno_eids]</span>
+<span id="cb97-121"><a href="testing.html#cb97-121" aria-hidden="true" tabindex="-1"></a>dates <span class="ot">&lt;-</span> dates[<span class="fu">order</span>(pheno_eids)[<span class="fu">rank</span>(eid)]]</span>
+<span id="cb97-122"><a href="testing.html#cb97-122" aria-hidden="true" tabindex="-1"></a>pheno <span class="ot">&lt;-</span> pheno[<span class="fu">order</span>(pheno_eids)[<span class="fu">rank</span>(eid)]]</span>
+<span id="cb97-123"><a href="testing.html#cb97-123" aria-hidden="true" tabindex="-1"></a><span class="co">#eid is the correct order</span></span>
+<span id="cb97-124"><a href="testing.html#cb97-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-125"><a href="testing.html#cb97-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-126"><a href="testing.html#cb97-126" aria-hidden="true" tabindex="-1"></a><span class="co">#Read in the base covars</span></span>
+<span id="cb97-127"><a href="testing.html#cb97-127" aria-hidden="true" tabindex="-1"></a>covars <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;../get_covars/base_covars.RDS&quot;</span>)</span>
+<span id="cb97-128"><a href="testing.html#cb97-128" aria-hidden="true" tabindex="-1"></a>covars <span class="ot">&lt;-</span> covars[covars[,<span class="dv">1</span>] <span class="sc">%in%</span> eid,]</span>
+<span id="cb97-129"><a href="testing.html#cb97-129" aria-hidden="true" tabindex="-1"></a>covars <span class="ot">&lt;-</span> covars[<span class="fu">order</span>(covars[,<span class="dv">1</span>])[<span class="fu">rank</span>(eid)],]</span>
+<span id="cb97-130"><a href="testing.html#cb97-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-131"><a href="testing.html#cb97-131" aria-hidden="true" tabindex="-1"></a><span class="co">#Set up survival analysis data frame</span></span>
+<span id="cb97-132"><a href="testing.html#cb97-132" aria-hidden="true" tabindex="-1"></a><span class="co">#Artifically decide start date is 1999, that way all are even, if date is prior then remove it</span></span>
+<span id="cb97-133"><a href="testing.html#cb97-133" aria-hidden="true" tabindex="-1"></a><span class="co">#The current maximum date possible is 31 May 2020</span></span>
+<span id="cb97-134"><a href="testing.html#cb97-134" aria-hidden="true" tabindex="-1"></a>death <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;~/athena/ukbiobank/hesin/death.txt&quot;</span>, <span class="at">stringsAsFactors=</span>F, <span class="at">header =</span> T)</span>
+<span id="cb97-135"><a href="testing.html#cb97-135" aria-hidden="true" tabindex="-1"></a>death[,<span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(death[,<span class="dv">5</span>], <span class="cf">function</span>(x) <span class="fu">paste0</span>(<span class="fu">strsplit</span>(x, <span class="st">&quot;/&quot;</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>], <span class="st">&quot;-&quot;</span>, <span class="fu">strsplit</span>(x, <span class="st">&quot;/&quot;</span>)[[<span class="dv">1</span>]][<span class="dv">2</span>], <span class="st">&quot;-&quot;</span>, <span class="fu">strsplit</span>(x, <span class="st">&quot;/&quot;</span>)[[<span class="dv">1</span>]][<span class="dv">1</span>])))</span>
+<span id="cb97-136"><a href="testing.html#cb97-136" aria-hidden="true" tabindex="-1"></a>death <span class="ot">&lt;-</span> death[<span class="sc">!</span><span class="fu">duplicated</span>(death[,<span class="dv">1</span>]),]</span>
+<span id="cb97-137"><a href="testing.html#cb97-137" aria-hidden="true" tabindex="-1"></a>death <span class="ot">&lt;-</span> death[death[,<span class="dv">1</span>] <span class="sc">%in%</span> eid,]</span>
+<span id="cb97-138"><a href="testing.html#cb97-138" aria-hidden="true" tabindex="-1"></a>add_on <span class="ot">&lt;-</span> death[<span class="dv">1</span>,]</span>
+<span id="cb97-139"><a href="testing.html#cb97-139" aria-hidden="true" tabindex="-1"></a>add_on[<span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb97-140"><a href="testing.html#cb97-140" aria-hidden="true" tabindex="-1"></a>add_eid <span class="ot">&lt;-</span> eid[<span class="sc">!</span>(eid <span class="sc">%in%</span> death[,<span class="dv">1</span>])]</span>
+<span id="cb97-141"><a href="testing.html#cb97-141" aria-hidden="true" tabindex="-1"></a>add_on <span class="ot">&lt;-</span> add_on[<span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(add_eid)),]</span>
+<span id="cb97-142"><a href="testing.html#cb97-142" aria-hidden="true" tabindex="-1"></a>add_on<span class="sc">$</span>eid <span class="ot">&lt;-</span> add_eid</span>
+<span id="cb97-143"><a href="testing.html#cb97-143" aria-hidden="true" tabindex="-1"></a>death <span class="ot">&lt;-</span> <span class="fu">rbind</span>(death, add_on)</span>
+<span id="cb97-144"><a href="testing.html#cb97-144" aria-hidden="true" tabindex="-1"></a>death <span class="ot">&lt;-</span> death[<span class="fu">order</span>(death[,<span class="dv">1</span>])[<span class="fu">rank</span>(eid)],]</span>
+<span id="cb97-145"><a href="testing.html#cb97-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-146"><a href="testing.html#cb97-146" aria-hidden="true" tabindex="-1"></a>censor <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;../get_covars/covar_data/censor_covars&quot;</span>, <span class="at">stringsAsFactors=</span>F, <span class="at">header =</span> T, <span class="at">sep =</span> <span class="st">&quot;,&quot;</span>)</span>
+<span id="cb97-147"><a href="testing.html#cb97-147" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">sum</span>(<span class="sc">!</span>(eid <span class="sc">%in%</span> censor[,<span class="dv">1</span>])) <span class="sc">&gt;</span> <span class="dv">0</span>){</span>
+<span id="cb97-148"><a href="testing.html#cb97-148" aria-hidden="true" tabindex="-1"></a>  add_on <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">sum</span>(<span class="sc">!</span>(eid <span class="sc">%in%</span> censor[,<span class="dv">1</span>])), <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb97-149"><a href="testing.html#cb97-149" aria-hidden="true" tabindex="-1"></a>  add_on[,<span class="dv">1</span>] <span class="ot">&lt;-</span> eid[<span class="sc">!</span>(eid <span class="sc">%in%</span> censor[,<span class="dv">1</span>])]</span>
+<span id="cb97-150"><a href="testing.html#cb97-150" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(add_on) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(censor)</span>
+<span id="cb97-151"><a href="testing.html#cb97-151" aria-hidden="true" tabindex="-1"></a>  censor <span class="ot">&lt;-</span> <span class="fu">rbind</span>(censor, add_on)</span>
+<span id="cb97-152"><a href="testing.html#cb97-152" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb97-153"><a href="testing.html#cb97-153" aria-hidden="true" tabindex="-1"></a>censor <span class="ot">&lt;-</span> censor[censor[,<span class="dv">1</span>] <span class="sc">%in%</span> eid,]</span>
+<span id="cb97-154"><a href="testing.html#cb97-154" aria-hidden="true" tabindex="-1"></a>censor <span class="ot">&lt;-</span> censor[<span class="fu">order</span>(censor[,<span class="dv">1</span>])[<span class="fu">rank</span>(eid)],]</span>
+<span id="cb97-155"><a href="testing.html#cb97-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-156"><a href="testing.html#cb97-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-157"><a href="testing.html#cb97-157" aria-hidden="true" tabindex="-1"></a>start_date <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;1999-01-01&quot;</span>, <span class="fu">nrow</span>(scores))</span>
+<span id="cb97-158"><a href="testing.html#cb97-158" aria-hidden="true" tabindex="-1"></a>end_date <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;2020-05-31&quot;</span>, <span class="fu">nrow</span>(scores))</span>
+<span id="cb97-159"><a href="testing.html#cb97-159" aria-hidden="true" tabindex="-1"></a>end_date[censor[,<span class="dv">2</span>] <span class="sc">!=</span> <span class="st">&quot;&quot;</span>] <span class="ot">&lt;-</span> censor[censor[,<span class="dv">2</span>] <span class="sc">!=</span> <span class="st">&quot;&quot;</span>, <span class="dv">2</span>]</span>
+<span id="cb97-160"><a href="testing.html#cb97-160" aria-hidden="true" tabindex="-1"></a>end_date[death[,<span class="dv">5</span>] <span class="sc">!=</span> <span class="st">&quot;&quot;</span>] <span class="ot">&lt;-</span> death[death[,<span class="dv">5</span>] <span class="sc">!=</span> <span class="st">&quot;&quot;</span>, <span class="dv">5</span>]</span>
+<span id="cb97-161"><a href="testing.html#cb97-161" aria-hidden="true" tabindex="-1"></a>end_date[<span class="sc">!</span><span class="fu">is.na</span>(dates)] <span class="ot">&lt;-</span> dates[<span class="sc">!</span><span class="fu">is.na</span>(dates)]</span>
+<span id="cb97-162"><a href="testing.html#cb97-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-163"><a href="testing.html#cb97-163" aria-hidden="true" tabindex="-1"></a>is_death_date <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(scores))</span>
+<span id="cb97-164"><a href="testing.html#cb97-164" aria-hidden="true" tabindex="-1"></a>is_death_date[death[,<span class="dv">5</span>] <span class="sc">!=</span> <span class="st">&quot;&quot;</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb97-165"><a href="testing.html#cb97-165" aria-hidden="true" tabindex="-1"></a>surv_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">time =</span> <span class="fu">as.numeric</span>(<span class="fu">as.Date</span>(end_date) <span class="sc">-</span> <span class="fu">as.Date</span>(start_date)), pheno, is_death_date, covars, <span class="at">score =</span> scores[,<span class="dv">1</span>])</span>
+<span id="cb97-166"><a href="testing.html#cb97-166" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(pheno, covars[,<span class="sc">-</span><span class="dv">1</span>], <span class="at">score =</span> scores[,<span class="dv">1</span>])</span>
+<span id="cb97-167"><a href="testing.html#cb97-167" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-168"><a href="testing.html#cb97-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-169"><a href="testing.html#cb97-169" aria-hidden="true" tabindex="-1"></a><span class="co">#need to remove people that had diagnosis before accepted start of the study</span></span>
+<span id="cb97-170"><a href="testing.html#cb97-170" aria-hidden="true" tabindex="-1"></a>eid <span class="ot">&lt;-</span> eid[surv_df<span class="sc">$</span>time <span class="sc">&gt;</span> <span class="dv">0</span>]</span>
+<span id="cb97-171"><a href="testing.html#cb97-171" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[surv_df<span class="sc">$</span>time <span class="sc">&gt;</span> <span class="dv">0</span>,]</span>
+<span id="cb97-172"><a href="testing.html#cb97-172" aria-hidden="true" tabindex="-1"></a>covars <span class="ot">&lt;-</span> covars[surv_df<span class="sc">$</span>time <span class="sc">&gt;</span> <span class="dv">0</span>,]</span>
+<span id="cb97-173"><a href="testing.html#cb97-173" aria-hidden="true" tabindex="-1"></a>pheno <span class="ot">&lt;-</span> pheno[surv_df<span class="sc">$</span>time <span class="sc">&gt;</span> <span class="dv">0</span>]</span>
+<span id="cb97-174"><a href="testing.html#cb97-174" aria-hidden="true" tabindex="-1"></a>surv_df <span class="ot">&lt;-</span> surv_df[surv_df<span class="sc">$</span>time <span class="sc">&gt;</span> <span class="dv">0</span>,]</span>
+<span id="cb97-175"><a href="testing.html#cb97-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-176"><a href="testing.html#cb97-176" aria-hidden="true" tabindex="-1"></a><span class="co"># NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW</span></span>
+<span id="cb97-177"><a href="testing.html#cb97-177" aria-hidden="true" tabindex="-1"></a><span class="co"># NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW</span></span>
+<span id="cb97-178"><a href="testing.html#cb97-178" aria-hidden="true" tabindex="-1"></a><span class="co">#                             ADDED COVARIATES                                      #</span></span>
+<span id="cb97-179"><a href="testing.html#cb97-179" aria-hidden="true" tabindex="-1"></a><span class="co"># NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW</span></span>
+<span id="cb97-180"><a href="testing.html#cb97-180" aria-hidden="true" tabindex="-1"></a><span class="co"># NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW</span></span>
+<span id="cb97-181"><a href="testing.html#cb97-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-182"><a href="testing.html#cb97-182" aria-hidden="true" tabindex="-1"></a><span class="co">#get the other covariates</span></span>
+<span id="cb97-183"><a href="testing.html#cb97-183" aria-hidden="true" tabindex="-1"></a><span class="co">#Specifically, if there are covariates other than age and sex that other resources believe are risk factors for this disease then we read them in and order them such that they align with the already existing covariates</span></span>
+<span id="cb97-184"><a href="testing.html#cb97-184" aria-hidden="true" tabindex="-1"></a><span class="co">#We can pull these additional covariates from two different place however, from the ICD or non ICD records</span></span>
+<span id="cb97-185"><a href="testing.html#cb97-185" aria-hidden="true" tabindex="-1"></a><span class="co">#If from the non-ICD we first get the names from extra covars, and then subset those names out of the single_col_covars</span></span>
+<span id="cb97-186"><a href="testing.html#cb97-186" aria-hidden="true" tabindex="-1"></a>poss_covars <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;../descript_defs/author_covar&quot;</span>, <span class="at">stringsAsFactors=</span>F, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb97-187"><a href="testing.html#cb97-187" aria-hidden="true" tabindex="-1"></a>poss_author <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot;-&quot;</span>, <span class="st">&quot;&quot;</span>, author)</span>
+<span id="cb97-188"><a href="testing.html#cb97-188" aria-hidden="true" tabindex="-1"></a>extra_covars <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(poss_covars[poss_covars[,<span class="dv">1</span>] <span class="sc">==</span> poss_author,<span class="dv">2</span>], <span class="st">&quot;,&quot;</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb97-189"><a href="testing.html#cb97-189" aria-hidden="true" tabindex="-1"></a>extra_covars <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">&quot; &quot;</span>, <span class="st">&quot;_&quot;</span>, extra_covars)</span>
+<span id="cb97-190"><a href="testing.html#cb97-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-191"><a href="testing.html#cb97-191" aria-hidden="true" tabindex="-1"></a>single_col_covars <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;../get_covars/covar_data/single_col_covars&quot;</span>, <span class="at">stringsAsFactors=</span>F, <span class="at">header=</span>T)</span>
+<span id="cb97-192"><a href="testing.html#cb97-192" aria-hidden="true" tabindex="-1"></a>single_col_covars <span class="ot">&lt;-</span> single_col_covars[,<span class="fu">colnames</span>(single_col_covars) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;eid&quot;</span>, extra_covars), drop <span class="ot">=</span> F]</span>
+<span id="cb97-193"><a href="testing.html#cb97-193" aria-hidden="true" tabindex="-1"></a>single_col_covars <span class="ot">&lt;-</span> single_col_covars[,<span class="sc">!</span><span class="fu">colnames</span>(single_col_covars) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;age&quot;</span>, <span class="st">&quot;sex&quot;</span>),drop<span class="ot">=</span>F]</span>
+<span id="cb97-194"><a href="testing.html#cb97-194" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">ncol</span>(single_col_covars) <span class="sc">&gt;</span> <span class="dv">1</span>){</span>
+<span id="cb97-195"><a href="testing.html#cb97-195" aria-hidden="true" tabindex="-1"></a>  single_col_covars <span class="ot">&lt;-</span> single_col_covars[single_col_covars<span class="sc">$</span>eid <span class="sc">%in%</span> eid,,drop<span class="ot">=</span>F]</span>
+<span id="cb97-196"><a href="testing.html#cb97-196" aria-hidden="true" tabindex="-1"></a>  single_col_covars <span class="ot">&lt;-</span> single_col_covars[<span class="fu">order</span>(single_col_covars<span class="sc">$</span>eid)[<span class="fu">rank</span>(eid)],] <span class="co">#nrow(single_col_covars) may be &lt; length(eid)</span></span>
+<span id="cb97-197"><a href="testing.html#cb97-197" aria-hidden="true" tabindex="-1"></a>  single_col_covars <span class="ot">&lt;-</span> single_col_covars[,<span class="sc">-</span><span class="dv">1</span>,drop<span class="ot">=</span>F]</span>
+<span id="cb97-198"><a href="testing.html#cb97-198" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb97-199"><a href="testing.html#cb97-199" aria-hidden="true" tabindex="-1"></a>  single_col_covars <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb97-200"><a href="testing.html#cb97-200" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb97-201"><a href="testing.html#cb97-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-202"><a href="testing.html#cb97-202" aria-hidden="true" tabindex="-1"></a><span class="co">#If from the ICD record we read in the specific covariate file made from the ICDs that goes with the disease</span></span>
+<span id="cb97-203"><a href="testing.html#cb97-203" aria-hidden="true" tabindex="-1"></a><span class="co">#Similar with non-ICD we first have to check if there are any non-ICD covariates relevant, and then if so we go on and read them in and proceed with sorting</span></span>
+<span id="cb97-204"><a href="testing.html#cb97-204" aria-hidden="true" tabindex="-1"></a><span class="co">#With non-ICD or ICD covariates we leave the covariate file NULL if there is nothing relevant</span></span>
+<span id="cb97-205"><a href="testing.html#cb97-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-206"><a href="testing.html#cb97-206" aria-hidden="true" tabindex="-1"></a>hesin_decode <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;../descript_defs/author_to_covar_hesin&quot;</span>, <span class="at">stringsAsFactors=</span>F)</span>
+<span id="cb97-207"><a href="testing.html#cb97-207" aria-hidden="true" tabindex="-1"></a>hesin_decode <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(hesin_decode[hesin_decode[,<span class="dv">1</span>] <span class="sc">==</span> poss_author,<span class="dv">2</span>], <span class="st">&quot;,&quot;</span>)[[<span class="dv">1</span>]]</span>
+<span id="cb97-208"><a href="testing.html#cb97-208" aria-hidden="true" tabindex="-1"></a>sort_covar <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;../descript_defs/covar_defs_hesin&quot;</span>, <span class="at">stringsAsFactors=</span>F)</span>
+<span id="cb97-209"><a href="testing.html#cb97-209" aria-hidden="true" tabindex="-1"></a>hesin_decode <span class="ot">&lt;-</span> sort_covar[sort_covar[,<span class="dv">1</span>] <span class="sc">%in%</span> hesin_decode,<span class="dv">1</span>]</span>
+<span id="cb97-210"><a href="testing.html#cb97-210" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="fu">any</span>(<span class="fu">grepl</span>(<span class="fu">tolower</span>(author), <span class="fu">list.files</span>(<span class="st">&quot;../get_covars/hesin_covars/&quot;</span>)))){</span>
+<span id="cb97-211"><a href="testing.html#cb97-211" aria-hidden="true" tabindex="-1"></a>  hesin_covar <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">paste0</span>(<span class="st">&quot;../get_covars/hesin_covars/diag.coding.&quot;</span>, <span class="fu">tolower</span>(author), <span class="st">&quot;.txt.gz&quot;</span>), <span class="at">stringsAsFactors=</span>F, <span class="at">header=</span>F)</span>
+<span id="cb97-212"><a href="testing.html#cb97-212" aria-hidden="true" tabindex="-1"></a>  hesin_eid <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">paste0</span>(<span class="st">&quot;../get_covars/hesin_covars/eid.txt.gz&quot;</span>), <span class="at">stringsAsFactors=</span>F, <span class="at">header=</span>F)</span>
+<span id="cb97-213"><a href="testing.html#cb97-213" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(hesin_covar) <span class="ot">&lt;-</span> hesin_decode</span>
+<span id="cb97-214"><a href="testing.html#cb97-214" aria-hidden="true" tabindex="-1"></a>  hesin_covar <span class="ot">&lt;-</span> hesin_covar[hesin_eid[,<span class="dv">1</span>] <span class="sc">%in%</span> eid,,drop<span class="ot">=</span>F]</span>
+<span id="cb97-215"><a href="testing.html#cb97-215" aria-hidden="true" tabindex="-1"></a>  hesin_covar <span class="ot">&lt;-</span> hesin_covar[<span class="fu">order</span>(hesin_eid[,<span class="dv">1</span>])[<span class="fu">rank</span>(eid)],,drop<span class="ot">=</span>F]</span>
+<span id="cb97-216"><a href="testing.html#cb97-216" aria-hidden="true" tabindex="-1"></a>  hesin_covar <span class="ot">&lt;-</span> hesin_covar[,<span class="fu">colSums</span>(hesin_covar) <span class="sc">&gt;</span> <span class="dv">0</span>,drop<span class="ot">=</span>F]</span>
+<span id="cb97-217"><a href="testing.html#cb97-217" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb97-218"><a href="testing.html#cb97-218" aria-hidden="true" tabindex="-1"></a>  hesin_covar <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb97-219"><a href="testing.html#cb97-219" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb97-220"><a href="testing.html#cb97-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-221"><a href="testing.html#cb97-221" aria-hidden="true" tabindex="-1"></a><span class="co">#We finish this extra covariate process by combining the ICD and non-ICD files into a singe extra_covar </span></span>
+<span id="cb97-222"><a href="testing.html#cb97-222" aria-hidden="true" tabindex="-1"></a><span class="co">#Also we set a variable indicating whether or not we should try to run models with extra covariates</span></span>
+<span id="cb97-223"><a href="testing.html#cb97-223" aria-hidden="true" tabindex="-1"></a>run_extra_covar <span class="ot">&lt;-</span> <span class="cn">TRUE</span></span>
+<span id="cb97-224"><a href="testing.html#cb97-224" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.null</span>(single_col_covars) <span class="sc">&amp;</span> <span class="sc">!</span><span class="fu">is.null</span>(hesin_covar)){</span>
+<span id="cb97-225"><a href="testing.html#cb97-225" aria-hidden="true" tabindex="-1"></a>  extra_covar <span class="ot">&lt;-</span> <span class="fu">cbind</span>(single_col_covars, hesin_covar)</span>
+<span id="cb97-226"><a href="testing.html#cb97-226" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.null</span>(single_col_covars)){</span>
+<span id="cb97-227"><a href="testing.html#cb97-227" aria-hidden="true" tabindex="-1"></a>  extra_covar <span class="ot">&lt;-</span> single_col_covars</span>
+<span id="cb97-228"><a href="testing.html#cb97-228" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.null</span>(hesin_covar)){</span>
+<span id="cb97-229"><a href="testing.html#cb97-229" aria-hidden="true" tabindex="-1"></a>  extra_covar <span class="ot">&lt;-</span> hesin_covar</span>
+<span id="cb97-230"><a href="testing.html#cb97-230" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb97-231"><a href="testing.html#cb97-231" aria-hidden="true" tabindex="-1"></a>  run_extra_covar <span class="ot">&lt;-</span> <span class="cn">FALSE</span></span>
+<span id="cb97-232"><a href="testing.html#cb97-232" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb97-233"><a href="testing.html#cb97-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-234"><a href="testing.html#cb97-234" aria-hidden="true" tabindex="-1"></a><span class="co"># </span><span class="re">END</span><span class="co"> NEW ####################################################################################</span></span>
+<span id="cb97-235"><a href="testing.html#cb97-235" aria-hidden="true" tabindex="-1"></a><span class="do">##############################################################################################</span></span>
+<span id="cb97-236"><a href="testing.html#cb97-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-237"><a href="testing.html#cb97-237" aria-hidden="true" tabindex="-1"></a><span class="co">#add in the other interesting covariates</span></span>
+<span id="cb97-238"><a href="testing.html#cb97-238" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(run_other_scores){</span>
+<span id="cb97-239"><a href="testing.html#cb97-239" aria-hidden="true" tabindex="-1"></a>  other_scores <span class="ot">&lt;-</span> other_scores[other_scores[,<span class="dv">1</span>] <span class="sc">%in%</span> eid,]</span>
+<span id="cb97-240"><a href="testing.html#cb97-240" aria-hidden="true" tabindex="-1"></a>  other_scores <span class="ot">&lt;-</span> other_scores[<span class="fu">order</span>(other_scores[,<span class="dv">1</span>])[<span class="fu">rank</span>(eid)],]</span>
+<span id="cb97-241"><a href="testing.html#cb97-241" aria-hidden="true" tabindex="-1"></a>  other_scores <span class="ot">&lt;-</span> other_scores[,<span class="sc">-</span><span class="dv">1</span>,drop<span class="ot">=</span>F]</span>
+<span id="cb97-242"><a href="testing.html#cb97-242" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb97-243"><a href="testing.html#cb97-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-244"><a href="testing.html#cb97-244" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(run_other_scores <span class="sc">&amp;</span> run_extra_covar){</span>
+<span id="cb97-245"><a href="testing.html#cb97-245" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(df, extra_covar, other_scores)</span>
+<span id="cb97-246"><a href="testing.html#cb97-246" aria-hidden="true" tabindex="-1"></a>  surv_df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(surv_df, extra_covar, other_scores)</span>
+<span id="cb97-247"><a href="testing.html#cb97-247" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(run_other_scores){</span>
+<span id="cb97-248"><a href="testing.html#cb97-248" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(df, other_scores)</span>
+<span id="cb97-249"><a href="testing.html#cb97-249" aria-hidden="true" tabindex="-1"></a>  surv_df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(surv_df, other_scores)</span>
+<span id="cb97-250"><a href="testing.html#cb97-250" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> <span class="cf">if</span>(run_extra_covar){</span>
+<span id="cb97-251"><a href="testing.html#cb97-251" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(df, extra_covar)</span>
+<span id="cb97-252"><a href="testing.html#cb97-252" aria-hidden="true" tabindex="-1"></a>  surv_df <span class="ot">&lt;-</span> <span class="fu">cbind</span>(surv_df, extra_covar)</span>
+<span id="cb97-253"><a href="testing.html#cb97-253" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb97-254"><a href="testing.html#cb97-254" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-255"><a href="testing.html#cb97-255" aria-hidden="true" tabindex="-1"></a><span class="co">#Subset the sex</span></span>
+<span id="cb97-256"><a href="testing.html#cb97-256" aria-hidden="true" tabindex="-1"></a>author_defs <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;../descript_defs/author_defs&quot;</span>, <span class="at">stringsAsFactors=</span>F, <span class="at">header=</span>T)</span>
+<span id="cb97-257"><a href="testing.html#cb97-257" aria-hidden="true" tabindex="-1"></a>subset_sex <span class="ot">&lt;-</span> author_defs<span class="sc">$</span>sex[author_defs<span class="sc">$</span>author <span class="sc">==</span> author]</span>
+<span id="cb97-258"><a href="testing.html#cb97-258" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(subset_sex <span class="sc">==</span> <span class="st">&quot;F&quot;</span>){</span>
+<span id="cb97-259"><a href="testing.html#cb97-259" aria-hidden="true" tabindex="-1"></a>  eid <span class="ot">&lt;-</span> eid[df<span class="sc">$</span>sex <span class="sc">==</span> <span class="dv">0</span>]</span>
+<span id="cb97-260"><a href="testing.html#cb97-260" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> df[df<span class="sc">$</span>sex <span class="sc">==</span> <span class="dv">0</span>,]</span>
+<span id="cb97-261"><a href="testing.html#cb97-261" aria-hidden="true" tabindex="-1"></a>  surv_df <span class="ot">&lt;-</span> surv_df[surv_df<span class="sc">$</span>sex <span class="sc">==</span> <span class="dv">0</span>,]</span>
+<span id="cb97-262"><a href="testing.html#cb97-262" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> df[,<span class="sc">-</span><span class="fu">which</span>(<span class="fu">colnames</span>(df) <span class="sc">==</span> <span class="st">&quot;sex&quot;</span>)]</span>
+<span id="cb97-263"><a href="testing.html#cb97-263" aria-hidden="true" tabindex="-1"></a>  surv_df <span class="ot">&lt;-</span> surv_df[,<span class="sc">-</span><span class="fu">which</span>(<span class="fu">colnames</span>(surv_df) <span class="sc">==</span> <span class="st">&quot;sex&quot;</span>)]</span>
+<span id="cb97-264"><a href="testing.html#cb97-264" aria-hidden="true" tabindex="-1"></a>  base_covars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;age + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10&quot;</span>)</span>
+<span id="cb97-265"><a href="testing.html#cb97-265" aria-hidden="true" tabindex="-1"></a>}<span class="cf">else</span> <span class="cf">if</span>(subset_sex <span class="sc">==</span> <span class="st">&quot;M&quot;</span>){</span>
+<span id="cb97-266"><a href="testing.html#cb97-266" aria-hidden="true" tabindex="-1"></a>  eid <span class="ot">&lt;-</span> eid[df<span class="sc">$</span>sex <span class="sc">==</span> <span class="dv">1</span>]</span>
+<span id="cb97-267"><a href="testing.html#cb97-267" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> df[df<span class="sc">$</span>sex <span class="sc">==</span> <span class="dv">1</span>,]</span>
+<span id="cb97-268"><a href="testing.html#cb97-268" aria-hidden="true" tabindex="-1"></a>  surv_df <span class="ot">&lt;-</span> surv_df[surv_df<span class="sc">$</span>sex <span class="sc">==</span> <span class="dv">1</span>,]</span>
+<span id="cb97-269"><a href="testing.html#cb97-269" aria-hidden="true" tabindex="-1"></a>  df <span class="ot">&lt;-</span> df[,<span class="sc">-</span><span class="fu">which</span>(<span class="fu">colnames</span>(df) <span class="sc">==</span> <span class="st">&quot;sex&quot;</span>)]</span>
+<span id="cb97-270"><a href="testing.html#cb97-270" aria-hidden="true" tabindex="-1"></a>  surv_df <span class="ot">&lt;-</span> surv_df[,<span class="sc">-</span><span class="fu">which</span>(<span class="fu">colnames</span>(surv_df) <span class="sc">==</span> <span class="st">&quot;sex&quot;</span>)]</span>
+<span id="cb97-271"><a href="testing.html#cb97-271" aria-hidden="true" tabindex="-1"></a>  base_covars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;age + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10&quot;</span>)</span>
+<span id="cb97-272"><a href="testing.html#cb97-272" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb97-273"><a href="testing.html#cb97-273" aria-hidden="true" tabindex="-1"></a>  base_covars <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;age + sex + PC1 + PC2 + PC3 + PC4 + PC5 + PC6 + PC7 + PC8 + PC9 + PC10&quot;</span>)</span>
+<span id="cb97-274"><a href="testing.html#cb97-274" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb97-275"><a href="testing.html#cb97-275" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-276"><a href="testing.html#cb97-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-277"><a href="testing.html#cb97-277" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-278"><a href="testing.html#cb97-278" aria-hidden="true" tabindex="-1"></a><span class="co">#Set up Fine and Gray</span></span>
+<span id="cb97-279"><a href="testing.html#cb97-279" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;finegray&quot;</span>)</span>
+<span id="cb97-280"><a href="testing.html#cb97-280" aria-hidden="true" tabindex="-1"></a>event_type <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="st">&quot;censor&quot;</span>, <span class="fu">nrow</span>(surv_df))</span>
+<span id="cb97-281"><a href="testing.html#cb97-281" aria-hidden="true" tabindex="-1"></a>event_type[surv_df<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;diagnosis&quot;</span></span>
+<span id="cb97-282"><a href="testing.html#cb97-282" aria-hidden="true" tabindex="-1"></a>event_type[surv_df<span class="sc">$</span>is_death_date <span class="sc">==</span> <span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="st">&quot;death&quot;</span></span>
+<span id="cb97-283"><a href="testing.html#cb97-283" aria-hidden="true" tabindex="-1"></a>surv_df<span class="sc">$</span>event_type <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(event_type)</span>
+<span id="cb97-284"><a href="testing.html#cb97-284" aria-hidden="true" tabindex="-1"></a>surv_df<span class="sc">$</span>eid <span class="ot">&lt;-</span> eid</span>
+<span id="cb97-285"><a href="testing.html#cb97-285" aria-hidden="true" tabindex="-1"></a>fg_diag <span class="ot">&lt;-</span> <span class="fu">finegray</span>(<span class="fu">Surv</span>(time, event_type) <span class="sc">~</span> ., <span class="at">data =</span> surv_df[,<span class="sc">-</span><span class="fu">which</span>(<span class="fu">colnames</span>(surv_df) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;is_death_date&quot;</span>, <span class="st">&quot;pheno&quot;</span>))], <span class="at">etype=</span><span class="st">&quot;diagnosis&quot;</span>)</span>
+<span id="cb97-286"><a href="testing.html#cb97-286" aria-hidden="true" tabindex="-1"></a>fg_death <span class="ot">&lt;-</span> <span class="fu">finegray</span>(<span class="fu">Surv</span>(time, event_type) <span class="sc">~</span> ., <span class="at">data =</span> surv_df[,<span class="sc">-</span><span class="fu">which</span>(<span class="fu">colnames</span>(surv_df) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;is_death_date&quot;</span>, <span class="st">&quot;pheno&quot;</span>))], <span class="at">etype=</span><span class="st">&quot;death&quot;</span>)</span>
+<span id="cb97-287"><a href="testing.html#cb97-287" aria-hidden="true" tabindex="-1"></a>fg_scores_diag <span class="ot">&lt;-</span> fg_diag[,<span class="fu">grepl</span>(<span class="fu">tolower</span>(author), <span class="fu">colnames</span>(fg_diag))]</span>
+<span id="cb97-288"><a href="testing.html#cb97-288" aria-hidden="true" tabindex="-1"></a>fg_scores_death <span class="ot">&lt;-</span> fg_death[,<span class="fu">grepl</span>(<span class="fu">tolower</span>(author), <span class="fu">colnames</span>(fg_death))]</span>
+<span id="cb97-289"><a href="testing.html#cb97-289" aria-hidden="true" tabindex="-1"></a>fg_diag <span class="ot">&lt;-</span> fg_diag[,<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">&quot;ss&quot;</span>, <span class="fu">colnames</span>(fg_diag))]</span>
+<span id="cb97-290"><a href="testing.html#cb97-290" aria-hidden="true" tabindex="-1"></a>fg_death <span class="ot">&lt;-</span> fg_death[,<span class="sc">!</span><span class="fu">grepl</span>(<span class="st">&quot;ss&quot;</span>, <span class="fu">colnames</span>(fg_death))]</span>
+<span id="cb97-291"><a href="testing.html#cb97-291" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-292"><a href="testing.html#cb97-292" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-293"><a href="testing.html#cb97-293" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-294"><a href="testing.html#cb97-294" aria-hidden="true" tabindex="-1"></a>df_train <span class="ot">&lt;-</span> df[eid <span class="sc">%in%</span> train_eid[,<span class="dv">1</span>],]</span>
+<span id="cb97-295"><a href="testing.html#cb97-295" aria-hidden="true" tabindex="-1"></a>df_test <span class="ot">&lt;-</span> df[eid <span class="sc">%in%</span> test_eid[,<span class="dv">1</span>],]</span>
+<span id="cb97-296"><a href="testing.html#cb97-296" aria-hidden="true" tabindex="-1"></a>surv_df_train <span class="ot">&lt;-</span> surv_df[eid <span class="sc">%in%</span> train_eid[,<span class="dv">1</span>],]</span>
+<span id="cb97-297"><a href="testing.html#cb97-297" aria-hidden="true" tabindex="-1"></a>surv_df_test <span class="ot">&lt;-</span> surv_df[eid <span class="sc">%in%</span> test_eid[,<span class="dv">1</span>],]</span>
+<span id="cb97-298"><a href="testing.html#cb97-298" aria-hidden="true" tabindex="-1"></a>fg_diag_train <span class="ot">&lt;-</span> fg_diag[fg_diag<span class="sc">$</span>eid <span class="sc">%in%</span> train_eid[,<span class="dv">1</span>],]</span>
+<span id="cb97-299"><a href="testing.html#cb97-299" aria-hidden="true" tabindex="-1"></a>fg_diag_test <span class="ot">&lt;-</span> fg_diag[fg_diag<span class="sc">$</span>eid <span class="sc">%in%</span> test_eid[,<span class="dv">1</span>],]</span>
+<span id="cb97-300"><a href="testing.html#cb97-300" aria-hidden="true" tabindex="-1"></a>fg_death_train <span class="ot">&lt;-</span> fg_death[fg_death<span class="sc">$</span>eid <span class="sc">%in%</span> train_eid[,<span class="dv">1</span>],]</span>
+<span id="cb97-301"><a href="testing.html#cb97-301" aria-hidden="true" tabindex="-1"></a>fg_death_test <span class="ot">&lt;-</span> fg_death[fg_death<span class="sc">$</span>eid <span class="sc">%in%</span> test_eid[,<span class="dv">1</span>],]</span>
+<span id="cb97-302"><a href="testing.html#cb97-302" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-303"><a href="testing.html#cb97-303" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-304"><a href="testing.html#cb97-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-305"><a href="testing.html#cb97-305" aria-hidden="true" tabindex="-1"></a><span class="co">#exit()</span></span>
+<span id="cb97-306"><a href="testing.html#cb97-306" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-307"><a href="testing.html#cb97-307" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb97-308"><a href="testing.html#cb97-308" aria-hidden="true" tabindex="-1"></a>    <span class="do">###########################################################</span></span>
+<span id="cb97-309"><a href="testing.html#cb97-309" aria-hidden="true" tabindex="-1"></a>    <span class="co">#                    SURVIVAL ANALYSES                    #</span></span>
+<span id="cb97-310"><a href="testing.html#cb97-310" aria-hidden="true" tabindex="-1"></a>    <span class="do">###########################################################</span></span>
+<span id="cb97-311"><a href="testing.html#cb97-311" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb97-312"><a href="testing.html#cb97-312" aria-hidden="true" tabindex="-1"></a>    <span class="co">#BASE ###############################</span></span>
+<span id="cb97-313"><a href="testing.html#cb97-313" aria-hidden="true" tabindex="-1"></a>    base_mod <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">as.formula</span>(<span class="fu">paste0</span>(<span class="st">&quot;Surv(fgstart, fgstop, fgstatus) ~ &quot;</span>, base_covars)), <span class="at">data =</span> fg_diag_train, <span class="at">weight =</span> fgwt)</span>
+<span id="cb97-314"><a href="testing.html#cb97-314" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb97-315"><a href="testing.html#cb97-315" aria-hidden="true" tabindex="-1"></a>    base_conc_obj <span class="ot">&lt;-</span> <span class="fu">survConcordance</span>(<span class="fu">Surv</span>(fgstart, fgstop, fgstatus) <span class="sc">~</span> <span class="fu">predict</span>(base_mod, fg_diag_test), <span class="at">data =</span> fg_diag_test, <span class="at">weight =</span> fgwt)</span>
+<span id="cb97-316"><a href="testing.html#cb97-316" aria-hidden="true" tabindex="-1"></a>    base_conc <span class="ot">&lt;-</span> <span class="fu">c</span>(base_conc_obj<span class="sc">$</span>conc, base_conc_obj<span class="sc">$</span>std.err)</span>
+<span id="cb97-317"><a href="testing.html#cb97-317" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb97-318"><a href="testing.html#cb97-318" aria-hidden="true" tabindex="-1"></a>    base_survfit <span class="ot">&lt;-</span> <span class="fu">survfit</span>(base_mod, fg_diag_test, <span class="at">se.fit =</span> F)</span>
+<span id="cb97-319"><a href="testing.html#cb97-319" aria-hidden="true" tabindex="-1"></a>    base_full_cumhaz <span class="ot">&lt;-</span> base_survfit<span class="sc">$</span>cumhaz[,<span class="sc">!</span><span class="fu">duplicated</span>(fg_diag_test<span class="sc">$</span>eid)]</span>
+<span id="cb97-320"><a href="testing.html#cb97-320" aria-hidden="true" tabindex="-1"></a>    final_cumhaz <span class="ot">&lt;-</span> base_full_cumhaz[<span class="fu">nrow</span>(base_survfit<span class="sc">$</span>cumhaz),]</span>
+<span id="cb97-321"><a href="testing.html#cb97-321" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb97-322"><a href="testing.html#cb97-322" aria-hidden="true" tabindex="-1"></a>    group_factor <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(final_cumhaz))</span>
+<span id="cb97-323"><a href="testing.html#cb97-323" aria-hidden="true" tabindex="-1"></a>    group_factor[final_cumhaz <span class="sc">&lt;</span> <span class="fu">quantile</span>(final_cumhaz, <span class="fl">0.2</span>)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb97-324"><a href="testing.html#cb97-324" aria-hidden="true" tabindex="-1"></a>    group_factor[final_cumhaz <span class="sc">&gt;</span> <span class="fu">quantile</span>(final_cumhaz, <span class="fl">0.8</span>)] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb97-325"><a href="testing.html#cb97-325" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb97-326"><a href="testing.html#cb97-326" aria-hidden="true" tabindex="-1"></a>    base_avg_cumhaz <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">time =</span> base_survfit<span class="sc">$</span>time,</span>
+<span id="cb97-327"><a href="testing.html#cb97-327" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">mean_lo =</span> <span class="fu">apply</span>(base_full_cumhaz[,group_factor<span class="sc">==</span><span class="dv">0</span>], <span class="dv">1</span>, mean),</span>
+<span id="cb97-328"><a href="testing.html#cb97-328" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">mean_mid =</span> <span class="fu">apply</span>(base_full_cumhaz[,group_factor<span class="sc">==</span><span class="dv">1</span>], <span class="dv">1</span>, mean),</span>
+<span id="cb97-329"><a href="testing.html#cb97-329" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">mean_hi =</span> <span class="fu">apply</span>(base_full_cumhaz[,group_factor<span class="sc">==</span><span class="dv">2</span>], <span class="dv">1</span>, mean),</span>
+<span id="cb97-330"><a href="testing.html#cb97-330" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">sd_lo =</span> <span class="fu">apply</span>(base_full_cumhaz[,group_factor<span class="sc">==</span><span class="dv">0</span>], <span class="dv">1</span>, sd),</span>
+<span id="cb97-331"><a href="testing.html#cb97-331" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">sd_mid =</span> <span class="fu">apply</span>(base_full_cumhaz[,group_factor<span class="sc">==</span><span class="dv">1</span>], <span class="dv">1</span>, sd),</span>
+<span id="cb97-332"><a href="testing.html#cb97-332" aria-hidden="true" tabindex="-1"></a>                                    <span class="at">sd_hi =</span> <span class="fu">apply</span>(base_full_cumhaz[,group_factor<span class="sc">==</span><span class="dv">2</span>], <span class="dv">1</span>, sd))</span>
+<span id="cb97-333"><a href="testing.html#cb97-333" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb97-334"><a href="testing.html#cb97-334" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb97-335"><a href="testing.html#cb97-335" aria-hidden="true" tabindex="-1"></a>      <span class="co">#WITH SCORE ###########################</span></span>
+<span id="cb97-336"><a href="testing.html#cb97-336" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-337"><a href="testing.html#cb97-337" aria-hidden="true" tabindex="-1"></a>      <span class="co">#Make the model</span></span>
+<span id="cb97-338"><a href="testing.html#cb97-338" aria-hidden="true" tabindex="-1"></a>      score_mod <span class="ot">&lt;-</span> <span class="fu">coxph</span>(<span class="fu">as.formula</span>(<span class="fu">paste0</span>(<span class="st">&quot;Surv(fgstart, fgstop, fgstatus) ~ &quot;</span>, base_covars, <span class="st">&quot; + score&quot;</span>)), <span class="at">data =</span> fg_diag_train, <span class="at">weight =</span> fgwt)</span>
+<span id="cb97-339"><a href="testing.html#cb97-339" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb97-340"><a href="testing.html#cb97-340" aria-hidden="true" tabindex="-1"></a>      <span class="co">#CONCORDANCE ###################################</span></span>
+<span id="cb97-341"><a href="testing.html#cb97-341" aria-hidden="true" tabindex="-1"></a>      score_conc_obj <span class="ot">&lt;-</span> <span class="fu">survConcordance</span>(<span class="fu">Surv</span>(fgstart, fgstop, fgstatus) <span class="sc">~</span> <span class="fu">predict</span>(score_mod, fg_diag_test), <span class="at">data =</span> fg_diag_test, <span class="at">weight =</span> fgwt)</span>
+<span id="cb97-342"><a href="testing.html#cb97-342" aria-hidden="true" tabindex="-1"></a>      score_conc <span class="ot">&lt;-</span> <span class="fu">c</span>(score_conc_obj<span class="sc">$</span>conc, score_conc_obj<span class="sc">$</span>std.err)</span>
+<span id="cb97-343"><a href="testing.html#cb97-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-344"><a href="testing.html#cb97-344" aria-hidden="true" tabindex="-1"></a>     </span>
+<span id="cb97-345"><a href="testing.html#cb97-345" aria-hidden="true" tabindex="-1"></a>      <span class="co">#SURVFIT ##########################################</span></span>
+<span id="cb97-346"><a href="testing.html#cb97-346" aria-hidden="true" tabindex="-1"></a>      <span class="co">#SLOW</span></span>
+<span id="cb97-347"><a href="testing.html#cb97-347" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(subrate_style <span class="sc">==</span> <span class="st">&quot;slow&quot;</span>){</span>
+<span id="cb97-348"><a href="testing.html#cb97-348" aria-hidden="true" tabindex="-1"></a>        all_cumhaz <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb97-349"><a href="testing.html#cb97-349" aria-hidden="true" tabindex="-1"></a>        all_time <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb97-350"><a href="testing.html#cb97-350" aria-hidden="true" tabindex="-1"></a>        start_vals <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(surv_df_test), <span class="dv">1000</span>)</span>
+<span id="cb97-351"><a href="testing.html#cb97-351" aria-hidden="true" tabindex="-1"></a>        end_vals <span class="ot">&lt;-</span> <span class="fu">c</span>(start_vals[<span class="sc">-</span><span class="dv">1</span>]<span class="sc">-</span><span class="dv">1</span>, <span class="fu">nrow</span>(surv_df_test))</span>
+<span id="cb97-352"><a href="testing.html#cb97-352" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(start_vals)){</span>
+<span id="cb97-353"><a href="testing.html#cb97-353" aria-hidden="true" tabindex="-1"></a>          g1 <span class="ot">&lt;-</span> surv_df_test<span class="sc">$</span>eid[start_vals[k]<span class="sc">:</span>end_vals[k]]</span>
+<span id="cb97-354"><a href="testing.html#cb97-354" aria-hidden="true" tabindex="-1"></a>          score_survfit <span class="ot">&lt;-</span> <span class="fu">survfit</span>(score_mod, fg_diag_test[fg_diag_test<span class="sc">$</span>eid <span class="sc">%in%</span> g1,], <span class="at">se.fit =</span> F)</span>
+<span id="cb97-355"><a href="testing.html#cb97-355" aria-hidden="true" tabindex="-1"></a>          all_cumhaz[[k]] <span class="ot">&lt;-</span> score_survfit<span class="sc">$</span>cumhaz[,<span class="sc">!</span><span class="fu">duplicated</span>(fg_diag_test<span class="sc">$</span>eid[fg_diag_test<span class="sc">$</span>eid <span class="sc">%in%</span> g1])]</span>
+<span id="cb97-356"><a href="testing.html#cb97-356" aria-hidden="true" tabindex="-1"></a>          all_time[[k]] <span class="ot">&lt;-</span> score_survfit<span class="sc">$</span>time</span>
+<span id="cb97-357"><a href="testing.html#cb97-357" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb97-358"><a href="testing.html#cb97-358" aria-hidden="true" tabindex="-1"></a>        score_full_cumhaz <span class="ot">&lt;-</span> <span class="fu">do.call</span>(<span class="st">&quot;cbind&quot;</span>, all_cumhaz)</span>
+<span id="cb97-359"><a href="testing.html#cb97-359" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-360"><a href="testing.html#cb97-360" aria-hidden="true" tabindex="-1"></a>        final_cumhaz <span class="ot">&lt;-</span> score_full_cumhaz[<span class="fu">nrow</span>(score_survfit<span class="sc">$</span>cumhaz),]</span>
+<span id="cb97-361"><a href="testing.html#cb97-361" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb97-362"><a href="testing.html#cb97-362" aria-hidden="true" tabindex="-1"></a>        group_factor <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(final_cumhaz))</span>
+<span id="cb97-363"><a href="testing.html#cb97-363" aria-hidden="true" tabindex="-1"></a>        group_factor[final_cumhaz <span class="sc">&lt;</span> <span class="fu">quantile</span>(final_cumhaz, <span class="fl">0.2</span>)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb97-364"><a href="testing.html#cb97-364" aria-hidden="true" tabindex="-1"></a>        group_factor[final_cumhaz <span class="sc">&gt;</span> <span class="fu">quantile</span>(final_cumhaz, <span class="fl">0.8</span>)] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb97-365"><a href="testing.html#cb97-365" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb97-366"><a href="testing.html#cb97-366" aria-hidden="true" tabindex="-1"></a>        score_avg_cumhaz <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">time =</span> score_survfit<span class="sc">$</span>time,</span>
+<span id="cb97-367"><a href="testing.html#cb97-367" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">mean_lo =</span> <span class="fu">apply</span>(score_full_cumhaz[,group_factor<span class="sc">==</span><span class="dv">0</span>], <span class="dv">1</span>, mean),</span>
+<span id="cb97-368"><a href="testing.html#cb97-368" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">mean_mid =</span> <span class="fu">apply</span>(score_full_cumhaz[,group_factor<span class="sc">==</span><span class="dv">1</span>], <span class="dv">1</span>, mean),</span>
+<span id="cb97-369"><a href="testing.html#cb97-369" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">mean_hi =</span> <span class="fu">apply</span>(score_full_cumhaz[,group_factor<span class="sc">==</span><span class="dv">2</span>], <span class="dv">1</span>, mean),</span>
+<span id="cb97-370"><a href="testing.html#cb97-370" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">sd_lo =</span> <span class="fu">apply</span>(score_full_cumhaz[,group_factor<span class="sc">==</span><span class="dv">0</span>], <span class="dv">1</span>, sd),</span>
+<span id="cb97-371"><a href="testing.html#cb97-371" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">sd_mid =</span> <span class="fu">apply</span>(score_full_cumhaz[,group_factor<span class="sc">==</span><span class="dv">1</span>], <span class="dv">1</span>, sd),</span>
+<span id="cb97-372"><a href="testing.html#cb97-372" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">sd_hi =</span> <span class="fu">apply</span>(score_full_cumhaz[,group_factor<span class="sc">==</span><span class="dv">2</span>], <span class="dv">1</span>, sd))</span>
+<span id="cb97-373"><a href="testing.html#cb97-373" aria-hidden="true" tabindex="-1"></a>        score_avg_cumhaz <span class="ot">&lt;-</span> score_avg_cumhaz[<span class="sc">!</span><span class="fu">duplicated</span>(score_avg_cumhaz<span class="sc">$</span>mean_mid),]</span>
+<span id="cb97-374"><a href="testing.html#cb97-374" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> <span class="cf">if</span>(subrate_style <span class="sc">==</span> <span class="st">&quot;fast&quot;</span>){ </span>
+<span id="cb97-375"><a href="testing.html#cb97-375" aria-hidden="true" tabindex="-1"></a>        <span class="co">#FAST</span></span>
+<span id="cb97-376"><a href="testing.html#cb97-376" aria-hidden="true" tabindex="-1"></a>        group_list <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb97-377"><a href="testing.html#cb97-377" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(<span class="fu">names</span>(score_mod<span class="sc">$</span>coef))){</span>
+<span id="cb97-378"><a href="testing.html#cb97-378" aria-hidden="true" tabindex="-1"></a>         group_list[[k]] <span class="ot">&lt;-</span>  <span class="fu">as.numeric</span>(<span class="fu">quantile</span>(surv_df_train[[<span class="fu">names</span>(score_mod<span class="sc">$</span>coef)[k]]], <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span>)))</span>
+<span id="cb97-379"><a href="testing.html#cb97-379" aria-hidden="true" tabindex="-1"></a>         <span class="cf">if</span>(<span class="fu">sign</span>(score_mod<span class="sc">$</span>coef[k] <span class="sc">==</span> <span class="sc">-</span><span class="dv">1</span>)){</span>
+<span id="cb97-380"><a href="testing.html#cb97-380" aria-hidden="true" tabindex="-1"></a>          group_list[[k]] <span class="ot">&lt;-</span> <span class="fu">rev</span>(group_list[[k]])</span>
+<span id="cb97-381"><a href="testing.html#cb97-381" aria-hidden="true" tabindex="-1"></a>         }</span>
+<span id="cb97-382"><a href="testing.html#cb97-382" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb97-383"><a href="testing.html#cb97-383" aria-hidden="true" tabindex="-1"></a>        mean_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">do.call</span>(<span class="st">&quot;cbind&quot;</span>, group_list))</span>
+<span id="cb97-384"><a href="testing.html#cb97-384" aria-hidden="true" tabindex="-1"></a>        <span class="fu">colnames</span>(mean_df) <span class="ot">&lt;-</span> <span class="fu">names</span>(score_mod<span class="sc">$</span>coef)</span>
+<span id="cb97-385"><a href="testing.html#cb97-385" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(<span class="fu">sign</span>(score_mod<span class="sc">$</span>coef[<span class="dv">2</span>]) <span class="sc">==</span> <span class="sc">-</span><span class="dv">1</span>){</span>
+<span id="cb97-386"><a href="testing.html#cb97-386" aria-hidden="true" tabindex="-1"></a>         mean_df<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.9</span>, <span class="fl">0.5</span>, <span class="fl">0.1</span>)</span>
+<span id="cb97-387"><a href="testing.html#cb97-387" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
+<span id="cb97-388"><a href="testing.html#cb97-388" aria-hidden="true" tabindex="-1"></a>         mean_df<span class="sc">$</span>sex <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.9</span>)</span>
+<span id="cb97-389"><a href="testing.html#cb97-389" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb97-390"><a href="testing.html#cb97-390" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb97-391"><a href="testing.html#cb97-391" aria-hidden="true" tabindex="-1"></a>        score_pred <span class="ot">&lt;-</span> <span class="fu">survfit</span>(score_mod, <span class="at">newdata =</span> mean_df)</span>
+<span id="cb97-392"><a href="testing.html#cb97-392" aria-hidden="true" tabindex="-1"></a>        score_full_cumhaz <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb97-393"><a href="testing.html#cb97-393" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb97-394"><a href="testing.html#cb97-394" aria-hidden="true" tabindex="-1"></a>        score_avg_cumhaz <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(score_pred<span class="sc">$</span>time, score_pred<span class="sc">$</span>cumhaz, score_pred<span class="sc">$</span>std.err)</span>
+<span id="cb97-395"><a href="testing.html#cb97-395" aria-hidden="true" tabindex="-1"></a>        <span class="fu">colnames</span>(score_avg_cumhaz) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;time&quot;</span>, <span class="st">&quot;mean_lo&quot;</span>, <span class="st">&quot;mean_mid&quot;</span>, <span class="st">&quot;mean_hi&quot;</span>, <span class="st">&quot;sd_lo&quot;</span>, <span class="st">&quot;sd_mid&quot;</span>, <span class="st">&quot;sd_hi&quot;</span>)</span>
+<span id="cb97-396"><a href="testing.html#cb97-396" aria-hidden="true" tabindex="-1"></a>        score_avg_cumhaz <span class="ot">&lt;-</span> score_avg_cumhaz[<span class="sc">!</span><span class="fu">duplicated</span>(score_avg_cumhaz<span class="sc">$</span>mean_mid),]</span>
+<span id="cb97-397"><a href="testing.html#cb97-397" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb97-398"><a href="testing.html#cb97-398" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb97-399"><a href="testing.html#cb97-399" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb97-400"><a href="testing.html#cb97-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-401"><a href="testing.html#cb97-401" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Set up the normal model data</span></span>
+<span id="cb97-402"><a href="testing.html#cb97-402" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="st">&quot;normal&quot;</span>)</span>
+<span id="cb97-403"><a href="testing.html#cb97-403" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb97-404"><a href="testing.html#cb97-404" aria-hidden="true" tabindex="-1"></a>    <span class="do">###########################################################</span></span>
+<span id="cb97-405"><a href="testing.html#cb97-405" aria-hidden="true" tabindex="-1"></a>    <span class="co">#                    NORMAL MODELS                        #</span></span>
+<span id="cb97-406"><a href="testing.html#cb97-406" aria-hidden="true" tabindex="-1"></a>    <span class="do">###########################################################</span></span>
+<span id="cb97-407"><a href="testing.html#cb97-407" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-408"><a href="testing.html#cb97-408" aria-hidden="true" tabindex="-1"></a>    base_mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">as.formula</span>(<span class="fu">paste0</span>(<span class="st">&quot;pheno ~ &quot;</span>, base_covars)), <span class="at">data =</span> df_train, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb97-409"><a href="testing.html#cb97-409" aria-hidden="true" tabindex="-1"></a>    base_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(base_mod, df_test)</span>
+<span id="cb97-410"><a href="testing.html#cb97-410" aria-hidden="true" tabindex="-1"></a>    base_roc <span class="ot">&lt;-</span> <span class="fu">roc</span>(df_test<span class="sc">$</span>pheno <span class="sc">~</span> base_pred, <span class="at">quiet=</span>T)</span>
+<span id="cb97-411"><a href="testing.html#cb97-411" aria-hidden="true" tabindex="-1"></a>    base_auc <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">ci.auc</span>(base_roc))</span>
+<span id="cb97-412"><a href="testing.html#cb97-412" aria-hidden="true" tabindex="-1"></a>    base_pr <span class="ot">&lt;-</span> <span class="fu">pr.curve</span>(<span class="at">scores.class0 =</span> base_pred, <span class="at">weights.class0 =</span> df_test<span class="sc">$</span>pheno, <span class="at">curve =</span> T)</span>
+<span id="cb97-413"><a href="testing.html#cb97-413" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-414"><a href="testing.html#cb97-414" aria-hidden="true" tabindex="-1"></a>    <span class="co"># NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW</span></span>
+<span id="cb97-415"><a href="testing.html#cb97-415" aria-hidden="true" tabindex="-1"></a>    <span class="co"># if there are additional covariates then I should create a model that includes these covariates</span></span>
+<span id="cb97-416"><a href="testing.html#cb97-416" aria-hidden="true" tabindex="-1"></a>    <span class="co"># then with this model form a complementary prediction from which ROC and PR curves can be drawn</span></span>
+<span id="cb97-417"><a href="testing.html#cb97-417" aria-hidden="true" tabindex="-1"></a>    <span class="co"># this is the same process that happens in the odds ratio for loop after if(run_extra_covar) ...</span></span>
+<span id="cb97-418"><a href="testing.html#cb97-418" aria-hidden="true" tabindex="-1"></a>    <span class="co"># NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW</span></span>
+<span id="cb97-419"><a href="testing.html#cb97-419" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(run_extra_covar){</span>
+<span id="cb97-420"><a href="testing.html#cb97-420" aria-hidden="true" tabindex="-1"></a>      df_train_extra <span class="ot">&lt;-</span> df_train[<span class="fu">complete.cases</span>(df_train),]</span>
+<span id="cb97-421"><a href="testing.html#cb97-421" aria-hidden="true" tabindex="-1"></a>      df_test_extra <span class="ot">&lt;-</span> df_test[<span class="fu">complete.cases</span>(df_test),]</span>
+<span id="cb97-422"><a href="testing.html#cb97-422" aria-hidden="true" tabindex="-1"></a>      extra_base_mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">as.formula</span>(<span class="fu">paste0</span>(<span class="st">&quot;pheno ~ &quot;</span>, base_covars, <span class="st">&quot;+&quot;</span>, <span class="fu">paste</span>(<span class="fu">colnames</span>(extra_covar), <span class="at">collapse =</span> <span class="st">&quot;+&quot;</span>))), <span class="at">data =</span> df_train_extra, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb97-423"><a href="testing.html#cb97-423" aria-hidden="true" tabindex="-1"></a>      extra_base_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(extra_base_mod, df_test_extra)</span>
+<span id="cb97-424"><a href="testing.html#cb97-424" aria-hidden="true" tabindex="-1"></a>      extra_base_roc <span class="ot">&lt;-</span> <span class="fu">roc</span>(df_test_extra<span class="sc">$</span>pheno <span class="sc">~</span> extra_base_pred, <span class="at">quiet=</span>T)</span>
+<span id="cb97-425"><a href="testing.html#cb97-425" aria-hidden="true" tabindex="-1"></a>      extra_base_auc <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">ci.auc</span>(extra_base_roc))</span>
+<span id="cb97-426"><a href="testing.html#cb97-426" aria-hidden="true" tabindex="-1"></a>      extra_base_pr <span class="ot">&lt;-</span> <span class="fu">pr.curve</span>(<span class="at">scores.class0 =</span> extra_base_pred, <span class="at">weights.class0 =</span> df_test_extra<span class="sc">$</span>pheno, <span class="at">curve =</span> T)</span>
+<span id="cb97-427"><a href="testing.html#cb97-427" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb97-428"><a href="testing.html#cb97-428" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-429"><a href="testing.html#cb97-429" aria-hidden="true" tabindex="-1"></a>    all_base_odds_ratio <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">6</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb97-430"><a href="testing.html#cb97-430" aria-hidden="true" tabindex="-1"></a>    all_extra_base_odds_ratio <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">6</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb97-431"><a href="testing.html#cb97-431" aria-hidden="true" tabindex="-1"></a>    k <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb97-432"><a href="testing.html#cb97-432" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(cut_off <span class="cf">in</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span>, <span class="fl">0.99</span>, <span class="fl">0.995</span>)){</span>
+<span id="cb97-433"><a href="testing.html#cb97-433" aria-hidden="true" tabindex="-1"></a>      base_group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(base_pred))</span>
+<span id="cb97-434"><a href="testing.html#cb97-434" aria-hidden="true" tabindex="-1"></a>      base_group[base_pred <span class="sc">&lt;</span> <span class="fu">quantile</span>(base_pred, <span class="fl">0.2</span>)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb97-435"><a href="testing.html#cb97-435" aria-hidden="true" tabindex="-1"></a>      base_group[base_pred <span class="sc">&gt;</span> <span class="fu">quantile</span>(base_pred, cut_off)] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb97-436"><a href="testing.html#cb97-436" aria-hidden="true" tabindex="-1"></a>      base_odds_table <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fu">sum</span>(df_test<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> base_group <span class="sc">==</span> <span class="dv">2</span>), <span class="fu">sum</span>(df_test<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> base_group <span class="sc">==</span> <span class="dv">2</span>),</span>
+<span id="cb97-437"><a href="testing.html#cb97-437" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">sum</span>(df_test<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> base_group <span class="sc">==</span> <span class="dv">0</span>), <span class="fu">sum</span>(df_test<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> base_group <span class="sc">==</span> <span class="dv">0</span>)), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb97-438"><a href="testing.html#cb97-438" aria-hidden="true" tabindex="-1"></a>      base_odds_ratio <span class="ot">&lt;-</span> <span class="fu">oddsratio.wald</span>(base_odds_table)</span>
+<span id="cb97-439"><a href="testing.html#cb97-439" aria-hidden="true" tabindex="-1"></a>      all_base_odds_ratio[k,] <span class="ot">&lt;-</span> base_odds_ratio<span class="sc">$</span>measure[<span class="dv">2</span>,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>)]</span>
+<span id="cb97-440"><a href="testing.html#cb97-440" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-441"><a href="testing.html#cb97-441" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(run_extra_covar){</span>
+<span id="cb97-442"><a href="testing.html#cb97-442" aria-hidden="true" tabindex="-1"></a>        base_group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(extra_base_pred))</span>
+<span id="cb97-443"><a href="testing.html#cb97-443" aria-hidden="true" tabindex="-1"></a>        base_group[extra_base_pred <span class="sc">&lt;</span> <span class="fu">quantile</span>(extra_base_pred, <span class="fl">0.2</span>)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb97-444"><a href="testing.html#cb97-444" aria-hidden="true" tabindex="-1"></a>        base_group[extra_base_pred <span class="sc">&gt;</span> <span class="fu">quantile</span>(extra_base_pred, cut_off)] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb97-445"><a href="testing.html#cb97-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-446"><a href="testing.html#cb97-446" aria-hidden="true" tabindex="-1"></a>        base_odds_table <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fu">sum</span>(df_test_extra<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> base_group <span class="sc">==</span> <span class="dv">2</span>), <span class="fu">sum</span>(df_test_extra<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> base_group <span class="sc">==</span> <span class="dv">2</span>),</span>
+<span id="cb97-447"><a href="testing.html#cb97-447" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">sum</span>(df_test_extra<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> base_group <span class="sc">==</span> <span class="dv">0</span>), <span class="fu">sum</span>(df_test_extra<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> base_group <span class="sc">==</span> <span class="dv">0</span>)), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb97-448"><a href="testing.html#cb97-448" aria-hidden="true" tabindex="-1"></a>        base_odds_ratio <span class="ot">&lt;-</span> <span class="fu">oddsratio.wald</span>(base_odds_table)</span>
+<span id="cb97-449"><a href="testing.html#cb97-449" aria-hidden="true" tabindex="-1"></a>        all_extra_base_odds_ratio[k,] <span class="ot">&lt;-</span> base_odds_ratio<span class="sc">$</span>measure[<span class="dv">2</span>,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>)]</span>
+<span id="cb97-450"><a href="testing.html#cb97-450" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb97-451"><a href="testing.html#cb97-451" aria-hidden="true" tabindex="-1"></a>      k <span class="ot">&lt;-</span> k <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb97-452"><a href="testing.html#cb97-452" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb97-453"><a href="testing.html#cb97-453" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb97-454"><a href="testing.html#cb97-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-455"><a href="testing.html#cb97-455" aria-hidden="true" tabindex="-1"></a>      <span class="co">#Make the model</span></span>
+<span id="cb97-456"><a href="testing.html#cb97-456" aria-hidden="true" tabindex="-1"></a>      score_mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">as.formula</span>(<span class="fu">paste0</span>(<span class="st">&quot;pheno ~&quot;</span>, base_covars, <span class="st">&quot; + score&quot;</span>)), <span class="at">data =</span> df_train, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb97-457"><a href="testing.html#cb97-457" aria-hidden="true" tabindex="-1"></a>      score_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(score_mod, df_test)</span>
+<span id="cb97-458"><a href="testing.html#cb97-458" aria-hidden="true" tabindex="-1"></a>      <span class="co"># NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW</span></span>
+<span id="cb97-459"><a href="testing.html#cb97-459" aria-hidden="true" tabindex="-1"></a>      <span class="co"># just here as above we create models similar to the basic score model, although now we need additional covariates</span></span>
+<span id="cb97-460"><a href="testing.html#cb97-460" aria-hidden="true" tabindex="-1"></a>      <span class="co"># the first if statements will add extra covariates to this mode, the second statement adds the extra scores</span></span>
+<span id="cb97-461"><a href="testing.html#cb97-461" aria-hidden="true" tabindex="-1"></a>      <span class="co"># This series if statements will come up again several times after each type of statistic is prepared (AUC, OR, PR)</span></span>
+<span id="cb97-462"><a href="testing.html#cb97-462" aria-hidden="true" tabindex="-1"></a>      <span class="co"># NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW NEW</span></span>
+<span id="cb97-463"><a href="testing.html#cb97-463" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(run_extra_covar){</span>
+<span id="cb97-464"><a href="testing.html#cb97-464" aria-hidden="true" tabindex="-1"></a>        extra_score_mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">as.formula</span>(<span class="fu">paste0</span>(<span class="st">&quot;pheno ~ &quot;</span>, base_covars, <span class="st">&quot; + score +&quot;</span>, <span class="fu">paste</span>(<span class="fu">colnames</span>(extra_covar), <span class="at">collapse =</span> <span class="st">&quot;+&quot;</span>))), <span class="at">data =</span> df_train_extra, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb97-465"><a href="testing.html#cb97-465" aria-hidden="true" tabindex="-1"></a>        extra_score_pred <span class="ot">&lt;-</span> <span class="fu">predict</span>(extra_score_mod, df_test_extra)      </span>
+<span id="cb97-466"><a href="testing.html#cb97-466" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb97-467"><a href="testing.html#cb97-467" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(run_other_scores){</span>
+<span id="cb97-468"><a href="testing.html#cb97-468" aria-hidden="true" tabindex="-1"></a>        all_other_score_mod <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb97-469"><a href="testing.html#cb97-469" aria-hidden="true" tabindex="-1"></a>        all_other_score_pred <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb97-470"><a href="testing.html#cb97-470" aria-hidden="true" tabindex="-1"></a>        all_other_score_roc <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb97-471"><a href="testing.html#cb97-471" aria-hidden="true" tabindex="-1"></a>        all_other_score_auc <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb97-472"><a href="testing.html#cb97-472" aria-hidden="true" tabindex="-1"></a>        all_other_score_pr <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb97-473"><a href="testing.html#cb97-473" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(other_scores)){</span>
+<span id="cb97-474"><a href="testing.html#cb97-474" aria-hidden="true" tabindex="-1"></a>          all_other_score_mod[[k]] <span class="ot">&lt;-</span> <span class="fu">glm</span>(<span class="fu">as.formula</span>(<span class="fu">paste0</span>(<span class="st">&quot;pheno ~ &quot;</span>, base_covars, <span class="st">&quot; + &quot;</span>, <span class="fu">colnames</span>(other_scores)[k])), <span class="at">data =</span> df_train, <span class="at">family =</span> <span class="st">&quot;binomial&quot;</span>)</span>
+<span id="cb97-475"><a href="testing.html#cb97-475" aria-hidden="true" tabindex="-1"></a>          all_other_score_pred[[k]] <span class="ot">&lt;-</span> <span class="fu">predict</span>(all_other_score_mod[[k]], df_test)</span>
+<span id="cb97-476"><a href="testing.html#cb97-476" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb97-477"><a href="testing.html#cb97-477" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb97-478"><a href="testing.html#cb97-478" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb97-479"><a href="testing.html#cb97-479" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-480"><a href="testing.html#cb97-480" aria-hidden="true" tabindex="-1"></a>      <span class="co"># AUC #####################################</span></span>
+<span id="cb97-481"><a href="testing.html#cb97-481" aria-hidden="true" tabindex="-1"></a>      score_roc <span class="ot">&lt;-</span> <span class="fu">roc</span>(df_test<span class="sc">$</span>pheno <span class="sc">~</span> score_pred, <span class="at">quiet=</span>T)</span>
+<span id="cb97-482"><a href="testing.html#cb97-482" aria-hidden="true" tabindex="-1"></a>      score_auc <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">ci.auc</span>(score_roc))</span>
+<span id="cb97-483"><a href="testing.html#cb97-483" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(run_extra_covar){</span>
+<span id="cb97-484"><a href="testing.html#cb97-484" aria-hidden="true" tabindex="-1"></a>        extra_score_roc <span class="ot">&lt;-</span> <span class="fu">roc</span>(df_test_extra<span class="sc">$</span>pheno <span class="sc">~</span> extra_score_pred, <span class="at">quiet=</span>T)</span>
+<span id="cb97-485"><a href="testing.html#cb97-485" aria-hidden="true" tabindex="-1"></a>        extra_score_auc <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">ci.auc</span>(extra_score_roc))</span>
+<span id="cb97-486"><a href="testing.html#cb97-486" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb97-487"><a href="testing.html#cb97-487" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(run_other_scores){</span>
+<span id="cb97-488"><a href="testing.html#cb97-488" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(other_scores)){</span>
+<span id="cb97-489"><a href="testing.html#cb97-489" aria-hidden="true" tabindex="-1"></a>          all_other_score_roc[[k]] <span class="ot">&lt;-</span> <span class="fu">roc</span>(df_test<span class="sc">$</span>pheno <span class="sc">~</span> all_other_score_pred[[k]], <span class="at">quiet=</span>T)</span>
+<span id="cb97-490"><a href="testing.html#cb97-490" aria-hidden="true" tabindex="-1"></a>          all_other_score_auc[[k]] <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">ci.auc</span>(all_other_score_roc[[k]]))</span>
+<span id="cb97-491"><a href="testing.html#cb97-491" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb97-492"><a href="testing.html#cb97-492" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb97-493"><a href="testing.html#cb97-493" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-494"><a href="testing.html#cb97-494" aria-hidden="true" tabindex="-1"></a>      <span class="co"># PR #####################################</span></span>
+<span id="cb97-495"><a href="testing.html#cb97-495" aria-hidden="true" tabindex="-1"></a>      score_pr <span class="ot">&lt;-</span> <span class="fu">pr.curve</span>(<span class="at">scores.class0 =</span> score_pred, <span class="at">weights.class0 =</span> df<span class="sc">$</span>pheno, <span class="at">curve =</span> T)</span>
+<span id="cb97-496"><a href="testing.html#cb97-496" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(run_extra_covar){</span>
+<span id="cb97-497"><a href="testing.html#cb97-497" aria-hidden="true" tabindex="-1"></a>        extra_score_pr <span class="ot">&lt;-</span> <span class="fu">pr.curve</span>(<span class="at">scores.class0 =</span> extra_score_pred, <span class="at">weights.class0 =</span> df_test_extra<span class="sc">$</span>pheno, <span class="at">curve =</span> T)  </span>
+<span id="cb97-498"><a href="testing.html#cb97-498" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb97-499"><a href="testing.html#cb97-499" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(run_other_scores){</span>
+<span id="cb97-500"><a href="testing.html#cb97-500" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span>(k <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(other_scores)){</span>
+<span id="cb97-501"><a href="testing.html#cb97-501" aria-hidden="true" tabindex="-1"></a>          all_other_score_pr[[k]] <span class="ot">&lt;-</span> <span class="fu">pr.curve</span>(<span class="at">scores.class0 =</span> all_other_score_pred[[k]], <span class="at">weights.class0 =</span> df_test<span class="sc">$</span>pheno, <span class="at">curve =</span> T)</span>
+<span id="cb97-502"><a href="testing.html#cb97-502" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb97-503"><a href="testing.html#cb97-503" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb97-504"><a href="testing.html#cb97-504" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-505"><a href="testing.html#cb97-505" aria-hidden="true" tabindex="-1"></a>      <span class="co"># ODDS RATIO #############################</span></span>
+<span id="cb97-506"><a href="testing.html#cb97-506" aria-hidden="true" tabindex="-1"></a>      all_other_score_odds_ratio <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">list</span>(<span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">6</span>, <span class="at">ncol =</span> <span class="dv">3</span>)), <span class="fu">ncol</span>(other_scores))</span>
+<span id="cb97-507"><a href="testing.html#cb97-507" aria-hidden="true" tabindex="-1"></a>      all_extra_score_odds_ratio <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">6</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb97-508"><a href="testing.html#cb97-508" aria-hidden="true" tabindex="-1"></a>      all_score_odds_ratio <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="dv">6</span>, <span class="at">ncol =</span> <span class="dv">3</span>)</span>
+<span id="cb97-509"><a href="testing.html#cb97-509" aria-hidden="true" tabindex="-1"></a>      k <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb97-510"><a href="testing.html#cb97-510" aria-hidden="true" tabindex="-1"></a>      <span class="cf">for</span>(cut_off <span class="cf">in</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span>, <span class="fl">0.99</span>, <span class="fl">0.995</span>)){</span>
+<span id="cb97-511"><a href="testing.html#cb97-511" aria-hidden="true" tabindex="-1"></a>        score_group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(score_pred))</span>
+<span id="cb97-512"><a href="testing.html#cb97-512" aria-hidden="true" tabindex="-1"></a>        score_group[score_pred <span class="sc">&lt;</span> <span class="fu">quantile</span>(score_pred, <span class="fl">0.2</span>)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb97-513"><a href="testing.html#cb97-513" aria-hidden="true" tabindex="-1"></a>        score_group[score_pred <span class="sc">&gt;</span> <span class="fu">quantile</span>(score_pred, cut_off)] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb97-514"><a href="testing.html#cb97-514" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb97-515"><a href="testing.html#cb97-515" aria-hidden="true" tabindex="-1"></a>        score_odds_table <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fu">sum</span>(df_test<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> score_group <span class="sc">==</span> <span class="dv">2</span>), <span class="fu">sum</span>(df_test<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> score_group <span class="sc">==</span> <span class="dv">2</span>),</span>
+<span id="cb97-516"><a href="testing.html#cb97-516" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">sum</span>(df_test<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> score_group <span class="sc">==</span> <span class="dv">0</span>), <span class="fu">sum</span>(df_test<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> score_group <span class="sc">==</span> <span class="dv">0</span>)), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb97-517"><a href="testing.html#cb97-517" aria-hidden="true" tabindex="-1"></a>        score_odds_ratio <span class="ot">&lt;-</span> <span class="fu">oddsratio.wald</span>(score_odds_table)</span>
+<span id="cb97-518"><a href="testing.html#cb97-518" aria-hidden="true" tabindex="-1"></a>        all_score_odds_ratio[k,] <span class="ot">&lt;-</span> score_odds_ratio<span class="sc">$</span>measure[<span class="dv">2</span>,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>)]</span>
+<span id="cb97-519"><a href="testing.html#cb97-519" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-520"><a href="testing.html#cb97-520" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(run_extra_covar){</span>
+<span id="cb97-521"><a href="testing.html#cb97-521" aria-hidden="true" tabindex="-1"></a>          score_group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(extra_score_pred))</span>
+<span id="cb97-522"><a href="testing.html#cb97-522" aria-hidden="true" tabindex="-1"></a>          score_group[extra_score_pred <span class="sc">&lt;</span> <span class="fu">quantile</span>(extra_score_pred, <span class="fl">0.2</span>)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb97-523"><a href="testing.html#cb97-523" aria-hidden="true" tabindex="-1"></a>          score_group[extra_score_pred <span class="sc">&gt;</span> <span class="fu">quantile</span>(extra_score_pred, cut_off)] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb97-524"><a href="testing.html#cb97-524" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-525"><a href="testing.html#cb97-525" aria-hidden="true" tabindex="-1"></a>          score_odds_table <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fu">sum</span>(df_test_extra<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> score_group <span class="sc">==</span> <span class="dv">2</span>), <span class="fu">sum</span>(df_test_extra<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> score_group <span class="sc">==</span> <span class="dv">2</span>),</span>
+<span id="cb97-526"><a href="testing.html#cb97-526" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">sum</span>(df_test_extra<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> score_group <span class="sc">==</span> <span class="dv">0</span>), <span class="fu">sum</span>(df_test_extra<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> score_group <span class="sc">==</span> <span class="dv">0</span>)), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb97-527"><a href="testing.html#cb97-527" aria-hidden="true" tabindex="-1"></a>          score_odds_ratio <span class="ot">&lt;-</span> <span class="fu">oddsratio.wald</span>(score_odds_table)</span>
+<span id="cb97-528"><a href="testing.html#cb97-528" aria-hidden="true" tabindex="-1"></a>          all_extra_score_odds_ratio[k,] <span class="ot">&lt;-</span> score_odds_ratio<span class="sc">$</span>measure[<span class="dv">2</span>,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>)]</span>
+<span id="cb97-529"><a href="testing.html#cb97-529" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb97-530"><a href="testing.html#cb97-530" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-531"><a href="testing.html#cb97-531" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span>(run_other_scores){</span>
+<span id="cb97-532"><a href="testing.html#cb97-532" aria-hidden="true" tabindex="-1"></a>          <span class="cf">for</span>(l <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(other_scores)){</span>
+<span id="cb97-533"><a href="testing.html#cb97-533" aria-hidden="true" tabindex="-1"></a>            score_group <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">length</span>(all_other_score_pred[[l]]))</span>
+<span id="cb97-534"><a href="testing.html#cb97-534" aria-hidden="true" tabindex="-1"></a>            score_group[all_other_score_pred[[l]] <span class="sc">&lt;</span> <span class="fu">quantile</span>(all_other_score_pred[[l]], <span class="fl">0.2</span>)] <span class="ot">&lt;-</span> <span class="dv">0</span></span>
+<span id="cb97-535"><a href="testing.html#cb97-535" aria-hidden="true" tabindex="-1"></a>            score_group[all_other_score_pred[[l]] <span class="sc">&gt;</span> <span class="fu">quantile</span>(all_other_score_pred[[l]], cut_off)] <span class="ot">&lt;-</span> <span class="dv">2</span></span>
+<span id="cb97-536"><a href="testing.html#cb97-536" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-537"><a href="testing.html#cb97-537" aria-hidden="true" tabindex="-1"></a>            score_odds_table <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fu">sum</span>(df_test<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> score_group <span class="sc">==</span> <span class="dv">2</span>), <span class="fu">sum</span>(df_test<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> score_group <span class="sc">==</span> <span class="dv">2</span>),</span>
+<span id="cb97-538"><a href="testing.html#cb97-538" aria-hidden="true" tabindex="-1"></a>                           <span class="fu">sum</span>(df_test<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">1</span> <span class="sc">&amp;</span> score_group <span class="sc">==</span> <span class="dv">0</span>), <span class="fu">sum</span>(df_test<span class="sc">$</span>pheno <span class="sc">==</span> <span class="dv">0</span> <span class="sc">&amp;</span> score_group <span class="sc">==</span> <span class="dv">0</span>)), <span class="at">nrow =</span> <span class="dv">2</span>)</span>
+<span id="cb97-539"><a href="testing.html#cb97-539" aria-hidden="true" tabindex="-1"></a>            score_odds_ratio <span class="ot">&lt;-</span> <span class="fu">oddsratio.wald</span>(score_odds_table)</span>
+<span id="cb97-540"><a href="testing.html#cb97-540" aria-hidden="true" tabindex="-1"></a>            all_other_score_odds_ratio[[l]][k,] <span class="ot">&lt;-</span> score_odds_ratio<span class="sc">$</span>measure[<span class="dv">2</span>,<span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">3</span>)]</span>
+<span id="cb97-541"><a href="testing.html#cb97-541" aria-hidden="true" tabindex="-1"></a>          }</span>
+<span id="cb97-542"><a href="testing.html#cb97-542" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb97-543"><a href="testing.html#cb97-543" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-544"><a href="testing.html#cb97-544" aria-hidden="true" tabindex="-1"></a>        k <span class="ot">&lt;-</span> k <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb97-545"><a href="testing.html#cb97-545" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb97-546"><a href="testing.html#cb97-546" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb97-547"><a href="testing.html#cb97-547" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-548"><a href="testing.html#cb97-548" aria-hidden="true" tabindex="-1"></a><span class="co">#Get answers together ##################################################</span></span>
+<span id="cb97-549"><a href="testing.html#cb97-549" aria-hidden="true" tabindex="-1"></a><span class="co">#previously also held the base_full_cumhaz but memory gets to be alot</span></span>
+<span id="cb97-550"><a href="testing.html#cb97-550" aria-hidden="true" tabindex="-1"></a>all_base_holder <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&quot;conc&quot;</span> <span class="ot">=</span> base_conc, <span class="st">&quot;survfit&quot;</span> <span class="ot">=</span> base_avg_cumhaz, <span class="st">&quot;auc&quot;</span> <span class="ot">=</span> <span class="fu">list</span>(base_roc, base_auc), <span class="st">&quot;or&quot;</span> <span class="ot">=</span> all_base_odds_ratio, <span class="st">&quot;pr&quot;</span> <span class="ot">=</span> base_pr)</span>
+<span id="cb97-551"><a href="testing.html#cb97-551" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(run_extra_covar){</span>
+<span id="cb97-552"><a href="testing.html#cb97-552" aria-hidden="true" tabindex="-1"></a>  all_extra_holder <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&quot;base_auc&quot;</span> <span class="ot">=</span> <span class="fu">list</span>(extra_base_roc, extra_base_auc), <span class="st">&quot;base_pr&quot;</span> <span class="ot">=</span> extra_base_pr, <span class="st">&quot;base_or&quot;</span> <span class="ot">=</span> all_extra_base_odds_ratio, <span class="st">&quot;auc&quot;</span> <span class="ot">=</span> <span class="fu">list</span>(extra_score_roc, extra_score_auc), <span class="st">&quot;pr&quot;</span> <span class="ot">=</span> extra_score_pr, <span class="st">&quot;or&quot;</span> <span class="ot">=</span> all_extra_score_odds_ratio)</span>
+<span id="cb97-553"><a href="testing.html#cb97-553" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb97-554"><a href="testing.html#cb97-554" aria-hidden="true" tabindex="-1"></a>  all_extra_holder <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="cn">NULL</span>)</span>
+<span id="cb97-555"><a href="testing.html#cb97-555" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb97-556"><a href="testing.html#cb97-556" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-557"><a href="testing.html#cb97-557" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span>(run_other_scores){</span>
+<span id="cb97-558"><a href="testing.html#cb97-558" aria-hidden="true" tabindex="-1"></a>  all_other_holder <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&quot;auc&quot;</span> <span class="ot">=</span> <span class="fu">list</span>(all_other_score_roc, all_other_score_auc), <span class="st">&quot;pr&quot;</span> <span class="ot">=</span> all_other_score_pr, <span class="st">&quot;or&quot;</span> <span class="ot">=</span> all_other_score_odds_ratio)</span>
+<span id="cb97-559"><a href="testing.html#cb97-559" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb97-560"><a href="testing.html#cb97-560" aria-hidden="true" tabindex="-1"></a>  all_other_holder <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="cn">NULL</span>)</span>
+<span id="cb97-561"><a href="testing.html#cb97-561" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb97-562"><a href="testing.html#cb97-562" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-563"><a href="testing.html#cb97-563" aria-hidden="true" tabindex="-1"></a>misc_info <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&quot;phen_method&quot;</span> <span class="ot">=</span> phen_method, <span class="st">&quot;subrate_style&quot;</span> <span class="ot">=</span> subrate_style, <span class="st">&quot;train_frac&quot;</span> <span class="ot">=</span> train_frac, <span class="st">&quot;score_method&quot;</span> <span class="ot">=</span> score_method)</span>
+<span id="cb97-564"><a href="testing.html#cb97-564" aria-hidden="true" tabindex="-1"></a>final_obj <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="st">&quot;conc&quot;</span> <span class="ot">=</span> score_conc, <span class="st">&quot;survfit&quot;</span> <span class="ot">=</span> score_avg_cumhaz, <span class="st">&quot;auc&quot;</span> <span class="ot">=</span> <span class="fu">list</span>(score_roc, score_auc), <span class="st">&quot;or&quot;</span> <span class="ot">=</span> all_score_odds_ratio, <span class="st">&quot;pr&quot;</span> <span class="ot">=</span> score_pr, <span class="st">&quot;base&quot;</span> <span class="ot">=</span> all_base_holder, <span class="st">&quot;score_names&quot;</span> <span class="ot">=</span> best_score, <span class="st">&quot;misc&quot;</span> <span class="ot">=</span> misc_info, <span class="st">&quot;extra&quot;</span> <span class="ot">=</span> all_extra_holder, <span class="st">&quot;other&quot;</span> <span class="ot">=</span> all_other_holder)</span>
+<span id="cb97-565"><a href="testing.html#cb97-565" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(final_obj, <span class="fu">paste0</span>(<span class="st">&quot;final_stats/&quot;</span>, author, <span class="st">&quot;_res.RDS&quot;</span>))</span></code></pre></div>
+</div>
+<div id="plotting-1" class="section level2" number="9.2">
+<h2><span class="header-section-number">9.2</span> Plotting</h2>
+<p>Once again, the plotting process of testing is very similar to the plotting process of tuning. There are a few notable diffrences however. First, we now need to (possibly) plot added covariates or scores. Second, as we only have one score per disease we can go into greater analytical detail of how the score is working. Since these two differences lead to structurally diffrence code I will briefly break up the larger script and explain what has been done.</p>
+<div id="concordance" class="section level3" number="9.2.1">
+<h3><span class="header-section-number">9.2.1</span> Concordance</h3>
+<p>The first plot compared the concordance value of nested cox-proportional hazard models. The smaller model includes age, sex, 10 PCs and the larger model also includes the polygenic risk score. In the effort to keep things simpler, I went super simple and just have two points with error bars.</p>
+<p>CODE GOES HERE</p>
+<div class="figure"><span id="fig:unnamed-chunk-86"></span>
+<img src="images/christophersen.conc.test.png" alt="Testing comparison of concordance values" width="100%" />
+<p class="caption">
+Figure 9.1: Testing comparison of concordance values
+</p>
+</div>
+</div>
+<div id="survival-curve-fit" class="section level3" number="9.2.2">
+<h3><span class="header-section-number">9.2.2</span> Survival Curve Fit</h3>
+<p>The second set of plots attempt to display the full set of fit survival curves. Previously in the tuning section this type of object could have breen created two ways. The first, fast way, by looking at people with average covariates other than the score which is given definite quantiles; the second, slow way, fits every single person individually and the averages together the survival curves for groups of people that fall in different polygenic risk score quantiles. To make things more accurate we now only use the slower method, and instead of just showing the final time point of the fit curves we show the full curve (along with the end time point). Specifically, the first two plots show these averaged curves for different polygenic risk score quantiles, the first with a standard error cone and the second comparing the base and score model generated curves. The final plot compared the base and score models at the final timepoint.</p>
+<p>CODE GOES HERE</p>
+<div class="figure"><span id="fig:unnamed-chunk-87"></span>
+<img src="images/christophersen.survfit1.test.png" alt="Kaplain-Meier style curve stratified by polygenic risk score quantiles" width="100%" />
+<p class="caption">
+Figure 9.2: Kaplain-Meier style curve stratified by polygenic risk score quantiles
+</p>
+</div>
+<div class="figure"><span id="fig:unnamed-chunk-88"></span>
+<img src="images/christophersen.survfit2.test.png" alt="Kaplan-Meier style curves comparing groups stratified by polygenic risk score with two predictions, one that includes the score and one that does not, for each group" width="100%" />
+<p class="caption">
+Figure 9.3: Kaplan-Meier style curves comparing groups stratified by polygenic risk score with two predictions, one that includes the score and one that does not, for each group
+</p>
+</div>
+<div class="figure"><span id="fig:unnamed-chunk-89"></span>
+<img src="images/christophersen.survfit3.test.png" alt="The estimed risk for the final time point in the previous plot, including confidence intervals" width="100%" />
+<p class="caption">
+Figure 9.4: The estimed risk for the final time point in the previous plot, including confidence intervals
+</p>
+</div>
+</div>
+<div id="roc-and-auc" class="section level3" number="9.2.3">
+<h3><span class="header-section-number">9.2.3</span> ROC and AUC</h3>
+<p>The plots derived from the ROC curve are very similar to concordance. The only difference is the addition of a plot that shows the ROC curves, comparing the score and base models.</p>
+<p>CODE GOES HERE</p>
+<div class="figure"><span id="fig:unnamed-chunk-90"></span>
+<img src="images/christophersen.auc1.test.png" alt="Comparison of the base and polygenic risk score included models through their ROC curves" width="100%" />
+<p class="caption">
+Figure 9.5: Comparison of the base and polygenic risk score included models through their ROC curves
+</p>
+</div>
+<div class="figure"><span id="fig:unnamed-chunk-91"></span>
+<img src="images/christophersen.auc2.test.png" alt="Comparison of the AUC values and their confidence intervals of the previous two ROC curves" width="100%" />
+<p class="caption">
+Figure 9.6: Comparison of the AUC values and their confidence intervals of the previous two ROC curves
+</p>
+</div>
+</div>
+<div id="odds-ratios" class="section level3" number="9.2.4">
+<h3><span class="header-section-number">9.2.4</span> Odds Ratios</h3>
+<p>In the same theme as the last few plots the single odds ratio plot compares the odds ratio from both the score and base models. This plot differs from the tuning as it includes multiple cut-off values, or points in which the respective model risk probability was cut to create an “exposed” and “non-exposed” group.</p>
+<p>CODE GOES HERE</p>
+<div class="figure"><span id="fig:unnamed-chunk-92"></span>
+<img src="images/christophersen.or.test.png" alt="Comparison of odds ratios between the base and polygenic risk score included models" width="100%" />
+<p class="caption">
+Figure 9.7: Comparison of odds ratios between the base and polygenic risk score included models
+</p>
+</div>
+</div>
+<div id="pr-curves" class="section level3" number="9.2.5">
+<h3><span class="header-section-number">9.2.5</span> PR Curves</h3>
+<p>The plot for the PR Curves are completely novel relative to the tuning plots. However, the actual form of the plots is highly similar to the ROC plots, in the fact it compares the score and base model through curves. In this plot specifically the area under the PR curves is included as a caption.</p>
+<p>CODE GOES HERE</p>
+<div class="figure"><span id="fig:unnamed-chunk-93"></span>
+<img src="images/christophersen.pr.test.png" alt="Comparison of the PR curves, and the area there under, between the base and polygenic risk score included models" width="100%" />
+<p class="caption">
+Figure 9.8: Comparison of the PR curves, and the area there under, between the base and polygenic risk score included models
+</p>
+</div>
+</div>
+<div id="other-scores-1" class="section level3" number="9.2.6">
+<h3><span class="header-section-number">9.2.6</span> Other Scores</h3>
+<p>While I have tried very hard to make the polygenic risk score so far analyzed to be the best polygenic risk score possible, there were countless decisions I have made in this process that could have been made differently by other researchers. To determine whether or not those other decisions would have been better I have downloaded the polygenic risk scores from PGS Catalog, analyzed them then plotted just the AUC comparison. I figure showing the other statistics would be largely redundant. The simple plot is:</p>
+<p>CODE GOES HERE</p>
+<div class="figure"><span id="fig:unnamed-chunk-94"></span>
+<img src="images/christophersen.other.test.1.png" alt="Comparison of the internal polygenic risk score analyzed so far and an externally prepared score (by other researchers)" width="100%" />
+<p class="caption">
+Figure 9.9: Comparison of the internal polygenic risk score analyzed so far and an externally prepared score (by other researchers)
+</p>
+</div>
+</div>
+<div id="extra-covariates" class="section level3" number="9.2.7">
+<h3><span class="header-section-number">9.2.7</span> Extra Covariates</h3>
+<p>Even though I have computed the effect of extra covariates within a model and their impact on odds ratio and PR, I have elected to only plot their effect on AUC. The thinkning is that the effect of the extra covariates will likely be the same across statistics so this is just a neater way. For my single AUC plot I am producing a figure that is very similar to the previous AUC plot although now there are colors to denote whether the model includes the extra covariates on top of the base covariates.</p>
+<p>CODE GOES HERE</p>
+<div class="figure"><span id="fig:unnamed-chunk-95"></span>
+<img src="images/christophersen.extra.test.png" alt="Comparison of the base model with and without the polygenic risk score, and with and without additional possible risk factors" width="100%" />
+<p class="caption">
+Figure 9.10: Comparison of the base model with and without the polygenic risk score, and with and without additional possible risk factors
+</p>
+</div>
+</div>
+<div id="saving" class="section level3" number="9.2.8">
+<h3><span class="header-section-number">9.2.8</span> Saving</h3>
+<p>The very last part of this process is saving all of the plots. Similar to tuning I leave the option to specify which plots one wants to save, but since we have already greatly reduced the number of plots under analysis saving everything does not seem like that large of a burden (and therefore saving everything is the default option).</p>
+<p>CODE GOES HERE</p>
 
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="non-predictive-evaluation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="predictive-evaluations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="tuning.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="additional-testing-statistics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

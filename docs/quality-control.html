@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>2 Quality Control | Comparison of PGS Generative Methods</title>
   <meta name="description" content="A deep dive into all the scripts and underlying though processes that create polygenic risk scores" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="2 Quality Control | Comparison of PGS Generative Methods" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Scott Kulm" />
 
 
-<meta name="date" content="2020-09-15" />
+<meta name="date" content="2021-02-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="introduction.html"/>
 <link rel="next" href="summary-statistics.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -53,25 +54,27 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +83,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -128,22 +131,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <ul class="summary">
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
-<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#directory-framework"><i class="fa fa-check"></i><b>1.1</b> Directory Framework</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="quality-control.html"><a href="quality-control.html"><i class="fa fa-check"></i><b>2</b> Quality Control</a><ul>
+<li class="chapter" data-level="2" data-path="quality-control.html"><a href="quality-control.html"><i class="fa fa-check"></i><b>2</b> Quality Control</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="quality-control.html"><a href="quality-control.html#previously-applied-qc"><i class="fa fa-check"></i><b>2.1</b> Previously Applied QC</a></li>
 <li class="chapter" data-level="2.2" data-path="quality-control.html"><a href="quality-control.html#initial-qc"><i class="fa fa-check"></i><b>2.2</b> Initial QC</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>3</b> Summary Statistics</a></li>
-<li class="chapter" data-level="4" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html"><i class="fa fa-check"></i><b>4</b> Getting the Summary Statistics</a><ul>
+<li class="chapter" data-level="4" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html"><i class="fa fa-check"></i><b>4</b> Getting the Summary Statistics</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#prepare-variants"><i class="fa fa-check"></i><b>4.1</b> Prepare Variants</a></li>
 <li class="chapter" data-level="4.2" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#standardize-the-summary-statistics"><i class="fa fa-check"></i><b>4.2</b> Standardize the Summary Statistics</a></li>
 <li class="chapter" data-level="4.3" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#heritability-estimation"><i class="fa fa-check"></i><b>4.3</b> Heritability Estimation</a></li>
 <li class="chapter" data-level="4.4" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#genetic-correlation-estimation"><i class="fa fa-check"></i><b>4.4</b> Genetic Correlation Estimation</a></li>
 <li class="chapter" data-level="4.5" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#final-changes-and-remarks"><i class="fa fa-check"></i><b>4.5</b> Final Changes and Remarks</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Adjusting Summary Statistics</a><ul>
+<li class="chapter" data-level="5" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Adjusting Summary Statistics</a>
+<ul>
 <li class="chapter" data-level="5.0.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#computational-framework"><i class="fa fa-check"></i><b>5.0.1</b> Computational Framework</a></li>
 <li class="chapter" data-level="5.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#simple"><i class="fa fa-check"></i><b>5.1</b> Simple</a></li>
 <li class="chapter" data-level="5.2" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#clumping"><i class="fa fa-check"></i><b>5.2</b> Clumping</a></li>
@@ -159,26 +166,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.12" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#jampred"><i class="fa fa-check"></i><b>5.12</b> JAMPred</a></li>
 <li class="chapter" data-level="5.13" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#winners-curse-lasso"><i class="fa fa-check"></i><b>5.13</b> Winner’s Curse Lasso</a></li>
 <li class="chapter" data-level="5.14" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#winners-curse-likelihood"><i class="fa fa-check"></i><b>5.14</b> Winner’s Curse Likelihood</a></li>
-<li class="chapter" data-level="5.15" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#winners-curse-2d"><i class="fa fa-check"></i><b>5.15</b> Winner’s Curse 2D</a><ul>
+<li class="chapter" data-level="5.15" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#winners-curse-2d"><i class="fa fa-check"></i><b>5.15</b> Winner’s Curse 2D</a>
+<ul>
 <li class="chapter" data-level="5.15.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#additional-methods"><i class="fa fa-check"></i><b>5.15.1</b> Additional Methods</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html"><i class="fa fa-check"></i><b>6</b> Compiling the Scores</a><ul>
-<li class="chapter" data-level="6.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#simple-score-approach"><i class="fa fa-check"></i><b>6.1</b> Simple Score Approach</a><ul>
+<li class="chapter" data-level="6" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html"><i class="fa fa-check"></i><b>6</b> Compiling the Scores</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#simple-score-approach"><i class="fa fa-check"></i><b>6.1</b> Simple Score Approach</a>
+<ul>
 <li class="chapter" data-level="6.1.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#what-to-worry-about"><i class="fa fa-check"></i><b>6.1.1</b> What to Worry About</a></li>
 <li class="chapter" data-level="6.1.2" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#controlling-and-assembling"><i class="fa fa-check"></i><b>6.1.2</b> Controlling and Assembling</a></li>
 <li class="chapter" data-level="6.1.3" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#verifying-everything-worked"><i class="fa fa-check"></i><b>6.1.3</b> Verifying Everything Worked</a></li>
 <li class="chapter" data-level="6.1.4" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#other-options"><i class="fa fa-check"></i><b>6.1.4</b> Other Options</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html"><i class="fa fa-check"></i><b>7</b> Score Analysis Set-Up</a><ul>
+<li class="chapter" data-level="7" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html"><i class="fa fa-check"></i><b>7</b> Score Analysis Set-Up</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#defining-the-phenotypes"><i class="fa fa-check"></i><b>7.1</b> Defining the Phenotypes</a></li>
 <li class="chapter" data-level="7.2" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#making-the-phenotype"><i class="fa fa-check"></i><b>7.2</b> Making the Phenotype</a></li>
 <li class="chapter" data-level="7.3" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#other-scores"><i class="fa fa-check"></i><b>7.3</b> Other Scores</a></li>
 <li class="chapter" data-level="7.4" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#other-covariates"><i class="fa fa-check"></i><b>7.4</b> Other Covariates</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="tuning.html"><a href="tuning.html"><i class="fa fa-check"></i><b>8</b> Tuning</a><ul>
-<li class="chapter" data-level="8.1" data-path="tuning.html"><a href="tuning.html#generating-metrics"><i class="fa fa-check"></i><b>8.1</b> Generating Metrics</a><ul>
+<li class="chapter" data-level="8" data-path="tuning.html"><a href="tuning.html"><i class="fa fa-check"></i><b>8</b> Tuning</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tuning.html"><a href="tuning.html#generating-metrics"><i class="fa fa-check"></i><b>8.1</b> Generating Metrics</a>
+<ul>
 <li class="chapter" data-level="8.1.1" data-path="tuning.html"><a href="tuning.html#overall-set-up"><i class="fa fa-check"></i><b>8.1.1</b> Overall Set-Up</a></li>
 <li class="chapter" data-level="8.1.2" data-path="tuning.html"><a href="tuning.html#survival-set-up"><i class="fa fa-check"></i><b>8.1.2</b> Survival Set-up</a></li>
 <li class="chapter" data-level="8.1.3" data-path="tuning.html"><a href="tuning.html#survival-base-metrics"><i class="fa fa-check"></i><b>8.1.3</b> Survival Base Metrics</a></li>
@@ -189,17 +202,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.2" data-path="tuning.html"><a href="tuning.html#choosing-the-best-score"><i class="fa fa-check"></i><b>8.2</b> Choosing the Best Score</a></li>
 <li class="chapter" data-level="8.3" data-path="tuning.html"><a href="tuning.html#plotting"><i class="fa fa-check"></i><b>8.3</b> Plotting</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html"><i class="fa fa-check"></i><b>9</b> Non-Predictive Evaluation</a><ul>
-<li class="chapter" data-level="9.1" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#analysis-of-score-sizes"><i class="fa fa-check"></i><b>9.1</b> Analysis of Score Sizes</a></li>
-<li class="chapter" data-level="9.2" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#analysis-of-phenotype-definitions"><i class="fa fa-check"></i><b>9.2</b> Analysis of Phenotype Definitions</a></li>
-<li class="chapter" data-level="9.3" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-racial-groups"><i class="fa fa-check"></i><b>9.3</b> Comparison of Racial Groups</a></li>
-<li class="chapter" data-level="9.4" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-siblings"><i class="fa fa-check"></i><b>9.4</b> Comparison of Siblings</a></li>
-<li class="chapter" data-level="9.5" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#mathematical-comparison-of-score-methods"><i class="fa fa-check"></i><b>9.5</b> Mathematical Comparison of Score Methods</a></li>
+<li class="chapter" data-level="9" data-path="testing.html"><a href="testing.html"><i class="fa fa-check"></i><b>9</b> Testing</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="testing.html"><a href="testing.html#obtaining-the-statistics"><i class="fa fa-check"></i><b>9.1</b> Obtaining the Statistics</a></li>
+<li class="chapter" data-level="9.2" data-path="testing.html"><a href="testing.html#plotting-1"><i class="fa fa-check"></i><b>9.2</b> Plotting</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="testing.html"><a href="testing.html#concordance"><i class="fa fa-check"></i><b>9.2.1</b> Concordance</a></li>
+<li class="chapter" data-level="9.2.2" data-path="testing.html"><a href="testing.html#survival-curve-fit"><i class="fa fa-check"></i><b>9.2.2</b> Survival Curve Fit</a></li>
+<li class="chapter" data-level="9.2.3" data-path="testing.html"><a href="testing.html#roc-and-auc"><i class="fa fa-check"></i><b>9.2.3</b> ROC and AUC</a></li>
+<li class="chapter" data-level="9.2.4" data-path="testing.html"><a href="testing.html#odds-ratios"><i class="fa fa-check"></i><b>9.2.4</b> Odds Ratios</a></li>
+<li class="chapter" data-level="9.2.5" data-path="testing.html"><a href="testing.html#pr-curves"><i class="fa fa-check"></i><b>9.2.5</b> PR Curves</a></li>
+<li class="chapter" data-level="9.2.6" data-path="testing.html"><a href="testing.html#other-scores-1"><i class="fa fa-check"></i><b>9.2.6</b> Other Scores</a></li>
+<li class="chapter" data-level="9.2.7" data-path="testing.html"><a href="testing.html#extra-covariates"><i class="fa fa-check"></i><b>9.2.7</b> Extra Covariates</a></li>
+<li class="chapter" data-level="9.2.8" data-path="testing.html"><a href="testing.html#saving"><i class="fa fa-check"></i><b>9.2.8</b> Saving</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="testing.html"><a href="testing.html"><i class="fa fa-check"></i><b>10</b> Testing</a></li>
-<li class="chapter" data-level="11" data-path="predictive-evaluations.html"><a href="predictive-evaluations.html"><i class="fa fa-check"></i><b>11</b> Predictive Evaluations</a><ul>
-<li class="chapter" data-level="11.1" data-path="predictive-evaluations.html"><a href="predictive-evaluations.html#expanded-covariates"><i class="fa fa-check"></i><b>11.1</b> Expanded Covariates</a></li>
-<li class="chapter" data-level="11.2" data-path="predictive-evaluations.html"><a href="predictive-evaluations.html#other-polygenic-risk-scores"><i class="fa fa-check"></i><b>11.2</b> Other Polygenic Risk Scores</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html"><i class="fa fa-check"></i><b>10</b> Additional Testing Statistics</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#calculating-the-statistics"><i class="fa fa-check"></i><b>10.1</b> Calculating the Statistics</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#brier-score"><i class="fa fa-check"></i><b>10.1.1</b> Brier Score</a></li>
+<li class="chapter" data-level="10.1.2" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#reclassification-statistics-nri-and-idi"><i class="fa fa-check"></i><b>10.1.2</b> Reclassification Statistics (NRI and IDI)</a></li>
+<li class="chapter" data-level="10.1.3" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#true-and-false-positive-rates"><i class="fa fa-check"></i><b>10.1.3</b> True and False Positive Rates</a></li>
+<li class="chapter" data-level="10.1.4" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#reclassification-values"><i class="fa fa-check"></i><b>10.1.4</b> Reclassification Values</a></li>
+<li class="chapter" data-level="10.1.5" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#decision-curve-analyses"><i class="fa fa-check"></i><b>10.1.5</b> Decision Curve Analyses</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#making-the-plots"><i class="fa fa-check"></i><b>10.2</b> Making the Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html"><i class="fa fa-check"></i><b>11</b> Non-Predictive Evaluation</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#individual-score-evaluation"><i class="fa fa-check"></i><b>11.1</b> Individual Score Evaluation</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#set-up"><i class="fa fa-check"></i><b>11.1.1</b> Set Up</a></li>
+<li class="chapter" data-level="11.1.2" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#analysis-of-score-sizes"><i class="fa fa-check"></i><b>11.1.2</b> Analysis of Score Sizes</a></li>
+<li class="chapter" data-level="11.1.3" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#analysis-of-phenotype-definitions"><i class="fa fa-check"></i><b>11.1.3</b> Analysis of Phenotype Definitions</a></li>
+<li class="chapter" data-level="11.1.4" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-between-the-sexes"><i class="fa fa-check"></i><b>11.1.4</b> Comparison Between the Sexes</a></li>
+<li class="chapter" data-level="11.1.5" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-ethnic-groups"><i class="fa fa-check"></i><b>11.1.5</b> Comparison of Ethnic Groups</a></li>
+<li class="chapter" data-level="11.1.6" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-siblings"><i class="fa fa-check"></i><b>11.1.6</b> Comparison of Siblings</a></li>
+<li class="chapter" data-level="11.1.7" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-age"><i class="fa fa-check"></i><b>11.1.7</b> Comparison of Age</a></li>
+<li class="chapter" data-level="11.1.8" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-many-other"><i class="fa fa-check"></i><b>11.1.8</b> Comparison of Many Other</a></li>
+<li class="chapter" data-level="11.1.9" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#plotting-2"><i class="fa fa-check"></i><b>11.1.9</b> Plotting</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="to-do.html"><a href="to-do.html"><i class="fa fa-check"></i><b>12</b> To Do</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="to-do.html"><a href="to-do.html#across-score-evaluations"><i class="fa fa-check"></i><b>12.1</b> Across Score Evaluations</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="to-do.html"><a href="to-do.html#set-up-1"><i class="fa fa-check"></i><b>12.1.1</b> Set-Up</a></li>
+<li class="chapter" data-level="12.1.2" data-path="to-do.html"><a href="to-do.html#meta-info-regressions"><i class="fa fa-check"></i><b>12.1.2</b> Meta Info Regressions</a></li>
+<li class="chapter" data-level="12.1.3" data-path="to-do.html"><a href="to-do.html#testing-and-training-comparison"><i class="fa fa-check"></i><b>12.1.3</b> Testing and Training Comparison</a></li>
+<li class="chapter" data-level="12.1.4" data-path="to-do.html"><a href="to-do.html#plotting-3"><i class="fa fa-check"></i><b>12.1.4</b> Plotting</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html"><i class="fa fa-check"></i><b>13</b> Lifestyle and Medications</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#lifestyle-modifcations"><i class="fa fa-check"></i><b>13.1</b> Lifestyle Modifcations</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#getting-the-statistics"><i class="fa fa-check"></i><b>13.1.1</b> Getting the Statistics</a></li>
+<li class="chapter" data-level="13.1.2" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#plotting-4"><i class="fa fa-check"></i><b>13.1.2</b> Plotting</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#medications"><i class="fa fa-check"></i><b>13.2</b> Medications</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#set-up-2"><i class="fa fa-check"></i><b>13.2.1</b> Set Up</a></li>
+<li class="chapter" data-level="13.2.2" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#meications"><i class="fa fa-check"></i><b>13.2.2</b> Meications</a></li>
+<li class="chapter" data-level="13.2.3" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#analysis"><i class="fa fa-check"></i><b>13.2.3</b> Analysis</a></li>
+<li class="chapter" data-level="13.2.4" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#change-in-plans"><i class="fa fa-check"></i><b>13.2.4</b> Change in Plans</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -218,11 +286,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="quality-control" class="section level1">
+<div id="quality-control" class="section level1" number="2">
 <h1><span class="header-section-number">2</span> Quality Control</h1>
 <p>To begin work on producing a set of PGSs, the input data must first be carefully controlled. Throughout this project the UK Biobank will be the solitary set of data examined. The reason being is that the UK Biobank is the only large and easily accessed data-set that contains both genotypic and phenotypic information.</p>
 <p>A brief description of the UK Biobank …</p>
-<div id="previously-applied-qc" class="section level2">
+<div id="previously-applied-qc" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> Previously Applied QC</h2>
 <p>In the process of sequencing the data the good people at the UK Biobank have already applied some quality control measures. To understand exactly what they did we first need to know how they even got the data to begin with. Of the nearly 500,000 people that were avaliable to be sequenced, batches of approximitley 4,600 people were created. The first 11 batches were sequenced on the UK BiLEVE Axiom array, the remaining 95 batches were sequenced with the UK Biobank Axiom Array. Both arrays were carefully created for this type of research, although we should be careful going forward as batch effects could change allele frequencies and the ultimate PGS distribution.</p>
 <p>As the arrays were novel, some of the allele probes were not constructed well enough to clearly determine what allele a person was. A total of 35,014 unique markers were therefore removed from everyone right off the bat. Genotype calling by Affymetrix resulted in a data set of 489,212 individuals typed at 812,428 markers with which to carry out further QC. This QC was population structure aware, with different ancestry groups determined by comparing PCA loadings from UK Biobank individuals to a selection of 1000 Genomes Project individuals (The markers that went into this PCA were carefully QC’d). Afterwards, within population structure homogenous groups to each batch the following tests were applied:</p>
@@ -250,7 +318,7 @@ Figure 2.2: British PCA
 </div>
 <p>Far more information on all of these steps can be found from the BioRxiv pdf: “Genome-wide genetic data on ~500,000 UK Biobank participants”. The big takeaways that I gleam are that the UK Biobank did think about genotyping seriously, the most abberant markers have been removed although some questionable markers likely remain, and that quite a few abberant samples remain although removing them should be easy since they have been marked. All of this gives a good starting point for this work.</p>
 </div>
-<div id="initial-qc" class="section level2">
+<div id="initial-qc" class="section level2" number="2.2">
 <h2><span class="header-section-number">2.2</span> Initial QC</h2>
 <p>To increase levels of QC, a file that lists all of the outliers was used to create a list of high quality anonymous IDS. The script that ran this entire process is displayed below.</p>
 <p>In short, the process carried out involved removes outliers in hetrozygosity, putative sex chromosome aneupolidy, and excess relatvies all determined by the UK Biobank processes described above. Lastly, only individuals who were determined to be white with British ancestry were kept. This is a highly unfortunate cut-off, but nescessary in order to create a genetically homogenous individuals to be tested.</p>

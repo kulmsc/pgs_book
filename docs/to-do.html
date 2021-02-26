@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>12 To Do | Comparison of PGS Generative Methods</title>
+  <meta name="description" content="A deep dive into all the scripts and underlying though processes that create polygenic risk scores" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="12 To Do | Comparison of PGS Generative Methods" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="A deep dive into all the scripts and underlying though processes that create polygenic risk scores" />
+  <meta name="github-repo" content="pgs_book" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="12 To Do | Comparison of PGS Generative Methods" />
+  
+  <meta name="twitter:description" content="A deep dive into all the scripts and underlying though processes that create polygenic risk scores" />
+  
+
+<meta name="author" content="Scott Kulm" />
+
+
+<meta name="date" content="2021-02-26" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="non-predictive-evaluation.html"/>
+<link rel="next" href="lifestyle-and-medications.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#directory-framework"><i class="fa fa-check"></i><b>1.1</b> Directory Framework</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="quality-control.html"><a href="quality-control.html"><i class="fa fa-check"></i><b>2</b> Quality Control</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="quality-control.html"><a href="quality-control.html#previously-applied-qc"><i class="fa fa-check"></i><b>2.1</b> Previously Applied QC</a></li>
+<li class="chapter" data-level="2.2" data-path="quality-control.html"><a href="quality-control.html#initial-qc"><i class="fa fa-check"></i><b>2.2</b> Initial QC</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>3</b> Summary Statistics</a></li>
+<li class="chapter" data-level="4" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html"><i class="fa fa-check"></i><b>4</b> Getting the Summary Statistics</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#prepare-variants"><i class="fa fa-check"></i><b>4.1</b> Prepare Variants</a></li>
+<li class="chapter" data-level="4.2" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#standardize-the-summary-statistics"><i class="fa fa-check"></i><b>4.2</b> Standardize the Summary Statistics</a></li>
+<li class="chapter" data-level="4.3" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#heritability-estimation"><i class="fa fa-check"></i><b>4.3</b> Heritability Estimation</a></li>
+<li class="chapter" data-level="4.4" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#genetic-correlation-estimation"><i class="fa fa-check"></i><b>4.4</b> Genetic Correlation Estimation</a></li>
+<li class="chapter" data-level="4.5" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#final-changes-and-remarks"><i class="fa fa-check"></i><b>4.5</b> Final Changes and Remarks</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Adjusting Summary Statistics</a>
+<ul>
+<li class="chapter" data-level="5.0.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#computational-framework"><i class="fa fa-check"></i><b>5.0.1</b> Computational Framework</a></li>
+<li class="chapter" data-level="5.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#simple"><i class="fa fa-check"></i><b>5.1</b> Simple</a></li>
+<li class="chapter" data-level="5.2" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#clumping"><i class="fa fa-check"></i><b>5.2</b> Clumping</a></li>
+<li class="chapter" data-level="5.3" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#double-weight"><i class="fa fa-check"></i><b>5.3</b> Double Weight</a></li>
+<li class="chapter" data-level="5.4" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#ldpred"><i class="fa fa-check"></i><b>5.4</b> LDpred</a></li>
+<li class="chapter" data-level="5.5" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#ldpred2"><i class="fa fa-check"></i><b>5.5</b> LDpred2</a></li>
+<li class="chapter" data-level="5.6" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#sblup"><i class="fa fa-check"></i><b>5.6</b> SBLUP</a></li>
+<li class="chapter" data-level="5.7" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#smtpred"><i class="fa fa-check"></i><b>5.7</b> SMTpred</a></li>
+<li class="chapter" data-level="5.8" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#prscs"><i class="fa fa-check"></i><b>5.8</b> prsCS</a></li>
+<li class="chapter" data-level="5.9" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#lassosum"><i class="fa fa-check"></i><b>5.9</b> lassosum</a></li>
+<li class="chapter" data-level="5.10" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#tweedie"><i class="fa fa-check"></i><b>5.10</b> Tweedie</a></li>
+<li class="chapter" data-level="5.11" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#sbayesr"><i class="fa fa-check"></i><b>5.11</b> SBayesR</a></li>
+<li class="chapter" data-level="5.12" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#jampred"><i class="fa fa-check"></i><b>5.12</b> JAMPred</a></li>
+<li class="chapter" data-level="5.13" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#winners-curse-lasso"><i class="fa fa-check"></i><b>5.13</b> Winner’s Curse Lasso</a></li>
+<li class="chapter" data-level="5.14" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#winners-curse-likelihood"><i class="fa fa-check"></i><b>5.14</b> Winner’s Curse Likelihood</a></li>
+<li class="chapter" data-level="5.15" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#winners-curse-2d"><i class="fa fa-check"></i><b>5.15</b> Winner’s Curse 2D</a>
+<ul>
+<li class="chapter" data-level="5.15.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#additional-methods"><i class="fa fa-check"></i><b>5.15.1</b> Additional Methods</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html"><i class="fa fa-check"></i><b>6</b> Compiling the Scores</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#simple-score-approach"><i class="fa fa-check"></i><b>6.1</b> Simple Score Approach</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#what-to-worry-about"><i class="fa fa-check"></i><b>6.1.1</b> What to Worry About</a></li>
+<li class="chapter" data-level="6.1.2" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#controlling-and-assembling"><i class="fa fa-check"></i><b>6.1.2</b> Controlling and Assembling</a></li>
+<li class="chapter" data-level="6.1.3" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#verifying-everything-worked"><i class="fa fa-check"></i><b>6.1.3</b> Verifying Everything Worked</a></li>
+<li class="chapter" data-level="6.1.4" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#other-options"><i class="fa fa-check"></i><b>6.1.4</b> Other Options</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html"><i class="fa fa-check"></i><b>7</b> Score Analysis Set-Up</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#defining-the-phenotypes"><i class="fa fa-check"></i><b>7.1</b> Defining the Phenotypes</a></li>
+<li class="chapter" data-level="7.2" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#making-the-phenotype"><i class="fa fa-check"></i><b>7.2</b> Making the Phenotype</a></li>
+<li class="chapter" data-level="7.3" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#other-scores"><i class="fa fa-check"></i><b>7.3</b> Other Scores</a></li>
+<li class="chapter" data-level="7.4" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#other-covariates"><i class="fa fa-check"></i><b>7.4</b> Other Covariates</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="tuning.html"><a href="tuning.html"><i class="fa fa-check"></i><b>8</b> Tuning</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tuning.html"><a href="tuning.html#generating-metrics"><i class="fa fa-check"></i><b>8.1</b> Generating Metrics</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="tuning.html"><a href="tuning.html#overall-set-up"><i class="fa fa-check"></i><b>8.1.1</b> Overall Set-Up</a></li>
+<li class="chapter" data-level="8.1.2" data-path="tuning.html"><a href="tuning.html#survival-set-up"><i class="fa fa-check"></i><b>8.1.2</b> Survival Set-up</a></li>
+<li class="chapter" data-level="8.1.3" data-path="tuning.html"><a href="tuning.html#survival-base-metrics"><i class="fa fa-check"></i><b>8.1.3</b> Survival Base Metrics</a></li>
+<li class="chapter" data-level="8.1.4" data-path="tuning.html"><a href="tuning.html#survival-score-metrics"><i class="fa fa-check"></i><b>8.1.4</b> Survival Score Metrics</a></li>
+<li class="chapter" data-level="8.1.5" data-path="tuning.html"><a href="tuning.html#logistic-regression-base-metrics"><i class="fa fa-check"></i><b>8.1.5</b> Logistic Regression Base Metrics</a></li>
+<li class="chapter" data-level="8.1.6" data-path="tuning.html"><a href="tuning.html#logistic-regression-score-metrics"><i class="fa fa-check"></i><b>8.1.6</b> Logistic Regression Score Metrics</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="tuning.html"><a href="tuning.html#choosing-the-best-score"><i class="fa fa-check"></i><b>8.2</b> Choosing the Best Score</a></li>
+<li class="chapter" data-level="8.3" data-path="tuning.html"><a href="tuning.html#plotting"><i class="fa fa-check"></i><b>8.3</b> Plotting</a></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="testing.html"><a href="testing.html"><i class="fa fa-check"></i><b>9</b> Testing</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="testing.html"><a href="testing.html#obtaining-the-statistics"><i class="fa fa-check"></i><b>9.1</b> Obtaining the Statistics</a></li>
+<li class="chapter" data-level="9.2" data-path="testing.html"><a href="testing.html#plotting-1"><i class="fa fa-check"></i><b>9.2</b> Plotting</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="testing.html"><a href="testing.html#concordance"><i class="fa fa-check"></i><b>9.2.1</b> Concordance</a></li>
+<li class="chapter" data-level="9.2.2" data-path="testing.html"><a href="testing.html#survival-curve-fit"><i class="fa fa-check"></i><b>9.2.2</b> Survival Curve Fit</a></li>
+<li class="chapter" data-level="9.2.3" data-path="testing.html"><a href="testing.html#roc-and-auc"><i class="fa fa-check"></i><b>9.2.3</b> ROC and AUC</a></li>
+<li class="chapter" data-level="9.2.4" data-path="testing.html"><a href="testing.html#odds-ratios"><i class="fa fa-check"></i><b>9.2.4</b> Odds Ratios</a></li>
+<li class="chapter" data-level="9.2.5" data-path="testing.html"><a href="testing.html#pr-curves"><i class="fa fa-check"></i><b>9.2.5</b> PR Curves</a></li>
+<li class="chapter" data-level="9.2.6" data-path="testing.html"><a href="testing.html#other-scores-1"><i class="fa fa-check"></i><b>9.2.6</b> Other Scores</a></li>
+<li class="chapter" data-level="9.2.7" data-path="testing.html"><a href="testing.html#extra-covariates"><i class="fa fa-check"></i><b>9.2.7</b> Extra Covariates</a></li>
+<li class="chapter" data-level="9.2.8" data-path="testing.html"><a href="testing.html#saving"><i class="fa fa-check"></i><b>9.2.8</b> Saving</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html"><i class="fa fa-check"></i><b>10</b> Additional Testing Statistics</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#calculating-the-statistics"><i class="fa fa-check"></i><b>10.1</b> Calculating the Statistics</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#brier-score"><i class="fa fa-check"></i><b>10.1.1</b> Brier Score</a></li>
+<li class="chapter" data-level="10.1.2" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#reclassification-statistics-nri-and-idi"><i class="fa fa-check"></i><b>10.1.2</b> Reclassification Statistics (NRI and IDI)</a></li>
+<li class="chapter" data-level="10.1.3" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#true-and-false-positive-rates"><i class="fa fa-check"></i><b>10.1.3</b> True and False Positive Rates</a></li>
+<li class="chapter" data-level="10.1.4" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#reclassification-values"><i class="fa fa-check"></i><b>10.1.4</b> Reclassification Values</a></li>
+<li class="chapter" data-level="10.1.5" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#decision-curve-analyses"><i class="fa fa-check"></i><b>10.1.5</b> Decision Curve Analyses</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#making-the-plots"><i class="fa fa-check"></i><b>10.2</b> Making the Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html"><i class="fa fa-check"></i><b>11</b> Non-Predictive Evaluation</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#individual-score-evaluation"><i class="fa fa-check"></i><b>11.1</b> Individual Score Evaluation</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#set-up"><i class="fa fa-check"></i><b>11.1.1</b> Set Up</a></li>
+<li class="chapter" data-level="11.1.2" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#analysis-of-score-sizes"><i class="fa fa-check"></i><b>11.1.2</b> Analysis of Score Sizes</a></li>
+<li class="chapter" data-level="11.1.3" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#analysis-of-phenotype-definitions"><i class="fa fa-check"></i><b>11.1.3</b> Analysis of Phenotype Definitions</a></li>
+<li class="chapter" data-level="11.1.4" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-between-the-sexes"><i class="fa fa-check"></i><b>11.1.4</b> Comparison Between the Sexes</a></li>
+<li class="chapter" data-level="11.1.5" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-ethnic-groups"><i class="fa fa-check"></i><b>11.1.5</b> Comparison of Ethnic Groups</a></li>
+<li class="chapter" data-level="11.1.6" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-siblings"><i class="fa fa-check"></i><b>11.1.6</b> Comparison of Siblings</a></li>
+<li class="chapter" data-level="11.1.7" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-age"><i class="fa fa-check"></i><b>11.1.7</b> Comparison of Age</a></li>
+<li class="chapter" data-level="11.1.8" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-many-other"><i class="fa fa-check"></i><b>11.1.8</b> Comparison of Many Other</a></li>
+<li class="chapter" data-level="11.1.9" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#plotting-2"><i class="fa fa-check"></i><b>11.1.9</b> Plotting</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="to-do.html"><a href="to-do.html"><i class="fa fa-check"></i><b>12</b> To Do</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="to-do.html"><a href="to-do.html#across-score-evaluations"><i class="fa fa-check"></i><b>12.1</b> Across Score Evaluations</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="to-do.html"><a href="to-do.html#set-up-1"><i class="fa fa-check"></i><b>12.1.1</b> Set-Up</a></li>
+<li class="chapter" data-level="12.1.2" data-path="to-do.html"><a href="to-do.html#meta-info-regressions"><i class="fa fa-check"></i><b>12.1.2</b> Meta Info Regressions</a></li>
+<li class="chapter" data-level="12.1.3" data-path="to-do.html"><a href="to-do.html#testing-and-training-comparison"><i class="fa fa-check"></i><b>12.1.3</b> Testing and Training Comparison</a></li>
+<li class="chapter" data-level="12.1.4" data-path="to-do.html"><a href="to-do.html#plotting-3"><i class="fa fa-check"></i><b>12.1.4</b> Plotting</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html"><i class="fa fa-check"></i><b>13</b> Lifestyle and Medications</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#lifestyle-modifcations"><i class="fa fa-check"></i><b>13.1</b> Lifestyle Modifcations</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#getting-the-statistics"><i class="fa fa-check"></i><b>13.1.1</b> Getting the Statistics</a></li>
+<li class="chapter" data-level="13.1.2" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#plotting-4"><i class="fa fa-check"></i><b>13.1.2</b> Plotting</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#medications"><i class="fa fa-check"></i><b>13.2</b> Medications</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#set-up-2"><i class="fa fa-check"></i><b>13.2.1</b> Set Up</a></li>
+<li class="chapter" data-level="13.2.2" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#meications"><i class="fa fa-check"></i><b>13.2.2</b> Meications</a></li>
+<li class="chapter" data-level="13.2.3" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#analysis"><i class="fa fa-check"></i><b>13.2.3</b> Analysis</a></li>
+<li class="chapter" data-level="13.2.4" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#change-in-plans"><i class="fa fa-check"></i><b>13.2.4</b> Change in Plans</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Comparison of PGS Generative Methods</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="to-do" class="section level1" number="12">
+<h1><span class="header-section-number">12</span> To Do</h1>
+<div id="across-score-evaluations" class="section level2" number="12.1">
+<h2><span class="header-section-number">12.1</span> Across Score Evaluations</h2>
+<p>Now I will describe evaluaitons that are only possible when comparing multiple scores to each other.</p>
+<div id="set-up-1" class="section level3" number="12.1.1">
+<h3><span class="header-section-number">12.1.1</span> Set-Up</h3>
+<p>The goal of the set-up is not to analyze the polygenic risk score itself (a value for every person), but rather a series of statistics/values that correspond to each score. Therefore, our final product from this set-up is a data frame with each row containing a score and each column containing a statistic/value. We can seperate these columns into different classes. The first class related to predictive performance, namely AUC and its CI. The second class involves the score but is nonpredictive, including number of SNPs, phenotype and parameter. The find class involves the phenotpe at large, including heritability, number of SNPs in the summary statistics, case/control information, and similar information. This large data frame is finally subset into smaller datasets that only contain the best score at-large or the best score for each type of method within a given phenotype. These data frames fuel the later analyses,</p>
+<p>We construct this all-important data frame by iterating rhough each author (or disease) under analysis. For each author we read in the AUC, the the case/control split of UKBB, and the number of SNPs each score. We assign each piece of data to an element of a list, and after the for loop combine everything together. Lastly, we read in meta-statistics generated back from when we refined the raw summary statistics. We then add the meta-statistics for each author to the corresponding row. The exact code is:</p>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb121-1"><a href="to-do.html#cb121-1" aria-hidden="true" tabindex="-1"></a><span class="co">#When all of the tuning is done want to go though and check that </span></span>
+<span id="cb121-2"><a href="to-do.html#cb121-2" aria-hidden="true" tabindex="-1"></a><span class="co">#If method performance is dependent on any factors (sample size, SNPs, etc.)</span></span>
+<span id="cb121-3"><a href="to-do.html#cb121-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Do for one AUC for each author (the best)</span></span>
+<span id="cb121-4"><a href="to-do.html#cb121-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">#Do this once for each method (the best method for each author)</span></span>
+<span id="cb121-5"><a href="to-do.html#cb121-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-6"><a href="to-do.html#cb121-6" aria-hidden="true" tabindex="-1"></a><span class="co">#Want to see if there is a correlation between method parameters and the meta stats</span></span>
+<span id="cb121-7"><a href="to-do.html#cb121-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">#so collect all results (for all authors) then run a model</span></span>
+<span id="cb121-8"><a href="to-do.html#cb121-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-9"><a href="to-do.html#cb121-9" aria-hidden="true" tabindex="-1"></a><span class="co">#Also want to compare training to testing results</span></span>
+<span id="cb121-10"><a href="to-do.html#cb121-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-11"><a href="to-do.html#cb121-11" aria-hidden="true" tabindex="-1"></a><span class="co">#Will focus on AUC</span></span>
+<span id="cb121-12"><a href="to-do.html#cb121-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-13"><a href="to-do.html#cb121-13" aria-hidden="true" tabindex="-1"></a>splitter <span class="ot">&lt;-</span> <span class="cf">function</span>(values, N){</span>
+<span id="cb121-14"><a href="to-do.html#cb121-14" aria-hidden="true" tabindex="-1"></a>  inds <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fu">sapply</span>(<span class="dv">1</span><span class="sc">:</span>N, <span class="cf">function</span>(i) <span class="fu">which.min</span>(<span class="fu">abs</span>(<span class="fu">cumsum</span>(<span class="fu">as.numeric</span>(values)) <span class="sc">-</span> <span class="fu">sum</span>(<span class="fu">as.numeric</span>(values))<span class="sc">/</span>N<span class="sc">*</span>i))))</span>
+<span id="cb121-15"><a href="to-do.html#cb121-15" aria-hidden="true" tabindex="-1"></a>  dif <span class="ot">=</span> <span class="fu">diff</span>(inds)</span>
+<span id="cb121-16"><a href="to-do.html#cb121-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span>(<span class="fu">any</span>(dif <span class="sc">==</span> <span class="dv">0</span>)){</span>
+<span id="cb121-17"><a href="to-do.html#cb121-17" aria-hidden="true" tabindex="-1"></a>    dif[<span class="dv">1</span>] <span class="ot">&lt;-</span> dif[<span class="dv">1</span>] <span class="sc">-</span> <span class="fu">sum</span>(dif <span class="sc">==</span> <span class="dv">0</span>)</span>
+<span id="cb121-18"><a href="to-do.html#cb121-18" aria-hidden="true" tabindex="-1"></a>    dif[dif <span class="sc">==</span> <span class="dv">0</span>] <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb121-19"><a href="to-do.html#cb121-19" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb121-20"><a href="to-do.html#cb121-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-21"><a href="to-do.html#cb121-21" aria-hidden="true" tabindex="-1"></a>  re <span class="ot">=</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(dif), <span class="at">times =</span> dif)</span>
+<span id="cb121-22"><a href="to-do.html#cb121-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(<span class="fu">split</span>(values, re))</span>
+<span id="cb121-23"><a href="to-do.html#cb121-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb121-24"><a href="to-do.html#cb121-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-25"><a href="to-do.html#cb121-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-26"><a href="to-do.html#cb121-26" aria-hidden="true" tabindex="-1"></a><span class="fu">options</span>(<span class="at">warn =</span> <span class="dv">2</span>)</span>
+<span id="cb121-27"><a href="to-do.html#cb121-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-28"><a href="to-do.html#cb121-28" aria-hidden="true" tabindex="-1"></a>list_all_auc <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb121-29"><a href="to-do.html#cb121-29" aria-hidden="true" tabindex="-1"></a>list_all_best_names <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb121-30"><a href="to-do.html#cb121-30" aria-hidden="true" tabindex="-1"></a>list_all_best_methods <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb121-31"><a href="to-do.html#cb121-31" aria-hidden="true" tabindex="-1"></a>list_ukb_cc <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb121-32"><a href="to-do.html#cb121-32" aria-hidden="true" tabindex="-1"></a>list_ukb_snps <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb121-33"><a href="to-do.html#cb121-33" aria-hidden="true" tabindex="-1"></a>list_ukb_beta_pdiff <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb121-34"><a href="to-do.html#cb121-34" aria-hidden="true" tabindex="-1"></a>list_ukb_len_pdiff <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb121-35"><a href="to-do.html#cb121-35" aria-hidden="true" tabindex="-1"></a>list_pval_6 <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb121-36"><a href="to-do.html#cb121-36" aria-hidden="true" tabindex="-1"></a>list_pval_8 <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb121-37"><a href="to-do.html#cb121-37" aria-hidden="true" tabindex="-1"></a>list_beta_len <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb121-38"><a href="to-do.html#cb121-38" aria-hidden="true" tabindex="-1"></a>list_beta_effect <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb121-39"><a href="to-do.html#cb121-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-40"><a href="to-do.html#cb121-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-41"><a href="to-do.html#cb121-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-42"><a href="to-do.html#cb121-42" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb121-43"><a href="to-do.html#cb121-43" aria-hidden="true" tabindex="-1"></a>all_author <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">strsplit</span>(<span class="fu">list.files</span>(<span class="st">&quot;../tune_score/tune_results/&quot;</span>, <span class="st">&quot;res&quot;</span>), <span class="st">&quot;_&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">1</span>]))</span>
+<span id="cb121-44"><a href="to-do.html#cb121-44" aria-hidden="true" tabindex="-1"></a>all_author <span class="ot">&lt;-</span> all_author[all_author <span class="sc">!=</span> <span class="st">&quot;Xie&quot;</span>]</span>
+<span id="cb121-45"><a href="to-do.html#cb121-45" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(author <span class="cf">in</span> all_author){</span>
+<span id="cb121-46"><a href="to-do.html#cb121-46" aria-hidden="true" tabindex="-1"></a>  all_res <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">paste0</span>(<span class="st">&quot;../tune_score/tune_results/&quot;</span>, author, <span class="st">&quot;_res.RDS&quot;</span>))</span>
+<span id="cb121-47"><a href="to-do.html#cb121-47" aria-hidden="true" tabindex="-1"></a>  score_names <span class="ot">&lt;-</span> all_res[[<span class="st">&quot;score_names&quot;</span>]]</span>
+<span id="cb121-48"><a href="to-do.html#cb121-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-49"><a href="to-do.html#cb121-49" aria-hidden="true" tabindex="-1"></a>  <span class="co">#GWAS Stats</span></span>
+<span id="cb121-50"><a href="to-do.html#cb121-50" aria-hidden="true" tabindex="-1"></a>  orig_gwas <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">paste0</span>(<span class="st">&quot;~/athena/doc_score/raw_ss/&quot;</span>, author, <span class="st">&quot;/clean_&quot;</span>, <span class="fu">tolower</span>(author), <span class="st">&quot;.txt.gz&quot;</span>), <span class="at">stringsAsFactors=</span>F, <span class="at">header=</span>T)</span>
+<span id="cb121-51"><a href="to-do.html#cb121-51" aria-hidden="true" tabindex="-1"></a>  four_len <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">splitter</span>(<span class="fu">sort</span>(<span class="fu">abs</span>(orig_gwas<span class="sc">$</span>BETA[orig_gwas<span class="sc">$</span>P <span class="sc">&lt;</span> <span class="fl">0.05</span>])), <span class="dv">4</span>), <span class="cf">function</span>(x) <span class="fu">length</span>(x)))</span>
+<span id="cb121-52"><a href="to-do.html#cb121-52" aria-hidden="true" tabindex="-1"></a>  four_mean <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">splitter</span>(<span class="fu">sort</span>(<span class="fu">abs</span>(orig_gwas<span class="sc">$</span>BETA[orig_gwas<span class="sc">$</span>P <span class="sc">&lt;</span> <span class="fl">0.05</span>])), <span class="dv">4</span>), <span class="cf">function</span>(x) <span class="fu">mean</span>(x)))</span>
+<span id="cb121-53"><a href="to-do.html#cb121-53" aria-hidden="true" tabindex="-1"></a>  list_beta_len[[i]] <span class="ot">&lt;-</span> (four_len[<span class="dv">4</span>] <span class="sc">-</span> four_len[<span class="dv">1</span>])<span class="sc">/</span>four_len[<span class="dv">1</span>]</span>
+<span id="cb121-54"><a href="to-do.html#cb121-54" aria-hidden="true" tabindex="-1"></a>  list_beta_effect[[i]] <span class="ot">&lt;-</span> (four_mean[<span class="dv">4</span>] <span class="sc">-</span> four_mean[<span class="dv">1</span>])<span class="sc">/</span>four_mean[<span class="dv">1</span>]</span>
+<span id="cb121-55"><a href="to-do.html#cb121-55" aria-hidden="true" tabindex="-1"></a>  list_pval_6[[i]] <span class="ot">&lt;-</span> <span class="fu">sum</span>(orig_gwas<span class="sc">$</span>P <span class="sc">&lt;</span> <span class="fl">1e-6</span>)</span>
+<span id="cb121-56"><a href="to-do.html#cb121-56" aria-hidden="true" tabindex="-1"></a>  list_pval_8[[i]] <span class="ot">&lt;-</span> <span class="fu">sum</span>(orig_gwas<span class="sc">$</span>P <span class="sc">&lt;</span> <span class="fl">1e-8</span>)</span>
+<span id="cb121-57"><a href="to-do.html#cb121-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-58"><a href="to-do.html#cb121-58" aria-hidden="true" tabindex="-1"></a>  <span class="co">#read in</span></span>
+<span id="cb121-59"><a href="to-do.html#cb121-59" aria-hidden="true" tabindex="-1"></a>  list_all_best_names[[i]] <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">paste0</span>(<span class="st">&quot;../tune_score/tune_results/&quot;</span>, <span class="fu">tolower</span>(author), <span class="st">&quot;.best.ss&quot;</span>), <span class="at">stringsAsFactors=</span>F)</span>
+<span id="cb121-60"><a href="to-do.html#cb121-60" aria-hidden="true" tabindex="-1"></a>  list_all_best_methods[[i]] <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">paste0</span>(<span class="st">&quot;../tune_score/tune_results/&quot;</span>, <span class="fu">tolower</span>(author), <span class="st">&quot;.methods.ss&quot;</span>), <span class="at">stringsAsFactors=</span>F)</span>
+<span id="cb121-61"><a href="to-do.html#cb121-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-62"><a href="to-do.html#cb121-62" aria-hidden="true" tabindex="-1"></a>  <span class="co">#get the mean_auc, and put in other info</span></span>
+<span id="cb121-63"><a href="to-do.html#cb121-63" aria-hidden="true" tabindex="-1"></a>  mean_auc <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">Reduce</span>(<span class="st">&quot;+&quot;</span>, all_res[[<span class="st">&quot;auc&quot;</span>]])<span class="sc">/</span><span class="fu">length</span>(all_res[[<span class="st">&quot;auc&quot;</span>]]))</span>
+<span id="cb121-64"><a href="to-do.html#cb121-64" aria-hidden="true" tabindex="-1"></a>  mean_auc<span class="sc">$</span>name <span class="ot">&lt;-</span> score_names</span>
+<span id="cb121-65"><a href="to-do.html#cb121-65" aria-hidden="true" tabindex="-1"></a>  mean_auc<span class="sc">$</span>method <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">strsplit</span>(score_names, <span class="st">&quot;.&quot;</span>, <span class="at">fixed=</span>T), <span class="cf">function</span>(x) x[<span class="dv">3</span>]))</span>
+<span id="cb121-66"><a href="to-do.html#cb121-66" aria-hidden="true" tabindex="-1"></a>  mean_auc<span class="sc">$</span>author <span class="ot">&lt;-</span> author</span>
+<span id="cb121-67"><a href="to-do.html#cb121-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-68"><a href="to-do.html#cb121-68" aria-hidden="true" tabindex="-1"></a>  <span class="co">#get the case control in UKBB</span></span>
+<span id="cb121-69"><a href="to-do.html#cb121-69" aria-hidden="true" tabindex="-1"></a>  ukb_pheno <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">paste0</span>(<span class="st">&quot;../construct_defs/pheno_defs/diag.&quot;</span>, <span class="fu">tolower</span>(author) ,<span class="st">&quot;.txt.gz&quot;</span>), <span class="at">stringsAsFactors=</span>F)</span>
+<span id="cb121-70"><a href="to-do.html#cb121-70" aria-hidden="true" tabindex="-1"></a>  list_ukb_cc[[i]] <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">matrix</span>(<span class="fu">as.numeric</span>(<span class="fu">table</span>(<span class="fu">rowSums</span>(ukb_pheno[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]) <span class="sc">&gt;</span> <span class="dv">0</span>))))[<span class="fu">rep</span>(<span class="dv">1</span>, <span class="fu">nrow</span>(mean_auc)),]</span>
+<span id="cb121-71"><a href="to-do.html#cb121-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-72"><a href="to-do.html#cb121-72" aria-hidden="true" tabindex="-1"></a>  <span class="co">#get the ukb snp lengths</span></span>
+<span id="cb121-73"><a href="to-do.html#cb121-73" aria-hidden="true" tabindex="-1"></a>  ukb_snps <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(list_all_best_methods[[i]]))</span>
+<span id="cb121-74"><a href="to-do.html#cb121-74" aria-hidden="true" tabindex="-1"></a>  ukb_beta_pdiff <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(list_all_best_methods[[i]]))</span>
+<span id="cb121-75"><a href="to-do.html#cb121-75" aria-hidden="true" tabindex="-1"></a>  ukb_len_pdiff <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">0</span>, <span class="fu">nrow</span>(list_all_best_methods[[i]]))</span>
+<span id="cb121-76"><a href="to-do.html#cb121-76" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(sname <span class="cf">in</span> list_all_best_methods[[i]][,<span class="dv">1</span>]){</span>
+<span id="cb121-77"><a href="to-do.html#cb121-77" aria-hidden="true" tabindex="-1"></a>    new_name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">strsplit</span>(sname, <span class="st">&quot;.&quot;</span>, <span class="at">fixed =</span> T)[[<span class="dv">1</span>]][<span class="dv">3</span>], <span class="st">&quot;.&quot;</span>, <span class="fu">strsplit</span>(sname, <span class="st">&quot;.&quot;</span>, <span class="at">fixed =</span> T)[[<span class="dv">1</span>]][<span class="dv">2</span>], <span class="st">&quot;.ss.gz&quot;</span>)</span>
+<span id="cb121-78"><a href="to-do.html#cb121-78" aria-hidden="true" tabindex="-1"></a>    get_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="fu">paste0</span>(<span class="st">&quot;../../mod_sets/&quot;</span>, author, <span class="st">&quot;/&quot;</span>), <span class="at">pattern =</span> new_name)</span>
+<span id="cb121-79"><a href="to-do.html#cb121-79" aria-hidden="true" tabindex="-1"></a>    prs_sets <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb121-80"><a href="to-do.html#cb121-80" aria-hidden="true" tabindex="-1"></a>    <span class="co">#temp_length &lt;- rep(0, length(get_files))</span></span>
+<span id="cb121-81"><a href="to-do.html#cb121-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(get_files)){</span>
+<span id="cb121-82"><a href="to-do.html#cb121-82" aria-hidden="true" tabindex="-1"></a>      <span class="co">#temp_length[j] &lt;- as.numeric(system(paste0(&quot;cat ../../mod_sets/&quot;, author, &quot;/&quot;, get_files[j], &quot; | wc -l&quot;), intern = TRUE))</span></span>
+<span id="cb121-83"><a href="to-do.html#cb121-83" aria-hidden="true" tabindex="-1"></a>      prs_sets[[j]] <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">paste0</span>(<span class="st">&quot;../../mod_sets/&quot;</span>, author, <span class="st">&quot;/&quot;</span>, get_files[j]), <span class="at">stringsAsFactors=</span>F, <span class="at">header=</span>T)</span>
+<span id="cb121-84"><a href="to-do.html#cb121-84" aria-hidden="true" tabindex="-1"></a>      <span class="fu">colnames</span>(prs_sets[[j]]) <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">rep</span>(<span class="st">&quot;X&quot;</span>, <span class="fu">ncol</span>(prs_sets[[j]])), <span class="dv">1</span><span class="sc">:</span><span class="fu">ncol</span>(prs_sets[[j]]))</span>
+<span id="cb121-85"><a href="to-do.html#cb121-85" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb121-86"><a href="to-do.html#cb121-86" aria-hidden="true" tabindex="-1"></a>    prs_sets <span class="ot">&lt;-</span> <span class="fu">do.call</span>(<span class="st">&quot;rbind&quot;</span>, prs_sets)</span>
+<span id="cb121-87"><a href="to-do.html#cb121-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-88"><a href="to-do.html#cb121-88" aria-hidden="true" tabindex="-1"></a>    ukb_snps[<span class="fu">which</span>(list_all_best_methods[[i]][,<span class="dv">1</span>] <span class="sc">==</span> sname)] <span class="ot">&lt;-</span> <span class="fu">nrow</span>(prs_sets)</span>
+<span id="cb121-89"><a href="to-do.html#cb121-89" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="fu">length</span>(<span class="fu">unique</span>(prs_sets[,<span class="dv">7</span>])) <span class="sc">&gt;</span> <span class="dv">10</span>){</span>
+<span id="cb121-90"><a href="to-do.html#cb121-90" aria-hidden="true" tabindex="-1"></a>      temp <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">splitter</span>(<span class="fu">sort</span>(<span class="fu">abs</span>(<span class="fu">sort</span>(prs_sets[,<span class="dv">7</span>]))), <span class="dv">4</span>), <span class="cf">function</span>(x) <span class="fu">mean</span>(x)))</span>
+<span id="cb121-91"><a href="to-do.html#cb121-91" aria-hidden="true" tabindex="-1"></a>      ukb_beta_pdiff[<span class="fu">which</span>(list_all_best_methods[[i]][,<span class="dv">1</span>] <span class="sc">==</span> sname)] <span class="ot">&lt;-</span> (temp[<span class="dv">4</span>] <span class="sc">-</span> temp[<span class="dv">1</span>])<span class="sc">/</span>temp[<span class="dv">1</span>]</span>
+<span id="cb121-92"><a href="to-do.html#cb121-92" aria-hidden="true" tabindex="-1"></a>      temp <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">splitter</span>(<span class="fu">sort</span>(<span class="fu">abs</span>(<span class="fu">sort</span>(prs_sets[,<span class="dv">7</span>]))), <span class="dv">4</span>), <span class="cf">function</span>(x) <span class="fu">length</span>(x)))</span>
+<span id="cb121-93"><a href="to-do.html#cb121-93" aria-hidden="true" tabindex="-1"></a>      ukb_len_pdiff[<span class="fu">which</span>(list_all_best_methods[[i]][,<span class="dv">1</span>] <span class="sc">==</span> sname)] <span class="ot">&lt;-</span> (temp[<span class="dv">4</span>] <span class="sc">-</span> temp[<span class="dv">1</span>])<span class="sc">/</span>temp[<span class="dv">1</span>]</span>
+<span id="cb121-94"><a href="to-do.html#cb121-94" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb121-95"><a href="to-do.html#cb121-95" aria-hidden="true" tabindex="-1"></a>      ukb_beta_pdiff[<span class="fu">which</span>(list_all_best_methods[[i]][,<span class="dv">1</span>] <span class="sc">==</span> sname)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb121-96"><a href="to-do.html#cb121-96" aria-hidden="true" tabindex="-1"></a>      ukb_len_pdiff[<span class="fu">which</span>(list_all_best_methods[[i]][,<span class="dv">1</span>] <span class="sc">==</span> sname)] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb121-97"><a href="to-do.html#cb121-97" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb121-98"><a href="to-do.html#cb121-98" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb121-99"><a href="to-do.html#cb121-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-100"><a href="to-do.html#cb121-100" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(ukb_snps) <span class="ot">&lt;-</span> list_all_best_methods[[i]][,<span class="dv">1</span>]</span>
+<span id="cb121-101"><a href="to-do.html#cb121-101" aria-hidden="true" tabindex="-1"></a>  list_ukb_snps[[i]] <span class="ot">&lt;-</span> ukb_snps</span>
+<span id="cb121-102"><a href="to-do.html#cb121-102" aria-hidden="true" tabindex="-1"></a>  list_ukb_beta_pdiff[[i]] <span class="ot">&lt;-</span> ukb_beta_pdiff</span>
+<span id="cb121-103"><a href="to-do.html#cb121-103" aria-hidden="true" tabindex="-1"></a>  list_ukb_len_pdiff[[i]] <span class="ot">&lt;-</span> ukb_len_pdiff</span>
+<span id="cb121-104"><a href="to-do.html#cb121-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-105"><a href="to-do.html#cb121-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-106"><a href="to-do.html#cb121-106" aria-hidden="true" tabindex="-1"></a>  list_all_auc[[i]] <span class="ot">&lt;-</span> mean_auc</span>
+<span id="cb121-107"><a href="to-do.html#cb121-107" aria-hidden="true" tabindex="-1"></a>  i <span class="ot">&lt;-</span> i <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb121-108"><a href="to-do.html#cb121-108" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb121-109"><a href="to-do.html#cb121-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-110"><a href="to-do.html#cb121-110" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(list_pval_6)){</span>
+<span id="cb121-111"><a href="to-do.html#cb121-111" aria-hidden="true" tabindex="-1"></a>  list_pval_6[[i]] <span class="ot">&lt;-</span> <span class="fu">rep</span>(list_pval_6[[i]], <span class="fu">length</span>(list_ukb_snps[[i]]))</span>
+<span id="cb121-112"><a href="to-do.html#cb121-112" aria-hidden="true" tabindex="-1"></a>  list_pval_8[[i]] <span class="ot">&lt;-</span> <span class="fu">rep</span>(list_pval_8[[i]], <span class="fu">length</span>(list_ukb_snps[[i]]))</span>
+<span id="cb121-113"><a href="to-do.html#cb121-113" aria-hidden="true" tabindex="-1"></a>  list_beta_len[[i]] <span class="ot">&lt;-</span> <span class="fu">rep</span>(list_beta_len[[i]], <span class="fu">length</span>(list_ukb_snps[[i]]))</span>
+<span id="cb121-114"><a href="to-do.html#cb121-114" aria-hidden="true" tabindex="-1"></a>  list_beta_effect[[i]] <span class="ot">&lt;-</span> <span class="fu">rep</span>(list_beta_effect[[i]], <span class="fu">length</span>(list_ukb_snps[[i]]))</span>
+<span id="cb121-115"><a href="to-do.html#cb121-115" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb121-116"><a href="to-do.html#cb121-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-117"><a href="to-do.html#cb121-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-118"><a href="to-do.html#cb121-118" aria-hidden="true" tabindex="-1"></a><span class="co">#add meta info to the all_auc</span></span>
+<span id="cb121-119"><a href="to-do.html#cb121-119" aria-hidden="true" tabindex="-1"></a>all_auc <span class="ot">&lt;-</span> <span class="fu">do.call</span>(<span class="st">&quot;rbind&quot;</span>, list_all_auc)</span>
+<span id="cb121-120"><a href="to-do.html#cb121-120" aria-hidden="true" tabindex="-1"></a>all_auc <span class="ot">&lt;-</span> <span class="fu">cbind</span>(all_auc, <span class="fu">do.call</span>(<span class="st">&quot;rbind&quot;</span>, list_ukb_cc))</span>
+<span id="cb121-121"><a href="to-do.html#cb121-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-122"><a href="to-do.html#cb121-122" aria-hidden="true" tabindex="-1"></a>method_best_names <span class="ot">&lt;-</span> <span class="fu">unlist</span>(list_all_best_methods)</span>
+<span id="cb121-123"><a href="to-do.html#cb121-123" aria-hidden="true" tabindex="-1"></a>all_auc <span class="ot">&lt;-</span> all_auc[all_auc<span class="sc">$</span>name <span class="sc">%in%</span> method_best_names,]</span>
+<span id="cb121-124"><a href="to-do.html#cb121-124" aria-hidden="true" tabindex="-1"></a>all_auc <span class="ot">&lt;-</span> <span class="fu">cbind</span>(all_auc, <span class="fu">unlist</span>(list_ukb_snps), <span class="fu">unlist</span>(list_ukb_beta_pdiff), <span class="fu">unlist</span>(list_ukb_len_pdiff), <span class="fu">unlist</span>(list_pval_6), <span class="fu">unlist</span>(list_pval_8), <span class="fu">unlist</span>(list_beta_len), <span class="fu">unlist</span>(list_beta_effect))</span>
+<span id="cb121-125"><a href="to-do.html#cb121-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-126"><a href="to-do.html#cb121-126" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(all_auc) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;auc_lo&quot;</span>, <span class="st">&quot;auc&quot;</span>, <span class="st">&quot;auc_hi&quot;</span>, <span class="st">&quot;name&quot;</span>, <span class="st">&quot;method&quot;</span>, <span class="st">&quot;author&quot;</span>, <span class="st">&quot;uk_control&quot;</span>, <span class="st">&quot;uk_case&quot;</span>, <span class="st">&quot;uk_snps&quot;</span>, <span class="st">&quot;uk_beta_pdiff&quot;</span>, <span class="st">&quot;uk_len_pdiff&quot;</span>, <span class="st">&quot;sig6_gwas_snps&quot;</span>, <span class="st">&quot;sig8_gwas_snps&quot;</span>, <span class="st">&quot;len_pdiff&quot;</span>, <span class="st">&quot;effect_pdiff&quot;</span>)</span>
+<span id="cb121-127"><a href="to-do.html#cb121-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-128"><a href="to-do.html#cb121-128" aria-hidden="true" tabindex="-1"></a>meta_info <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;../../raw_ss/meta_stats&quot;</span>, <span class="at">stringsAsFactors=</span>F, <span class="at">sep=</span><span class="st">&quot;,&quot;</span>, <span class="at">header=</span>T)</span>
+<span id="cb121-129"><a href="to-do.html#cb121-129" aria-hidden="true" tabindex="-1"></a>add_on <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">nrow</span>(all_auc), <span class="at">ncol =</span> <span class="dv">10</span>))</span>
+<span id="cb121-130"><a href="to-do.html#cb121-130" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(add_on) <span class="ot">&lt;-</span> <span class="fu">colnames</span>(meta_info)[<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</span>
+<span id="cb121-131"><a href="to-do.html#cb121-131" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(author <span class="cf">in</span> <span class="fu">unique</span>(all_auc<span class="sc">$</span>author)){</span>
+<span id="cb121-132"><a href="to-do.html#cb121-132" aria-hidden="true" tabindex="-1"></a>  add_on[all_auc<span class="sc">$</span>author <span class="sc">==</span> author,] <span class="ot">&lt;-</span> meta_info[meta_info<span class="sc">$</span>author <span class="sc">==</span> author,<span class="sc">-</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>)]</span>
+<span id="cb121-133"><a href="to-do.html#cb121-133" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb121-134"><a href="to-do.html#cb121-134" aria-hidden="true" tabindex="-1"></a>all_auc <span class="ot">&lt;-</span> <span class="fu">cbind</span>(all_auc, add_on)</span>
+<span id="cb121-135"><a href="to-do.html#cb121-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-136"><a href="to-do.html#cb121-136" aria-hidden="true" tabindex="-1"></a>all_auc<span class="sc">$</span>uk_cc_ratio <span class="ot">&lt;-</span> all_auc<span class="sc">$</span>uk_case<span class="sc">/</span>all_auc<span class="sc">$</span>uk_control</span>
+<span id="cb121-137"><a href="to-do.html#cb121-137" aria-hidden="true" tabindex="-1"></a>all_auc<span class="sc">$</span>gwas_cc_ratio <span class="ot">&lt;-</span> all_auc<span class="sc">$</span>cases<span class="sc">/</span>all_auc<span class="sc">$</span>controls</span>
+<span id="cb121-138"><a href="to-do.html#cb121-138" aria-hidden="true" tabindex="-1"></a>all_auc<span class="sc">$</span>uk_sampe_size <span class="ot">&lt;-</span> all_auc<span class="sc">$</span>uk_case <span class="sc">+</span> all_auc<span class="sc">$</span>uk_control</span>
+<span id="cb121-139"><a href="to-do.html#cb121-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-140"><a href="to-do.html#cb121-140" aria-hidden="true" tabindex="-1"></a><span class="co">#get the best names (absolute best, and best name for each method for each author)</span></span>
+<span id="cb121-141"><a href="to-do.html#cb121-141" aria-hidden="true" tabindex="-1"></a>abs_best_names <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(list_all_best_names, <span class="cf">function</span>(x) x[<span class="dv">3</span>,<span class="dv">2</span>]))</span>
+<span id="cb121-142"><a href="to-do.html#cb121-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-143"><a href="to-do.html#cb121-143" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(reg_name <span class="cf">in</span> <span class="fu">c</span>(<span class="st">&quot;uk_snps&quot;</span>, <span class="st">&quot;uk_beta_pdiff&quot;</span>, <span class="st">&quot;uk_len_pdiff&quot;</span>, <span class="st">&quot;sig6_gwas_snps&quot;</span>, <span class="st">&quot;sig8_gwas_snps&quot;</span>, <span class="st">&quot;len_pdiff&quot;</span>, <span class="st">&quot;effect_pdiff&quot;</span>, <span class="st">&quot;sampe_size&quot;</span>, <span class="st">&quot;snps&quot;</span>, <span class="st">&quot;h2&quot;</span>, <span class="st">&quot;uk_cc_ratio&quot;</span>, <span class="st">&quot;gwas_cc_ratio&quot;</span>)){</span>
+<span id="cb121-144"><a href="to-do.html#cb121-144" aria-hidden="true" tabindex="-1"></a>  all_auc[reg_name] <span class="ot">&lt;-</span> (all_auc[reg_name] <span class="sc">-</span> <span class="fu">min</span>(all_auc[reg_name], <span class="at">na.rm=</span>T))<span class="sc">/</span>(<span class="fu">max</span>(all_auc[reg_name],<span class="at">na.rm=</span>T) <span class="sc">-</span> <span class="fu">min</span>(all_auc[reg_name],<span class="at">na.rm=</span>T))</span>
+<span id="cb121-145"><a href="to-do.html#cb121-145" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb121-146"><a href="to-do.html#cb121-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb121-147"><a href="to-do.html#cb121-147" aria-hidden="true" tabindex="-1"></a><span class="co">#subset the all_auc</span></span>
+<span id="cb121-148"><a href="to-do.html#cb121-148" aria-hidden="true" tabindex="-1"></a>all_auc<span class="sc">$</span>ancestry <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(<span class="fu">as.factor</span>(all_auc<span class="sc">$</span>ancestry))</span>
+<span id="cb121-149"><a href="to-do.html#cb121-149" aria-hidden="true" tabindex="-1"></a>all_auc <span class="ot">&lt;-</span> all_auc[,<span class="sc">-</span><span class="fu">which</span>(<span class="fu">colnames</span>(all_auc) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;ldsc_h2&quot;</span>, <span class="st">&quot;ldsc_h2_se&quot;</span>, <span class="st">&quot;hdl_h2&quot;</span>, <span class="st">&quot;hdl_h2_se&quot;</span>, <span class="st">&quot;hdl_h2se&quot;</span>))]</span>
+<span id="cb121-150"><a href="to-do.html#cb121-150" aria-hidden="true" tabindex="-1"></a>abs_best_auc <span class="ot">&lt;-</span> all_auc[all_auc<span class="sc">$</span>name <span class="sc">%in%</span> abs_best_names,]</span>
+<span id="cb121-151"><a href="to-do.html#cb121-151" aria-hidden="true" tabindex="-1"></a>method_best_auc <span class="ot">&lt;-</span> all_auc</span></code></pre></div>
+</div>
+<div id="meta-info-regressions" class="section level3" number="12.1.2">
+<h3><span class="header-section-number">12.1.2</span> Meta Info Regressions</h3>
+<p>With all of the data prepared we go go onto actually conducting the regressions. This section is actually relatively simple as all we have to do is call a lm command for each meta-statistic as the independent variable. To further break things down, the data I am pulling from in each regression is broken into the best method for each disease, or the best parameter-set for a given method for each disease. I am therefore able to estimate not only the overall impact of the number of initial SNPs (for example) on performance, but also whether this effect of number of SNPs only applies to the clumping method. After each regression I keep the regression coefficent, standard error, z-value and p-value. The exact code is:</p>
+<div class="sourceCode" id="cb122"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="to-do.html#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="do">############################################################</span></span>
+<span id="cb122-2"><a href="to-do.html#cb122-2" aria-hidden="true" tabindex="-1"></a><span class="do">################ META INFO REGRESSIONS #####################</span></span>
+<span id="cb122-3"><a href="to-do.html#cb122-3" aria-hidden="true" tabindex="-1"></a><span class="do">############################################################</span></span>
+<span id="cb122-4"><a href="to-do.html#cb122-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-5"><a href="to-do.html#cb122-5" aria-hidden="true" tabindex="-1"></a>meta_to_regress <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;uk_snps&quot;</span>, <span class="st">&quot;uk_beta_pdiff&quot;</span>, <span class="st">&quot;uk_len_pdiff&quot;</span>, <span class="st">&quot;sig6_gwas_snps&quot;</span>, <span class="st">&quot;sig8_gwas_snps&quot;</span>, <span class="st">&quot;len_pdiff&quot;</span>, <span class="st">&quot;effect_pdiff&quot;</span>, <span class="st">&quot;sampe_size&quot;</span>, <span class="st">&quot;ancestry&quot;</span>, <span class="st">&quot;snps&quot;</span>, <span class="st">&quot;h2&quot;</span>, <span class="st">&quot;uk_cc_ratio&quot;</span>, <span class="st">&quot;gwas_cc_ratio&quot;</span>)</span>
+<span id="cb122-6"><a href="to-do.html#cb122-6" aria-hidden="true" tabindex="-1"></a>abs_best_coefs <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">length</span>(meta_to_regress), <span class="at">ncol =</span> <span class="dv">4</span>)</span>
+<span id="cb122-7"><a href="to-do.html#cb122-7" aria-hidden="true" tabindex="-1"></a>all_poss_coefs <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">length</span>(meta_to_regress), <span class="at">ncol =</span> <span class="dv">4</span>)</span>
+<span id="cb122-8"><a href="to-do.html#cb122-8" aria-hidden="true" tabindex="-1"></a>method_best_coefs <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">list</span>(<span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">length</span>(meta_to_regress), <span class="at">ncol =</span> <span class="dv">4</span>)), <span class="fu">length</span>(<span class="fu">unique</span>(method_best_auc<span class="sc">$</span>method)))</span>
+<span id="cb122-9"><a href="to-do.html#cb122-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-10"><a href="to-do.html#cb122-10" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(meta_to_regress)){</span>
+<span id="cb122-11"><a href="to-do.html#cb122-11" aria-hidden="true" tabindex="-1"></a>  best_mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">as.formula</span>(<span class="fu">paste0</span>(<span class="st">&quot;auc ~ &quot;</span>, meta_to_regress[i])), <span class="at">data =</span> abs_best_auc)</span>
+<span id="cb122-12"><a href="to-do.html#cb122-12" aria-hidden="true" tabindex="-1"></a>  abs_best_coefs[i,] <span class="ot">&lt;-</span> <span class="fu">summary</span>(best_mod)<span class="sc">$</span>coefficients[<span class="dv">2</span>,]</span>
+<span id="cb122-13"><a href="to-do.html#cb122-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-14"><a href="to-do.html#cb122-14" aria-hidden="true" tabindex="-1"></a>  all_mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">as.formula</span>(<span class="fu">paste0</span>(<span class="st">&quot;auc ~ &quot;</span>, meta_to_regress[i])), <span class="at">data =</span> method_best_auc)</span>
+<span id="cb122-15"><a href="to-do.html#cb122-15" aria-hidden="true" tabindex="-1"></a>  all_poss_coefs[i,] <span class="ot">&lt;-</span> <span class="fu">summary</span>(all_mod)<span class="sc">$</span>coefficients[<span class="dv">2</span>,]</span>
+<span id="cb122-16"><a href="to-do.html#cb122-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-17"><a href="to-do.html#cb122-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(m <span class="cf">in</span> <span class="fu">unique</span>(method_best_auc<span class="sc">$</span>method)){</span>
+<span id="cb122-18"><a href="to-do.html#cb122-18" aria-hidden="true" tabindex="-1"></a>     method_mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(<span class="fu">as.formula</span>(<span class="fu">paste0</span>(<span class="st">&quot;auc ~ &quot;</span>, meta_to_regress[i])), <span class="at">data =</span> method_best_auc[method_best_auc<span class="sc">$</span>method <span class="sc">==</span> m,])</span>
+<span id="cb122-19"><a href="to-do.html#cb122-19" aria-hidden="true" tabindex="-1"></a>     method_best_coefs[[<span class="fu">which</span>(<span class="fu">unique</span>(method_best_auc<span class="sc">$</span>method) <span class="sc">==</span> m)]][i,] <span class="ot">&lt;-</span> <span class="fu">summary</span>(method_mod)<span class="sc">$</span>coefficients[<span class="dv">2</span>,]</span>
+<span id="cb122-20"><a href="to-do.html#cb122-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb122-21"><a href="to-do.html#cb122-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb122-22"><a href="to-do.html#cb122-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-23"><a href="to-do.html#cb122-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-24"><a href="to-do.html#cb122-24" aria-hidden="true" tabindex="-1"></a><span class="co">#should add regressions across all for best method, not just abs best auc</span></span>
+<span id="cb122-25"><a href="to-do.html#cb122-25" aria-hidden="true" tabindex="-1"></a>meta_to_regress <span class="ot">&lt;-</span> meta_to_regress[<span class="sc">-</span><span class="fu">which</span>(meta_to_regress <span class="sc">==</span> <span class="st">&quot;ancestry&quot;</span>)]</span>
+<span id="cb122-26"><a href="to-do.html#cb122-26" aria-hidden="true" tabindex="-1"></a>umethod <span class="ot">&lt;-</span> <span class="fu">unique</span>(method_best_auc<span class="sc">$</span>method)</span>
+<span id="cb122-27"><a href="to-do.html#cb122-27" aria-hidden="true" tabindex="-1"></a>method_holder <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">length</span>(meta_to_regress)<span class="sc">*</span><span class="dv">2</span>, <span class="at">ncol =</span> <span class="fu">length</span>(umethod)))</span>
+<span id="cb122-28"><a href="to-do.html#cb122-28" aria-hidden="true" tabindex="-1"></a>norm_auc <span class="ot">&lt;-</span> (method_best_auc<span class="sc">$</span>auc <span class="sc">-</span> <span class="fu">min</span>(method_best_auc<span class="sc">$</span>auc))<span class="sc">/</span>(<span class="fu">max</span>(method_best_auc<span class="sc">$</span>auc) <span class="sc">-</span> <span class="fu">min</span>(method_best_auc<span class="sc">$</span>auc))</span>
+<span id="cb122-29"><a href="to-do.html#cb122-29" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb122-30"><a href="to-do.html#cb122-30" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(meta_to_regress)){</span>
+<span id="cb122-31"><a href="to-do.html#cb122-31" aria-hidden="true" tabindex="-1"></a>  j <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">colnames</span>(method_best_auc) <span class="sc">==</span> meta_to_regress[i])</span>
+<span id="cb122-32"><a href="to-do.html#cb122-32" aria-hidden="true" tabindex="-1"></a>  stat_val <span class="ot">&lt;-</span> (method_best_auc[,j] <span class="sc">-</span> <span class="fu">min</span>(method_best_auc[,j]))<span class="sc">/</span>(<span class="fu">max</span>(method_best_auc[,j]) <span class="sc">-</span> <span class="fu">min</span>(method_best_auc[,j]))</span>
+<span id="cb122-33"><a href="to-do.html#cb122-33" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> method_best_auc[<span class="fu">order</span>(norm_auc<span class="sc">*</span>stat_val,<span class="at">decreasing=</span>T),]</span>
+<span id="cb122-34"><a href="to-do.html#cb122-34" aria-hidden="true" tabindex="-1"></a>  top_method <span class="ot">&lt;-</span> temp<span class="sc">$</span>method[<span class="sc">!</span><span class="fu">duplicated</span>(temp<span class="sc">$</span>author)][<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb122-35"><a href="to-do.html#cb122-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-36"><a href="to-do.html#cb122-36" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(m <span class="cf">in</span> <span class="fu">unique</span>(top_method)){</span>
+<span id="cb122-37"><a href="to-do.html#cb122-37" aria-hidden="true" tabindex="-1"></a>    method_holder[k,<span class="fu">which</span>(umethod <span class="sc">==</span> m)] <span class="ot">&lt;-</span> <span class="fu">sum</span>(top_method <span class="sc">==</span> m)</span>
+<span id="cb122-38"><a href="to-do.html#cb122-38" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb122-39"><a href="to-do.html#cb122-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-40"><a href="to-do.html#cb122-40" aria-hidden="true" tabindex="-1"></a>  stat_val <span class="ot">&lt;-</span> <span class="fu">abs</span>(stat_val <span class="sc">-</span> <span class="dv">1</span>)</span>
+<span id="cb122-41"><a href="to-do.html#cb122-41" aria-hidden="true" tabindex="-1"></a>  temp <span class="ot">&lt;-</span> method_best_auc[<span class="fu">order</span>(norm_auc<span class="sc">*</span>stat_val,<span class="at">decreasing=</span>T),]</span>
+<span id="cb122-42"><a href="to-do.html#cb122-42" aria-hidden="true" tabindex="-1"></a>  top_method <span class="ot">&lt;-</span> temp<span class="sc">$</span>method[<span class="sc">!</span><span class="fu">duplicated</span>(temp<span class="sc">$</span>author)][<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>]</span>
+<span id="cb122-43"><a href="to-do.html#cb122-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-44"><a href="to-do.html#cb122-44" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(m <span class="cf">in</span> <span class="fu">unique</span>(top_method)){</span>
+<span id="cb122-45"><a href="to-do.html#cb122-45" aria-hidden="true" tabindex="-1"></a>    method_holder[k<span class="sc">+</span><span class="dv">1</span>,<span class="fu">which</span>(umethod <span class="sc">==</span> m)] <span class="ot">&lt;-</span> <span class="fu">sum</span>(top_method <span class="sc">==</span> m)</span>
+<span id="cb122-46"><a href="to-do.html#cb122-46" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb122-47"><a href="to-do.html#cb122-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-48"><a href="to-do.html#cb122-48" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> k <span class="sc">+</span> <span class="dv">2</span></span>
+<span id="cb122-49"><a href="to-do.html#cb122-49" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb122-50"><a href="to-do.html#cb122-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb122-51"><a href="to-do.html#cb122-51" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(method_holder) <span class="ot">&lt;-</span> umethod</span>
+<span id="cb122-52"><a href="to-do.html#cb122-52" aria-hidden="true" tabindex="-1"></a>method_holder<span class="sc">$</span>stat <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;rev_&quot;</span>), <span class="fu">rep</span>(meta_to_regress, <span class="at">each=</span><span class="dv">2</span>))</span></code></pre></div>
+</div>
+<div id="testing-and-training-comparison" class="section level3" number="12.1.3">
+<h3><span class="header-section-number">12.1.3</span> Testing and Training Comparison</h3>
+<p>While not the main objective of determining whether meta-statistic effect the performance of polygenic risk scores, comparing training and testing accuracies is an important step to determine model overfitting. For example, if the AUC is very high in training compared to testing then we know the cross validation in the training step did not adequately lead to independent groups and perhaps the entire assessment of best scores could be corrputed. The process to check this problem is luckily quite simple. We simply read in the training and testing results, average over the folds in the training group, then take the difference between each. The exact code is shown below (including the final step of saving everything):</p>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb123-1"><a href="to-do.html#cb123-1" aria-hidden="true" tabindex="-1"></a><span class="do">############################################################</span></span>
+<span id="cb123-2"><a href="to-do.html#cb123-2" aria-hidden="true" tabindex="-1"></a><span class="do">################ TRAIN AND </span><span class="al">TEST</span><span class="do"> COMP #####################</span></span>
+<span id="cb123-3"><a href="to-do.html#cb123-3" aria-hidden="true" tabindex="-1"></a><span class="do">############################################################</span></span>
+<span id="cb123-4"><a href="to-do.html#cb123-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-5"><a href="to-do.html#cb123-5" aria-hidden="true" tabindex="-1"></a>ttcomp <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">length</span>(all_author), <span class="at">ncol =</span> <span class="dv">4</span>)</span>
+<span id="cb123-6"><a href="to-do.html#cb123-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-7"><a href="to-do.html#cb123-7" aria-hidden="true" tabindex="-1"></a>k <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb123-8"><a href="to-do.html#cb123-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(author <span class="cf">in</span> all_author){</span>
+<span id="cb123-9"><a href="to-do.html#cb123-9" aria-hidden="true" tabindex="-1"></a>  tune_res <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">paste0</span>(<span class="st">&quot;../tune_score/tune_results/&quot;</span>, author, <span class="st">&quot;_res.RDS&quot;</span>))</span>
+<span id="cb123-10"><a href="to-do.html#cb123-10" aria-hidden="true" tabindex="-1"></a>  test_res <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">paste0</span>(<span class="st">&quot;../test_score/final_stats/&quot;</span>, author, <span class="st">&quot;_res.RDS&quot;</span>))</span>
+<span id="cb123-11"><a href="to-do.html#cb123-11" aria-hidden="true" tabindex="-1"></a>  use_name <span class="ot">&lt;-</span> test_res[[<span class="st">&quot;score_names&quot;</span>]]</span>
+<span id="cb123-12"><a href="to-do.html#cb123-12" aria-hidden="true" tabindex="-1"></a>  use_index <span class="ot">&lt;-</span> <span class="fu">which</span>(tune_res[[<span class="st">&quot;score_names&quot;</span>]] <span class="sc">==</span> use_name)</span>
+<span id="cb123-13"><a href="to-do.html#cb123-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-14"><a href="to-do.html#cb123-14" aria-hidden="true" tabindex="-1"></a>  mean_conc <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="st">&quot;+&quot;</span>, tune_res[[<span class="st">&quot;conc&quot;</span>]])<span class="sc">/</span><span class="fu">length</span>(tune_res[[<span class="st">&quot;conc&quot;</span>]])</span>
+<span id="cb123-15"><a href="to-do.html#cb123-15" aria-hidden="true" tabindex="-1"></a>  mean_auc <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="st">&quot;+&quot;</span>, tune_res[[<span class="st">&quot;auc&quot;</span>]])<span class="sc">/</span><span class="fu">length</span>(tune_res[[<span class="st">&quot;auc&quot;</span>]])</span>
+<span id="cb123-16"><a href="to-do.html#cb123-16" aria-hidden="true" tabindex="-1"></a>  mean_or <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(<span class="st">&quot;+&quot;</span>, tune_res[[<span class="st">&quot;or&quot;</span>]])<span class="sc">/</span><span class="fu">length</span>(tune_res[[<span class="st">&quot;or&quot;</span>]])</span>
+<span id="cb123-17"><a href="to-do.html#cb123-17" aria-hidden="true" tabindex="-1"></a>  mean_survfit <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">length</span>(tune_res[[<span class="st">&quot;survfit&quot;</span>]][[<span class="dv">1</span>]]), <span class="at">ncol =</span> <span class="dv">6</span>)</span>
+<span id="cb123-18"><a href="to-do.html#cb123-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(tune_res[[<span class="st">&quot;survfit&quot;</span>]])){</span>
+<span id="cb123-19"><a href="to-do.html#cb123-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(tune_res[[<span class="st">&quot;score_names&quot;</span>]])){</span>
+<span id="cb123-20"><a href="to-do.html#cb123-20" aria-hidden="true" tabindex="-1"></a>      mean_survfit[j,] <span class="ot">&lt;-</span> mean_survfit[j,] <span class="sc">+</span> <span class="fu">as.numeric</span>(tune_res[[<span class="st">&quot;survfit&quot;</span>]][[i]][[j]])</span>
+<span id="cb123-21"><a href="to-do.html#cb123-21" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb123-22"><a href="to-do.html#cb123-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb123-23"><a href="to-do.html#cb123-23" aria-hidden="true" tabindex="-1"></a>  mean_survfit <span class="ot">&lt;-</span> mean_survfit<span class="sc">/</span><span class="fu">length</span>(tune_res[[<span class="st">&quot;survfit&quot;</span>]])</span>
+<span id="cb123-24"><a href="to-do.html#cb123-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-25"><a href="to-do.html#cb123-25" aria-hidden="true" tabindex="-1"></a>  mean_conc <span class="ot">&lt;-</span> mean_conc[use_index,]</span>
+<span id="cb123-26"><a href="to-do.html#cb123-26" aria-hidden="true" tabindex="-1"></a>  mean_auc <span class="ot">&lt;-</span> mean_auc[use_index,]</span>
+<span id="cb123-27"><a href="to-do.html#cb123-27" aria-hidden="true" tabindex="-1"></a>  mean_or <span class="ot">&lt;-</span> mean_or[use_index,]</span>
+<span id="cb123-28"><a href="to-do.html#cb123-28" aria-hidden="true" tabindex="-1"></a>  mean_survfit <span class="ot">&lt;-</span> mean_survfit[use_index,]</span>
+<span id="cb123-29"><a href="to-do.html#cb123-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-30"><a href="to-do.html#cb123-30" aria-hidden="true" tabindex="-1"></a>  diff_conc <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(test_res[[<span class="st">&quot;conc&quot;</span>]][<span class="dv">1</span>] <span class="sc">-</span> mean_conc[<span class="dv">1</span>])</span>
+<span id="cb123-31"><a href="to-do.html#cb123-31" aria-hidden="true" tabindex="-1"></a>  diff_auc <span class="ot">&lt;-</span> test_res[[<span class="st">&quot;auc&quot;</span>]][[<span class="dv">2</span>]][<span class="dv">2</span>] <span class="sc">-</span> mean_auc[<span class="dv">2</span>]</span>
+<span id="cb123-32"><a href="to-do.html#cb123-32" aria-hidden="true" tabindex="-1"></a>  diff_or <span class="ot">&lt;-</span> test_res[[<span class="st">&quot;or&quot;</span>]][<span class="dv">2</span>,<span class="dv">2</span>] <span class="sc">-</span> mean_or[<span class="dv">2</span>]</span>
+<span id="cb123-33"><a href="to-do.html#cb123-33" aria-hidden="true" tabindex="-1"></a>  diff_survfit <span class="ot">&lt;-</span> test_res[[<span class="st">&quot;survfit&quot;</span>]][<span class="fu">nrow</span>(test_res[[<span class="st">&quot;survfit&quot;</span>]]),<span class="dv">3</span>] <span class="sc">-</span> mean_survfit[<span class="dv">2</span>]</span>
+<span id="cb123-34"><a href="to-do.html#cb123-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-35"><a href="to-do.html#cb123-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb123-36"><a href="to-do.html#cb123-36" aria-hidden="true" tabindex="-1"></a>  ttcomp[k,] <span class="ot">&lt;-</span> <span class="fu">c</span>(diff_conc, diff_survfit, diff_auc, diff_or)</span>
+<span id="cb123-37"><a href="to-do.html#cb123-37" aria-hidden="true" tabindex="-1"></a>  k <span class="ot">&lt;-</span> k <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb123-38"><a href="to-do.html#cb123-38" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="plotting-3" class="section level3" number="12.1.4">
+<h3><span class="header-section-number">12.1.4</span> Plotting</h3>
+<p>The seperated plotting process is nicely, quite simple. We first create plots to show the effect and standard error of each regression (straightforward seemingly obvious thing to do). To spice thing up we also make two plots to show some of the more interesting correlations between the meta-statistics and significances therein. Lastly, we plot the training and testing differences through a simple dot plot. Seeing as everything is simple enough I will stop now and leave the code below:</p>
+<div class="figure"><span id="fig:unnamed-chunk-141"></span>
+<img src="images/heatmap_plot.png" alt="Heatmap of correlations between meta-statistics" width="100%" />
+<p class="caption">
+Figure 12.1: Heatmap of correlations between meta-statistics
+</p>
+</div>
+<div class="figure"><span id="fig:unnamed-chunk-142"></span>
+<img src="images/pval_plot.png" alt="The significance of each meta-stat on the AUCs of each phenotype" width="100%" />
+<p class="caption">
+Figure 12.2: The significance of each meta-stat on the AUCs of each phenotype
+</p>
+</div>
+<div class="figure"><span id="fig:unnamed-chunk-143"></span>
+<img src="images/best_method_corr_plot.png" alt="The effect of each meta-statistics on the AUCs of the best methods" width="100%" />
+<p class="caption">
+Figure 12.3: The effect of each meta-statistics on the AUCs of the best methods
+</p>
+</div>
+<div class="figure"><span id="fig:unnamed-chunk-144"></span>
+<img src="images/tt_plot.png" alt="Comparison of training and testing AUCs" width="100%" />
+<p class="caption">
+Figure 12.4: Comparison of training and testing AUCs
+</p>
+</div>
+<p>And the code is:</p>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="to-do.html#cb124-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb124-2"><a href="to-do.html#cb124-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb124-3"><a href="to-do.html#cb124-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(cowplot)</span>
+<span id="cb124-4"><a href="to-do.html#cb124-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb124-5"><a href="to-do.html#cb124-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(viridis)</span>
+<span id="cb124-6"><a href="to-do.html#cb124-6" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_cowplot</span>())</span>
+<span id="cb124-7"><a href="to-do.html#cb124-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-8"><a href="to-do.html#cb124-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-9"><a href="to-do.html#cb124-9" aria-hidden="true" tabindex="-1"></a><span class="co">#just need to add method_holder</span></span>
+<span id="cb124-10"><a href="to-do.html#cb124-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-11"><a href="to-do.html#cb124-11" aria-hidden="true" tabindex="-1"></a>method_dict <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;local_info/method_names&quot;</span>, <span class="at">stringsAsFactors =</span> F)</span>
+<span id="cb124-12"><a href="to-do.html#cb124-12" aria-hidden="true" tabindex="-1"></a>author_dict <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;local_info/disease_names&quot;</span>, <span class="at">stringsAsFactors =</span> F, <span class="at">sep =</span> <span class="st">&#39;</span><span class="sc">\t</span><span class="st">&#39;</span>)</span>
+<span id="cb124-13"><a href="to-do.html#cb124-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-14"><a href="to-do.html#cb124-14" aria-hidden="true" tabindex="-1"></a>convert_names <span class="ot">&lt;-</span> <span class="cf">function</span>(x, <span class="at">the_dict =</span> author_dict){</span>
+<span id="cb124-15"><a href="to-do.html#cb124-15" aria-hidden="true" tabindex="-1"></a>  y <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="cn">NA</span>, <span class="fu">length</span>(x))</span>
+<span id="cb124-16"><a href="to-do.html#cb124-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(x)){</span>
+<span id="cb124-17"><a href="to-do.html#cb124-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(x[i] <span class="sc">%in%</span> the_dict[,<span class="dv">1</span>]){</span>
+<span id="cb124-18"><a href="to-do.html#cb124-18" aria-hidden="true" tabindex="-1"></a>      y[i] <span class="ot">&lt;-</span> the_dict[the_dict[,<span class="dv">1</span>] <span class="sc">==</span> x[i], <span class="dv">2</span>]</span>
+<span id="cb124-19"><a href="to-do.html#cb124-19" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb124-20"><a href="to-do.html#cb124-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb124-21"><a href="to-do.html#cb124-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(y)</span>
+<span id="cb124-22"><a href="to-do.html#cb124-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb124-23"><a href="to-do.html#cb124-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-24"><a href="to-do.html#cb124-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-25"><a href="to-do.html#cb124-25" aria-hidden="true" tabindex="-1"></a><span class="co">#1 - authors</span></span>
+<span id="cb124-26"><a href="to-do.html#cb124-26" aria-hidden="true" tabindex="-1"></a><span class="co">#2 - the stats for best methods for each authors (setup data)</span></span>
+<span id="cb124-27"><a href="to-do.html#cb124-27" aria-hidden="true" tabindex="-1"></a><span class="co">#3 - the stats for the single best methods for each authors (setup data)</span></span>
+<span id="cb124-28"><a href="to-do.html#cb124-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-29"><a href="to-do.html#cb124-29" aria-hidden="true" tabindex="-1"></a>meta_results <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;nonpred_results/meta_results.RDS&quot;</span>)</span>
+<span id="cb124-30"><a href="to-do.html#cb124-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-31"><a href="to-do.html#cb124-31" aria-hidden="true" tabindex="-1"></a><span class="co">#1 - authors</span></span>
+<span id="cb124-32"><a href="to-do.html#cb124-32" aria-hidden="true" tabindex="-1"></a><span class="co">#2 - methods_auc - all aucs for all diseases and best methods</span></span>
+<span id="cb124-33"><a href="to-do.html#cb124-33" aria-hidden="true" tabindex="-1"></a><span class="co">#3 - best_auc - all aucs for all disease and abs best</span></span>
+<span id="cb124-34"><a href="to-do.html#cb124-34" aria-hidden="true" tabindex="-1"></a><span class="co">#4 - method_coef - regression coefs stratified by best methods</span></span>
+<span id="cb124-35"><a href="to-do.html#cb124-35" aria-hidden="true" tabindex="-1"></a><span class="co">#5 - abs_coef - regression coefs between abs best</span></span>
+<span id="cb124-36"><a href="to-do.html#cb124-36" aria-hidden="true" tabindex="-1"></a><span class="co">#6 - all_coef - regression coefs between all coefs</span></span>
+<span id="cb124-37"><a href="to-do.html#cb124-37" aria-hidden="true" tabindex="-1"></a><span class="co">#7 - method_holder - count the number of times a method appears in the top</span></span>
+<span id="cb124-38"><a href="to-do.html#cb124-38" aria-hidden="true" tabindex="-1"></a><span class="co">#8 - ttcomp</span></span>
+<span id="cb124-39"><a href="to-do.html#cb124-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-40"><a href="to-do.html#cb124-40" aria-hidden="true" tabindex="-1"></a>methods_setup <span class="ot">&lt;-</span> meta_results[[<span class="dv">2</span>]] <span class="co">#nothing to do unless want to plot the AUC vs the meta-stat for each method or author</span></span>
+<span id="cb124-41"><a href="to-do.html#cb124-41" aria-hidden="true" tabindex="-1"></a>best_setup <span class="ot">&lt;-</span> meta_results[[<span class="dv">3</span>]] <span class="co">#can plot the AUC vs meta-stats</span></span>
+<span id="cb124-42"><a href="to-do.html#cb124-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-43"><a href="to-do.html#cb124-43" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> meta_results[[<span class="st">&quot;method_auc&quot;</span>]]</span>
+<span id="cb124-44"><a href="to-do.html#cb124-44" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> temp[<span class="sc">!</span><span class="fu">duplicated</span>(temp<span class="sc">$</span>author),]</span>
+<span id="cb124-45"><a href="to-do.html#cb124-45" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> temp[,<span class="fu">c</span>(<span class="dv">6</span>, <span class="dv">12</span><span class="sc">:</span><span class="dv">21</span>, <span class="dv">23</span>)]</span>
+<span id="cb124-46"><a href="to-do.html#cb124-46" aria-hidden="true" tabindex="-1"></a>temp[,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">convert_names</span>(<span class="fu">tolower</span>(temp<span class="sc">$</span>author), author_dict)</span>
+<span id="cb124-47"><a href="to-do.html#cb124-47" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> temp[,<span class="sc">-</span><span class="fu">which</span>(<span class="fu">colnames</span>(temp) <span class="sc">==</span> <span class="fu">c</span>(<span class="st">&quot;cases&quot;</span>, <span class="st">&quot;controls&quot;</span>))]</span>
+<span id="cb124-48"><a href="to-do.html#cb124-48" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">2</span><span class="sc">:</span><span class="fu">ncol</span>(temp)){</span>
+<span id="cb124-49"><a href="to-do.html#cb124-49" aria-hidden="true" tabindex="-1"></a>  temp[,i] <span class="ot">&lt;-</span> <span class="fu">signif</span>(temp[,i], <span class="dv">3</span>)</span>
+<span id="cb124-50"><a href="to-do.html#cb124-50" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb124-51"><a href="to-do.html#cb124-51" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(temp, <span class="st">&quot;supp_tables/meta_reg_input.txt&quot;</span>, <span class="at">col.names =</span> T, <span class="at">row.names =</span> F, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote =</span> F)</span>
+<span id="cb124-52"><a href="to-do.html#cb124-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-53"><a href="to-do.html#cb124-53" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;supp_tables/med_endpoint_2.txt&quot;</span>, <span class="at">stringsAsFactors =</span> F, <span class="at">header =</span> T, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">fill =</span> T)</span>
+<span id="cb124-54"><a href="to-do.html#cb124-54" aria-hidden="true" tabindex="-1"></a>df[,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="fu">convert_names</span>(<span class="fu">tolower</span>(df<span class="sc">$</span>author), author_dict)</span>
+<span id="cb124-55"><a href="to-do.html#cb124-55" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(df, <span class="st">&quot;supp_tables/med_endpoint_3.txt&quot;</span>, <span class="at">row.names =</span> F, <span class="at">col.names =</span> T, <span class="at">quote =</span> F, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb124-56"><a href="to-do.html#cb124-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-57"><a href="to-do.html#cb124-57" aria-hidden="true" tabindex="-1"></a><span class="do">######################################################################</span></span>
+<span id="cb124-58"><a href="to-do.html#cb124-58" aria-hidden="true" tabindex="-1"></a><span class="co">#                   METHOD REGRESSIONS                            @</span></span>
+<span id="cb124-59"><a href="to-do.html#cb124-59" aria-hidden="true" tabindex="-1"></a><span class="do">######################################################################</span></span>
+<span id="cb124-60"><a href="to-do.html#cb124-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-61"><a href="to-do.html#cb124-61" aria-hidden="true" tabindex="-1"></a>reg_coefs <span class="ot">&lt;-</span> meta_results[[<span class="dv">4</span>]] <span class="co">#list elements is by methods, rows in the element is meta-stat</span></span>
+<span id="cb124-62"><a href="to-do.html#cb124-62" aria-hidden="true" tabindex="-1"></a><span class="co">#c(&quot;sampe_size&quot;, &quot;cases&quot;, &quot;cases/controls&quot;, &quot;snps&quot;, &quot;h2&quot;, &quot;uk_snps&quot;, &quot;uk_case/uk_control&quot;, &quot;uk_case&quot;)</span></span>
+<span id="cb124-63"><a href="to-do.html#cb124-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-64"><a href="to-do.html#cb124-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-65"><a href="to-do.html#cb124-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-66"><a href="to-do.html#cb124-66" aria-hidden="true" tabindex="-1"></a>stat_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;uk_snps&quot;</span>, <span class="st">&quot;uk_beta_pdiff&quot;</span>, <span class="st">&quot;uk_len_pdiff&quot;</span>, <span class="st">&quot;sig6_gwas_snps&quot;</span>, <span class="st">&quot;sig8_gwas_snps&quot;</span>, <span class="st">&quot;len_pdiff&quot;</span>,</span>
+<span id="cb124-67"><a href="to-do.html#cb124-67" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;effect_pdiff&quot;</span>, <span class="st">&quot;sampe_size&quot;</span>, <span class="st">&quot;ancestry&quot;</span>, <span class="st">&quot;snps&quot;</span>, <span class="st">&quot;h2&quot;</span>, <span class="st">&quot;uk_cc_ratio&quot;</span>, <span class="st">&quot;gwas_cc_ratio&quot;</span>)</span>
+<span id="cb124-68"><a href="to-do.html#cb124-68" aria-hidden="true" tabindex="-1"></a>plot_stat_names <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;PRS SNPs&quot;</span>, <span class="st">&quot;PRS Dist. by Effect&quot;</span>, <span class="st">&quot;PRS Dist. by Length&quot;</span>, <span class="st">&quot;GWAS SNPs &lt; 1e-6&quot;</span>, <span class="st">&quot;GWAS SNPs &lt; 1e-8&quot;</span>,</span>
+<span id="cb124-69"><a href="to-do.html#cb124-69" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;GWAS Dist. by Length&quot;</span>, <span class="st">&quot;GWAS Dist. by Effect&quot;</span>, <span class="st">&quot;GWAS Sample Size&quot;</span>, <span class="st">&quot;GWAS Ancestry&quot;</span>, <span class="st">&quot;GWAS SNPs&quot;</span>,</span>
+<span id="cb124-70"><a href="to-do.html#cb124-70" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;GWAS Heritability&quot;</span>, <span class="st">&quot;UKBB CC Ratio&quot;</span>, <span class="st">&quot;GWAS CC Ratio&quot;</span>)</span>
+<span id="cb124-71"><a href="to-do.html#cb124-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-72"><a href="to-do.html#cb124-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-73"><a href="to-do.html#cb124-73" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">length</span>(reg_coefs), <span class="at">ncol =</span> <span class="dv">4</span>))</span>
+<span id="cb124-74"><a href="to-do.html#cb124-74" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(plot_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;method&quot;</span>, <span class="st">&quot;coef&quot;</span>, <span class="st">&quot;se&quot;</span>, <span class="st">&quot;p&quot;</span>)</span>
+<span id="cb124-75"><a href="to-do.html#cb124-75" aria-hidden="true" tabindex="-1"></a>poss_methods <span class="ot">&lt;-</span> <span class="fu">convert_names</span>(<span class="fu">unique</span>(methods_setup<span class="sc">$</span>method), method_dict)</span>
+<span id="cb124-76"><a href="to-do.html#cb124-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-77"><a href="to-do.html#cb124-77" aria-hidden="true" tabindex="-1"></a>all_plot_df <span class="ot">&lt;-</span> <span class="fu">list</span>()</span>
+<span id="cb124-78"><a href="to-do.html#cb124-78" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(stat_ind <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(stat_names)){</span>
+<span id="cb124-79"><a href="to-do.html#cb124-79" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(plot_df)){</span>
+<span id="cb124-80"><a href="to-do.html#cb124-80" aria-hidden="true" tabindex="-1"></a>    plot_df[i,<span class="dv">1</span>] <span class="ot">&lt;-</span> poss_methods[i]</span>
+<span id="cb124-81"><a href="to-do.html#cb124-81" aria-hidden="true" tabindex="-1"></a>    plot_df[i,<span class="dv">2</span><span class="sc">:</span><span class="dv">4</span>] <span class="ot">&lt;-</span> reg_coefs[[i]][stat_ind,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>, <span class="dv">4</span>)]</span>
+<span id="cb124-82"><a href="to-do.html#cb124-82" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb124-83"><a href="to-do.html#cb124-83" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb124-84"><a href="to-do.html#cb124-84" aria-hidden="true" tabindex="-1"></a>  plot_df<span class="sc">$</span>method <span class="ot">&lt;-</span> <span class="fu">factor</span>(plot_df<span class="sc">$</span>method, <span class="at">levels =</span> plot_df<span class="sc">$</span>method[<span class="fu">order</span>(plot_df<span class="sc">$</span>coef)])</span>
+<span id="cb124-85"><a href="to-do.html#cb124-85" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb124-86"><a href="to-do.html#cb124-86" aria-hidden="true" tabindex="-1"></a>  the_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(coef, method)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb124-87"><a href="to-do.html#cb124-87" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> coef <span class="sc">-</span> se, <span class="at">xmax =</span> coef <span class="sc">+</span> se, <span class="at">width =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb124-88"><a href="to-do.html#cb124-88" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb124-89"><a href="to-do.html#cb124-89" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Regression Coefficient&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">caption =</span> plot_stat_names[stat_ind]) </span>
+<span id="cb124-90"><a href="to-do.html#cb124-90" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb124-91"><a href="to-do.html#cb124-91" aria-hidden="true" tabindex="-1"></a>  <span class="fu">plot</span>(the_plot)</span>
+<span id="cb124-92"><a href="to-do.html#cb124-92" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggsave</span>(<span class="fu">paste0</span>(<span class="st">&quot;reg_plots/reg_coef.&quot;</span>, <span class="fu">tolower</span>(<span class="fu">gsub</span>(<span class="st">&quot;/&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="fu">gsub</span>(<span class="st">&quot; &quot;</span>,  <span class="st">&quot;_&quot;</span>, stat_names)))[stat_ind], <span class="st">&quot;.png&quot;</span>),</span>
+<span id="cb124-93"><a href="to-do.html#cb124-93" aria-hidden="true" tabindex="-1"></a>         the_plot <span class="sc">+</span> <span class="fu">theme</span>(<span class="at">plot.margin=</span><span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>), <span class="st">&quot;cm&quot;</span>)), <span class="at">height =</span> <span class="dv">6</span>, <span class="at">width =</span> <span class="dv">6</span>)</span>
+<span id="cb124-94"><a href="to-do.html#cb124-94" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb124-95"><a href="to-do.html#cb124-95" aria-hidden="true" tabindex="-1"></a>  plot_df<span class="sc">$</span>stat_name <span class="ot">&lt;-</span> plot_stat_names[stat_ind]</span>
+<span id="cb124-96"><a href="to-do.html#cb124-96" aria-hidden="true" tabindex="-1"></a>  all_plot_df[[stat_ind]] <span class="ot">&lt;-</span> plot_df </span>
+<span id="cb124-97"><a href="to-do.html#cb124-97" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb124-98"><a href="to-do.html#cb124-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-99"><a href="to-do.html#cb124-99" aria-hidden="true" tabindex="-1"></a>plot_df <span class="ot">&lt;-</span> <span class="fu">do.call</span>(<span class="st">&quot;rbind&quot;</span>, all_plot_df)</span>
+<span id="cb124-100"><a href="to-do.html#cb124-100" aria-hidden="true" tabindex="-1"></a>the_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(plot_df, <span class="fu">aes</span>(coef, method)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb124-101"><a href="to-do.html#cb124-101" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(stat_name), <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb124-102"><a href="to-do.html#cb124-102" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb124-103"><a href="to-do.html#cb124-103" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Regression Coefficient&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>) <span class="sc">+</span></span>
+<span id="cb124-104"><a href="to-do.html#cb124-104" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb124-105"><a href="to-do.html#cb124-105" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="at">n =</span> <span class="dv">2</span>))</span>
+<span id="cb124-106"><a href="to-do.html#cb124-106" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(the_plot)</span>
+<span id="cb124-107"><a href="to-do.html#cb124-107" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">paste0</span>(<span class="st">&quot;reg_plots/reg_coef.facet.png&quot;</span>), the_plot, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">width =</span> <span class="dv">16</span>)</span>
+<span id="cb124-108"><a href="to-do.html#cb124-108" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-109"><a href="to-do.html#cb124-109" aria-hidden="true" tabindex="-1"></a>plot_df[plot_df<span class="sc">$</span>p <span class="sc">&lt;</span> <span class="fl">0.05</span>,]</span>
+<span id="cb124-110"><a href="to-do.html#cb124-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-111"><a href="to-do.html#cb124-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-112"><a href="to-do.html#cb124-112" aria-hidden="true" tabindex="-1"></a>mat_beta <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">length</span>(reg_coefs), <span class="at">ncol =</span> <span class="fu">length</span>(stat_names))</span>
+<span id="cb124-113"><a href="to-do.html#cb124-113" aria-hidden="true" tabindex="-1"></a>mat_pval <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">length</span>(reg_coefs), <span class="at">ncol =</span> <span class="fu">length</span>(stat_names))</span>
+<span id="cb124-114"><a href="to-do.html#cb124-114" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(reg_coefs)){</span>
+<span id="cb124-115"><a href="to-do.html#cb124-115" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(j <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(stat_names)){</span>
+<span id="cb124-116"><a href="to-do.html#cb124-116" aria-hidden="true" tabindex="-1"></a>    mat_beta[i,j] <span class="ot">&lt;-</span> <span class="fu">signif</span>(reg_coefs[[i]][j,<span class="dv">1</span>], <span class="dv">3</span>)</span>
+<span id="cb124-117"><a href="to-do.html#cb124-117" aria-hidden="true" tabindex="-1"></a>    mat_pval[i,j] <span class="ot">&lt;-</span> <span class="fu">signif</span>(reg_coefs[[i]][j,<span class="dv">4</span>], <span class="dv">3</span>)</span>
+<span id="cb124-118"><a href="to-do.html#cb124-118" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb124-119"><a href="to-do.html#cb124-119" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb124-120"><a href="to-do.html#cb124-120" aria-hidden="true" tabindex="-1"></a>mat_beta <span class="ot">&lt;-</span> <span class="fu">cbind</span>(poss_methods, <span class="fu">data.frame</span>(mat_beta))</span>
+<span id="cb124-121"><a href="to-do.html#cb124-121" aria-hidden="true" tabindex="-1"></a>mat_pval <span class="ot">&lt;-</span> <span class="fu">cbind</span>(poss_methods, <span class="fu">data.frame</span>(mat_pval))</span>
+<span id="cb124-122"><a href="to-do.html#cb124-122" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(mat_beta) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Method&quot;</span>, plot_stat_names)</span>
+<span id="cb124-123"><a href="to-do.html#cb124-123" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(mat_pval) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Method&quot;</span>, plot_stat_names)</span>
+<span id="cb124-124"><a href="to-do.html#cb124-124" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(mat_beta, <span class="st">&quot;supp_tables/meta_method.beta.txt&quot;</span>, <span class="at">row.names =</span> F, <span class="at">col.names =</span> T, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote =</span> F)</span>
+<span id="cb124-125"><a href="to-do.html#cb124-125" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(mat_pval, <span class="st">&quot;supp_tables/meta_method.pval.txt&quot;</span>, <span class="at">row.names =</span> F, <span class="at">col.names =</span> T, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote =</span> F)</span>
+<span id="cb124-126"><a href="to-do.html#cb124-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-127"><a href="to-do.html#cb124-127" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">t</span>(mat_beta)[,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>)], <span class="st">&quot;supp_tables/meta_method.beta.1.txt&quot;</span>, <span class="at">row.names =</span> T, <span class="at">col.names =</span> F, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote =</span> F)</span>
+<span id="cb124-128"><a href="to-do.html#cb124-128" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">t</span>(mat_beta)[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">9</span><span class="sc">:</span><span class="dv">15</span>)], <span class="st">&quot;supp_tables/meta_method.beta.2.txt&quot;</span>, <span class="at">row.names =</span> T, <span class="at">col.names =</span> F, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote =</span> F)</span>
+<span id="cb124-129"><a href="to-do.html#cb124-129" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">t</span>(mat_pval)[,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">8</span>)], <span class="st">&quot;supp_tables/meta_method.pval.1.txt&quot;</span>, <span class="at">row.names =</span> T, <span class="at">col.names =</span> F, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote =</span> F)</span>
+<span id="cb124-130"><a href="to-do.html#cb124-130" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">t</span>(mat_pval)[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">9</span><span class="sc">:</span><span class="dv">15</span>)], <span class="st">&quot;supp_tables/meta_method.pval.txt.2.txt&quot;</span>, <span class="at">row.names =</span> T, <span class="at">col.names =</span> F, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote =</span> F)</span>
+<span id="cb124-131"><a href="to-do.html#cb124-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-132"><a href="to-do.html#cb124-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-133"><a href="to-do.html#cb124-133" aria-hidden="true" tabindex="-1"></a><span class="do">######################################################################</span></span>
+<span id="cb124-134"><a href="to-do.html#cb124-134" aria-hidden="true" tabindex="-1"></a><span class="co">#                   ABS BEST REGRESSIONS                            @</span></span>
+<span id="cb124-135"><a href="to-do.html#cb124-135" aria-hidden="true" tabindex="-1"></a><span class="do">######################################################################</span></span>
+<span id="cb124-136"><a href="to-do.html#cb124-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-137"><a href="to-do.html#cb124-137" aria-hidden="true" tabindex="-1"></a>reg_coefs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(meta_results[[<span class="dv">5</span>]])</span>
+<span id="cb124-138"><a href="to-do.html#cb124-138" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(reg_coefs) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;coef&quot;</span>, <span class="st">&quot;se&quot;</span>, <span class="st">&quot;z&quot;</span>, <span class="st">&quot;p&quot;</span>)</span>
+<span id="cb124-139"><a href="to-do.html#cb124-139" aria-hidden="true" tabindex="-1"></a>reg_coefs<span class="sc">$</span>stat_names <span class="ot">&lt;-</span> plot_stat_names</span>
+<span id="cb124-140"><a href="to-do.html#cb124-140" aria-hidden="true" tabindex="-1"></a>reg_coefs<span class="sc">$</span>stat_names <span class="ot">&lt;-</span> <span class="fu">factor</span>(reg_coefs<span class="sc">$</span>stat_names, <span class="at">levels =</span> reg_coefs<span class="sc">$</span>stat_names[<span class="fu">order</span>(reg_coefs<span class="sc">$</span>coef)])</span>
+<span id="cb124-141"><a href="to-do.html#cb124-141" aria-hidden="true" tabindex="-1"></a>reg_coefs <span class="ot">&lt;-</span> reg_coefs[<span class="fu">abs</span>(reg_coefs<span class="sc">$</span>coef) <span class="sc">&lt;</span> <span class="dv">5</span>, ]</span>
+<span id="cb124-142"><a href="to-do.html#cb124-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-143"><a href="to-do.html#cb124-143" aria-hidden="true" tabindex="-1"></a>the_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(reg_coefs, <span class="fu">aes</span>(coef, stat_names)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb124-144"><a href="to-do.html#cb124-144" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> coef <span class="sc">-</span> se, <span class="at">xmax =</span> coef <span class="sc">+</span> se, <span class="at">width =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb124-145"><a href="to-do.html#cb124-145" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb124-146"><a href="to-do.html#cb124-146" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Regression Coefficient&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">caption =</span> <span class="st">&quot;Among Best Scores&quot;</span>)</span>
+<span id="cb124-147"><a href="to-do.html#cb124-147" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(the_plot)</span>
+<span id="cb124-148"><a href="to-do.html#cb124-148" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">paste0</span>(<span class="st">&quot;reg_plots/reg_coef.best.png&quot;</span>), the_plot, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">width =</span> <span class="dv">7</span>)</span>
+<span id="cb124-149"><a href="to-do.html#cb124-149" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-150"><a href="to-do.html#cb124-150" aria-hidden="true" tabindex="-1"></a>for_table <span class="ot">&lt;-</span> reg_coefs[,<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>)]</span>
+<span id="cb124-151"><a href="to-do.html#cb124-151" aria-hidden="true" tabindex="-1"></a>for_table[,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">signif</span>(reg_coefs[,<span class="dv">2</span>], <span class="dv">3</span>)</span>
+<span id="cb124-152"><a href="to-do.html#cb124-152" aria-hidden="true" tabindex="-1"></a>for_table[,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">signif</span>(reg_coefs[,<span class="dv">3</span>], <span class="dv">3</span>)</span>
+<span id="cb124-153"><a href="to-do.html#cb124-153" aria-hidden="true" tabindex="-1"></a>for_table[,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="fu">signif</span>(reg_coefs[,<span class="dv">4</span>], <span class="dv">3</span>)</span>
+<span id="cb124-154"><a href="to-do.html#cb124-154" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(for_table, <span class="st">&quot;supp_tables/meta_reg.disease.txt&quot;</span>, <span class="at">row.names =</span> F, <span class="at">col.names =</span> T, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote =</span> F)</span>
+<span id="cb124-155"><a href="to-do.html#cb124-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-156"><a href="to-do.html#cb124-156" aria-hidden="true" tabindex="-1"></a><span class="co">#to double check</span></span>
+<span id="cb124-157"><a href="to-do.html#cb124-157" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> meta_results[[<span class="st">&quot;method_auc&quot;</span>]]</span>
+<span id="cb124-158"><a href="to-do.html#cb124-158" aria-hidden="true" tabindex="-1"></a>best_names <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;nonpred_results/best_names.RDS&quot;</span>)</span>
+<span id="cb124-159"><a href="to-do.html#cb124-159" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> df[df<span class="sc">$</span>name <span class="sc">%in%</span> best_names,]</span>
+<span id="cb124-160"><a href="to-do.html#cb124-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-161"><a href="to-do.html#cb124-161" aria-hidden="true" tabindex="-1"></a><span class="do">######################################################################</span></span>
+<span id="cb124-162"><a href="to-do.html#cb124-162" aria-hidden="true" tabindex="-1"></a><span class="co">#                   ALL AUC REGRESSIONS                            @</span></span>
+<span id="cb124-163"><a href="to-do.html#cb124-163" aria-hidden="true" tabindex="-1"></a><span class="do">######################################################################</span></span>
+<span id="cb124-164"><a href="to-do.html#cb124-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-165"><a href="to-do.html#cb124-165" aria-hidden="true" tabindex="-1"></a>reg_coefs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(meta_results[[<span class="dv">6</span>]])</span>
+<span id="cb124-166"><a href="to-do.html#cb124-166" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(reg_coefs) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;coef&quot;</span>, <span class="st">&quot;se&quot;</span>, <span class="st">&quot;z&quot;</span>, <span class="st">&quot;p&quot;</span>)</span>
+<span id="cb124-167"><a href="to-do.html#cb124-167" aria-hidden="true" tabindex="-1"></a>reg_coefs<span class="sc">$</span>stat_names <span class="ot">&lt;-</span> plot_stat_names</span>
+<span id="cb124-168"><a href="to-do.html#cb124-168" aria-hidden="true" tabindex="-1"></a>reg_coefs<span class="sc">$</span>stat_names <span class="ot">&lt;-</span> <span class="fu">factor</span>(reg_coefs<span class="sc">$</span>stat_names, <span class="at">levels =</span> reg_coefs<span class="sc">$</span>stat_names[<span class="fu">order</span>(reg_coefs<span class="sc">$</span>coef)])</span>
+<span id="cb124-169"><a href="to-do.html#cb124-169" aria-hidden="true" tabindex="-1"></a>reg_coefs <span class="ot">&lt;-</span> reg_coefs[<span class="fu">abs</span>(reg_coefs<span class="sc">$</span>coef) <span class="sc">&lt;</span> <span class="dv">5</span>, ]</span>
+<span id="cb124-170"><a href="to-do.html#cb124-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-171"><a href="to-do.html#cb124-171" aria-hidden="true" tabindex="-1"></a>the_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(reg_coefs, <span class="fu">aes</span>(coef, stat_names)) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb124-172"><a href="to-do.html#cb124-172" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="fu">aes</span>(<span class="at">xmin =</span> coef <span class="sc">-</span> se, <span class="at">xmax =</span> coef <span class="sc">+</span> se, <span class="at">width =</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb124-173"><a href="to-do.html#cb124-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb124-174"><a href="to-do.html#cb124-174" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Regression Coefficient&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">caption =</span> <span class="st">&quot;Among All Scores&quot;</span>)</span>
+<span id="cb124-175"><a href="to-do.html#cb124-175" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(the_plot)</span>
+<span id="cb124-176"><a href="to-do.html#cb124-176" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">paste0</span>(<span class="st">&quot;reg_plots/reg_coef.all.png&quot;</span>), the_plot, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">width =</span> <span class="dv">7</span>)</span>
+<span id="cb124-177"><a href="to-do.html#cb124-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-178"><a href="to-do.html#cb124-178" aria-hidden="true" tabindex="-1"></a>for_table <span class="ot">&lt;-</span> reg_coefs[,<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>)]</span>
+<span id="cb124-179"><a href="to-do.html#cb124-179" aria-hidden="true" tabindex="-1"></a>for_table[,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">signif</span>(reg_coefs[,<span class="dv">2</span>], <span class="dv">3</span>)</span>
+<span id="cb124-180"><a href="to-do.html#cb124-180" aria-hidden="true" tabindex="-1"></a>for_table[,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">signif</span>(reg_coefs[,<span class="dv">3</span>], <span class="dv">3</span>)</span>
+<span id="cb124-181"><a href="to-do.html#cb124-181" aria-hidden="true" tabindex="-1"></a>for_table[,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="fu">signif</span>(reg_coefs[,<span class="dv">4</span>], <span class="dv">3</span>)</span>
+<span id="cb124-182"><a href="to-do.html#cb124-182" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(for_table, <span class="st">&quot;supp_tables/meta_reg.all.txt&quot;</span>, <span class="at">row.names =</span> F, <span class="at">col.names =</span> T, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote =</span> F)</span>
+<span id="cb124-183"><a href="to-do.html#cb124-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-184"><a href="to-do.html#cb124-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-185"><a href="to-do.html#cb124-185" aria-hidden="true" tabindex="-1"></a><span class="do">######################################################################</span></span>
+<span id="cb124-186"><a href="to-do.html#cb124-186" aria-hidden="true" tabindex="-1"></a><span class="co">#                   METHODS BEST AT EXTREMES                            @</span></span>
+<span id="cb124-187"><a href="to-do.html#cb124-187" aria-hidden="true" tabindex="-1"></a><span class="do">######################################################################</span></span>
+<span id="cb124-188"><a href="to-do.html#cb124-188" aria-hidden="true" tabindex="-1"></a><span class="fu">exit</span>()</span>
+<span id="cb124-189"><a href="to-do.html#cb124-189" aria-hidden="true" tabindex="-1"></a>method_ex <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(meta_results[[<span class="dv">7</span>]])</span>
+<span id="cb124-190"><a href="to-do.html#cb124-190" aria-hidden="true" tabindex="-1"></a>method_ex<span class="sc">$</span>stat <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">rep</span>(plot_stat_names[plot_stat_names <span class="sc">!=</span> <span class="st">&quot;GWAS Ancestry&quot;</span>], <span class="at">each =</span> <span class="dv">2</span>), <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;Rev.&quot;</span>))</span>
+<span id="cb124-191"><a href="to-do.html#cb124-191" aria-hidden="true" tabindex="-1"></a>method_ex  <span class="ot">&lt;-</span> <span class="fu">melt</span>(method_ex, <span class="at">id.vars =</span> <span class="st">&quot;stat&quot;</span>)</span>
+<span id="cb124-192"><a href="to-do.html#cb124-192" aria-hidden="true" tabindex="-1"></a>method_ex<span class="sc">$</span>variable <span class="ot">&lt;-</span> <span class="fu">convert_names</span>(method_ex<span class="sc">$</span>variable, method_dict)</span>
+<span id="cb124-193"><a href="to-do.html#cb124-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-194"><a href="to-do.html#cb124-194" aria-hidden="true" tabindex="-1"></a>the_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(method_ex, <span class="fu">aes</span>(variable, stat, <span class="at">fill =</span> value)) <span class="sc">+</span> <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb124-195"><a href="to-do.html#cb124-195" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis</span>() <span class="sc">+</span></span>
+<span id="cb124-196"><a href="to-do.html#cb124-196" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb124-197"><a href="to-do.html#cb124-197" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;Times In</span><span class="sc">\n</span><span class="st">Top 10&quot;</span>)</span>
+<span id="cb124-198"><a href="to-do.html#cb124-198" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(the_plot)</span>
+<span id="cb124-199"><a href="to-do.html#cb124-199" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">paste0</span>(<span class="st">&quot;reg_plots/method_extreme.png&quot;</span>), the_plot, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">width =</span> <span class="dv">7</span>)</span>
+<span id="cb124-200"><a href="to-do.html#cb124-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-201"><a href="to-do.html#cb124-201" aria-hidden="true" tabindex="-1"></a>method_ex <span class="ot">&lt;-</span> method_ex[<span class="fu">grepl</span>(<span class="st">&quot;GWAS&quot;</span>, method_ex<span class="sc">$</span>stat),]</span>
+<span id="cb124-202"><a href="to-do.html#cb124-202" aria-hidden="true" tabindex="-1"></a>method_ex<span class="sc">$</span>stat <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(<span class="fu">strsplit</span>(method_ex<span class="sc">$</span>stat, <span class="st">&quot;GWAS&quot;</span>), <span class="cf">function</span>(x) x[<span class="dv">2</span>]))</span>
+<span id="cb124-203"><a href="to-do.html#cb124-203" aria-hidden="true" tabindex="-1"></a>method_ex<span class="sc">$</span>stat <span class="ot">&lt;-</span> <span class="fu">trimws</span>(method_ex<span class="sc">$</span>stat)</span>
+<span id="cb124-204"><a href="to-do.html#cb124-204" aria-hidden="true" tabindex="-1"></a>method_ex<span class="sc">$</span>stat[<span class="fu">grepl</span>(<span class="st">&quot;SNP&quot;</span>, method_ex<span class="sc">$</span>stat)] <span class="ot">&lt;-</span> <span class="fu">paste0</span>(<span class="st">&quot;No. &quot;</span>, method_ex<span class="sc">$</span>stat[<span class="fu">grepl</span>(<span class="st">&quot;SNP&quot;</span>, method_ex<span class="sc">$</span>stat)])</span>
+<span id="cb124-205"><a href="to-do.html#cb124-205" aria-hidden="true" tabindex="-1"></a>the_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(method_ex, <span class="fu">aes</span>(variable, stat, <span class="at">fill =</span> value)) <span class="sc">+</span> <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb124-206"><a href="to-do.html#cb124-206" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis</span>() <span class="sc">+</span></span>
+<span id="cb124-207"><a href="to-do.html#cb124-207" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb124-208"><a href="to-do.html#cb124-208" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;&quot;</span>, <span class="at">y =</span> <span class="st">&quot;&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;Times In</span><span class="sc">\n</span><span class="st">Top 10&quot;</span>)</span>
+<span id="cb124-209"><a href="to-do.html#cb124-209" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(the_plot)</span>
+<span id="cb124-210"><a href="to-do.html#cb124-210" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">paste0</span>(<span class="st">&quot;reg_plots/method_extreme_gwas.png&quot;</span>), the_plot, <span class="at">height =</span> <span class="dv">5</span>, <span class="at">width =</span> <span class="dv">7</span>)</span>
+<span id="cb124-211"><a href="to-do.html#cb124-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-212"><a href="to-do.html#cb124-212" aria-hidden="true" tabindex="-1"></a>to_save <span class="ot">&lt;-</span>  <span class="fu">data.frame</span>(meta_results[[<span class="dv">7</span>]])</span>
+<span id="cb124-213"><a href="to-do.html#cb124-213" aria-hidden="true" tabindex="-1"></a>to_save<span class="sc">$</span>stat <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">rep</span>(plot_stat_names[plot_stat_names <span class="sc">!=</span> <span class="st">&quot;GWAS Ancestry&quot;</span>], <span class="at">each =</span> <span class="dv">2</span>), <span class="fu">c</span>(<span class="st">&quot;&quot;</span>, <span class="st">&quot;Rev.&quot;</span>))</span>
+<span id="cb124-214"><a href="to-do.html#cb124-214" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(to_save) <span class="ot">&lt;-</span> <span class="fu">convert_names</span>(<span class="fu">colnames</span>(to_save), method_dict)</span>
+<span id="cb124-215"><a href="to-do.html#cb124-215" aria-hidden="true" tabindex="-1"></a>to_save <span class="ot">&lt;-</span> to_save[,<span class="fu">c</span>(<span class="fu">ncol</span>(to_save), <span class="dv">1</span><span class="sc">:</span>(<span class="fu">ncol</span>(to_save)<span class="sc">-</span><span class="dv">1</span>))]</span>
+<span id="cb124-216"><a href="to-do.html#cb124-216" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(to_save[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span><span class="sc">:</span><span class="dv">7</span>)], <span class="st">&quot;supp_tables/method_extreme.1.txt&quot;</span>, <span class="at">row.names =</span> F, <span class="at">col.names =</span> T, <span class="at">quote =</span> F, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb124-217"><a href="to-do.html#cb124-217" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(to_save[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span><span class="sc">:</span><span class="dv">16</span>)], <span class="st">&quot;supp_tables/method_extreme.2.txt&quot;</span>, <span class="at">row.names =</span> F, <span class="at">col.names =</span> T, <span class="at">quote =</span> F, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb124-218"><a href="to-do.html#cb124-218" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(to_save[,<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">11</span><span class="sc">:</span><span class="dv">16</span>)], <span class="st">&quot;supp_tables/method_extreme.3.txt&quot;</span>, <span class="at">row.names =</span> F, <span class="at">col.names =</span> T, <span class="at">quote =</span> F, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>)</span>
+<span id="cb124-219"><a href="to-do.html#cb124-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-220"><a href="to-do.html#cb124-220" aria-hidden="true" tabindex="-1"></a><span class="do">######################################################################</span></span>
+<span id="cb124-221"><a href="to-do.html#cb124-221" aria-hidden="true" tabindex="-1"></a><span class="co">#                  TRAIN/</span><span class="al">TEST</span><span class="co">                          @</span></span>
+<span id="cb124-222"><a href="to-do.html#cb124-222" aria-hidden="true" tabindex="-1"></a><span class="do">######################################################################</span></span>
+<span id="cb124-223"><a href="to-do.html#cb124-223" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-224"><a href="to-do.html#cb124-224" aria-hidden="true" tabindex="-1"></a>tt_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(meta_results[[<span class="dv">8</span>]])</span>
+<span id="cb124-225"><a href="to-do.html#cb124-225" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(tt_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;diff_conc&quot;</span>, <span class="st">&quot;diff_survfit&quot;</span>, <span class="st">&quot;diff_auc&quot;</span>, <span class="st">&quot;diff_or&quot;</span>)</span>
+<span id="cb124-226"><a href="to-do.html#cb124-226" aria-hidden="true" tabindex="-1"></a>tt_df<span class="sc">$</span>disease <span class="ot">&lt;-</span> <span class="fu">convert_names</span>(meta_results[[<span class="dv">1</span>]])</span>
+<span id="cb124-227"><a href="to-do.html#cb124-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-228"><a href="to-do.html#cb124-228" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(tt_df<span class="sc">$</span>diff_auc)</span>
+<span id="cb124-229"><a href="to-do.html#cb124-229" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(tt_df<span class="sc">$</span>diff_auc)<span class="sc">/</span><span class="fu">sqrt</span>(<span class="fu">nrow</span>(tt_df))</span>
+<span id="cb124-230"><a href="to-do.html#cb124-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-231"><a href="to-do.html#cb124-231" aria-hidden="true" tabindex="-1"></a>melt_tt <span class="ot">&lt;-</span> <span class="fu">melt</span>(tt_df, <span class="at">id.vars =</span> <span class="st">&quot;disease&quot;</span>)</span>
+<span id="cb124-232"><a href="to-do.html#cb124-232" aria-hidden="true" tabindex="-1"></a>melt_tt<span class="sc">$</span>variable <span class="ot">&lt;-</span> <span class="fu">convert_names</span>(melt_tt<span class="sc">$</span>variable, <span class="fu">cbind</span>(<span class="fu">colnames</span>(tt_df)[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="fu">c</span>(<span class="st">&quot;Conc.&quot;</span>, <span class="st">&quot;Hazard&quot;</span>, <span class="st">&quot;AUC&quot;</span>, <span class="st">&quot;OR&quot;</span>)))</span>
+<span id="cb124-233"><a href="to-do.html#cb124-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-234"><a href="to-do.html#cb124-234" aria-hidden="true" tabindex="-1"></a>the_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(melt_tt, <span class="fu">aes</span>(<span class="at">x =</span> value, <span class="at">y =</span> disease, )) <span class="sc">+</span> <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb124-235"><a href="to-do.html#cb124-235" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="at">cols =</span> <span class="fu">vars</span>(variable), <span class="at">scales =</span> <span class="st">&quot;free&quot;</span>) <span class="sc">+</span></span>
+<span id="cb124-236"><a href="to-do.html#cb124-236" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb124-237"><a href="to-do.html#cb124-237" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> scales<span class="sc">::</span><span class="fu">pretty_breaks</span>(<span class="at">n =</span> <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb124-238"><a href="to-do.html#cb124-238" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Statistic Difference&quot;</span>)</span>
+<span id="cb124-239"><a href="to-do.html#cb124-239" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(the_plot)</span>
+<span id="cb124-240"><a href="to-do.html#cb124-240" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="fu">paste0</span>(<span class="st">&quot;reg_plots/reg_coef.tt.png&quot;</span>), the_plot, <span class="at">height =</span> <span class="dv">6</span>, <span class="at">width =</span> <span class="dv">12</span>)</span>
+<span id="cb124-241"><a href="to-do.html#cb124-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb124-242"><a href="to-do.html#cb124-242" aria-hidden="true" tabindex="-1"></a>tt_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(meta_results[[<span class="dv">8</span>]])</span>
+<span id="cb124-243"><a href="to-do.html#cb124-243" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(tt_df) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;diff_conc&quot;</span>, <span class="st">&quot;diff_survfit&quot;</span>, <span class="st">&quot;diff_auc&quot;</span>, <span class="st">&quot;diff_or&quot;</span>)</span>
+<span id="cb124-244"><a href="to-do.html#cb124-244" aria-hidden="true" tabindex="-1"></a>tt_df<span class="sc">$</span>disease <span class="ot">&lt;-</span> <span class="fu">convert_names</span>(meta_results[[<span class="dv">1</span>]])</span>
+<span id="cb124-245"><a href="to-do.html#cb124-245" aria-hidden="true" tabindex="-1"></a>tt_df <span class="ot">&lt;-</span> tt_df[,<span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)]</span>
+<span id="cb124-246"><a href="to-do.html#cb124-246" aria-hidden="true" tabindex="-1"></a>tt_df[,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="fu">signif</span>(tt_df[,<span class="dv">2</span>], <span class="dv">3</span>)</span>
+<span id="cb124-247"><a href="to-do.html#cb124-247" aria-hidden="true" tabindex="-1"></a>tt_df[,<span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="fu">signif</span>(tt_df[,<span class="dv">3</span>], <span class="dv">3</span>)</span>
+<span id="cb124-248"><a href="to-do.html#cb124-248" aria-hidden="true" tabindex="-1"></a>tt_df[,<span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="fu">signif</span>(tt_df[,<span class="dv">4</span>], <span class="dv">3</span>)</span>
+<span id="cb124-249"><a href="to-do.html#cb124-249" aria-hidden="true" tabindex="-1"></a>tt_df[,<span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="fu">signif</span>(tt_df[,<span class="dv">5</span>], <span class="dv">3</span>)</span>
+<span id="cb124-250"><a href="to-do.html#cb124-250" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(tt_df, <span class="st">&quot;supp_tables/train-test.txt&quot;</span>, <span class="at">row.names =</span> F, <span class="at">col.names =</span> T, <span class="at">sep =</span> <span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">quote =</span> F)</span></code></pre></div>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="non-predictive-evaluation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="lifestyle-and-medications.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "section",
+"scroll_highlight": true
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

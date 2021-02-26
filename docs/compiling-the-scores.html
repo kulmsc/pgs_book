@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>6 Compiling the Scores | Comparison of PGS Generative Methods</title>
   <meta name="description" content="A deep dive into all the scripts and underlying though processes that create polygenic risk scores" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
 
   <meta property="og:title" content="6 Compiling the Scores | Comparison of PGS Generative Methods" />
   <meta property="og:type" content="book" />
@@ -24,7 +24,7 @@
 <meta name="author" content="Scott Kulm" />
 
 
-<meta name="date" content="2020-09-15" />
+<meta name="date" content="2021-02-26" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,6 +33,7 @@
   
 <link rel="prev" href="adjusting-summary-statistics.html"/>
 <link rel="next" href="score-analysis-set-up.html"/>
+<script src="libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -53,25 +54,27 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +83,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -128,22 +131,26 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <ul class="summary">
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
-<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a><ul>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
 <li class="chapter" data-level="1.1" data-path="introduction.html"><a href="introduction.html#directory-framework"><i class="fa fa-check"></i><b>1.1</b> Directory Framework</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="quality-control.html"><a href="quality-control.html"><i class="fa fa-check"></i><b>2</b> Quality Control</a><ul>
+<li class="chapter" data-level="2" data-path="quality-control.html"><a href="quality-control.html"><i class="fa fa-check"></i><b>2</b> Quality Control</a>
+<ul>
 <li class="chapter" data-level="2.1" data-path="quality-control.html"><a href="quality-control.html#previously-applied-qc"><i class="fa fa-check"></i><b>2.1</b> Previously Applied QC</a></li>
 <li class="chapter" data-level="2.2" data-path="quality-control.html"><a href="quality-control.html#initial-qc"><i class="fa fa-check"></i><b>2.2</b> Initial QC</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="summary-statistics.html"><a href="summary-statistics.html"><i class="fa fa-check"></i><b>3</b> Summary Statistics</a></li>
-<li class="chapter" data-level="4" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html"><i class="fa fa-check"></i><b>4</b> Getting the Summary Statistics</a><ul>
+<li class="chapter" data-level="4" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html"><i class="fa fa-check"></i><b>4</b> Getting the Summary Statistics</a>
+<ul>
 <li class="chapter" data-level="4.1" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#prepare-variants"><i class="fa fa-check"></i><b>4.1</b> Prepare Variants</a></li>
 <li class="chapter" data-level="4.2" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#standardize-the-summary-statistics"><i class="fa fa-check"></i><b>4.2</b> Standardize the Summary Statistics</a></li>
 <li class="chapter" data-level="4.3" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#heritability-estimation"><i class="fa fa-check"></i><b>4.3</b> Heritability Estimation</a></li>
 <li class="chapter" data-level="4.4" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#genetic-correlation-estimation"><i class="fa fa-check"></i><b>4.4</b> Genetic Correlation Estimation</a></li>
 <li class="chapter" data-level="4.5" data-path="getting-the-summary-statistics.html"><a href="getting-the-summary-statistics.html#final-changes-and-remarks"><i class="fa fa-check"></i><b>4.5</b> Final Changes and Remarks</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Adjusting Summary Statistics</a><ul>
+<li class="chapter" data-level="5" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html"><i class="fa fa-check"></i><b>5</b> Adjusting Summary Statistics</a>
+<ul>
 <li class="chapter" data-level="5.0.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#computational-framework"><i class="fa fa-check"></i><b>5.0.1</b> Computational Framework</a></li>
 <li class="chapter" data-level="5.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#simple"><i class="fa fa-check"></i><b>5.1</b> Simple</a></li>
 <li class="chapter" data-level="5.2" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#clumping"><i class="fa fa-check"></i><b>5.2</b> Clumping</a></li>
@@ -159,26 +166,32 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="5.12" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#jampred"><i class="fa fa-check"></i><b>5.12</b> JAMPred</a></li>
 <li class="chapter" data-level="5.13" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#winners-curse-lasso"><i class="fa fa-check"></i><b>5.13</b> Winner’s Curse Lasso</a></li>
 <li class="chapter" data-level="5.14" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#winners-curse-likelihood"><i class="fa fa-check"></i><b>5.14</b> Winner’s Curse Likelihood</a></li>
-<li class="chapter" data-level="5.15" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#winners-curse-2d"><i class="fa fa-check"></i><b>5.15</b> Winner’s Curse 2D</a><ul>
+<li class="chapter" data-level="5.15" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#winners-curse-2d"><i class="fa fa-check"></i><b>5.15</b> Winner’s Curse 2D</a>
+<ul>
 <li class="chapter" data-level="5.15.1" data-path="adjusting-summary-statistics.html"><a href="adjusting-summary-statistics.html#additional-methods"><i class="fa fa-check"></i><b>5.15.1</b> Additional Methods</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html"><i class="fa fa-check"></i><b>6</b> Compiling the Scores</a><ul>
-<li class="chapter" data-level="6.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#simple-score-approach"><i class="fa fa-check"></i><b>6.1</b> Simple Score Approach</a><ul>
+<li class="chapter" data-level="6" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html"><i class="fa fa-check"></i><b>6</b> Compiling the Scores</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#simple-score-approach"><i class="fa fa-check"></i><b>6.1</b> Simple Score Approach</a>
+<ul>
 <li class="chapter" data-level="6.1.1" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#what-to-worry-about"><i class="fa fa-check"></i><b>6.1.1</b> What to Worry About</a></li>
 <li class="chapter" data-level="6.1.2" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#controlling-and-assembling"><i class="fa fa-check"></i><b>6.1.2</b> Controlling and Assembling</a></li>
 <li class="chapter" data-level="6.1.3" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#verifying-everything-worked"><i class="fa fa-check"></i><b>6.1.3</b> Verifying Everything Worked</a></li>
 <li class="chapter" data-level="6.1.4" data-path="compiling-the-scores.html"><a href="compiling-the-scores.html#other-options"><i class="fa fa-check"></i><b>6.1.4</b> Other Options</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html"><i class="fa fa-check"></i><b>7</b> Score Analysis Set-Up</a><ul>
+<li class="chapter" data-level="7" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html"><i class="fa fa-check"></i><b>7</b> Score Analysis Set-Up</a>
+<ul>
 <li class="chapter" data-level="7.1" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#defining-the-phenotypes"><i class="fa fa-check"></i><b>7.1</b> Defining the Phenotypes</a></li>
 <li class="chapter" data-level="7.2" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#making-the-phenotype"><i class="fa fa-check"></i><b>7.2</b> Making the Phenotype</a></li>
 <li class="chapter" data-level="7.3" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#other-scores"><i class="fa fa-check"></i><b>7.3</b> Other Scores</a></li>
 <li class="chapter" data-level="7.4" data-path="score-analysis-set-up.html"><a href="score-analysis-set-up.html#other-covariates"><i class="fa fa-check"></i><b>7.4</b> Other Covariates</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="tuning.html"><a href="tuning.html"><i class="fa fa-check"></i><b>8</b> Tuning</a><ul>
-<li class="chapter" data-level="8.1" data-path="tuning.html"><a href="tuning.html#generating-metrics"><i class="fa fa-check"></i><b>8.1</b> Generating Metrics</a><ul>
+<li class="chapter" data-level="8" data-path="tuning.html"><a href="tuning.html"><i class="fa fa-check"></i><b>8</b> Tuning</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="tuning.html"><a href="tuning.html#generating-metrics"><i class="fa fa-check"></i><b>8.1</b> Generating Metrics</a>
+<ul>
 <li class="chapter" data-level="8.1.1" data-path="tuning.html"><a href="tuning.html#overall-set-up"><i class="fa fa-check"></i><b>8.1.1</b> Overall Set-Up</a></li>
 <li class="chapter" data-level="8.1.2" data-path="tuning.html"><a href="tuning.html#survival-set-up"><i class="fa fa-check"></i><b>8.1.2</b> Survival Set-up</a></li>
 <li class="chapter" data-level="8.1.3" data-path="tuning.html"><a href="tuning.html#survival-base-metrics"><i class="fa fa-check"></i><b>8.1.3</b> Survival Base Metrics</a></li>
@@ -189,17 +202,72 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="8.2" data-path="tuning.html"><a href="tuning.html#choosing-the-best-score"><i class="fa fa-check"></i><b>8.2</b> Choosing the Best Score</a></li>
 <li class="chapter" data-level="8.3" data-path="tuning.html"><a href="tuning.html#plotting"><i class="fa fa-check"></i><b>8.3</b> Plotting</a></li>
 </ul></li>
-<li class="chapter" data-level="9" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html"><i class="fa fa-check"></i><b>9</b> Non-Predictive Evaluation</a><ul>
-<li class="chapter" data-level="9.1" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#analysis-of-score-sizes"><i class="fa fa-check"></i><b>9.1</b> Analysis of Score Sizes</a></li>
-<li class="chapter" data-level="9.2" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#analysis-of-phenotype-definitions"><i class="fa fa-check"></i><b>9.2</b> Analysis of Phenotype Definitions</a></li>
-<li class="chapter" data-level="9.3" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-racial-groups"><i class="fa fa-check"></i><b>9.3</b> Comparison of Racial Groups</a></li>
-<li class="chapter" data-level="9.4" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-siblings"><i class="fa fa-check"></i><b>9.4</b> Comparison of Siblings</a></li>
-<li class="chapter" data-level="9.5" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#mathematical-comparison-of-score-methods"><i class="fa fa-check"></i><b>9.5</b> Mathematical Comparison of Score Methods</a></li>
+<li class="chapter" data-level="9" data-path="testing.html"><a href="testing.html"><i class="fa fa-check"></i><b>9</b> Testing</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="testing.html"><a href="testing.html#obtaining-the-statistics"><i class="fa fa-check"></i><b>9.1</b> Obtaining the Statistics</a></li>
+<li class="chapter" data-level="9.2" data-path="testing.html"><a href="testing.html#plotting-1"><i class="fa fa-check"></i><b>9.2</b> Plotting</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="testing.html"><a href="testing.html#concordance"><i class="fa fa-check"></i><b>9.2.1</b> Concordance</a></li>
+<li class="chapter" data-level="9.2.2" data-path="testing.html"><a href="testing.html#survival-curve-fit"><i class="fa fa-check"></i><b>9.2.2</b> Survival Curve Fit</a></li>
+<li class="chapter" data-level="9.2.3" data-path="testing.html"><a href="testing.html#roc-and-auc"><i class="fa fa-check"></i><b>9.2.3</b> ROC and AUC</a></li>
+<li class="chapter" data-level="9.2.4" data-path="testing.html"><a href="testing.html#odds-ratios"><i class="fa fa-check"></i><b>9.2.4</b> Odds Ratios</a></li>
+<li class="chapter" data-level="9.2.5" data-path="testing.html"><a href="testing.html#pr-curves"><i class="fa fa-check"></i><b>9.2.5</b> PR Curves</a></li>
+<li class="chapter" data-level="9.2.6" data-path="testing.html"><a href="testing.html#other-scores-1"><i class="fa fa-check"></i><b>9.2.6</b> Other Scores</a></li>
+<li class="chapter" data-level="9.2.7" data-path="testing.html"><a href="testing.html#extra-covariates"><i class="fa fa-check"></i><b>9.2.7</b> Extra Covariates</a></li>
+<li class="chapter" data-level="9.2.8" data-path="testing.html"><a href="testing.html#saving"><i class="fa fa-check"></i><b>9.2.8</b> Saving</a></li>
 </ul></li>
-<li class="chapter" data-level="10" data-path="testing.html"><a href="testing.html"><i class="fa fa-check"></i><b>10</b> Testing</a></li>
-<li class="chapter" data-level="11" data-path="predictive-evaluations.html"><a href="predictive-evaluations.html"><i class="fa fa-check"></i><b>11</b> Predictive Evaluations</a><ul>
-<li class="chapter" data-level="11.1" data-path="predictive-evaluations.html"><a href="predictive-evaluations.html#expanded-covariates"><i class="fa fa-check"></i><b>11.1</b> Expanded Covariates</a></li>
-<li class="chapter" data-level="11.2" data-path="predictive-evaluations.html"><a href="predictive-evaluations.html#other-polygenic-risk-scores"><i class="fa fa-check"></i><b>11.2</b> Other Polygenic Risk Scores</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html"><i class="fa fa-check"></i><b>10</b> Additional Testing Statistics</a>
+<ul>
+<li class="chapter" data-level="10.1" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#calculating-the-statistics"><i class="fa fa-check"></i><b>10.1</b> Calculating the Statistics</a>
+<ul>
+<li class="chapter" data-level="10.1.1" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#brier-score"><i class="fa fa-check"></i><b>10.1.1</b> Brier Score</a></li>
+<li class="chapter" data-level="10.1.2" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#reclassification-statistics-nri-and-idi"><i class="fa fa-check"></i><b>10.1.2</b> Reclassification Statistics (NRI and IDI)</a></li>
+<li class="chapter" data-level="10.1.3" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#true-and-false-positive-rates"><i class="fa fa-check"></i><b>10.1.3</b> True and False Positive Rates</a></li>
+<li class="chapter" data-level="10.1.4" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#reclassification-values"><i class="fa fa-check"></i><b>10.1.4</b> Reclassification Values</a></li>
+<li class="chapter" data-level="10.1.5" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#decision-curve-analyses"><i class="fa fa-check"></i><b>10.1.5</b> Decision Curve Analyses</a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="additional-testing-statistics.html"><a href="additional-testing-statistics.html#making-the-plots"><i class="fa fa-check"></i><b>10.2</b> Making the Plots</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html"><i class="fa fa-check"></i><b>11</b> Non-Predictive Evaluation</a>
+<ul>
+<li class="chapter" data-level="11.1" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#individual-score-evaluation"><i class="fa fa-check"></i><b>11.1</b> Individual Score Evaluation</a>
+<ul>
+<li class="chapter" data-level="11.1.1" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#set-up"><i class="fa fa-check"></i><b>11.1.1</b> Set Up</a></li>
+<li class="chapter" data-level="11.1.2" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#analysis-of-score-sizes"><i class="fa fa-check"></i><b>11.1.2</b> Analysis of Score Sizes</a></li>
+<li class="chapter" data-level="11.1.3" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#analysis-of-phenotype-definitions"><i class="fa fa-check"></i><b>11.1.3</b> Analysis of Phenotype Definitions</a></li>
+<li class="chapter" data-level="11.1.4" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-between-the-sexes"><i class="fa fa-check"></i><b>11.1.4</b> Comparison Between the Sexes</a></li>
+<li class="chapter" data-level="11.1.5" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-ethnic-groups"><i class="fa fa-check"></i><b>11.1.5</b> Comparison of Ethnic Groups</a></li>
+<li class="chapter" data-level="11.1.6" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-siblings"><i class="fa fa-check"></i><b>11.1.6</b> Comparison of Siblings</a></li>
+<li class="chapter" data-level="11.1.7" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-age"><i class="fa fa-check"></i><b>11.1.7</b> Comparison of Age</a></li>
+<li class="chapter" data-level="11.1.8" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#comparison-of-many-other"><i class="fa fa-check"></i><b>11.1.8</b> Comparison of Many Other</a></li>
+<li class="chapter" data-level="11.1.9" data-path="non-predictive-evaluation.html"><a href="non-predictive-evaluation.html#plotting-2"><i class="fa fa-check"></i><b>11.1.9</b> Plotting</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="12" data-path="to-do.html"><a href="to-do.html"><i class="fa fa-check"></i><b>12</b> To Do</a>
+<ul>
+<li class="chapter" data-level="12.1" data-path="to-do.html"><a href="to-do.html#across-score-evaluations"><i class="fa fa-check"></i><b>12.1</b> Across Score Evaluations</a>
+<ul>
+<li class="chapter" data-level="12.1.1" data-path="to-do.html"><a href="to-do.html#set-up-1"><i class="fa fa-check"></i><b>12.1.1</b> Set-Up</a></li>
+<li class="chapter" data-level="12.1.2" data-path="to-do.html"><a href="to-do.html#meta-info-regressions"><i class="fa fa-check"></i><b>12.1.2</b> Meta Info Regressions</a></li>
+<li class="chapter" data-level="12.1.3" data-path="to-do.html"><a href="to-do.html#testing-and-training-comparison"><i class="fa fa-check"></i><b>12.1.3</b> Testing and Training Comparison</a></li>
+<li class="chapter" data-level="12.1.4" data-path="to-do.html"><a href="to-do.html#plotting-3"><i class="fa fa-check"></i><b>12.1.4</b> Plotting</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="13" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html"><i class="fa fa-check"></i><b>13</b> Lifestyle and Medications</a>
+<ul>
+<li class="chapter" data-level="13.1" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#lifestyle-modifcations"><i class="fa fa-check"></i><b>13.1</b> Lifestyle Modifcations</a>
+<ul>
+<li class="chapter" data-level="13.1.1" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#getting-the-statistics"><i class="fa fa-check"></i><b>13.1.1</b> Getting the Statistics</a></li>
+<li class="chapter" data-level="13.1.2" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#plotting-4"><i class="fa fa-check"></i><b>13.1.2</b> Plotting</a></li>
+</ul></li>
+<li class="chapter" data-level="13.2" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#medications"><i class="fa fa-check"></i><b>13.2</b> Medications</a>
+<ul>
+<li class="chapter" data-level="13.2.1" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#set-up-2"><i class="fa fa-check"></i><b>13.2.1</b> Set Up</a></li>
+<li class="chapter" data-level="13.2.2" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#meications"><i class="fa fa-check"></i><b>13.2.2</b> Meications</a></li>
+<li class="chapter" data-level="13.2.3" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#analysis"><i class="fa fa-check"></i><b>13.2.3</b> Analysis</a></li>
+<li class="chapter" data-level="13.2.4" data-path="lifestyle-and-medications.html"><a href="lifestyle-and-medications.html#change-in-plans"><i class="fa fa-check"></i><b>13.2.4</b> Change in Plans</a></li>
+</ul></li>
 </ul></li>
 </ul>
 
@@ -218,56 +286,56 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="compiling-the-scores" class="section level1">
+<div id="compiling-the-scores" class="section level1" number="6">
 <h1><span class="header-section-number">6</span> Compiling the Scores</h1>
 <p>Converting the adjusted summary statistics to actual polygenic risk scores should be a trivial task. However, there are a few important computational aspects of this step which can either significantly slow down or altogether ruin the scoring process. Specific to the UK Biobank, the key time and therefore computational problem is converting the given bgenix files into something faller that can be easily read into PLINK. Doing this for all several million SNPs and ~500,000 individuals at once will almost certainly wreck your RAM and is slow as it is not parallelizable. Therefore, I have split up scoring over each of the chromosomes (as it is already natural), and overal each adjusted summary statistic file (as it is simplest).</p>
-<div id="simple-score-approach" class="section level2">
+<div id="simple-score-approach" class="section level2" number="6.1">
 <h2><span class="header-section-number">6.1</span> Simple Score Approach</h2>
 <p>As already alluded to, the approach I took is simple in nature. The code that processes the scoring of each adjusted summary statistic set is:</p>
-<div class="sourceCode" id="cb62"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb62-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb62-2" data-line-number="2"><span class="va">ss_name=$1</span></a>
-<a class="sourceLine" id="cb62-3" data-line-number="3"><span class="va">author=$2</span></a>
-<a class="sourceLine" id="cb62-4" data-line-number="4"><span class="va">method=$3</span></a>
-<a class="sourceLine" id="cb62-5" data-line-number="5"><span class="va">chr=$4</span></a>
-<a class="sourceLine" id="cb62-6" data-line-number="6"><span class="va">i=$5</span></a>
-<a class="sourceLine" id="cb62-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb62-8" data-line-number="8"><span class="bu">echo</span> <span class="va">$ss_name</span> <span class="va">$author</span> <span class="va">$method</span> <span class="va">$chr</span> <span class="va">$i</span></a>
-<a class="sourceLine" id="cb62-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb62-10" data-line-number="10"><span class="co">#Just logistics around controlling parallelism</span></a>
-<a class="sourceLine" id="cb62-11" data-line-number="11"><span class="va">go_num=</span><span class="kw">`</span><span class="fu">head</span> -1 temp_files/poss_go<span class="kw">`</span></a>
-<a class="sourceLine" id="cb62-12" data-line-number="12"><span class="fu">grep</span> -v -w <span class="va">$go_num</span> temp_files/poss_go <span class="op">&gt;</span> temp_files/temp_poss</a>
-<a class="sourceLine" id="cb62-13" data-line-number="13"><span class="fu">mv</span> temp_files/temp_poss temp_files/poss_go</a>
-<a class="sourceLine" id="cb62-14" data-line-number="14"></a>
-<a class="sourceLine" id="cb62-15" data-line-number="15"><span class="va">low_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$author</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></a>
-<a class="sourceLine" id="cb62-16" data-line-number="16"><span class="va">ver=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$ss_name</span> <span class="kw">|</span> <span class="fu">cut</span> -f4 -d<span class="st">&#39;.&#39;</span><span class="kw">`</span></a>
-<a class="sourceLine" id="cb62-17" data-line-number="17"></a>
-<a class="sourceLine" id="cb62-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb62-19" data-line-number="19"><span class="kw">if</span><span class="bu"> [</span> <span class="ot">!</span> <span class="ot">-e</span> small_score_files/score.<span class="va">${low_author}</span>.<span class="va">${chr}</span>.<span class="va">${ver}</span>.<span class="va">${method}</span>.profile.zst<span class="bu"> ]</span>;<span class="kw">then</span></a>
-<a class="sourceLine" id="cb62-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb62-21" data-line-number="21">  <span class="fu">cat</span> ../mod_sets/<span class="va">${author}</span>/<span class="va">${ss_name}</span> <span class="kw">|</span> <span class="fu">cut</span> -f3 <span class="op">&gt;</span> temp_files/rsids.<span class="va">${i}</span></a>
-<a class="sourceLine" id="cb62-22" data-line-number="22"></a>
-<a class="sourceLine" id="cb62-23" data-line-number="23">  <span class="ex">bgenix</span> -g ~/athena/ukbiobank/imputed/ukbb.<span class="va">${chr}</span>.bgen -incl-rsids temp_files/rsids.<span class="va">${i}</span> <span class="op">&gt;</span> temp_files/temp.<span class="va">${i}</span>.bgen</a>
-<a class="sourceLine" id="cb62-24" data-line-number="24"></a>
-<a class="sourceLine" id="cb62-25" data-line-number="25">  <span class="ex">plink2_new</span> --memory 12000 --threads 12 --bgen temp_files/temp.<span class="va">${i}</span>.bgen ref-first --sample ~/athena/ukbiobank/imputed/ukbb.<span class="va">${chr}</span>.sample --keep-fam temp_files/brit_eid --make-bed --out temp_files/geno.<span class="va">${i}</span></a>
-<a class="sourceLine" id="cb62-26" data-line-number="26"></a>
-<a class="sourceLine" id="cb62-27" data-line-number="27">  <span class="ex">plink</span> --memory 12000 --threads 12 --bfile temp_files/geno.<span class="va">${i}</span> --keep-allele-order --score ../mod_sets/<span class="va">${author}</span>/<span class="va">${ss_name}</span> 3 4 7 sum --out small_score_files/score.<span class="va">${low_author}</span>.<span class="va">${chr}</span>.<span class="va">${ver}</span>.<span class="va">${method}</span></a>
-<a class="sourceLine" id="cb62-28" data-line-number="28"></a>
-<a class="sourceLine" id="cb62-29" data-line-number="29">  <span class="ex">zstd</span> --rm small_score_files/score.<span class="va">${low_author}</span>.<span class="va">${chr}</span>.<span class="va">${ver}</span>.<span class="va">${method}</span>.profile</a>
-<a class="sourceLine" id="cb62-30" data-line-number="30"></a>
-<a class="sourceLine" id="cb62-31" data-line-number="31">  <span class="fu">rm</span> temp_files/rsids.<span class="va">${i}</span></a>
-<a class="sourceLine" id="cb62-32" data-line-number="32">  <span class="fu">rm</span> temp_files/temp.<span class="va">${i}</span>.bgen</a>
-<a class="sourceLine" id="cb62-33" data-line-number="33">  <span class="fu">rm</span> temp_files/geno.<span class="va">${i}</span>.*</a>
-<a class="sourceLine" id="cb62-34" data-line-number="34"></a>
-<a class="sourceLine" id="cb62-35" data-line-number="35"><span class="kw">else</span></a>
-<a class="sourceLine" id="cb62-36" data-line-number="36"></a>
-<a class="sourceLine" id="cb62-37" data-line-number="37">  <span class="bu">echo</span> already exists</a>
-<a class="sourceLine" id="cb62-38" data-line-number="38"></a>
-<a class="sourceLine" id="cb62-39" data-line-number="39"><span class="kw">fi</span></a>
-<a class="sourceLine" id="cb62-40" data-line-number="40"></a>
-<a class="sourceLine" id="cb62-41" data-line-number="41"><span class="co">#Just logistics around controlling parallelism</span></a>
-<a class="sourceLine" id="cb62-42" data-line-number="42"><span class="bu">echo</span> <span class="va">$go_num</span> <span class="op">&gt;&gt;</span> temp_files/poss_go</a></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb62-1"><a href="compiling-the-scores.html#cb62-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-2"><a href="compiling-the-scores.html#cb62-2" aria-hidden="true" tabindex="-1"></a><span class="va">ss_name=$1</span></span>
+<span id="cb62-3"><a href="compiling-the-scores.html#cb62-3" aria-hidden="true" tabindex="-1"></a><span class="va">author=$2</span></span>
+<span id="cb62-4"><a href="compiling-the-scores.html#cb62-4" aria-hidden="true" tabindex="-1"></a><span class="va">method=$3</span></span>
+<span id="cb62-5"><a href="compiling-the-scores.html#cb62-5" aria-hidden="true" tabindex="-1"></a><span class="va">chr=$4</span></span>
+<span id="cb62-6"><a href="compiling-the-scores.html#cb62-6" aria-hidden="true" tabindex="-1"></a><span class="va">i=$5</span></span>
+<span id="cb62-7"><a href="compiling-the-scores.html#cb62-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-8"><a href="compiling-the-scores.html#cb62-8" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$ss_name</span> <span class="va">$author</span> <span class="va">$method</span> <span class="va">$chr</span> <span class="va">$i</span></span>
+<span id="cb62-9"><a href="compiling-the-scores.html#cb62-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-10"><a href="compiling-the-scores.html#cb62-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Just logistics around controlling parallelism</span></span>
+<span id="cb62-11"><a href="compiling-the-scores.html#cb62-11" aria-hidden="true" tabindex="-1"></a><span class="va">go_num=</span><span class="kw">`</span><span class="fu">head</span> <span class="at">-1</span> temp_files/poss_go<span class="kw">`</span></span>
+<span id="cb62-12"><a href="compiling-the-scores.html#cb62-12" aria-hidden="true" tabindex="-1"></a><span class="fu">grep</span> <span class="at">-v</span> <span class="at">-w</span> <span class="va">$go_num</span> temp_files/poss_go <span class="op">&gt;</span> temp_files/temp_poss</span>
+<span id="cb62-13"><a href="compiling-the-scores.html#cb62-13" aria-hidden="true" tabindex="-1"></a><span class="fu">mv</span> temp_files/temp_poss temp_files/poss_go</span>
+<span id="cb62-14"><a href="compiling-the-scores.html#cb62-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-15"><a href="compiling-the-scores.html#cb62-15" aria-hidden="true" tabindex="-1"></a><span class="va">low_author=</span><span class="kw">`</span><span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$author</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">tr</span> <span class="st">&#39;[:upper:]&#39;</span> <span class="st">&#39;[:lower:]&#39;</span><span class="kw">`</span></span>
+<span id="cb62-16"><a href="compiling-the-scores.html#cb62-16" aria-hidden="true" tabindex="-1"></a><span class="va">ver=</span><span class="kw">`</span><span class="bu">echo</span> <span class="va">$ss_name</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f4</span> <span class="at">-d</span><span class="st">&#39;.&#39;</span><span class="kw">`</span></span>
+<span id="cb62-17"><a href="compiling-the-scores.html#cb62-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-18"><a href="compiling-the-scores.html#cb62-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-19"><a href="compiling-the-scores.html#cb62-19" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="bu">[</span> <span class="ot">!</span> <span class="ot">-e</span> small_score_files/score.<span class="va">${low_author}</span>.<span class="va">${chr}</span>.<span class="va">${ver}</span>.<span class="va">${method}</span>.profile.zst <span class="bu">]</span><span class="kw">;</span><span class="cf">then</span></span>
+<span id="cb62-20"><a href="compiling-the-scores.html#cb62-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-21"><a href="compiling-the-scores.html#cb62-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span> ../mod_sets/<span class="va">${author}</span>/<span class="va">${ss_name}</span> <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f3</span> <span class="op">&gt;</span> temp_files/rsids.<span class="va">${i}</span></span>
+<span id="cb62-22"><a href="compiling-the-scores.html#cb62-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-23"><a href="compiling-the-scores.html#cb62-23" aria-hidden="true" tabindex="-1"></a>  <span class="ex">bgenix</span> <span class="at">-g</span> ~/athena/ukbiobank/imputed/ukbb.<span class="va">${chr}</span>.bgen <span class="at">-incl-rsids</span> temp_files/rsids.<span class="va">${i}</span> <span class="op">&gt;</span> temp_files/temp.<span class="va">${i}</span>.bgen</span>
+<span id="cb62-24"><a href="compiling-the-scores.html#cb62-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-25"><a href="compiling-the-scores.html#cb62-25" aria-hidden="true" tabindex="-1"></a>  <span class="ex">plink2_new</span> <span class="at">--memory</span> 12000 <span class="at">--threads</span> 12 <span class="at">--bgen</span> temp_files/temp.<span class="va">${i}</span>.bgen ref-first <span class="at">--sample</span> ~/athena/ukbiobank/imputed/ukbb.<span class="va">${chr}</span>.sample <span class="at">--keep-fam</span> temp_files/brit_eid <span class="at">--make-bed</span> <span class="at">--out</span> temp_files/geno.<span class="va">${i}</span></span>
+<span id="cb62-26"><a href="compiling-the-scores.html#cb62-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-27"><a href="compiling-the-scores.html#cb62-27" aria-hidden="true" tabindex="-1"></a>  <span class="ex">plink</span> <span class="at">--memory</span> 12000 <span class="at">--threads</span> 12 <span class="at">--bfile</span> temp_files/geno.<span class="va">${i}</span> <span class="at">--keep-allele-order</span> <span class="at">--score</span> ../mod_sets/<span class="va">${author}</span>/<span class="va">${ss_name}</span> 3 4 7 sum <span class="at">--out</span> small_score_files/score.<span class="va">${low_author}</span>.<span class="va">${chr}</span>.<span class="va">${ver}</span>.<span class="va">${method}</span></span>
+<span id="cb62-28"><a href="compiling-the-scores.html#cb62-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-29"><a href="compiling-the-scores.html#cb62-29" aria-hidden="true" tabindex="-1"></a>  <span class="ex">zstd</span> <span class="at">--rm</span> small_score_files/score.<span class="va">${low_author}</span>.<span class="va">${chr}</span>.<span class="va">${ver}</span>.<span class="va">${method}</span>.profile</span>
+<span id="cb62-30"><a href="compiling-the-scores.html#cb62-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-31"><a href="compiling-the-scores.html#cb62-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rm</span> temp_files/rsids.<span class="va">${i}</span></span>
+<span id="cb62-32"><a href="compiling-the-scores.html#cb62-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rm</span> temp_files/temp.<span class="va">${i}</span>.bgen</span>
+<span id="cb62-33"><a href="compiling-the-scores.html#cb62-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rm</span> temp_files/geno.<span class="va">${i}</span>.<span class="pp">*</span></span>
+<span id="cb62-34"><a href="compiling-the-scores.html#cb62-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-35"><a href="compiling-the-scores.html#cb62-35" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span></span>
+<span id="cb62-36"><a href="compiling-the-scores.html#cb62-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-37"><a href="compiling-the-scores.html#cb62-37" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> already exists</span>
+<span id="cb62-38"><a href="compiling-the-scores.html#cb62-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-39"><a href="compiling-the-scores.html#cb62-39" aria-hidden="true" tabindex="-1"></a><span class="cf">fi</span></span>
+<span id="cb62-40"><a href="compiling-the-scores.html#cb62-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-41"><a href="compiling-the-scores.html#cb62-41" aria-hidden="true" tabindex="-1"></a><span class="co">#Just logistics around controlling parallelism</span></span>
+<span id="cb62-42"><a href="compiling-the-scores.html#cb62-42" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="va">$go_num</span> <span class="op">&gt;&gt;</span> temp_files/poss_go</span></code></pre></div>
 <p>The key and simple steps are: one, we get the rsids that are included in the adjusted summary statistic set; two, we use bgenix to subset the original UKBB imputation file to a (hopefully) much smaller subset; three, we produce a bed/bim/fam fileset through plink2; four, we produce the actual scores with PLINK. There are a few other important statements, namely to check to see if the score exists (either in the small_score_files or final_scores directory) before trying to make it anew.</p>
-<div id="what-to-worry-about" class="section level3">
+<div id="what-to-worry-about" class="section level3" number="6.1.1">
 <h3><span class="header-section-number">6.1.1</span> What to Worry About</h3>
 <p>There are a few things that I did not think of originally that should be considered in order to make accurate and even remotely realistic scores.</p>
 <p>1 - Matching Alleles - As we already carefully went over when creating clean summary statistics from those orginally downloaded, the alleles in the summary statistics must match the genotype file you are working with. When dealing with the original bgen files this is true. But, when we subset (to say only British individuals) the allele may be flipped if the major allele flips (important, this is true for PLINK but not for PLINK2). To prevent this behavoir in PLINK we use the –keep-allele-order flag.</p>
@@ -275,143 +343,143 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>3 - Allele Frequency - The default behavoir of the PLINK scoring routine is when an allele is unknown an amount proportional to the allele frequency is added. This can be pretty confusing so please check out <a href="https://zzz.bwh.harvard.edu/plink/profile.shtml" class="uri">https://zzz.bwh.harvard.edu/plink/profile.shtml</a>, which has a simple example. The problem here is the exact allele frequency being used. If we used –keep-fam and –score in the same plink call, then the allele frequency is derived from the non-family subset. So instead we must subset into the bed/bim/fam files, and then in a seperate PLINK call we do the scoring.</p>
 <p>4 - Round-Off Error - This is a much smaller issue, but in nearly all computational tasks with thousands of multiplications between small values, there is bound to be round off error. While I admit I have not done anything to correct for it, it could be a good idea in the future to multiply the beta values by a fixed value to bring everything futher awayfrom small values. Although, I should clarify, while scores change I have not noticed any changes in the order of individuals.</p>
 </div>
-<div id="controlling-and-assembling" class="section level3">
+<div id="controlling-and-assembling" class="section level3" number="6.1.2">
 <h3><span class="header-section-number">6.1.2</span> Controlling and Assembling</h3>
 <p>All of this scoring, for each chromosome, author, etc. are controlled by the following script. This is a very similar process to the one that controls the adjusting summary statistic process, so I won’t go into too much detail explaining.</p>
-<div class="sourceCode" id="cb63"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb63-1" data-line-number="1"></a>
-<a class="sourceLine" id="cb63-2" data-line-number="2"><span class="va">maxGo=</span>18</a>
-<a class="sourceLine" id="cb63-3" data-line-number="3"><span class="fu">rm</span> temp_files/poss_go</a>
-<a class="sourceLine" id="cb63-4" data-line-number="4"><span class="fu">cat</span> ../qc/cv_files/train_eid.0.2.txt <span class="kw">|</span> <span class="fu">cut</span> -f1 <span class="op">&gt;</span> temp_files/brit_eid</a>
-<a class="sourceLine" id="cb63-5" data-line-number="5"><span class="fu">cat</span> ../qc/cv_files/test_eid.0.8.txt <span class="kw">|</span> <span class="fu">cut</span> -f1 <span class="op">&gt;&gt;</span> temp_files/brit_eid</a>
-<a class="sourceLine" id="cb63-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb63-7" data-line-number="7"><span class="kw">for</span> <span class="kw">((</span> i=1; i&lt;=<span class="va">$maxGo</span>; i++ <span class="kw">))</span>; <span class="kw">do</span></a>
-<a class="sourceLine" id="cb63-8" data-line-number="8">  <span class="bu">echo</span> <span class="va">$i</span> <span class="op">&gt;&gt;</span> temp_files/poss_go</a>
-<a class="sourceLine" id="cb63-9" data-line-number="9"><span class="kw">done</span></a>
-<a class="sourceLine" id="cb63-10" data-line-number="10"></a>
-<a class="sourceLine" id="cb63-11" data-line-number="11"><span class="bu">echo</span> 1 <span class="op">&gt;</span> temp_files/counter</a>
-<a class="sourceLine" id="cb63-12" data-line-number="12"></a>
-<a class="sourceLine" id="cb63-13" data-line-number="13"><span class="fu">cat</span> all_specs/author_specs <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">cauthor</span>;<span class="kw">do</span></a>
-<a class="sourceLine" id="cb63-14" data-line-number="14">  <span class="fu">cat</span> all_specs/method_specs <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">cmethod</span>;<span class="kw">do</span></a>
-<a class="sourceLine" id="cb63-15" data-line-number="15">    <span class="kw">for</span> <span class="ex">cchr</span> in <span class="dt">{1..22}</span><span class="kw">;do</span></a>
-<a class="sourceLine" id="cb63-16" data-line-number="16"></a>
-<a class="sourceLine" id="cb63-17" data-line-number="17">      <span class="fu">ls</span> ../mod_sets/<span class="va">${cauthor}</span>/ <span class="kw">|</span> <span class="fu">fgrep</span> -w <span class="va">${cmethod}</span> <span class="kw">|</span> <span class="fu">awk</span> -v var=<span class="st">&quot;</span><span class="va">$cchr</span><span class="st">&quot;</span> -F. <span class="st">&#39;$2 == var {print $0}&#39;</span> <span class="kw">|</span> <span class="kw">while</span> <span class="bu">read</span> <span class="va">cname</span>;<span class="kw">do</span></a>
-<a class="sourceLine" id="cb63-18" data-line-number="18"></a>
-<a class="sourceLine" id="cb63-19" data-line-number="19">        <span class="va">counter_var=</span><span class="kw">`</span><span class="fu">cat</span> temp_files/counter<span class="kw">`</span></a>
-<a class="sourceLine" id="cb63-20" data-line-number="20">        <span class="bu">echo</span> <span class="va">$counter_var</span></a>
-<a class="sourceLine" id="cb63-21" data-line-number="21">        <span class="ex">./simple_score.sh</span> <span class="va">$cname</span> <span class="va">$cauthor</span> <span class="va">$cmethod</span> <span class="va">$cchr</span> <span class="va">$counter_var</span> <span class="op">&amp;&gt;</span> logs/log.<span class="va">${counter_var}</span>.log <span class="kw">&amp;</span></a>
-<a class="sourceLine" id="cb63-22" data-line-number="22">        <span class="bu">echo</span> <span class="va">$counter_var</span> + 1 <span class="kw">|</span> <span class="fu">bc</span> <span class="op">&gt;</span> temp_files/counter</a>
-<a class="sourceLine" id="cb63-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb63-24" data-line-number="24">        <span class="fu">sleep</span> <span class="va">$((</span> ( RANDOM % 10 )  + 1 <span class="va">))</span></a>
-<a class="sourceLine" id="cb63-25" data-line-number="25"></a>
-<a class="sourceLine" id="cb63-26" data-line-number="26">        <span class="va">goOn=</span>False</a>
-<a class="sourceLine" id="cb63-27" data-line-number="27">        <span class="kw">while</span><span class="bu"> [</span> <span class="va">$goOn</span> <span class="ot">==</span> <span class="st">&quot;False&quot;</span><span class="bu"> ]</span>; <span class="kw">do</span></a>
-<a class="sourceLine" id="cb63-28" data-line-number="28">          <span class="va">openSlots=</span><span class="kw">`</span><span class="fu">cat</span> temp_files/poss_go <span class="kw">|</span> <span class="fu">wc</span> -l<span class="kw">`</span></a>
-<a class="sourceLine" id="cb63-29" data-line-number="29">          <span class="va">sizedir=</span><span class="kw">`</span><span class="fu">du</span> temp_files/ <span class="kw">|</span> <span class="fu">cut</span> -f1<span class="kw">`</span></a>
-<a class="sourceLine" id="cb63-30" data-line-number="30">          <span class="kw">if</span><span class="bu"> [</span> <span class="va">$openSlots</span> <span class="ot">-gt</span> 0<span class="bu"> ]</span>; <span class="kw">then</span></a>
-<a class="sourceLine" id="cb63-31" data-line-number="31">            <span class="kw">if</span><span class="bu"> [</span> <span class="va">$sizedir</span> <span class="ot">-lt</span> 50164096<span class="bu"> ]</span>;<span class="kw">then</span></a>
-<a class="sourceLine" id="cb63-32" data-line-number="32">              <span class="bu">echo</span> NOW WE CAN GO</a>
-<a class="sourceLine" id="cb63-33" data-line-number="33">              <span class="va">goOn=</span>True</a>
-<a class="sourceLine" id="cb63-34" data-line-number="34">            <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb63-35" data-line-number="35">          <span class="kw">else</span></a>
-<a class="sourceLine" id="cb63-36" data-line-number="36">            <span class="bu">echo</span> MUST WAIT FOR ROOM TO GO</a>
-<a class="sourceLine" id="cb63-37" data-line-number="37">            <span class="fu">sleep</span> <span class="va">$((</span> ( RANDOM % 5 )  + 1 <span class="va">))</span></a>
-<a class="sourceLine" id="cb63-38" data-line-number="38">          <span class="kw">fi</span></a>
-<a class="sourceLine" id="cb63-39" data-line-number="39">        <span class="kw">done</span></a>
-<a class="sourceLine" id="cb63-40" data-line-number="40"></a>
-<a class="sourceLine" id="cb63-41" data-line-number="41">      <span class="kw">done</span></a>
-<a class="sourceLine" id="cb63-42" data-line-number="42">    <span class="kw">done</span></a>
-<a class="sourceLine" id="cb63-43" data-line-number="43">  <span class="kw">done</span></a>
-<a class="sourceLine" id="cb63-44" data-line-number="44"><span class="kw">done</span></a></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb63-1"><a href="compiling-the-scores.html#cb63-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-2"><a href="compiling-the-scores.html#cb63-2" aria-hidden="true" tabindex="-1"></a><span class="va">maxGo=</span>18</span>
+<span id="cb63-3"><a href="compiling-the-scores.html#cb63-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> temp_files/poss_go</span>
+<span id="cb63-4"><a href="compiling-the-scores.html#cb63-4" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> ../qc/cv_files/train_eid.0.2.txt <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f1</span> <span class="op">&gt;</span> temp_files/brit_eid</span>
+<span id="cb63-5"><a href="compiling-the-scores.html#cb63-5" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> ../qc/cv_files/test_eid.0.8.txt <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f1</span> <span class="op">&gt;&gt;</span> temp_files/brit_eid</span>
+<span id="cb63-6"><a href="compiling-the-scores.html#cb63-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-7"><a href="compiling-the-scores.html#cb63-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> <span class="kw">((</span> <span class="va">i</span><span class="op">=</span><span class="dv">1</span><span class="kw">;</span> <span class="va">i</span><span class="op">&lt;=</span><span class="va">$maxGo</span><span class="kw">;</span> <span class="va">i</span><span class="op">++</span> <span class="kw">));</span> <span class="cf">do</span></span>
+<span id="cb63-8"><a href="compiling-the-scores.html#cb63-8" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> <span class="va">$i</span> <span class="op">&gt;&gt;</span> temp_files/poss_go</span>
+<span id="cb63-9"><a href="compiling-the-scores.html#cb63-9" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb63-10"><a href="compiling-the-scores.html#cb63-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-11"><a href="compiling-the-scores.html#cb63-11" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> 1 <span class="op">&gt;</span> temp_files/counter</span>
+<span id="cb63-12"><a href="compiling-the-scores.html#cb63-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-13"><a href="compiling-the-scores.html#cb63-13" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span> all_specs/author_specs <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">cauthor</span><span class="kw">;</span><span class="cf">do</span></span>
+<span id="cb63-14"><a href="compiling-the-scores.html#cb63-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span> all_specs/method_specs <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">cmethod</span><span class="kw">;</span><span class="cf">do</span></span>
+<span id="cb63-15"><a href="compiling-the-scores.html#cb63-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> cchr <span class="kw">in</span> {1..22}<span class="kw">;</span><span class="cf">do</span></span>
+<span id="cb63-16"><a href="compiling-the-scores.html#cb63-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-17"><a href="compiling-the-scores.html#cb63-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ls</span> ../mod_sets/<span class="va">${cauthor}</span>/ <span class="kw">|</span> <span class="fu">fgrep</span> <span class="at">-w</span> <span class="va">${cmethod}</span> <span class="kw">|</span> <span class="fu">awk</span> <span class="at">-v</span> var=<span class="st">&quot;</span><span class="va">$cchr</span><span class="st">&quot;</span> <span class="at">-F.</span> <span class="st">&#39;$2 == var {print $0}&#39;</span> <span class="kw">|</span> <span class="cf">while</span> <span class="bu">read</span> <span class="va">cname</span><span class="kw">;</span><span class="cf">do</span></span>
+<span id="cb63-18"><a href="compiling-the-scores.html#cb63-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-19"><a href="compiling-the-scores.html#cb63-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">counter_var=</span><span class="kw">`</span><span class="fu">cat</span> temp_files/counter<span class="kw">`</span></span>
+<span id="cb63-20"><a href="compiling-the-scores.html#cb63-20" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> <span class="va">$counter_var</span></span>
+<span id="cb63-21"><a href="compiling-the-scores.html#cb63-21" aria-hidden="true" tabindex="-1"></a>        <span class="ex">./simple_score.sh</span> <span class="va">$cname</span> <span class="va">$cauthor</span> <span class="va">$cmethod</span> <span class="va">$cchr</span> <span class="va">$counter_var</span> <span class="op">&amp;&gt;</span> logs/log.<span class="va">${counter_var}</span>.log <span class="kw">&amp;</span></span>
+<span id="cb63-22"><a href="compiling-the-scores.html#cb63-22" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> <span class="va">$counter_var</span> + 1 <span class="kw">|</span> <span class="fu">bc</span> <span class="op">&gt;</span> temp_files/counter</span>
+<span id="cb63-23"><a href="compiling-the-scores.html#cb63-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-24"><a href="compiling-the-scores.html#cb63-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">sleep</span> <span class="va">$((</span> ( <span class="va">RANDOM</span> <span class="op">%</span> <span class="dv">10</span> )  <span class="op">+</span> <span class="dv">1</span> <span class="va">))</span></span>
+<span id="cb63-25"><a href="compiling-the-scores.html#cb63-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-26"><a href="compiling-the-scores.html#cb63-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">goOn=</span>False</span>
+<span id="cb63-27"><a href="compiling-the-scores.html#cb63-27" aria-hidden="true" tabindex="-1"></a>        <span class="cf">while</span> <span class="bu">[</span> <span class="va">$goOn</span> <span class="ot">==</span> <span class="st">&quot;False&quot;</span> <span class="bu">]</span><span class="kw">;</span> <span class="cf">do</span></span>
+<span id="cb63-28"><a href="compiling-the-scores.html#cb63-28" aria-hidden="true" tabindex="-1"></a>          <span class="va">openSlots=</span><span class="kw">`</span><span class="fu">cat</span> temp_files/poss_go <span class="kw">|</span> <span class="fu">wc</span> <span class="at">-l</span><span class="kw">`</span></span>
+<span id="cb63-29"><a href="compiling-the-scores.html#cb63-29" aria-hidden="true" tabindex="-1"></a>          <span class="va">sizedir=</span><span class="kw">`</span><span class="fu">du</span> temp_files/ <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f1</span><span class="kw">`</span></span>
+<span id="cb63-30"><a href="compiling-the-scores.html#cb63-30" aria-hidden="true" tabindex="-1"></a>          <span class="cf">if</span> <span class="bu">[</span> <span class="va">$openSlots</span> <span class="ot">-gt</span> 0 <span class="bu">]</span><span class="kw">;</span> <span class="cf">then</span></span>
+<span id="cb63-31"><a href="compiling-the-scores.html#cb63-31" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="bu">[</span> <span class="va">$sizedir</span> <span class="ot">-lt</span> 50164096 <span class="bu">]</span><span class="kw">;</span><span class="cf">then</span></span>
+<span id="cb63-32"><a href="compiling-the-scores.html#cb63-32" aria-hidden="true" tabindex="-1"></a>              <span class="bu">echo</span> NOW WE CAN GO</span>
+<span id="cb63-33"><a href="compiling-the-scores.html#cb63-33" aria-hidden="true" tabindex="-1"></a>              <span class="va">goOn=</span>True</span>
+<span id="cb63-34"><a href="compiling-the-scores.html#cb63-34" aria-hidden="true" tabindex="-1"></a>            <span class="cf">fi</span></span>
+<span id="cb63-35"><a href="compiling-the-scores.html#cb63-35" aria-hidden="true" tabindex="-1"></a>          <span class="cf">else</span></span>
+<span id="cb63-36"><a href="compiling-the-scores.html#cb63-36" aria-hidden="true" tabindex="-1"></a>            <span class="bu">echo</span> MUST WAIT FOR ROOM TO GO</span>
+<span id="cb63-37"><a href="compiling-the-scores.html#cb63-37" aria-hidden="true" tabindex="-1"></a>            <span class="fu">sleep</span> <span class="va">$((</span> ( <span class="va">RANDOM</span> <span class="op">%</span> <span class="dv">5</span> )  <span class="op">+</span> <span class="dv">1</span> <span class="va">))</span></span>
+<span id="cb63-38"><a href="compiling-the-scores.html#cb63-38" aria-hidden="true" tabindex="-1"></a>          <span class="cf">fi</span></span>
+<span id="cb63-39"><a href="compiling-the-scores.html#cb63-39" aria-hidden="true" tabindex="-1"></a>        <span class="cf">done</span></span>
+<span id="cb63-40"><a href="compiling-the-scores.html#cb63-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-41"><a href="compiling-the-scores.html#cb63-41" aria-hidden="true" tabindex="-1"></a>      <span class="cf">done</span></span>
+<span id="cb63-42"><a href="compiling-the-scores.html#cb63-42" aria-hidden="true" tabindex="-1"></a>    <span class="cf">done</span></span>
+<span id="cb63-43"><a href="compiling-the-scores.html#cb63-43" aria-hidden="true" tabindex="-1"></a>  <span class="cf">done</span></span>
+<span id="cb63-44"><a href="compiling-the-scores.html#cb63-44" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span></code></pre></div>
 <p>The final script needed in this process is assembling. The process begins by getting the names of all the small score files, then the method, version, and author are extracted. Then we simply line up the files that have the same qualities except for the chromosomes, read them in then add them together. Note that the system() command must be used to zstd decompress and then remove the uncompressed file. There may be a faster way to do this directly in R in the future. There very well may be a better way to do this since this is alot of IO work. but it gets the job done. Although again I want to note that PLINK rounds off all of the scores in the chromosomes leading to possibly problematic round-off error.</p>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1"><span class="kw">library</span>(data.table)</a>
-<a class="sourceLine" id="cb64-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb64-3" data-line-number="3">all_files &lt;-<span class="st"> </span><span class="kw">list.files</span>(<span class="st">&quot;small_score_files/&quot;</span>, <span class="dt">pattern =</span> <span class="st">&quot;profile&quot;</span>)</a>
-<a class="sourceLine" id="cb64-4" data-line-number="4">split_files &lt;-<span class="st"> </span><span class="kw">strsplit</span>(all_files, <span class="st">&quot;.&quot;</span>, <span class="dt">fixed =</span> T)</a>
-<a class="sourceLine" id="cb64-5" data-line-number="5">all_author &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(split_files, <span class="cf">function</span>(x) x[<span class="dv">2</span>]))</a>
-<a class="sourceLine" id="cb64-6" data-line-number="6">all_chr &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(split_files, <span class="cf">function</span>(x) x[<span class="dv">3</span>]))</a>
-<a class="sourceLine" id="cb64-7" data-line-number="7">all_ind &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(split_files, <span class="cf">function</span>(x) x[<span class="dv">4</span>]))</a>
-<a class="sourceLine" id="cb64-8" data-line-number="8">all_method &lt;-<span class="st"> </span><span class="kw">unlist</span>(<span class="kw">lapply</span>(split_files, <span class="cf">function</span>(x) x[<span class="dv">5</span>]))</a>
-<a class="sourceLine" id="cb64-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb64-10" data-line-number="10">brit_eid &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;temp_files/brit_eid&quot;</span>, <span class="dt">stringsAsFactors=</span>F)</a>
-<a class="sourceLine" id="cb64-11" data-line-number="11">new_name &lt;-<span class="st"> </span><span class="kw">unique</span>(<span class="kw">paste0</span>(all_author, <span class="st">&quot;.&quot;</span>, all_ind, <span class="st">&quot;.&quot;</span>, all_method))</a>
-<a class="sourceLine" id="cb64-12" data-line-number="12">all_score &lt;-<span class="st"> </span><span class="kw">matrix</span>(<span class="dv">0</span>, <span class="dt">nrow =</span> <span class="kw">nrow</span>(brit_eid), <span class="dt">ncol =</span> <span class="kw">length</span>(new_name))</a>
-<a class="sourceLine" id="cb64-13" data-line-number="13">almost_new_name &lt;-<span class="st"> </span><span class="kw">paste0</span>(all_author, <span class="st">&quot;.&quot;</span>, all_ind, <span class="st">&quot;.&quot;</span>, all_method)</a>
-<a class="sourceLine" id="cb64-14" data-line-number="14"><span class="kw">colnames</span>(all_score) &lt;-<span class="st"> </span>new_name</a>
-<a class="sourceLine" id="cb64-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb64-16" data-line-number="16">firstup &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</a>
-<a class="sourceLine" id="cb64-17" data-line-number="17">  <span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>) &lt;-<span class="st"> </span><span class="kw">toupper</span>(<span class="kw">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb64-18" data-line-number="18">  <span class="kw">return</span>(x)</a>
-<a class="sourceLine" id="cb64-19" data-line-number="19">}</a>
-<a class="sourceLine" id="cb64-20" data-line-number="20"></a>
-<a class="sourceLine" id="cb64-21" data-line-number="21">all_upauthor &lt;-<span class="st"> </span><span class="kw">firstup</span>(all_author)</a>
-<a class="sourceLine" id="cb64-22" data-line-number="22">all_upauthor[all_upauthor <span class="op">==</span><span class="st"> &quot;Imsgc&quot;</span>] &lt;-<span class="st"> &quot;IMSGC&quot;</span></a>
-<a class="sourceLine" id="cb64-23" data-line-number="23"></a>
-<a class="sourceLine" id="cb64-24" data-line-number="24">i &lt;-<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb64-25" data-line-number="25">j &lt;-<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb64-26" data-line-number="26"><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(all_files)){</a>
-<a class="sourceLine" id="cb64-27" data-line-number="27"></a>
-<a class="sourceLine" id="cb64-28" data-line-number="28">      real_mod_set &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">grep</span>(<span class="kw">paste0</span>(<span class="kw">tolower</span>(all_author[i]), <span class="st">&quot;.[[:digit:]][[:digit:]].&quot;</span>, all_method[i], <span class="st">&quot;.&quot;</span>, all_ind[i], <span class="st">&quot;.ss&quot;</span>), <span class="kw">list.files</span>(<span class="kw">paste0</span>(<span class="st">&quot;../mod_sets/&quot;</span>, all_upauthor[i],<span class="st">&quot;/&quot;</span>)), <span class="dt">value =</span> T),</a>
-<a class="sourceLine" id="cb64-29" data-line-number="29">                         <span class="kw">grep</span>(<span class="kw">paste0</span>(<span class="kw">tolower</span>(all_author[i]), <span class="st">&quot;.[[:digit:]].&quot;</span>, all_method[i], <span class="st">&quot;.&quot;</span>, all_ind[i], <span class="st">&quot;.ss&quot;</span>), <span class="kw">list.files</span>(<span class="kw">paste0</span>(<span class="st">&quot;../mod_sets/&quot;</span>, all_upauthor[i], <span class="st">&quot;/&quot;</span>)), <span class="dt">value =</span> T))</a>
-<a class="sourceLine" id="cb64-30" data-line-number="30"></a>
-<a class="sourceLine" id="cb64-31" data-line-number="31">      real_scored &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">grep</span>(<span class="kw">paste0</span>(<span class="st">&quot;score.&quot;</span>, <span class="kw">tolower</span>(all_author[i]), <span class="st">&quot;.[[:digit:]].&quot;</span>, all_ind[i], <span class="st">&quot;.&quot;</span>, all_method[i], <span class="st">&quot;.profile.zst&quot;</span>), all_files, <span class="dt">value =</span> T),</a>
-<a class="sourceLine" id="cb64-32" data-line-number="32">                        <span class="kw">grep</span>(<span class="kw">paste0</span>(<span class="st">&quot;score.&quot;</span>, <span class="kw">tolower</span>(all_author[i]), <span class="st">&quot;.[[:digit:]][[:digit:]].&quot;</span>, all_ind[i], <span class="st">&quot;.&quot;</span>, all_method[i], <span class="st">&quot;.profile.zst&quot;</span>), all_files, <span class="dt">value =</span> T))</a>
-<a class="sourceLine" id="cb64-33" data-line-number="33"></a>
-<a class="sourceLine" id="cb64-34" data-line-number="34">      <span class="cf">if</span>(<span class="kw">length</span>(real_mod_set) <span class="op">==</span><span class="st"> </span><span class="kw">length</span>(real_scored)){</a>
-<a class="sourceLine" id="cb64-35" data-line-number="35"></a>
-<a class="sourceLine" id="cb64-36" data-line-number="36">          <span class="kw">system</span>(<span class="kw">paste0</span>(<span class="st">&quot;zstd -d small_score_files/&quot;</span>, all_files[i]))</a>
-<a class="sourceLine" id="cb64-37" data-line-number="37">          sub_score &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">fread</span>(<span class="kw">paste0</span>(<span class="st">&quot;small_score_files/&quot;</span>, <span class="kw">substr</span>(all_files[i], <span class="dv">1</span>, <span class="kw">nchar</span>(all_files[i])<span class="op">-</span><span class="dv">4</span>))))</a>
-<a class="sourceLine" id="cb64-38" data-line-number="38">          <span class="kw">system</span>(<span class="kw">paste0</span>(<span class="st">&quot;rm small_score_files/&quot;</span>, <span class="kw">substr</span>(all_files[i], <span class="dv">1</span>, <span class="kw">nchar</span>(all_files[i])<span class="op">-</span><span class="dv">4</span>)))</a>
-<a class="sourceLine" id="cb64-39" data-line-number="39"> </a>
-<a class="sourceLine" id="cb64-40" data-line-number="40">          all_score[,new_name <span class="op">==</span><span class="st"> </span>almost_new_name[i]] &lt;-<span class="st"> </span>all_score[,new_name <span class="op">==</span><span class="st"> </span>almost_new_name[i]] <span class="op">+</span><span class="st"> </span>sub_score<span class="op">$</span>SCORESUM </a>
-<a class="sourceLine" id="cb64-41" data-line-number="41">    </a>
-<a class="sourceLine" id="cb64-42" data-line-number="42">      }</a>
-<a class="sourceLine" id="cb64-43" data-line-number="43">}</a>
-<a class="sourceLine" id="cb64-44" data-line-number="44"></a>
-<a class="sourceLine" id="cb64-45" data-line-number="45">all_score &lt;-<span class="st"> </span>all_score[,<span class="kw">colSums</span>(all_score) <span class="op">!=</span><span class="st"> </span><span class="dv">0</span>]</a>
-<a class="sourceLine" id="cb64-46" data-line-number="46"></a>
-<a class="sourceLine" id="cb64-47" data-line-number="47">next_file &lt;-<span class="st"> </span><span class="kw">length</span>(<span class="kw">grep</span>(<span class="st">&quot;RDS&quot;</span>, <span class="kw">list.files</span>(<span class="st">&quot;final_scores&quot;</span>, <span class="st">&quot;all_score&quot;</span>))) <span class="op">+</span><span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb64-48" data-line-number="48"></a>
-<a class="sourceLine" id="cb64-49" data-line-number="49"><span class="kw">write.table</span>(all_score, <span class="kw">paste0</span>(<span class="st">&quot;final_scores/all_score.&quot;</span>, next_file), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> T, <span class="dt">quote =</span> F, <span class="dt">sep =</span> <span class="st">&#39; &#39;</span>)</a>
-<a class="sourceLine" id="cb64-50" data-line-number="50"><span class="kw">saveRDS</span>(all_score, <span class="kw">paste0</span>(<span class="st">&quot;final_scores/all_score.&quot;</span>, next_file, <span class="st">&quot;.RDS&quot;</span>))</a>
-<a class="sourceLine" id="cb64-51" data-line-number="51"><span class="kw">write.table</span>(<span class="kw">colnames</span>(all_score), <span class="kw">paste0</span>(<span class="st">&quot;final_scores/done_names.&quot;</span>, next_file), <span class="dt">row.names =</span> F, <span class="dt">col.names =</span> F, <span class="dt">quote =</span> F)</a>
-<a class="sourceLine" id="cb64-52" data-line-number="52"><span class="kw">system</span>(<span class="kw">paste0</span>(<span class="st">&quot;gzip final_scores/all_score.&quot;</span>, next_file))</a></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="compiling-the-scores.html#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb64-2"><a href="compiling-the-scores.html#cb64-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-3"><a href="compiling-the-scores.html#cb64-3" aria-hidden="true" tabindex="-1"></a>all_files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="st">&quot;small_score_files/&quot;</span>, <span class="at">pattern =</span> <span class="st">&quot;profile&quot;</span>)</span>
+<span id="cb64-4"><a href="compiling-the-scores.html#cb64-4" aria-hidden="true" tabindex="-1"></a>split_files <span class="ot">&lt;-</span> <span class="fu">strsplit</span>(all_files, <span class="st">&quot;.&quot;</span>, <span class="at">fixed =</span> T)</span>
+<span id="cb64-5"><a href="compiling-the-scores.html#cb64-5" aria-hidden="true" tabindex="-1"></a>all_author <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(split_files, <span class="cf">function</span>(x) x[<span class="dv">2</span>]))</span>
+<span id="cb64-6"><a href="compiling-the-scores.html#cb64-6" aria-hidden="true" tabindex="-1"></a>all_chr <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(split_files, <span class="cf">function</span>(x) x[<span class="dv">3</span>]))</span>
+<span id="cb64-7"><a href="compiling-the-scores.html#cb64-7" aria-hidden="true" tabindex="-1"></a>all_ind <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(split_files, <span class="cf">function</span>(x) x[<span class="dv">4</span>]))</span>
+<span id="cb64-8"><a href="compiling-the-scores.html#cb64-8" aria-hidden="true" tabindex="-1"></a>all_method <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(split_files, <span class="cf">function</span>(x) x[<span class="dv">5</span>]))</span>
+<span id="cb64-9"><a href="compiling-the-scores.html#cb64-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-10"><a href="compiling-the-scores.html#cb64-10" aria-hidden="true" tabindex="-1"></a>brit_eid <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;temp_files/brit_eid&quot;</span>, <span class="at">stringsAsFactors=</span>F)</span>
+<span id="cb64-11"><a href="compiling-the-scores.html#cb64-11" aria-hidden="true" tabindex="-1"></a>new_name <span class="ot">&lt;-</span> <span class="fu">unique</span>(<span class="fu">paste0</span>(all_author, <span class="st">&quot;.&quot;</span>, all_ind, <span class="st">&quot;.&quot;</span>, all_method))</span>
+<span id="cb64-12"><a href="compiling-the-scores.html#cb64-12" aria-hidden="true" tabindex="-1"></a>all_score <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="dv">0</span>, <span class="at">nrow =</span> <span class="fu">nrow</span>(brit_eid), <span class="at">ncol =</span> <span class="fu">length</span>(new_name))</span>
+<span id="cb64-13"><a href="compiling-the-scores.html#cb64-13" aria-hidden="true" tabindex="-1"></a>almost_new_name <span class="ot">&lt;-</span> <span class="fu">paste0</span>(all_author, <span class="st">&quot;.&quot;</span>, all_ind, <span class="st">&quot;.&quot;</span>, all_method)</span>
+<span id="cb64-14"><a href="compiling-the-scores.html#cb64-14" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(all_score) <span class="ot">&lt;-</span> new_name</span>
+<span id="cb64-15"><a href="compiling-the-scores.html#cb64-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-16"><a href="compiling-the-scores.html#cb64-16" aria-hidden="true" tabindex="-1"></a>firstup <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb64-17"><a href="compiling-the-scores.html#cb64-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>) <span class="ot">&lt;-</span> <span class="fu">toupper</span>(<span class="fu">substr</span>(x, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb64-18"><a href="compiling-the-scores.html#cb64-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(x)</span>
+<span id="cb64-19"><a href="compiling-the-scores.html#cb64-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb64-20"><a href="compiling-the-scores.html#cb64-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-21"><a href="compiling-the-scores.html#cb64-21" aria-hidden="true" tabindex="-1"></a>all_upauthor <span class="ot">&lt;-</span> <span class="fu">firstup</span>(all_author)</span>
+<span id="cb64-22"><a href="compiling-the-scores.html#cb64-22" aria-hidden="true" tabindex="-1"></a>all_upauthor[all_upauthor <span class="sc">==</span> <span class="st">&quot;Imsgc&quot;</span>] <span class="ot">&lt;-</span> <span class="st">&quot;IMSGC&quot;</span></span>
+<span id="cb64-23"><a href="compiling-the-scores.html#cb64-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-24"><a href="compiling-the-scores.html#cb64-24" aria-hidden="true" tabindex="-1"></a>i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb64-25"><a href="compiling-the-scores.html#cb64-25" aria-hidden="true" tabindex="-1"></a>j <span class="ot">&lt;-</span> <span class="dv">1</span></span>
+<span id="cb64-26"><a href="compiling-the-scores.html#cb64-26" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(all_files)){</span>
+<span id="cb64-27"><a href="compiling-the-scores.html#cb64-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-28"><a href="compiling-the-scores.html#cb64-28" aria-hidden="true" tabindex="-1"></a>      real_mod_set <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">grep</span>(<span class="fu">paste0</span>(<span class="fu">tolower</span>(all_author[i]), <span class="st">&quot;.[[:digit:]][[:digit:]].&quot;</span>, all_method[i], <span class="st">&quot;.&quot;</span>, all_ind[i], <span class="st">&quot;.ss&quot;</span>), <span class="fu">list.files</span>(<span class="fu">paste0</span>(<span class="st">&quot;../mod_sets/&quot;</span>, all_upauthor[i],<span class="st">&quot;/&quot;</span>)), <span class="at">value =</span> T),</span>
+<span id="cb64-29"><a href="compiling-the-scores.html#cb64-29" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">grep</span>(<span class="fu">paste0</span>(<span class="fu">tolower</span>(all_author[i]), <span class="st">&quot;.[[:digit:]].&quot;</span>, all_method[i], <span class="st">&quot;.&quot;</span>, all_ind[i], <span class="st">&quot;.ss&quot;</span>), <span class="fu">list.files</span>(<span class="fu">paste0</span>(<span class="st">&quot;../mod_sets/&quot;</span>, all_upauthor[i], <span class="st">&quot;/&quot;</span>)), <span class="at">value =</span> T))</span>
+<span id="cb64-30"><a href="compiling-the-scores.html#cb64-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-31"><a href="compiling-the-scores.html#cb64-31" aria-hidden="true" tabindex="-1"></a>      real_scored <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">grep</span>(<span class="fu">paste0</span>(<span class="st">&quot;score.&quot;</span>, <span class="fu">tolower</span>(all_author[i]), <span class="st">&quot;.[[:digit:]].&quot;</span>, all_ind[i], <span class="st">&quot;.&quot;</span>, all_method[i], <span class="st">&quot;.profile.zst&quot;</span>), all_files, <span class="at">value =</span> T),</span>
+<span id="cb64-32"><a href="compiling-the-scores.html#cb64-32" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">grep</span>(<span class="fu">paste0</span>(<span class="st">&quot;score.&quot;</span>, <span class="fu">tolower</span>(all_author[i]), <span class="st">&quot;.[[:digit:]][[:digit:]].&quot;</span>, all_ind[i], <span class="st">&quot;.&quot;</span>, all_method[i], <span class="st">&quot;.profile.zst&quot;</span>), all_files, <span class="at">value =</span> T))</span>
+<span id="cb64-33"><a href="compiling-the-scores.html#cb64-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-34"><a href="compiling-the-scores.html#cb64-34" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span>(<span class="fu">length</span>(real_mod_set) <span class="sc">==</span> <span class="fu">length</span>(real_scored)){</span>
+<span id="cb64-35"><a href="compiling-the-scores.html#cb64-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-36"><a href="compiling-the-scores.html#cb64-36" aria-hidden="true" tabindex="-1"></a>          <span class="fu">system</span>(<span class="fu">paste0</span>(<span class="st">&quot;zstd -d small_score_files/&quot;</span>, all_files[i]))</span>
+<span id="cb64-37"><a href="compiling-the-scores.html#cb64-37" aria-hidden="true" tabindex="-1"></a>          sub_score <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">fread</span>(<span class="fu">paste0</span>(<span class="st">&quot;small_score_files/&quot;</span>, <span class="fu">substr</span>(all_files[i], <span class="dv">1</span>, <span class="fu">nchar</span>(all_files[i])<span class="sc">-</span><span class="dv">4</span>))))</span>
+<span id="cb64-38"><a href="compiling-the-scores.html#cb64-38" aria-hidden="true" tabindex="-1"></a>          <span class="fu">system</span>(<span class="fu">paste0</span>(<span class="st">&quot;rm small_score_files/&quot;</span>, <span class="fu">substr</span>(all_files[i], <span class="dv">1</span>, <span class="fu">nchar</span>(all_files[i])<span class="sc">-</span><span class="dv">4</span>)))</span>
+<span id="cb64-39"><a href="compiling-the-scores.html#cb64-39" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb64-40"><a href="compiling-the-scores.html#cb64-40" aria-hidden="true" tabindex="-1"></a>          all_score[,new_name <span class="sc">==</span> almost_new_name[i]] <span class="ot">&lt;-</span> all_score[,new_name <span class="sc">==</span> almost_new_name[i]] <span class="sc">+</span> sub_score<span class="sc">$</span>SCORESUM </span>
+<span id="cb64-41"><a href="compiling-the-scores.html#cb64-41" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb64-42"><a href="compiling-the-scores.html#cb64-42" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb64-43"><a href="compiling-the-scores.html#cb64-43" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb64-44"><a href="compiling-the-scores.html#cb64-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-45"><a href="compiling-the-scores.html#cb64-45" aria-hidden="true" tabindex="-1"></a>all_score <span class="ot">&lt;-</span> all_score[,<span class="fu">colSums</span>(all_score) <span class="sc">!=</span> <span class="dv">0</span>]</span>
+<span id="cb64-46"><a href="compiling-the-scores.html#cb64-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-47"><a href="compiling-the-scores.html#cb64-47" aria-hidden="true" tabindex="-1"></a>next_file <span class="ot">&lt;-</span> <span class="fu">length</span>(<span class="fu">grep</span>(<span class="st">&quot;RDS&quot;</span>, <span class="fu">list.files</span>(<span class="st">&quot;final_scores&quot;</span>, <span class="st">&quot;all_score&quot;</span>))) <span class="sc">+</span> <span class="dv">1</span></span>
+<span id="cb64-48"><a href="compiling-the-scores.html#cb64-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-49"><a href="compiling-the-scores.html#cb64-49" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(all_score, <span class="fu">paste0</span>(<span class="st">&quot;final_scores/all_score.&quot;</span>, next_file), <span class="at">row.names =</span> F, <span class="at">col.names =</span> T, <span class="at">quote =</span> F, <span class="at">sep =</span> <span class="st">&#39; &#39;</span>)</span>
+<span id="cb64-50"><a href="compiling-the-scores.html#cb64-50" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(all_score, <span class="fu">paste0</span>(<span class="st">&quot;final_scores/all_score.&quot;</span>, next_file, <span class="st">&quot;.RDS&quot;</span>))</span>
+<span id="cb64-51"><a href="compiling-the-scores.html#cb64-51" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(<span class="fu">colnames</span>(all_score), <span class="fu">paste0</span>(<span class="st">&quot;final_scores/done_names.&quot;</span>, next_file), <span class="at">row.names =</span> F, <span class="at">col.names =</span> F, <span class="at">quote =</span> F)</span>
+<span id="cb64-52"><a href="compiling-the-scores.html#cb64-52" aria-hidden="true" tabindex="-1"></a><span class="fu">system</span>(<span class="fu">paste0</span>(<span class="st">&quot;gzip final_scores/all_score.&quot;</span>, next_file))</span></code></pre></div>
 </div>
-<div id="verifying-everything-worked" class="section level3">
+<div id="verifying-everything-worked" class="section level3" number="6.1.3">
 <h3><span class="header-section-number">6.1.3</span> Verifying Everything Worked</h3>
 <p>As perhaps I have alluded to, scoring is actually not as straightforward as it seems. By taking steps that make it computationally easier there may be inaccuracies that infiltrate your final scores. Therefore, one should check whether the scores made with whatever nice and fancy approach are the same as scores made with the simplest, most fool-proof approach. Specifically, I am thinking about creating one large PLINK file with all of the SNPs needed for the desired score creation, then in one PLINK command creating the score. This process will require iterating through all of the 22 chromosomes and creating a small PLINK file, then in the end merging them all together, and finally creating the actual score desired. The code looks like:</p>
-<div class="sourceCode" id="cb65"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="fu">rm</span> try_single_score/ss</a>
-<a class="sourceLine" id="cb65-2" data-line-number="2"><span class="fu">rm</span> try_single_score/rsids</a>
-<a class="sourceLine" id="cb65-3" data-line-number="3"><span class="fu">rm</span> try_single_score/geno_list</a>
-<a class="sourceLine" id="cb65-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb65-5" data-line-number="5"><span class="va">Author=</span>IMSGC</a>
-<a class="sourceLine" id="cb65-6" data-line-number="6"><span class="va">author=</span>imsgc</a>
-<a class="sourceLine" id="cb65-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb65-8" data-line-number="8"><span class="kw">for</span> <span class="ex">chr</span> in <span class="dt">{1..22}</span><span class="kw">;do</span></a>
-<a class="sourceLine" id="cb65-9" data-line-number="9">  <span class="fu">cat</span> ../mod_sets/<span class="va">${Author}</span>/<span class="va">${author}</span>.<span class="va">${chr}</span>.clump.1.ss <span class="op">&gt;&gt;</span> try_single_score/ss</a>
-<a class="sourceLine" id="cb65-10" data-line-number="10">  <span class="fu">cat</span> ../mod_sets/<span class="va">${Author}</span>/<span class="va">${author}</span>.<span class="va">${chr}</span>.clump.1.ss <span class="kw">|</span> <span class="fu">cut</span> -f3 <span class="op">&gt;</span> try_single_score/rsids</a>
-<a class="sourceLine" id="cb65-11" data-line-number="11">  <span class="ex">bgenix</span> -g ~/athena/ukbiobank/imputed/ukbb.<span class="va">${chr}</span>.bgen -incl-rsids try_single_score/rsids <span class="op">&gt;</span> try_single_score/temp.bgen</a>
-<a class="sourceLine" id="cb65-12" data-line-number="12">  <span class="ex">plink2_new</span> --memory 12000 --threads 12 --bgen try_single_score/temp.bgen ref-first --sample ~/athena/ukbiobank/imputed/ukbb.1.sample --keep-fam temp_files/brit_eid --make-bed --out try_single_score/geno.<span class="va">${chr}</span></a>
-<a class="sourceLine" id="cb65-13" data-line-number="13">  <span class="bu">echo</span> try_single_score/geno.<span class="va">${chr}</span> <span class="op">&gt;&gt;</span> try_single_score/geno_list</a>
-<a class="sourceLine" id="cb65-14" data-line-number="14"><span class="kw">done</span></a>
-<a class="sourceLine" id="cb65-15" data-line-number="15"></a>
-<a class="sourceLine" id="cb65-16" data-line-number="16"><span class="ex">plink</span> --merge-list try_single_score/geno_list --make-bed --out try_single_score/all</a>
-<a class="sourceLine" id="cb65-17" data-line-number="17"><span class="ex">plink</span> --bfile try_single_score/all --keep-allele-order --score try_single_score/ss 3 4 7 no-sum --out try_single_score/score.<span class="va">${author}</span>.clump.1</a></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb65-1"><a href="compiling-the-scores.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> try_single_score/ss</span>
+<span id="cb65-2"><a href="compiling-the-scores.html#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> try_single_score/rsids</span>
+<span id="cb65-3"><a href="compiling-the-scores.html#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> try_single_score/geno_list</span>
+<span id="cb65-4"><a href="compiling-the-scores.html#cb65-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-5"><a href="compiling-the-scores.html#cb65-5" aria-hidden="true" tabindex="-1"></a><span class="va">Author=</span>IMSGC</span>
+<span id="cb65-6"><a href="compiling-the-scores.html#cb65-6" aria-hidden="true" tabindex="-1"></a><span class="va">author=</span>imsgc</span>
+<span id="cb65-7"><a href="compiling-the-scores.html#cb65-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-8"><a href="compiling-the-scores.html#cb65-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> chr <span class="kw">in</span> {1..22}<span class="kw">;</span><span class="cf">do</span></span>
+<span id="cb65-9"><a href="compiling-the-scores.html#cb65-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span> ../mod_sets/<span class="va">${Author}</span>/<span class="va">${author}</span>.<span class="va">${chr}</span>.clump.1.ss <span class="op">&gt;&gt;</span> try_single_score/ss</span>
+<span id="cb65-10"><a href="compiling-the-scores.html#cb65-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span> ../mod_sets/<span class="va">${Author}</span>/<span class="va">${author}</span>.<span class="va">${chr}</span>.clump.1.ss <span class="kw">|</span> <span class="fu">cut</span> <span class="at">-f3</span> <span class="op">&gt;</span> try_single_score/rsids</span>
+<span id="cb65-11"><a href="compiling-the-scores.html#cb65-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">bgenix</span> <span class="at">-g</span> ~/athena/ukbiobank/imputed/ukbb.<span class="va">${chr}</span>.bgen <span class="at">-incl-rsids</span> try_single_score/rsids <span class="op">&gt;</span> try_single_score/temp.bgen</span>
+<span id="cb65-12"><a href="compiling-the-scores.html#cb65-12" aria-hidden="true" tabindex="-1"></a>  <span class="ex">plink2_new</span> <span class="at">--memory</span> 12000 <span class="at">--threads</span> 12 <span class="at">--bgen</span> try_single_score/temp.bgen ref-first <span class="at">--sample</span> ~/athena/ukbiobank/imputed/ukbb.1.sample <span class="at">--keep-fam</span> temp_files/brit_eid <span class="at">--make-bed</span> <span class="at">--out</span> try_single_score/geno.<span class="va">${chr}</span></span>
+<span id="cb65-13"><a href="compiling-the-scores.html#cb65-13" aria-hidden="true" tabindex="-1"></a>  <span class="bu">echo</span> try_single_score/geno.<span class="va">${chr}</span> <span class="op">&gt;&gt;</span> try_single_score/geno_list</span>
+<span id="cb65-14"><a href="compiling-the-scores.html#cb65-14" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span></span>
+<span id="cb65-15"><a href="compiling-the-scores.html#cb65-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-16"><a href="compiling-the-scores.html#cb65-16" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--merge-list</span> try_single_score/geno_list <span class="at">--make-bed</span> <span class="at">--out</span> try_single_score/all</span>
+<span id="cb65-17"><a href="compiling-the-scores.html#cb65-17" aria-hidden="true" tabindex="-1"></a><span class="ex">plink</span> <span class="at">--bfile</span> try_single_score/all <span class="at">--keep-allele-order</span> <span class="at">--score</span> try_single_score/ss 3 4 7 no-sum <span class="at">--out</span> try_single_score/score.<span class="va">${author}</span>.clump.1</span></code></pre></div>
 <p>After the score is created we can compare it to what we have already done. This simply requires reading both scores in and taking the correlation between the two. However, the correlation is not the only thing that matters. Many analyses rely on ranks, therefore I also checked to see if the ranks of both scores are the same. Alas they are not exactly the same, but they are very similar. Seeing as this difference is possibly (likely?) due to round-off error, which I cannot eliminate, and the difference is very likely negligible, I will call my scoring system a success. See the code below for the actual score checking.</p>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1">author &lt;-<span class="st"> &quot;imsgc&quot;</span></a>
-<a class="sourceLine" id="cb66-2" data-line-number="2">Author &lt;-<span class="st"> &quot;IMSGC&quot;</span></a>
-<a class="sourceLine" id="cb66-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb66-4" data-line-number="4">all_score &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;final_scores/all_score.1.RDS&quot;</span>)</a>
-<a class="sourceLine" id="cb66-5" data-line-number="5">template_score &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;template.profile&quot;</span>, <span class="dt">stringsAsFactors=</span>F, <span class="dt">header=</span>T)</a>
-<a class="sourceLine" id="cb66-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb66-7" data-line-number="7">fileind &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">colnames</span>(all_score) <span class="op">==</span><span class="st"> </span><span class="kw">paste0</span>(author, <span class="st">&quot;.1.clump&quot;</span>))</a>
-<a class="sourceLine" id="cb66-8" data-line-number="8">new_score &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">paste0</span>(<span class="st">&quot;try_single_score/score.&quot;</span>, author, <span class="st">&quot;.clump.1.profile&quot;</span>), <span class="dt">stringsAsFactors=</span>F, <span class="dt">header=</span>T)</a>
-<a class="sourceLine" id="cb66-9" data-line-number="9">new_score &lt;-<span class="st"> </span>new_score[<span class="kw">order</span>(new_score[,<span class="dv">1</span>])[<span class="kw">rank</span>(template_score[,<span class="dv">1</span>])],]</a>
-<a class="sourceLine" id="cb66-10" data-line-number="10"><span class="kw">cor</span>(all_score[,fileind], new_score<span class="op">$</span>SCORE)</a>
-<a class="sourceLine" id="cb66-11" data-line-number="11"><span class="kw">cor</span>(<span class="kw">rank</span>(new_score<span class="op">$</span>SCORE, <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>), <span class="kw">rank</span>(all_score[,fileind], <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>))</a>
-<a class="sourceLine" id="cb66-12" data-line-number="12">mean_dif &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">abs</span>(<span class="kw">rank</span>(new_score<span class="op">$</span>SCORE, <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>) <span class="op">-</span><span class="st"> </span><span class="kw">rank</span>(all_score[,fileind], <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>)))</a>
-<a class="sourceLine" id="cb66-13" data-line-number="13">max_dif &lt;-<span class="st"> </span><span class="kw">max</span>(<span class="kw">abs</span>(<span class="kw">rank</span>(new_score<span class="op">$</span>SCORE, <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>) <span class="op">-</span><span class="st"> </span><span class="kw">rank</span>(all_score[,fileind], <span class="dt">ties.method=</span><span class="st">&quot;average&quot;</span>)))</a></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="compiling-the-scores.html#cb66-1" aria-hidden="true" tabindex="-1"></a>author <span class="ot">&lt;-</span> <span class="st">&quot;imsgc&quot;</span></span>
+<span id="cb66-2"><a href="compiling-the-scores.html#cb66-2" aria-hidden="true" tabindex="-1"></a>Author <span class="ot">&lt;-</span> <span class="st">&quot;IMSGC&quot;</span></span>
+<span id="cb66-3"><a href="compiling-the-scores.html#cb66-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-4"><a href="compiling-the-scores.html#cb66-4" aria-hidden="true" tabindex="-1"></a>all_score <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;final_scores/all_score.1.RDS&quot;</span>)</span>
+<span id="cb66-5"><a href="compiling-the-scores.html#cb66-5" aria-hidden="true" tabindex="-1"></a>template_score <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;template.profile&quot;</span>, <span class="at">stringsAsFactors=</span>F, <span class="at">header=</span>T)</span>
+<span id="cb66-6"><a href="compiling-the-scores.html#cb66-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-7"><a href="compiling-the-scores.html#cb66-7" aria-hidden="true" tabindex="-1"></a>fileind <span class="ot">&lt;-</span> <span class="fu">which</span>(<span class="fu">colnames</span>(all_score) <span class="sc">==</span> <span class="fu">paste0</span>(author, <span class="st">&quot;.1.clump&quot;</span>))</span>
+<span id="cb66-8"><a href="compiling-the-scores.html#cb66-8" aria-hidden="true" tabindex="-1"></a>new_score <span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="fu">paste0</span>(<span class="st">&quot;try_single_score/score.&quot;</span>, author, <span class="st">&quot;.clump.1.profile&quot;</span>), <span class="at">stringsAsFactors=</span>F, <span class="at">header=</span>T)</span>
+<span id="cb66-9"><a href="compiling-the-scores.html#cb66-9" aria-hidden="true" tabindex="-1"></a>new_score <span class="ot">&lt;-</span> new_score[<span class="fu">order</span>(new_score[,<span class="dv">1</span>])[<span class="fu">rank</span>(template_score[,<span class="dv">1</span>])],]</span>
+<span id="cb66-10"><a href="compiling-the-scores.html#cb66-10" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(all_score[,fileind], new_score<span class="sc">$</span>SCORE)</span>
+<span id="cb66-11"><a href="compiling-the-scores.html#cb66-11" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="fu">rank</span>(new_score<span class="sc">$</span>SCORE, <span class="at">ties.method=</span><span class="st">&quot;average&quot;</span>), <span class="fu">rank</span>(all_score[,fileind], <span class="at">ties.method=</span><span class="st">&quot;average&quot;</span>))</span>
+<span id="cb66-12"><a href="compiling-the-scores.html#cb66-12" aria-hidden="true" tabindex="-1"></a>mean_dif <span class="ot">&lt;-</span> <span class="fu">mean</span>(<span class="fu">abs</span>(<span class="fu">rank</span>(new_score<span class="sc">$</span>SCORE, <span class="at">ties.method=</span><span class="st">&quot;average&quot;</span>) <span class="sc">-</span> <span class="fu">rank</span>(all_score[,fileind], <span class="at">ties.method=</span><span class="st">&quot;average&quot;</span>)))</span>
+<span id="cb66-13"><a href="compiling-the-scores.html#cb66-13" aria-hidden="true" tabindex="-1"></a>max_dif <span class="ot">&lt;-</span> <span class="fu">max</span>(<span class="fu">abs</span>(<span class="fu">rank</span>(new_score<span class="sc">$</span>SCORE, <span class="at">ties.method=</span><span class="st">&quot;average&quot;</span>) <span class="sc">-</span> <span class="fu">rank</span>(all_score[,fileind], <span class="at">ties.method=</span><span class="st">&quot;average&quot;</span>)))</span></code></pre></div>
 </div>
-<div id="other-options" class="section level3">
+<div id="other-options" class="section level3" number="6.1.4">
 <h3><span class="header-section-number">6.1.4</span> Other Options</h3>
 <p>I also want to quickly note that this scoring implementation was not my first, or even third try to score the files. The first attempt eventually used PLINK2, which allows you to score multiple columns of beta values simultaneously. While faster, I noticed there to be some scoring errors because of the many zero values that would line up between the scoring files. Perhaps I was reading it wrong, but I assume it is not worth risking bad scores. Quickly, a second attempt used the bigsnpr package, which turned out to be too slow within R.</p>
 
